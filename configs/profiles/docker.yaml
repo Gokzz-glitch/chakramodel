@@ -1,0 +1,20 @@
+profile: docker
+device: cuda
+train:
+  model: yolov8s.pt
+  imgsz: 768
+  batch: 32
+  epochs: 120
+  workers: 8
+  amp: true
+  cache: true
+infer:
+  conf: 0.20
+  iou: 0.50
+hybrid:
+  enable: true
+  uncertain_th: 0.35
+  max_rois_per_frame: 4
+  rcnn_input_size: 640
+eval:
+  iou: 0.50

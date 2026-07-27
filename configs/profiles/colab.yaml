@@ -1,0 +1,20 @@
+profile: colab
+device: cuda
+train:
+  model: yolov8n.pt
+  imgsz: 640
+  batch: 16
+  epochs: 80
+  workers: 2
+  amp: true
+  cache: false
+infer:
+  conf: 0.25
+  iou: 0.50
+hybrid:
+  enable: true
+  uncertain_th: 0.40
+  max_rois_per_frame: 2
+  rcnn_input_size: 448
+eval:
+  iou: 0.50
