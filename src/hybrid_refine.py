@@ -2,6 +2,7 @@ import argparse
 import cv2
 import torch
 import numpy as np
+from pathlib import Path
 from ultralytics import YOLO
 from torchvision.models.detection import fasterrcnn_resnet50_fpn
 from torchvision.transforms import functional as F
@@ -92,20 +93,38 @@ def draw(frame, dets):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--source", required=True)
-    ap.add_argument("--yolo_weights", required=True)
+    weight_group = ap.add_mutually_exclusive_group(required=True)
+    weight_group.add_argument("--yolo_weights")
+    weight_group.add_argument("--weights")
     ap.add_argument("--out", default="outputs/hybrid_demo.mp4")
     ap.add_argument("--conf", type=float, default=0.25)
     ap.add_argument("--uncertain_th", type=float, default=0.45)
     args = ap.parse_args()
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = HybridRefiner(args.yolo_weights, args.conf, args.uncertain_th, device=device)
+    source_path = Path(args.source)
+    if not source_path.exists() or not source_path.is_file():
+        raise SystemExit(f"Source video not found: {source_path}")
 
-    cap = cv2.VideoCapture(args.source)
+    out_path = Path(args.out)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    weights = args.yolo_weights or args.weights
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model = HybridRefiner(weights, args.conf, args.uncertain_th, device=device)
+
+    cap = cv2.VideoCapture(str(source_path))
+    if not cap.isOpened():
+        raise SystemExit(f"Could not open source video: {source_path}")
     w = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+    if w <= 0 or h <= 0:
+        cap.release()
+        raise SystemExit(f"Invalid video dimensions for source: {source_path}")
     fps = cap.get(cv2.CAP_PROP_FPS) or 25
-    writer = cv2.VideoWriter(args.out, cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+    writer = cv2.VideoWriter(str(out_path), cv2.VideoWriter_fourcc(*"mp4v"), fps, (w, h))
+    if not writer.isOpened():
+        cap.release()
+        raise SystemExit(f"Could not create output video: {out_path}")
 
     while True:
         ok, frame = cap.read()
@@ -117,7 +136,7 @@ def main():
 
     cap.release()
     writer.release()
-    print(f"Saved {args.out}")
+    print(f"Saved {out_path}")
 
 
 if __name__ == "__main__":
