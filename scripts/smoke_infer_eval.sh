@@ -8,16 +8,18 @@ python src/hybrid_refine.py --help >/dev/null
 python src/run_infer_eval_profile.py --help >/dev/null
 
 TMP_DIR="$(mktemp -d /tmp/chakramodel-smoke-XXXXXX)"
+export TMP_DIR
 trap 'rm -rf "$TMP_DIR"' EXIT
 
 mkdir -p "$TMP_DIR/images" "$TMP_DIR/labels" "$TMP_DIR/preds" "$TMP_DIR/eval"
 
 python - <<'PY'
 from pathlib import Path
+import os
 import cv2
 import numpy as np
 
-root = Path("$TMP_DIR")
+root = Path(os.environ["TMP_DIR"])
 img = np.zeros((64, 64, 3), dtype=np.uint8)
 cv2.imwrite(str(root / "images" / "frame_0001.jpg"), img)
 (root / "labels" / "frame_0001.txt").write_text("0 0.5 0.5 0.25 0.25\n", encoding="utf-8")
