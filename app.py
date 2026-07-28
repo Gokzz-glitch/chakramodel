@@ -6,9 +6,8 @@ from ultralytics import YOLO
 from temporal_persistence import TemporalPersistenceFilter
 
 # Initialize YOLO
-# Defaulting to yolov8n.pt for testing. 
-# During the hackathon, change this to the path of your fine-tuned weights (e.g., 'runs/train/weights/best.pt')
-MODEL_PATH = 'yolov8n.pt'  
+# Loading the newly trained ChakraModel custom weights for polyps
+MODEL_PATH = 'best.pt'  
 
 def process_video(video_path, use_persistence, window_size, persistence_threshold):
     """Processes video frame-by-frame, applying YOLO tracking and optional persistence filtering."""
