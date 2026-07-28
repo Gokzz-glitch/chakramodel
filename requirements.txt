@@ -1,0 +1,6 @@
+ultralytics
+opencv-python-headless
+albumentations
+gradio
+numpy
+scikit-learn
