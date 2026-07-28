@@ -1,3 +1,7 @@
+import sys
+from unittest.mock import MagicMock
+sys.modules['pandas'] = MagicMock()
+
 import gradio as gr
 import cv2
 import os
@@ -81,7 +85,7 @@ def process_video(video_path, use_persistence, window_size, persistence_threshol
     return out_path
 
 # --- UI Setup ---
-with gr.Blocks(title="ChakraModel Demo", theme=gr.themes.Soft()) as demo:
+with gr.Blocks(title="ChakraModel Demo") as demo:
     gr.Markdown("# 🏥 ChakraModel: Artifact-Robust Colonoscopy Polyp Detection")
     gr.Markdown("Upload a live colonoscopy video. Toggle the **Temporal Persistence Filter** to compare standard AI flickering vs. our stabilized clinical output.")
     
@@ -107,4 +111,4 @@ with gr.Blocks(title="ChakraModel Demo", theme=gr.themes.Soft()) as demo:
 
 if __name__ == "__main__":
     print("Launching ChakraModel Demo Interface...")
-    demo.launch(share=False)
+    demo.launch(share=False, theme=gr.themes.Soft())
