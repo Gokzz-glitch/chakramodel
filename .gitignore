@@ -1,3 +1,35 @@
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Virtual Environment
+.venv/
+env/
+venv/
+ENV/
+
+# Large Datasets and Archives
+colon_cancer_dataset.zip
+*.zip
+*.tar*
+*.gz
+data/colon_cancer_dataset/
+dataset_yolo/
+video_testing/
+
+# Media and Raw Videos
+*.avi
+*.mp4
+outputs/*.mp4
+outputs/*.avi
+
+# Pretrained base weights (if needed)
+yolo26n.pt
+yolov8n.pt
+
+# User / Workspace specific
+.gemini/
+.idea/
+.vscode/
+memory of chat.pdf
