@@ -163,7 +163,7 @@ class PraNetSegmenter:
     PraNet Endoscopic Polyp Mask Inference Engine.
     Processes cropped polyp bounding boxes to generate sub-pixel resection boundary masks.
     """
-    def __init__(self, device=None, img_size=(128, 128)):
+    def __init__(self, device=None, img_size=(128, 128), weights_path=None):
         if device is None:
             self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         else:
@@ -171,6 +171,27 @@ class PraNetSegmenter:
             
         self.img_size = img_size
         self.model = PraNetMicroRefiner(channels=24).to(self.device)
+        
+        # Load weights if available
+        from pathlib import Path
+        if weights_path is None:
+            default_weights = Path(__file__).parent.parent / "weights" / "pranet_kvasir_best.pth"
+            if default_weights.exists():
+                weights_path = default_weights
+                
+        if weights_path is not None:
+            weights_path = Path(weights_path)
+            if weights_path.exists():
+                try:
+                    self.model.load_state_dict(torch.load(weights_path, map_location=self.device))
+                    print(f"[INFO] PraNetSegmenter: Loaded weights from {weights_path}")
+                except Exception as e:
+                    print(f"[WARN] PraNetSegmenter: Failed to load weights from {weights_path}: {e}")
+            else:
+                print(f"[WARN] PraNetSegmenter: Weights path {weights_path} not found")
+        else:
+            print("[WARN] PraNetSegmenter: No weights found. Running with random initialization.")
+            
         self.model.eval()
 
     def segment_roi(self, roi_bgr, threshold=0.45):
