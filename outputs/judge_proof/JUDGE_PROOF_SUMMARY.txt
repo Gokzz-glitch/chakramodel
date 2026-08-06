@@ -1,0 +1,22 @@
+CHAKRAMODEL - 4-QUADRANT COMPARATIVE PROOF FOR JUDGES
+============================================================
+
+QUADRANT LAYOUT IN 2x2 GRID DEMO VIDEOS:
+┌───────────────────────────┬───────────────────────────┐
+│ 1. RAW VIDEO FEED         │ 2. BASELINE YOLOv8        │
+│ (Original Unprocessed)    │ (No Tracking / Flicker)   │
+├───────────────────────────┼───────────────────────────┤
+│ 3. YOLO + KALMAN FILTER   │ 4. CHAKRAMODEL FULL SUITE │
+│ (ByteTrack Trajectory)    │ (Kalman+BoxHolder+Artifact)│
+└───────────────────────────┴───────────────────────────┘
+
+GENERATED PROOF FILES:
+- Video: 1_11.avi | Status: SUCCESS | Time: 602.28s
+  Grid Demo: M:\chakramodel\outputs\judge_proof\JUDGE_DEMO_2x2_GRID_1_11.mp4
+
+- Video: 1_17.avi | Status: SUCCESS | Time: 591.44s
+  Grid Demo: M:\chakramodel\outputs\judge_proof\JUDGE_DEMO_2x2_GRID_1_17.mp4
+
+- Video: 1_20.avi | Status: SUCCESS | Time: 6360.58s
+  Grid Demo: M:\chakramodel\outputs\judge_proof\JUDGE_DEMO_2x2_GRID_1_20.mp4
+

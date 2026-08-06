@@ -33,3 +33,5 @@ yolov8n.pt
 .idea/
 .vscode/
 memory of chat.pdf
+research_papers/*.pdf
+outputs/clinical_reports/keyframes/
