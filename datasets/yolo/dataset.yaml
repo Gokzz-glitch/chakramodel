@@ -1,0 +1,6 @@
+path: M:\GOKZZ_4\NIT HACKATHIN\datasets\yolo
+train: images/train
+val: images/train  # Using train as val for hackathon rapid prototyping if no val set exists
+
+names:
+  0: polyp
