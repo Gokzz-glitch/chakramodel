@@ -1,0 +1,86 @@
+{
+  "verdict": "CLEAN",
+  "results": {
+    "Combo1_ChakraNet_Focal": "PASS",
+    "Combo2_Topo_ChakraNet": "PASS",
+    "Combo3_AdaBN_ChakraNet": "PASS",
+    "Combo4_DiffusionAug_ChakraNet": "PASS",
+    "Combo5_Federated_ChakraNet": "PASS",
+    "Combo6_ChakraTransformer": "PASS"
+  },
+  "evidence": {
+    "Combo1": {
+      "total_params": 45671821,
+      "trainable_params": 45671821,
+      "num_supervision_stages": 5,
+      "loss_value": 0.5704681277275085,
+      "active_gradient_parameters": "541/541 (100.0%)"
+    },
+    "Combo2": {
+      "betti_homology_loss": 73.90363311767578,
+      "topo_pred_grad_norm": 0.4635217487812042,
+      "composite_topo_supervision_loss": 12.50169849395752,
+      "regularization_lambda": 0.12
+    },
+    "Combo3": {
+      "cached_bn_layers_count": 173,
+      "sample_layer": "stem.1",
+      "delta_mean_shift": 69.66403198242188,
+      "delta_var_shift": 465.5333557128906,
+      "zero_backprop_invariant_satisfied": true
+    },
+    "Combo4": {
+      "mc_stochastic_passes": 8,
+      "mc_dropout_prob": 0.2,
+      "variance_map_shape": [
+        2,
+        1,
+        352,
+        352
+      ],
+      "mean_epistemic_uncertainty": 5.7262495829490945e-05,
+      "quality_filter_threshold": 0.04
+    },
+    "Combo5": {
+      "hospital_clients_tested": 2,
+      "client_sample_weights": [
+        4,
+        8
+      ],
+      "client_train_losses": [
+        0.5686113834381104,
+        0.5671666860580444
+      ],
+      "post_aggregation_val_dsc": 0.666221022605896,
+      "post_aggregation_val_miou": 0.4994995892047882
+    },
+    "Combo6": {
+      "transformer_output_shape": [
+        2,
+        1,
+        384,
+        384
+      ],
+      "calibrated_alphas": [
+        0.1,
+        0.05
+      ],
+      "alpha_0.10_q_hat": 0.501953125,
+      "alpha_0.10_tau_alpha": 0.498046875,
+      "alpha_0.05_q_hat": 0.501953125,
+      "alpha_0.05_tau_alpha": 0.498046875,
+      "inner_core_mask_shape": [
+        384,
+        384
+      ],
+      "outer_envelope_mask_shape": [
+        384,
+        384
+      ],
+      "uncertainty_margin_shape": [
+        384,
+        384
+      ]
+    }
+  }
+}

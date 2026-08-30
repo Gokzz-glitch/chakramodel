@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gokul R - Resume</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #000000;
+            --text-color: #333333;
+            --text-light: #666666;
+            --accent-color: #0d56e0;
+            --line-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .resume-wrapper {
+            max-width: 210mm;
+            min-height: 297mm;
+            margin: 40px auto;
+            background: white;
+            padding: 20mm;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .contact-info {
+            font-size: 13px;
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .contact-info a {
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            color: var(--accent-color);
+        }
+        
+        .contact-info span.separator {
+            color: #cbd5e1;
+        }
+
+        /* SECTIONS */
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--primary-color);
+            border-bottom: 1.5px solid var(--primary-color);
+            padding-bottom: 4px;
+            margin-bottom: 12px;
+        }
+
+        p.summary {
+            font-size: 13px;
+            text-align: justify;
+        }
+
+        /* ITEMS */
+        .item {
+            margin-bottom: 14px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 4px;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+        
+        .item-subtitle {
+            font-size: 12.5px;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .item-date {
+            font-size: 12.5px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        ul {
+            list-style-type: disc;
+            margin-left: 18px;
+        }
+
+        li {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        /* SKILLS */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 6px;
+            font-size: 13px;
+        }
+        
+        .skill-row strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background-color: white;
+            }
+            .resume-wrapper {
+                margin: 0;
+                padding: 10mm;
+                box-shadow: none;
+                max-width: 100%;
+                width: 100%;
+            }
+            @page {
+                size: A4;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="resume-wrapper">
+        <header>
+            <h1>Gokul R.</h1>
+            <div class="contact-info">
+                <span>Ramapuram, Chennai, Tamil Nadu</span>
+                <span class="separator">|</span>
+                <a href="mailto:gokulrajasekar324@gmail.com">gokulrajasekar324@gmail.com</a>
+                <span class="separator">|</span>
+                <a href="https://linkedin.com/in/gokul6om4">linkedin.com/in/gokul6om4</a>
+                <span class="separator">|</span>
+                <a href="https://github.com/Gokzz-glitch">github.com/Gokzz-glitch</a>
+                <span class="separator">|</span>
+                <a href="https://gokzz-glitch.github.io/PORTFOLIO">gokzz-glitch.github.io/PORTFOLIO</a>
+            </div>
+        </header>
+
+        <section>
+            <h2>About Me</h2>
+            <p class="summary">
+                Third-year Artificial Intelligence and Machine Learning undergraduate with hands-on experience across computer vision, reinforcement learning, and full-stack development. Built a hybrid YOLOv8 + R-CNN pipeline for real-time medical video analysis, a PPO reinforcement-learning controller for robotic manipulation, and deployed applications using FastAPI, Docker, and PostgreSQL. Seeking an AI/ML Engineer, Computer Vision, or Applied AI internship role.
+            </p>
+        </section>
+
+        <section>
+            <h2>Projects</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">PolypNet-3D (AI-Assisted Colonoscopy Polyp Detection)</div>
+                    <div class="item-date">2026 – Present</div>
+                </div>
+                <div class="item-subtitle">YOLOv8, R-CNN, PyTorch, OpenCV, Temporal Consistency Filtering</div>
+                <ul>
+                    <li>Built a hybrid YOLOv8 + R-CNN pipeline for real-time polyp detection in colonoscopy video, targeting 40+ FPS on edge hardware.</li>
+                    <li>Engineered temporal consistency filtering across video frames to suppress false positives and stabilize bounding-box predictions in high-motion endoscopic sequences.</li>
+                    <li>Benchmarking detection latency against precision-recall trade-offs for integration with clinical endoscopy workflows.</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">4-DOF Robotic Arm for Waste Segregation using AI Camera & ML Model</div>
+                    <div class="item-date">2026</div>
+                </div>
+                <div class="item-subtitle">PyTorch, PyBullet, ResNet-18, OpenCV</div>
+                <ul>
+                    <li>Built a vision-guided robotic arm system using an AI camera and ML model to classify and segregate waste into categories (plastic, metal, paper, organic) in real time.</li>
+                    <li>Integrated a ResNet-18 visual backbone for object classification with a 4-DOF robotic arm controller for automated pick-and-place sorting.</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">RTS Wedding — Full-Stack Wedding Invitation Website</div>
+                    <div class="item-date">2026</div>
+                </div>
+                <div class="item-subtitle">HTML5, CSS3, JavaScript, Netlify</div>
+                <ul>
+                    <li>Built and deployed a responsive, animated wedding invitation web app with RSVP functionality, dynamic countdowns, and smooth scroll animations; hosted on Netlify.</li>
+                </ul>
+            </div>
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">ChakraModel — Intelligent Predictive Analytics Engine</div>
+                    <div class="item-date">2026</div>
+                </div>
+                <div class="item-subtitle">Python, ML Pipeline, Neural Networks, Data Science</div>
+                <ul>
+                    <li>An AI-powered machine learning architecture engineered for intelligent predictive analytics, multi-layer feature extraction, and automated decision-making workflows.</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">PulseAI — Healthcare Diagnostic Intelligence</div>
+                    <div class="item-date">2025</div>
+                </div>
+                <div class="item-subtitle">Jupyter, Deep Learning, Healthcare AI, Data Analysis</div>
+                <ul>
+                    <li>AI-powered medical analytics platform utilizing deep neural networks for clinical data evaluation, patient monitoring, and diagnostic assistance with research-grade reproducibility.</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">AgriMate — Smart Agriculture Platform</div>
+                    <div class="item-date">2025</div>
+                </div>
+                <div class="item-subtitle">TypeScript, React, API Integration</div>
+                <ul>
+                    <li>Smart agriculture platform connecting farmers with AI-driven crop disease diagnostics, weather forecasts, and market optimization.</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">Sentinel App & NLP Engine</div>
+                    <div class="item-date">2025</div>
+                </div>
+                <div class="item-subtitle">Node.js, Cybersecurity, Python, Transformers</div>
+                <ul>
+                    <li>Sentinel App: Cybersecurity monitoring application designed for real-time threat detection and vulnerability scanning.</li>
+                    <li>NLP Engine: Natural Language Processing toolkit for sentiment analysis, semantic classification, and context understanding.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-row"><strong>Programming & Web:</strong> Python, Java, TypeScript, HTML/CSS, Next.js</div>
+                <div class="skill-row"><strong>AI / ML Frameworks:</strong> PyTorch, TensorFlow, YOLOv8, R-CNN, Deep Learning, Reinforcement Learning, Computer Vision, NLP, Transformers</div>
+                <div class="skill-row"><strong>Tools & Cloud:</strong> Git/GitHub, Docker, CI/CD, FastAPI, PostgreSQL</div>
+                <div class="skill-row"><strong>Hardware & Embedded:</strong> Arduino, Raspberry Pi, Microcontrollers, Servo Actuation, Sensor Interfacing, IoT</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Education</h2>
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">B.Tech, Artificial Intelligence & Machine Learning</div>
+                    <div class="item-date">2024 – 2028</div>
+                </div>
+                <div class="item-subtitle">Easwari Engineering College (SRM Group), Chennai, India — CGPA: 7.9 / 10</div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Experience & Leadership</h2>
+            
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">IoT & Sensors Intern — PrimeOxy</div>
+                    <div class="item-date">Selected (Awaiting Offer)</div>
+                </div>
+                <ul>
+                    <li>Selected for embedded sensor interfacing and IoT data pipelines as part of a structured internship track.</li>
+                </ul>
+            </div>
+
+            <div class="item">
+                <div class="item-header">
+                    <div class="item-title">President — Leo Club, SRM Easwari Engineering College</div>
+                    <div class="item-date">Jun 2025 – Mar 2026</div>
+                </div>
+                <ul>
+                    <li>Led a student volunteer body coordinating community service and campus outreach initiatives, managing a team and event budgets.</li>
+                </ul>
+            </div>
+        </section>
+        
+        <section>
+            <h2>Certifications & Achievements</h2>
+            <ul>
+                <li><strong>Top 5 of 300+ teams, TRIGENIX-26 National Hackathon</strong> (March 2026) — autonomous AI solution, 24-hour non-stop hackathon.</li>
+                <li><strong>Grand Finals Qualifier, Triwizardathon 1.0</strong> (August 2025) — robotic-arm solution with servo actuation and microcontroller control, built in 24 hours. Microsoft Learn Student Ambassador event.</li>
+                <li><strong>Chemstar Talent Exam — 2nd Prize</strong> (March 2025) — Dept. of Chemistry, Easwari Engineering College.</li>
+                <li>NPTEL Elite + Gold, Human-Computer Interaction</li>
+                <li>Cisco Network Addressing & AI Fundamentals</li>
+            </ul>
+        </section>
+
+    </div>
+
+</body>
+</html>

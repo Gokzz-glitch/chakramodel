@@ -3,7 +3,7 @@ import cv2
 import torch
 import numpy as np
 from ultralytics import YOLO
-from torchvision.models.detection import fasterrcnn_resnet50_fpn
+from torchvision.models.detection import fasterrcnn_resnet50_fpn_v2
 from torchvision.transforms import functional as F
 
 
@@ -28,7 +28,7 @@ class HybridRefiner:
         self.uncertain_th = uncertain_th
         self.device = device
 
-        self.rcnn = fasterrcnn_resnet50_fpn(weights="DEFAULT").to(device).eval()
+        self.rcnn = fasterrcnn_resnet50_fpn_v2(weights="DEFAULT").to(device).eval()
 
     @torch.no_grad()
     def refine(self, frame):
@@ -98,7 +98,8 @@ def main():
     ap.add_argument("--uncertain_th", type=float, default=0.45)
     args = ap.parse_args()
 
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    assert torch.cuda.is_available(), "CUDA must be available for Hybrid Refinement!"
+    device = "cuda"
     model = HybridRefiner(args.yolo_weights, args.conf, args.uncertain_th, device=device)
 
     cap = cv2.VideoCapture(args.source)

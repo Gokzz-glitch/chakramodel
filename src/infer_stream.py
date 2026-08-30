@@ -232,7 +232,7 @@ def render_panel4_full_chakramodel(frame, model, pranet_seg, paris_clf, active_h
     p4 = draw_header_banner(p4, "4. CHAKRAMODEL CLINICAL SUITE", "PraNet Reverse Attention + Paris Class", bg_color=(15, 40, 25), text_color=(0, 255, 120))
     return p4, current_frame_dets
 
-def process_4way_video_streams(input_source, output_dict, model_path=r"M:\chakramodel\outputs\polyp_yolov8n\weights\best.pt", conf_thresh=0.2):
+def process_4way_video_streams(input_source, output_dict, model_path=r"M:\chakramodel\outputs\polyp_yolov8x\weights\best.pt", conf_thresh=0.2):
     """
     Simultaneously processes an input video stream into 4 distinct ablation outputs,
     an optional 2x2 combined comparative grid video, and an automated clinical diagnostic report.
@@ -240,8 +240,8 @@ def process_4way_video_streams(input_source, output_dict, model_path=r"M:\chakra
     print("Initializing 4-Way Comparative Processing Pipeline (with PraNet & Paris Classification)...")
     
     if not os.path.exists(model_path):
-        print(f"Weights not found at {model_path}. Falling back to base yolov8n.pt.")
-        model = YOLO("yolov8n.pt")
+        print(f"Weights not found at {model_path}. Falling back to base yolov8x.pt.")
+        model = YOLO("yolov8x.pt")
     else:
         model = YOLO(model_path)
         
@@ -352,7 +352,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", type=str, required=True, help="Video path or camera index")
     parser.add_argument("--output_dir", type=str, default="outputs")
-    parser.add_argument("--weights", type=str, default=r"M:\chakramodel\outputs\polyp_yolov8n\weights\best.pt")
+    parser.add_argument("--weights", type=str, default=r"M:\chakramodel\outputs\polyp_yolov8x\weights\best.pt")
     args = parser.parse_args()
     
     os.makedirs(args.output_dir, exist_ok=True)

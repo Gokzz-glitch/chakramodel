@@ -23,6 +23,8 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms as T
+from torchvision.ops import sigmoid_focal_loss
 
 sys.path.insert(0, str(Path(__file__).parent))
 from pranet_segmenter import PraNetMicroRefiner
@@ -40,6 +42,8 @@ class KvasirSEGDataset(Dataset):
         self.augment   = augment
         self.mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
         self.std  = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+        
+        self.color_jitter = T.ColorJitter(brightness=0.3, contrast=0.3, saturation=0.3, hue=0.1)
 
     def __len__(self):
         return len(self.img_paths)
@@ -81,6 +85,14 @@ class KvasirSEGDataset(Dataset):
 
         # To tensor
         img_t  = torch.from_numpy(cv2.cvtColor(img, cv2.COLOR_BGR2RGB)).permute(2, 0, 1).float() / 255.0
+        
+        if self.augment:
+            img_t = self.color_jitter(img_t)
+            # Gaussian Noise
+            if np.random.rand() > 0.5:
+                noise = torch.randn_like(img_t) * 0.02
+                img_t = torch.clamp(img_t + noise, 0.0, 1.0)
+                
         img_t  = (img_t - self.mean) / self.std
         mask_t = torch.from_numpy((mask > 127).astype(np.float32)).unsqueeze(0)
 
@@ -88,25 +100,31 @@ class KvasirSEGDataset(Dataset):
 
 
 # ─── Loss ─────────────────────────────────────────────────────────────────────
-class DiceBCELoss(nn.Module):
-    def __init__(self):
+class DiceFocalLoss(nn.Module):
+    def __init__(self, alpha=0.25, gamma=2.0):
         super().__init__()
-        self.bce = nn.BCEWithLogitsLoss()
+        self.alpha = alpha
+        self.gamma = gamma
 
     def forward(self, logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
-        bce_loss = self.bce(logits, targets)
+        # Focal Loss (penalizes hard boundary pixels more heavily)
+        focal = sigmoid_focal_loss(logits, targets, alpha=self.alpha, gamma=self.gamma, reduction='mean')
+        
+        # Dice Loss
         probs    = torch.sigmoid(logits)
         smooth   = 1e-6
         inter    = (probs * targets).sum(dim=(2, 3))
         dice_loss = 1.0 - (2.0 * inter + smooth) / (probs.sum(dim=(2, 3)) + targets.sum(dim=(2, 3)) + smooth)
-        return bce_loss + dice_loss.mean()
+        
+        return focal + dice_loss.mean()
 
 
 # ─── Training Loop ────────────────────────────────────────────────────────────
 def train(epochs: int = 50, batch_size: int = 8, lr: float = 1e-3,
           img_size: int = 352, root: Path = Path(".")) -> None:
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    assert torch.cuda.is_available(), "CUDA must be available to train! CPU training is disabled."
+    device = torch.device("cuda")
     print(f"\n{'='*55}")
     print(f"  PraNet Training on Kvasir-SEG")
     print(f"  Device:     {device}")
@@ -135,12 +153,25 @@ def train(epochs: int = 50, batch_size: int = 8, lr: float = 1e-3,
     train_set = torch.utils.data.Subset(full_dataset, range(n_train))
     val_set   = torch.utils.data.Subset(val_dataset,  range(n_train, len(full_dataset)))
 
-    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True,  num_workers=0, pin_memory=True)
-    val_loader   = DataLoader(val_set,   batch_size=batch_size, shuffle=False, num_workers=0, pin_memory=True)
+    train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True,  num_workers=8, pin_memory=True)
+    val_loader   = DataLoader(val_set,   batch_size=batch_size, shuffle=False, num_workers=8, pin_memory=True)
 
     model     = PraNetMicroRefiner(channels=24).to(device)
-    criterion = DiceBCELoss()
-    optimizer = optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+    criterion = DiceFocalLoss()
+    
+    # Lower LR for pretrained backbone, higher for random initialized heads
+    backbone_params = []
+    head_params = []
+    for name, param in model.named_parameters():
+        if 'conv1' in name or 'bn1' in name or 'layer1' in name or 'layer2' in name:
+            backbone_params.append(param)
+        else:
+            head_params.append(param)
+            
+    optimizer = optim.AdamW([
+        {'params': backbone_params, 'lr': lr * 0.1},
+        {'params': head_params, 'lr': lr}
+    ], weight_decay=1e-4)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=epochs, eta_min=lr * 0.01)
 
     weights_dir = root / "weights"
@@ -201,8 +232,8 @@ def train(epochs: int = 50, batch_size: int = 8, lr: float = 1e-3,
 
 def main():
     parser = argparse.ArgumentParser(description="Train PraNet on Kvasir-SEG")
-    parser.add_argument("--epochs",    type=int,   default=50)
-    parser.add_argument("--batch",     type=int,   default=8)
+    parser.add_argument("--epochs",    type=int,   default=100)
+    parser.add_argument("--batch",     type=int,   default=32)
     parser.add_argument("--lr",        type=float, default=1e-3)
     parser.add_argument("--img_size",  type=int,   default=352)
     args = parser.parse_args()
@@ -211,4 +242,6 @@ def main():
 
 
 if __name__ == "__main__":
+    import multiprocessing
+    multiprocessing.freeze_support()
     main()

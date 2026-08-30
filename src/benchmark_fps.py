@@ -1,4 +1,4 @@
-﻿"""
+"""
 Inference Speed & Latency Benchmarker for ChakraModel.
 Measures:
   - Stage 1 FPS: YOLOv8 only (full-frame detection)
@@ -23,8 +23,8 @@ def _try_gpu_mem() -> float:
     """Returns GPU memory used in MB, or -1 if unavailable."""
     try:
         import torch
-        if torch.cuda.is_available():
-            return torch.cuda.memory_allocated() / 1024**2
+        assert torch.cuda.is_available(), "CUDA is required for FPS benchmarking!"
+        return torch.cuda.memory_allocated() / 1024**2
     except Exception:
         pass
     return -1.0

@@ -1,0 +1,4 @@
+neoplastic or non-neoplastic.
+Adenoma Detection Rate (ADR): The percentage of screening colonoscopies where at least one precancerous growth (adenoma) is found.
+Polyp Detection Rate (PDR): The percentage of procedures where any tissue growth (polyp) is identified, regardless of pathology.
+1:1 propensity score matching (PSM)

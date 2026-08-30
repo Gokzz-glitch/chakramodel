@@ -8,10 +8,23 @@ The primary objective of this system is to bridge the "benchmark-to-clinic" gap 
 1. **Temporal Stability**: Eliminating frame-by-frame flicker using ByteTrack multi-object tracking.
 2. **Artifact Robustness**: Handling clinical artifacts (water jets, reflections, blur) via targeted augmentation and hysteresis thresholding.
 
-## Architecture
-- **Base Detector**: YOLOv8m (via Ultralytics)
-- **Temporal Consistency**: ByteTrack + EMA confidence smoothing
-- **Artifact Handling**: Albumentations + custom thresholding
+## Dual-Track Architecture (CNN & Transformer)
+
+To address the trade-off between absolute accuracy and clinical real-time viability, ChakraModel provides two parallel tracks:
+
+### 1. Clinical / Real-Time Track (CNN)
+- **Location:** `src/` directory
+- **Base Detector:** YOLOv8n (via Ultralytics)
+- **Micro-Refiner:** PraNet (ResNet-34 backbone)
+- **Speed:** ~49 FPS (capable of live video stream processing on edge devices)
+- **Temporal Consistency:** ByteTrack + EMA confidence smoothing
+- **Artifact Handling:** Albumentations + custom thresholding
+
+### 2. Research / High-Accuracy Track (Vision Transformer)
+- **Location:** `chakra_transformer/` directory
+- **Architecture:** Vision Transformer (ViT) based segmentation
+- **Speed:** Non-real-time (optimized for post-procedure auditing)
+- **Advantage:** Maximum Dice score and precision for the most challenging flat polyps (Paris 0-IIb).
 
 ## Setup
 

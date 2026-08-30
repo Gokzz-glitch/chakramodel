@@ -124,6 +124,51 @@ def structure_measure(pred: np.ndarray, gt: np.ndarray, alpha: float = 0.5) -> f
     return float(alpha * s_obj + (1 - alpha) * s_reg)
 
 
+def s_measure(pred: np.ndarray, gt: np.ndarray, alpha: float = 0.5) -> float:
+    """S-measure (Sα) - Structural similarity metric. Combines region-aware and object-aware similarity."""
+    return structure_measure(pred, gt, alpha)
+
+
+def w_fmeasure(pred: np.ndarray, gt: np.ndarray, beta: float = 1.0) -> float:
+    """Weighted F-measure (Fβ^w) - Margolin et al. 2014."""
+    p = _binarize(pred)
+    g = _binarize(gt)
+    if g.sum() == 0:
+        return 1.0 if p.sum() == 0 else 0.0
+    
+    from scipy.ndimage import distance_transform_edt
+    dt = distance_transform_edt(1 - g)
+    dt = dt / (np.max(dt) + 1e-6)
+    weight = 1 + 5 * np.exp(-dt)
+    
+    tp = np.sum(weight * p * g)
+    fp = np.sum(weight * p * (1 - g))
+    fn = np.sum(weight * (1 - p) * g)
+    
+    prec = (tp + 1e-6) / (tp + fp + 1e-6)
+    rec = (tp + 1e-6) / (tp + fn + 1e-6)
+    
+    return float(((1 + beta**2) * prec * rec) / (beta**2 * prec + rec + 1e-6))
+
+
+def e_measure(pred: np.ndarray, gt: np.ndarray) -> float:
+    """Enhanced-alignment measure (Eξ) - Fan et al. 2018."""
+    p = _binarize(pred)
+    g = _binarize(gt)
+    if g.sum() == 0:
+        return 1.0 if p.sum() == 0 else 0.0
+    
+    align_matrix = 1 - (p - g)**2
+    return float(np.mean(align_matrix))
+
+
+def mean_absolute_error(pred: np.ndarray, gt: np.ndarray) -> float:
+    """MAE (Mean Absolute Error) - Simple pixel-level absolute difference."""
+    p = _binarize(pred)
+    g = _binarize(gt)
+    return float(np.mean(np.abs(p - g)))
+
+
 def compute_all_metrics(pred: np.ndarray, gt: np.ndarray) -> dict:
     """
     Compute all segmentation metrics for a single image pair.
@@ -138,6 +183,10 @@ def compute_all_metrics(pred: np.ndarray, gt: np.ndarray) -> dict:
         "f_beta_half":   weighted_fmeasure(pred, gt, beta=0.5),
         "structure_measure": structure_measure(pred, gt),
         "mae":           mae(pred, gt),
+        "s_measure":     s_measure(pred, gt, alpha=0.5),
+        "w_fmeasure":    w_fmeasure(pred, gt),
+        "e_measure":     e_measure(pred, gt),
+        "mean_absolute_error": mean_absolute_error(pred, gt),
     }
 
 

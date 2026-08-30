@@ -1,0 +1,363 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LinkedIn Outreach - 2026-08-21</title>
+        <style>
+            body { font-family: -apple-system, system-ui, sans-serif; line-height: 1.6; max-width: 1000px; margin: 0 auto; padding: 20px; background: #f3f2ef; }
+            .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 10px; transition: opacity 0.3s; }
+            .card.done { opacity: 0.4; background: #e8e8e8; }
+            .info-row { display: flex; justify-content: space-between; align-items: baseline; }
+            .name { font-size: 1.2em; font-weight: bold; color: #0a66c2; text-decoration: none; }
+            .affiliation { color: #666; font-size: 0.9em; }
+            .paper { font-style: italic; color: #444; background: #f8f9fa; padding: 10px; border-radius: 4px; border-left: 3px solid #0a66c2; }
+            .buttons { display: flex; gap: 10px; margin-top: 10px; }
+            button { padding: 8px 16px; border: none; border-radius: 16px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+            .btn-search { background: #0a66c2; color: white; text-decoration: none; padding: 8px 16px; border-radius: 16px; font-weight: 600; font-size: 13.33px; }
+            .btn-copy { background: #fff; color: #0a66c2; border: 1px solid #0a66c2; }
+            .btn-copy:hover { background: #f0f7ff; }
+            .btn-done { background: #057642; color: white; margin-left: auto; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>LinkedIn Daily Target: 20 Researchers</h1>
+            <p>1. Click <b>Search</b> to find them on LinkedIn.<br>
+            2. Click <b>Copy Request</b> and paste into the connection note (max 300 chars).<br>
+            3. If they accept, message them with the <b>Follow-Up</b>.<br>
+            4. Click <b>Mark Done</b> to cross them off today's list visually.</p>
+        </div>
+    
+        <div class="card" id="card-0">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=L%20Zhang%20DAMO%20Academy%2C%20Alibaba%20Group%2C%20Washington%2C%20DC%2C%20USA.%20Electronic%20address%3A" target="_blank" class="name">L Zhang</a>
+                    <span class="affiliation"> - DAMO Academy, Alibaba Group, Washington, DC, USA. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=L%20Zhang%20DAMO%20Academy%2C%20Alibaba%20Group%2C%20Washington%2C%20DC%2C%20USA.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Colorectal cancer detection using noncontrast CT and deep learning: a multicenter and international cohort study."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi L, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-0').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-1">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Aamir%20Saeed%20Division%20of%20Gastroenterology%20and%20Hepatology%2C%20University%20of%20Tennessee%20Health%20Sciences%20Center%2C%20920%20Madison%20Avenue%2C%20Memphis%2C%20TN%2C%2038163%2C%20USA" target="_blank" class="name">Aamir Saeed</a>
+                    <span class="affiliation"> - Division of Gastroenterology and Hepatology, University of Tennessee Health Sciences Center, 920 Madison Avenue, Memphis, TN, 38163, USA</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Aamir%20Saeed%20Division%20of%20Gastroenterology%20and%20Hepatology%2C%20University%20of%20Tennessee%20Health%20Sciences%20Center%2C%20920%20Madison%20Avenue%2C%20Memphis%2C%20TN%2C%2038163%2C%20USA" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Artificial intelligence with mucosal exposure devices versus artificial intelligence alone in detection of colorectal adenomas: a systematic review and meta-analysis."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Aamir, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-1').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-2">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Adrian%20Krenzer%20Julius-Maximilians-Universit%C3%A4t%20W%C3%BCrzburg%2C%20Sanderring%202%2C%20W%C3%BCrzburg%2097070%2C%20Germany.%20Electronic%20address%3A" target="_blank" class="name">Adrian Krenzer</a>
+                    <span class="affiliation"> - Julius-Maximilians-Universität Würzburg, Sanderring 2, Würzburg 97070, Germany. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Adrian%20Krenzer%20Julius-Maximilians-Universit%C3%A4t%20W%C3%BCrzburg%2C%20Sanderring%202%2C%20W%C3%BCrzburg%2097070%2C%20Germany.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Enhancing transformer-based architectures with geometric deep learning for colonoscopic polyp size classification using transfer learning."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Adrian, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-2').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-3">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=James%20L%20Buxbaum%20Division%20of%20Gastroenterology%2C%20Department%20of%20Internal%20Medicine%2C%20University%20of%20Southern%20California%20Keck%20School%20of%20Medicine%2C%20Los%20Angeles%2C%20California%2C%20USA.%20Electronic%20address%3A" target="_blank" class="name">James L Buxbaum</a>
+                    <span class="affiliation"> - Division of Gastroenterology, Department of Internal Medicine, University of Southern California Keck School of Medicine, Los Angeles, California, USA. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=James%20L%20Buxbaum%20Division%20of%20Gastroenterology%2C%20Department%20of%20Internal%20Medicine%2C%20University%20of%20Southern%20California%20Keck%20School%20of%20Medicine%2C%20Los%20Angeles%2C%20California%2C%20USA.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Impact of artificial intelligence-assisted colonoscopy on gastroenterology fellow performance: a pragmatic randomized controlled trial."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi James, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-3').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-4">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Dwarikanath%20Mahapatra%20Khalifa%20University%2C%20Abu%20Dhabi%2C%20United%20Arab%20Emirates%3B%20Faculty%20of%20IT%2C%20Monash%20University%2C%20Melbourne%2C%20Australia.%20Electronic%20address%3A" target="_blank" class="name">Dwarikanath Mahapatra</a>
+                    <span class="affiliation"> - Khalifa University, Abu Dhabi, United Arab Emirates; Faculty of IT, Monash University, Melbourne, Australia. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Dwarikanath%20Mahapatra%20Khalifa%20University%2C%20Abu%20Dhabi%2C%20United%20Arab%20Emirates%3B%20Faculty%20of%20IT%2C%20Monash%20University%2C%20Melbourne%2C%20Australia.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Disentangled generative uncertainty-aware multi-modal diffusion segmentation of medical images."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Dwarikanath, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-4').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-5">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Henu%20K%20Verma%20Department%20of%20Bioscience%20and%20Biomedical%20Engineering%20Indian%20Institute%20of%20Technology%2C%20Bhilai%20491002%2C%20Chhattisgarh%2C%20India" target="_blank" class="name">Henu K Verma</a>
+                    <span class="affiliation"> - Department of Bioscience and Biomedical Engineering Indian Institute of Technology, Bhilai 491002, Chhattisgarh, India</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Henu%20K%20Verma%20Department%20of%20Bioscience%20and%20Biomedical%20Engineering%20Indian%20Institute%20of%20Technology%2C%20Bhilai%20491002%2C%20Chhattisgarh%2C%20India" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Artificial intelligence and machine learning-driven advancements in gastrointestinal cancer: Paving the way for precision medicine."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Henu, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-5').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-6">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Robert%20H%C3%BCneburg%20Department%20of%20Internal%20Medicine%20I%2C%20National%20Center%20for%20Hereditary%20Tumor%20Syndromes%2C%20and%20Department%20of%20Integrated%20Oncology%2C%20Center%20for%20Integrated%20Oncology%20Bonn%2C%20University%20Hospital%20Bonn%2C%20Bonn%2C%20Germany.%20Electronic%20address%3A" target="_blank" class="name">Robert Hüneburg</a>
+                    <span class="affiliation"> - Department of Internal Medicine I, National Center for Hereditary Tumor Syndromes, and Department of Integrated Oncology, Center for Integrated Oncology Bonn, University Hospital Bonn, Bonn, Germany. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Robert%20H%C3%BCneburg%20Department%20of%20Internal%20Medicine%20I%2C%20National%20Center%20for%20Hereditary%20Tumor%20Syndromes%2C%20and%20Department%20of%20Integrated%20Oncology%2C%20Center%20for%20Integrated%20Oncology%20Bonn%2C%20University%20Hospital%20Bonn%2C%20Bonn%2C%20Germany.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Artificial intelligence-assisted detection and optical differentiation of colorectal lesions in Lynch syndrome surveillance (CADLY2): a multicentre, open-label, randomised controlled superiority trial."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Robert, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-6').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-7">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=James%20T%20McCormick%20Division%20of%20Colon%20and%20Rectal%20Surgery%2C%20Allegheny%20Health%20Network%2C%20Pittsburgh%2C%20PA%2C%20USA" target="_blank" class="name">James T McCormick</a>
+                    <span class="affiliation"> - Division of Colon and Rectal Surgery, Allegheny Health Network, Pittsburgh, PA, USA</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=James%20T%20McCormick%20Division%20of%20Colon%20and%20Rectal%20Surgery%2C%20Allegheny%20Health%20Network%2C%20Pittsburgh%2C%20PA%2C%20USA" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"The first reported case using real-time artificial intelligence with single-port robotics for colorectal surgery."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi James, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-7').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-8">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Kamran%20Avanaki%20Department%20of%20Bioengineering%2C%20University%20of%20Illinois%20at%20Chicago%2C%20851%20S%20Morgan%20St%2C%20MC%20063%2C%20Chicago%2C%20IL%2C%2060607%2C%20USA" target="_blank" class="name">Kamran Avanaki</a>
+                    <span class="affiliation"> - Department of Bioengineering, University of Illinois at Chicago, 851 S Morgan St, MC 063, Chicago, IL, 60607, USA</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Kamran%20Avanaki%20Department%20of%20Bioengineering%2C%20University%20of%20Illinois%20at%20Chicago%2C%20851%20S%20Morgan%20St%2C%20MC%20063%2C%20Chicago%2C%20IL%2C%2060607%2C%20USA" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Overview of State-of-the-Art Learning-Based Classification Methods in Medical Imaging."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Kamran, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-8').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-9">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Suruchi%20Kumari%20Department%20of%20Computer%20Science%20and%20Engineering%2C%20Indian%20Institute%20of%20Technology%20Roorkee%2C%20India.%20Electronic%20address%3A" target="_blank" class="name">Suruchi Kumari</a>
+                    <span class="affiliation"> - Department of Computer Science and Engineering, Indian Institute of Technology Roorkee, India. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Suruchi%20Kumari%20Department%20of%20Computer%20Science%20and%20Engineering%2C%20Indian%20Institute%20of%20Technology%20Roorkee%2C%20India.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Learning with less: A survey of deep learning in medical imaging under varying supervision levels."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Suruchi, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-9').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-10">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Pravendra%20Singh%20Department%20of%20Computer%20Science%20and%20Engineering%2C%20Indian%20Institute%20of%20Technology%20Roorkee%2C%20India.%20Electronic%20address%3A" target="_blank" class="name">Pravendra Singh</a>
+                    <span class="affiliation"> - Department of Computer Science and Engineering, Indian Institute of Technology Roorkee, India. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Pravendra%20Singh%20Department%20of%20Computer%20Science%20and%20Engineering%2C%20Indian%20Institute%20of%20Technology%20Roorkee%2C%20India.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Learning with less: A survey of deep learning in medical imaging under varying supervision levels."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Pravendra, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-10').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-11">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Yung-Shuo%20Kao%20Department%20of%20Radiation%20Oncology%2C%20Taoyuan%20General%20Hospital%2C%20Ministry%20of%20Health%20and%20Welfare%2C%20Taoyuan%2C%20Taiwan.%20Electronic%20address%3A" target="_blank" class="name">Yung-Shuo Kao</a>
+                    <span class="affiliation"> - Department of Radiation Oncology, Taoyuan General Hospital, Ministry of Health and Welfare, Taoyuan, Taiwan. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Yung-Shuo%20Kao%20Department%20of%20Radiation%20Oncology%2C%20Taoyuan%20General%20Hospital%2C%20Ministry%20of%20Health%20and%20Welfare%2C%20Taoyuan%2C%20Taiwan.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Assessing the Performance and Reliability of Deep Learning Autosegmentation in Videofluoroscopic Swallowing Studies: A Systematic Review and Meta-analysis."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Yung-Shuo, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-11').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-12">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Chia-Feng%20Lu%20Department%20of%20Biomedical%20Imaging%20and%20Radiological%20Sciences%2C%20National%20Yang%20Ming%20Chiao%20Tung%20University%2C%20Taipei%2C%20Taiwan.%20Electronic%20address%3A" target="_blank" class="name">Chia-Feng Lu</a>
+                    <span class="affiliation"> - Department of Biomedical Imaging and Radiological Sciences, National Yang Ming Chiao Tung University, Taipei, Taiwan. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Chia-Feng%20Lu%20Department%20of%20Biomedical%20Imaging%20and%20Radiological%20Sciences%2C%20National%20Yang%20Ming%20Chiao%20Tung%20University%2C%20Taipei%2C%20Taiwan.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Assessing the Performance and Reliability of Deep Learning Autosegmentation in Videofluoroscopic Swallowing Studies: A Systematic Review and Meta-analysis."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Chia-Feng, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-12').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-13">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Seyed%20Jalaleddin%20Mousavirad%20Department%20of%20Computer%20and%20Electrical%20Engineering%2C%20Mid%20Sweden%20University%2C%20Sundsvall%2C%20Sweden.%20Electronic%20address%3A" target="_blank" class="name">Seyed Jalaleddin Mousavirad</a>
+                    <span class="affiliation"> - Department of Computer and Electrical Engineering, Mid Sweden University, Sundsvall, Sweden. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Seyed%20Jalaleddin%20Mousavirad%20Department%20of%20Computer%20and%20Electrical%20Engineering%2C%20Mid%20Sweden%20University%2C%20Sundsvall%2C%20Sweden.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"AI for colon cancer: A focus on classification, detection, and predictive modeling."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Seyed, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-13').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-14">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Jan%20C%20Peeken%20Department%20of%20Radiation%20Oncology%2C%20TUM%20University%20Hospital%20Rechts%20der%20Isar%2C%20Technical%20University%20of%20Munich%2C%20Munich%2C%20Germany" target="_blank" class="name">Jan C Peeken</a>
+                    <span class="affiliation"> - Department of Radiation Oncology, TUM University Hospital Rechts der Isar, Technical University of Munich, Munich, Germany</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Jan%20C%20Peeken%20Department%20of%20Radiation%20Oncology%2C%20TUM%20University%20Hospital%20Rechts%20der%20Isar%2C%20Technical%20University%20of%20Munich%2C%20Munich%2C%20Germany" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Image-Guided Radiooncology: The Potential of Artificial Intelligence in Clinical Application."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Jan, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-14').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-15">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Muhammad%20Owais%20Khalifa%20University%20Center%20for%20Autonomous%20Robotic%20Systems%20%28KU-CARS%29%2C%20Khalifa%20University%2C%20Abu%20Dhabi%2C%20United%20Arab%20Emirates" target="_blank" class="name">Muhammad Owais</a>
+                    <span class="affiliation"> - Khalifa University Center for Autonomous Robotic Systems (KU-CARS), Khalifa University, Abu Dhabi, United Arab Emirates</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Muhammad%20Owais%20Khalifa%20University%20Center%20for%20Autonomous%20Robotic%20Systems%20%28KU-CARS%29%2C%20Khalifa%20University%2C%20Abu%20Dhabi%2C%20United%20Arab%20Emirates" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Synergistic fusion of a multilevel visual transformer in CNN for variable-length volumetric radiographic data analysis and content-based retrieval."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Muhammad, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-15').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-16">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Irfan%20Hussain%20Khalifa%20University%20Center%20for%20Autonomous%20Robotic%20Systems%20%28KU-CARS%29%2C%20Khalifa%20University%2C%20Abu%20Dhabi%2C%20United%20Arab%20Emirates" target="_blank" class="name">Irfan Hussain</a>
+                    <span class="affiliation"> - Khalifa University Center for Autonomous Robotic Systems (KU-CARS), Khalifa University, Abu Dhabi, United Arab Emirates</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Irfan%20Hussain%20Khalifa%20University%20Center%20for%20Autonomous%20Robotic%20Systems%20%28KU-CARS%29%2C%20Khalifa%20University%2C%20Abu%20Dhabi%2C%20United%20Arab%20Emirates" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Synergistic fusion of a multilevel visual transformer in CNN for variable-length volumetric radiographic data analysis and content-based retrieval."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Irfan, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-16').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-17">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Shajan%20Peter%20Division%20of%20Gastroenterology%20and%20Hepatology%2C%20School%20of%20Medicine%2C%20The%20University%20of%20Alabama%20at%20Birmingham%2C%20Birmingham%2C%20AL%2C%2035205%2C%20USA" target="_blank" class="name">Shajan Peter</a>
+                    <span class="affiliation"> - Division of Gastroenterology and Hepatology, School of Medicine, The University of Alabama at Birmingham, Birmingham, AL, 35205, USA</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Shajan%20Peter%20Division%20of%20Gastroenterology%20and%20Hepatology%2C%20School%20of%20Medicine%2C%20The%20University%20of%20Alabama%20at%20Birmingham%2C%20Birmingham%2C%20AL%2C%2035205%2C%20USA" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"Performance of Computer-Aided Detection and Quality of Bowel Preparation: A Comprehensive Analysis of Colonoscopy Outcomes."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Shajan, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-17').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-18">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=John%20R%20Saltzman%20Division%20of%20Gastroenterology%2C%20Hepatology%20and%20Endoscopy%2C%20Brigham%20and%20Women%27s%20Hospital%20and%20Harvard%20Medical%20School%2C%20Boston%2C%20Massachusetts%2C%20USA.%20Electronic%20address%3A" target="_blank" class="name">John R Saltzman</a>
+                    <span class="affiliation"> - Division of Gastroenterology, Hepatology and Endoscopy, Brigham and Women's Hospital and Harvard Medical School, Boston, Massachusetts, USA. Electronic address:</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=John%20R%20Saltzman%20Division%20of%20Gastroenterology%2C%20Hepatology%20and%20Endoscopy%2C%20Brigham%20and%20Women%27s%20Hospital%20and%20Harvard%20Medical%20School%2C%20Boston%2C%20Massachusetts%2C%20USA.%20Electronic%20address%3A" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"The 2025 top 10 list of endoscopy topics in medical publishing: an annual review by the American Society for Gastrointestinal Endoscopy Editorial Board."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi John, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-18').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <div class="card" id="card-19">
+            <div class="info-row">
+                <div>
+                    <a href="https://www.linkedin.com/search/results/all/?keywords=Joseph%20C%20Liao%20Department%20of%20Urology%2C%20Stanford%20University%20School%20of%20Medicine%2C%20Stanford%2C%20USA" target="_blank" class="name">Joseph C Liao</a>
+                    <span class="affiliation"> - Department of Urology, Stanford University School of Medicine, Stanford, USA</span>
+                </div>
+                <a href="https://www.linkedin.com/search/results/all/?keywords=Joseph%20C%20Liao%20Department%20of%20Urology%2C%20Stanford%20University%20School%20of%20Medicine%2C%20Stanford%2C%20USA" target="_blank" class="btn-search">🔍 Search LinkedIn</a>
+            </div>
+            <div class="paper">"CystoDS: a multiclass endoscopy image dataset for artificial intelligence-assisted bladder cancer detection."</div>
+            <div class="buttons">
+                <button class="btn-copy" onclick="copyText('Hi Joseph, I\'m an AI undergrad building PolypNet-3D: a YOLOv8+Kalman pipeline hitting 49 FPS for real-time colonoscopy polyp detection. I admire your work and would love to connect to follow your research!')">📋 Copy Request (300 char)</button>
+                <button class="btn-copy" onclick="copyText('Thanks for connecting! I\'m actively looking for a research internship in Computer Vision/Medical Imaging. My recent work focuses on solving frame-flickering in endoscopic feeds using cascaded YOLOv8n & PraNet with custom state machines.\n\nYou can view my portfolio & code here: https://github.com/Gokzz-glitch\nI\'d be incredibly grateful if you have any feedback on my approach or know of any openings in your lab.')">📋 Copy Follow-Up</button>
+                <button class="btn-done" onclick="document.getElementById('card-19').classList.add('done')">✓ Mark Done</button>
+            </div>
+        </div>
+        
+        <script>
+            function copyText(text) {
+                navigator.clipboard.writeText(text).then(function() {
+                    console.log('Copied');
+                });
+            }
+        </script>
+    </body>
+    </html>
+    

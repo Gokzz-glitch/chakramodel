@@ -27,6 +27,7 @@ outputs/*.avi
 # Pretrained base weights (if needed)
 yolo26n.pt
 yolov8n.pt
+*.pth
 
 # User / Workspace specific
 .gemini/
@@ -35,3 +36,15 @@ yolov8n.pt
 memory of chat.pdf
 research_papers/*.pdf
 outputs/clinical_reports/keyframes/
+
+# SECURITY: Never commit credentials or sensitive data
+.env
+*.env
+test_smtp.py
+automated_outreach.py
+find_researchers.py
+generate_categorized_leads.py
+
+# Lead CSVs contain personal emails - never commit
+researcher_leads.csv
+priority_*.csv

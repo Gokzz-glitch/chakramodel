@@ -12,6 +12,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torchvision.models as models
 
 class BasicConv2d(nn.Module):
     def __init__(self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1):
@@ -94,24 +95,20 @@ class PraNetMicroRefiner(nn.Module):
     """
     def __init__(self, channels=32):
         super(PraNetMicroRefiner, self).__init__()
+        self.mc_dropout = False
         
-        # Backbone Feature Extractors (Lightweight Multi-Stage)
-        self.enc1 = nn.Sequential(
-            BasicConv2d(3, channels, 3, stride=1, padding=1),
-            BasicConv2d(channels, channels, 3, stride=1, padding=1)
-        )
-        self.enc2 = nn.Sequential(
-            BasicConv2d(channels, channels * 2, 3, stride=2, padding=1),
-            BasicConv2d(channels * 2, channels * 2, 3, stride=1, padding=1)
-        )
-        self.enc3 = nn.Sequential(
-            BasicConv2d(channels * 2, channels * 4, 3, stride=2, padding=1),
-            BasicConv2d(channels * 4, channels * 4, 3, stride=1, padding=1)
-        )
+        # Pre-trained ResNet-101 Backbone
+        resnet = models.resnet101(weights=models.ResNet101_Weights.IMAGENET1K_V1)
+        self.conv1 = resnet.conv1
+        self.bn1 = resnet.bn1
+        self.relu = resnet.relu
+        self.maxpool = resnet.maxpool
+        self.layer1 = resnet.layer1  # Output: 256 channels
+        self.layer2 = resnet.layer2  # Output: 512 channels
         
-        # Receptive Field Blocks
-        self.rfb2 = RFBBlock(channels * 2, channels)
-        self.rfb3 = RFBBlock(channels * 4, channels)
+        # Receptive Field Blocks (adapted for ResNet channels)
+        self.rfb2 = RFBBlock(256, channels)
+        self.rfb3 = RFBBlock(512, channels)
         
         # Parallel Partial Decoder (PPD) for Coarse Saliency
         self.ppd_conv = BasicConv2d(channels * 2, channels, 3, padding=1)
@@ -127,17 +124,27 @@ class PraNetMicroRefiner(nn.Module):
             nn.Conv2d(channels, 1, 1)
         )
 
+    def enable_mc_dropout(self):
+        self.mc_dropout = True
+
     def forward(self, x):
         h, w = x.shape[2], x.shape[3]
+        dropout_active = self.training or self.mc_dropout
         
-        # Encoder forward pass
-        f1 = self.enc1(x)        # [B, 32, H, W]
-        f2 = self.enc2(f1)       # [B, 64, H/2, W/2]
-        f3 = self.enc3(f2)       # [B, 128, H/4, W/4]
+        # ResNet-34 forward pass
+        x_init = self.maxpool(self.relu(self.bn1(self.conv1(x))))
+        f2 = self.layer1(x_init) # [B, 64, H/4, W/4]
+        f3 = self.layer2(f2)     # [B, 128, H/8, W/8]
+        
+        f2 = F.dropout2d(f2, p=0.1, training=dropout_active)
+        f3 = F.dropout2d(f3, p=0.1, training=dropout_active)
         
         # Multi-scale RFBs
         rfb2 = self.rfb2(f2)     # [B, 32, H/2, W/2]
         rfb3 = self.rfb3(f3)     # [B, 32, H/4, W/4]
+        
+        rfb2 = F.dropout2d(rfb2, p=0.1, training=dropout_active)
+        rfb3 = F.dropout2d(rfb3, p=0.1, training=dropout_active)
         
         # Parallel Partial Decoder (PPD) -> Global Saliency
         rfb3_up = F.interpolate(rfb3, size=rfb2.shape[2:], mode='bilinear', align_corners=False)
@@ -165,7 +172,8 @@ class PraNetSegmenter:
     """
     def __init__(self, device=None, img_size=(128, 128), weights_path=None):
         if device is None:
-            self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            assert torch.cuda.is_available(), "CUDA is required for PraNetSegmenter!"
+            self.device = torch.device('cuda')
         else:
             self.device = torch.device(device)
             
@@ -194,21 +202,23 @@ class PraNetSegmenter:
             
         self.model.eval()
 
-    def segment_roi(self, roi_bgr, threshold=0.45):
+    def segment_roi(self, roi_bgr, threshold=0.45, mc_passes=1):
         """
         Segments a single cropped polyp ROI.
         
         Args:
             roi_bgr: numpy.ndarray of shape (H, W, 3) representing the cropped polyp
             threshold: Confidence threshold for binarization (default 0.45)
+            mc_passes: Number of stochastic forward passes for uncertainty estimation
             
         Returns:
             binary_mask: numpy.ndarray of shape (H, W) [0 or 255]
             contours: list of OpenCV contours for exact boundary line drawing
             confidence: float mean mask confidence score
+            uncertainty_map: numpy.ndarray of shape (H, W) representing pixel variance (or None if mc_passes=1)
         """
         if roi_bgr is None or roi_bgr.size == 0 or roi_bgr.shape[0] < 4 or roi_bgr.shape[1] < 4:
-            return None, [], 0.0
+            return None, [], 0.0, None
             
         orig_h, orig_w = roi_bgr.shape[:2]
         
@@ -223,10 +233,29 @@ class PraNetSegmenter:
         img_tensor = (img_tensor - mean) / std
         img_tensor = img_tensor.to(self.device)
         
-        with torch.no_grad():
-            logits = self.model(img_tensor)
-            prob = torch.sigmoid(logits)
-            prob_map = prob.squeeze().cpu().numpy()
+        uncertainty_resized = None
+        
+        if mc_passes > 1:
+            self.model.enable_mc_dropout()
+            probs = []
+            with torch.no_grad():
+                for _ in range(mc_passes):
+                    logits = self.model(img_tensor)
+                    probs.append(torch.sigmoid(logits).squeeze().cpu().numpy())
+            
+            probs = np.stack(probs, axis=0)
+            prob_map = np.mean(probs, axis=0)
+            variance_map = np.var(probs, axis=0)
+            
+            uncertainty_resized = cv2.resize(variance_map, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+            
+            # Reset model dropout flag for safety
+            self.model.mc_dropout = False
+        else:
+            with torch.no_grad():
+                logits = self.model(img_tensor)
+                prob = torch.sigmoid(logits)
+                prob_map = prob.squeeze().cpu().numpy()
             
         # Resize probability map back to original crop resolution
         prob_resized = cv2.resize(prob_map, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
@@ -261,7 +290,7 @@ class PraNetSegmenter:
         else:
             mean_conf = 0.0
             
-        return binary_mask, contours, mean_conf
+        return binary_mask, contours, mean_conf, uncertainty_resized
 
     def overlay_mask_on_frame(self, frame_bgr, bbox, mask, color=(0, 255, 128), alpha=0.45):
         """
