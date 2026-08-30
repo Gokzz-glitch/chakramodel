@@ -1,4 +1,4 @@
-﻿import os
+import os
 import cv2
 import json
 import torch
@@ -8,7 +8,6 @@ from tabulate import tabulate
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "chakra_transformer"))
 
 from src.run_all_combos import ChakraNet
 from chakra_transformer.transformer_segmenter import ChakraTransformerSegmenter
@@ -96,7 +95,7 @@ def evaluate_on_dataset(model_wrapper, dataset_path, num_samples=30):
 def main():
     root = Path(__file__).resolve().parent
     models = [
-        ModelWrapper("ChakraTransformer", "transformer", root/"chakra_transformer_vit_large_best (1).pth"),
+        ModelWrapper("ChakraTransformer", "transformer", root/"weights"/"chakra_transformer_vit_large_best (1).pth"),
         ModelWrapper("ChakraNet-Combo1", "chakranet", root/"weights"/"combo1_best.pth"),
         ModelWrapper("ChakraNet-Combo2", "chakranet", root/"weights"/"combo2_best.pth"),
         ModelWrapper("ChakraNet-Combo3", "chakranet", root/"weights"/"combo3_best.pth")

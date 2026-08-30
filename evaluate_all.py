@@ -1,4 +1,4 @@
-﻿import os
+import os
 import cv2
 import json
 import torch
@@ -9,7 +9,6 @@ from tabulate import tabulate
 import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "chakra_transformer"))
 
 from src.run_all_combos import ChakraNet
 from src.pranet_segmenter import PraNetSegmenter
@@ -134,7 +133,7 @@ def main():
         ModelWrapper("ChakraNet-Combo2", "chakranet", root/"weights"/"combo2_best.pth"),
         ModelWrapper("ChakraNet-Combo3", "chakranet", root/"weights"/"combo3_best.pth"),
         ModelWrapper("PraNet", "pranet", root/"weights"/"pranet_kvasir_best.pth"),
-        ModelWrapper("ChakraTransformer", "transformer", root/"chakra_transformer_vit_large_best (1).pth"),
+        ModelWrapper("ChakraTransformer", "transformer", root/"weights"/"chakra_transformer_vit_large_best (1).pth"),
         ModelWrapper("YOLOv8-Polyp", "yolo", root/"outputs"/"polyp_yolov8n"/"weights"/"best.pt"),
         ModelWrapper("YOLOv8-Base", "yolo", root/"best.pt"),
     ]
