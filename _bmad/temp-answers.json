@@ -1,0 +1,9 @@
+{
+  "core": {
+    "user_name": "BMad",
+    "communication_language": "English",
+    "document_output_language": "English",
+    "output_folder": "{project-root}/_bmad-output"
+  },
+  "module": {}
+}

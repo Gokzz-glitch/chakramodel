@@ -48,3 +48,7 @@ generate_categorized_leads.py
 # Lead CSVs contain personal emails - never commit
 researcher_leads.csv
 priority_*.csv
+.bmad-loop/runs/
+.bmad-loop/cache/
+.bmad-loop/policy.toml
+_bmad/render/
