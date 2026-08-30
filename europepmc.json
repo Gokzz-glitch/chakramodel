@@ -1,0 +1,918 @@
+{
+  "hitCount": 1683,
+  "nextCursorMark": "AoIIQNwddig1NTY3NzE1OA==",
+  "results": [
+    {
+      "id": "42318577",
+      "source": "MED",
+      "pmid": "42318577",
+      "pmcid": "PMC13272441",
+      "fullTextIdList": {
+        "fullTextId": [
+          "PMC13272441"
+        ]
+      },
+      "doi": "10.3389/frai.2026.1786679",
+      "title": "Deep learning driven colorectal polyp analysis: a review of detection, classification and segmentation methods.",
+      "authorString": "S D, M S.",
+      "authorList": {
+        "author": [
+          {
+            "fullName": "S D",
+            "firstName": "Divya",
+            "lastName": "S",
+            "initials": "D",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "School of Computer Science Engineering and Information Systems, Vellore Institute of Technology, Vellore, India."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "M S",
+            "firstName": "Sudha",
+            "lastName": "M",
+            "initials": "S",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "School of Computer Science Engineering and Information Systems, Vellore Institute of Technology, Vellore, India."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "dataLinksTagsList": {
+        "dataLinkstag": [
+          "supporting_data"
+        ]
+      },
+      "journalInfo": {
+        "volume": "9",
+        "journalIssueId": 4117457,
+        "dateOfPublication": "2026 ",
+        "monthOfPublication": 0,
+        "yearOfPublication": 2026,
+        "printPublicationDate": "2026-01-01",
+        "journal": {
+          "title": "Frontiers in artificial intelligence",
+          "medlineAbbreviation": "Front Artif Intell",
+          "isoabbreviation": "Front Artif Intell",
+          "nlmid": "101770551",
+          "issn": "2624-8212",
+          "essn": "2624-8212"
+        }
+      },
+      "pubYear": "2026",
+      "pageInfo": "1786679",
+      "abstractText": "Colorectal polyps are key determinants of colorectal cancer. Their accurate detection during colonoscopy has been a technically challenging work due to differences in shape size imaging conditions and texture. Emerging advances in Artificial Intelligence predominantly in deep learning have been making significant changes in the automatic detection and classification of polyps. This review presents a systematic and in-depth analysis of artificial intelligence-based methods for colorectal polyp detection classification and segmentation. Publicly available datasets are extensively reviewed along with data pre-processing and augmentation techniques that highlights low contrast noise and class imbalance. The review also investigates about the present state-of-the-art models for all three tasks. It is based on architecture designs performance trends and relative strengths. A thorough assessment has been made for the standard performance metrics used in existing literature for fair and consistent benchmarking. Finally existing gaps and future research paths have been discussed with an objective to fill the performance-translation gaps between experimental performance and clinical deployment. This review gives a structured reference for AI-based colorectal polyp analysis.",
+      "affiliation": "School of Computer Science Engineering and Information Systems, Vellore Institute of Technology, Vellore, India.",
+      "publicationStatus": "epublish",
+      "language": "eng",
+      "pubModel": "Electronic-eCollection",
+      "pubTypeList": {
+        "pubType": [
+          "Systematic Review",
+          "systematic-review",
+          "Journal Article"
+        ]
+      },
+      "keywordList": {
+        "keyword": [
+          "Computer aided diagnosis",
+          "Medical Image Analysis",
+          "Polyp Detection",
+          "Deep Learning",
+          "Polyp Classification",
+          "Polyp Segmentation",
+          "Colorectal Polyp Analysis"
+        ]
+      },
+      "fullTextUrlList": {
+        "fullTextUrl": [
+          {
+            "availability": "Subscription required",
+            "availabilityCode": "S",
+            "documentStyle": "doi",
+            "site": "DOI",
+            "url": "https://doi.org/10.3389/frai.2026.1786679"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "html",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13272441"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "pdf",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13272441?pdf=render"
+          }
+        ]
+      },
+      "isOpenAccess": "Y",
+      "inEPMC": "Y",
+      "inPMC": "Y",
+      "hasPDF": "Y",
+      "hasBook": "N",
+      "hasSuppl": "N",
+      "citedByCount": 0,
+      "hasData": "Y",
+      "hasReferences": "Y",
+      "hasTextMinedTerms": "Y",
+      "hasDbCrossReferences": "N",
+      "hasLabsLinks": "N",
+      "license": "cc by",
+      "hasEvaluations": "N",
+      "authMan": "N",
+      "epmcAuthMan": "N",
+      "nihAuthMan": "N",
+      "hasTMAccessionNumbers": "Y",
+      "tmAccessionTypeList": {
+        "accessionType": [
+          "doi"
+        ]
+      },
+      "dateOfCompletion": "2026-06-19",
+      "dateOfCreation": "2026-06-19",
+      "firstIndexDate": "2026-06-20",
+      "fullTextReceivedDate": "2026-06-24",
+      "dateOfRevision": "2026-08-13",
+      "electronicPublicationDate": "2026-06-03",
+      "firstPublicationDate": "2026-06-03"
+    },
+    {
+      "id": "PMC13302491",
+      "source": "PMC",
+      "pmcid": "PMC13302491",
+      "fullTextIdList": {
+        "fullTextId": [
+          "PMC13302491"
+        ]
+      },
+      "title": "GeriAIGastroNet: AI-Assisted Gastrointestinal Polyp Segmentation and Severity-Based Triage for Tele-Gastroenterology in Underserved Geriatric Populations",
+      "authorString": "Muni M, Rahaman M, Tasnim S, Akter M, Moushi S, Islam R.",
+      "authorList": {
+        "author": [
+          {
+            "fullName": "Muni M",
+            "firstName": "Masrufa Akter",
+            "lastName": "Muni",
+            "initials": "M",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "FCPS Part-2 (Gastroenterology), MRCP Part-1 (UK), Shaheed Ziaur Rahman Medical College, Bogura 5800, Bangladesh"
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Rahaman M",
+            "firstName": "Mustafizur",
+            "lastName": "Rahaman",
+            "initials": "M",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Business Administration, Westcliff University, Irvine, CA 92614, USA"
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Tasnim S",
+            "firstName": "Saima",
+            "lastName": "Tasnim",
+            "initials": "S",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Health Services Management, University of La Verne, La Verne, CA 91750, USA"
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Akter M",
+            "firstName": "Mousumi",
+            "lastName": "Akter",
+            "initials": "M",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "International American University, Los Angeles, CA 90010, USA"
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Moushi S",
+            "firstName": "Sabrina Shamim",
+            "lastName": "Moushi",
+            "initials": "S",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "International American University, Los Angeles, CA 90010, USA"
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Islam R",
+            "firstName": "Rakibul",
+            "lastName": "Islam",
+            "initials": "R",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "International American University, Los Angeles, CA 90010, USA"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "dataLinksTagsList": {
+        "dataLinkstag": [
+          "supporting_data"
+        ]
+      },
+      "journalInfo": {
+        "issue": "12",
+        "volume": "15",
+        "journalIssueId": 4221242,
+        "dateOfPublication": "2026 Jun",
+        "monthOfPublication": 6,
+        "yearOfPublication": 2026,
+        "printPublicationDate": "2026-06-01",
+        "journal": {
+          "title": "Journal of clinical medicine",
+          "medlineAbbreviation": "J Clin Med",
+          "isoabbreviation": "J Clin Med",
+          "nlmid": "101606588",
+          "issn": "2077-0383",
+          "essn": "2077-0383"
+        }
+      },
+      "pubYear": "2026",
+      "language": "eng",
+      "pubModel": "Undetermined",
+      "pubTypeList": {
+        "pubType": [
+          "research-article",
+          "Journal Article"
+        ]
+      },
+      "keywordList": {
+        "keyword": [
+          "Risk stratification",
+          "Geriatric Care",
+          "Computer-aided Diagnosis",
+          "Health Professional Shortage Areas",
+          "Deep Learning",
+          "Colonoscopy Referral",
+          "Attention Mechanism",
+          "Efficientnet-B4",
+          "Tele-gastroenterology",
+          "Gastrointestinal Polyp Segmentation",
+          "Hyperkvasir"
+        ]
+      },
+      "fullTextUrlList": {
+        "fullTextUrl": [
+          {
+            "availability": "Free",
+            "availabilityCode": "F",
+            "documentStyle": "html",
+            "site": "PubMedCentral",
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13302491/?tool=EBI"
+          },
+          {
+            "availability": "Free",
+            "availabilityCode": "F",
+            "documentStyle": "pdf",
+            "site": "PubMedCentral",
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC13302491/pdf/?tool=EBI"
+          },
+          {
+            "availability": "Free",
+            "availabilityCode": "F",
+            "documentStyle": "html",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13302491"
+          },
+          {
+            "availability": "Free",
+            "availabilityCode": "F",
+            "documentStyle": "pdf",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13302491?pdf=render"
+          }
+        ]
+      },
+      "isOpenAccess": "Y",
+      "inEPMC": "Y",
+      "inPMC": "Y",
+      "hasPDF": "Y",
+      "hasBook": "N",
+      "hasSuppl": "N",
+      "citedByCount": 0,
+      "hasData": "Y",
+      "hasReferences": "N",
+      "hasTextMinedTerms": "Y",
+      "hasDbCrossReferences": "N",
+      "hasLabsLinks": "N",
+      "license": "cc by",
+      "hasEvaluations": "N",
+      "authMan": "N",
+      "epmcAuthMan": "N",
+      "nihAuthMan": "N",
+      "hasTMAccessionNumbers": "Y",
+      "tmAccessionTypeList": {
+        "accessionType": [
+          "doi"
+        ]
+      },
+      "dateOfCreation": "2026-06-26",
+      "firstIndexDate": "2026-06-26",
+      "fullTextReceivedDate": "2026-06-26",
+      "dateOfRevision": "2026-06-26",
+      "electronicPublicationDate": "2026-06-01",
+      "firstPublicationDate": "2026-06-01"
+    },
+    {
+      "id": "42388921",
+      "source": "MED",
+      "pmid": "42388921",
+      "pmcid": "PMC13322772",
+      "fullTextIdList": {
+        "fullTextId": [
+          "PMC13322772"
+        ]
+      },
+      "doi": "10.7759/cureus.110074",
+      "title": "Gastrointestinal Tract Polyp Detection, Tracking, and Surveillance and the Role of Artificial Intelligence.",
+      "authorString": "Azizian J, Banerjee B, Haluszka O, Leal R.",
+      "authorList": {
+        "author": [
+          {
+            "fullName": "Azizian J",
+            "firstName": "John",
+            "lastName": "Azizian",
+            "initials": "J",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Gastroenterology and Hepatology, University of Arizona College of Medicine - Tucson, Tucson, USA."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Banerjee B",
+            "firstName": "Bhaskar",
+            "lastName": "Banerjee",
+            "initials": "B",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Gastroenterology and Hepatology, University of Arizona College of Medicine - Tucson, Tucson, USA."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Haluszka O",
+            "firstName": "Oleh",
+            "lastName": "Haluszka",
+            "initials": "O",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Gastroenterology and Hepatology, University of Arizona College of Medicine - Tucson, Tucson, USA."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Leal R",
+            "firstName": "Rolando",
+            "lastName": "Leal",
+            "initials": "R",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Gastroenterology and Hepatology, University of Arizona College of Medicine - Tucson, Tucson, USA."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "dataLinksTagsList": {
+        "dataLinkstag": [
+          "supporting_data"
+        ]
+      },
+      "journalInfo": {
+        "issue": "6",
+        "volume": "18",
+        "journalIssueId": 4206252,
+        "dateOfPublication": "2026 Jun",
+        "monthOfPublication": 6,
+        "yearOfPublication": 2026,
+        "printPublicationDate": "2026-06-01",
+        "journal": {
+          "title": "Cureus",
+          "medlineAbbreviation": "Cureus",
+          "isoabbreviation": "Cureus",
+          "nlmid": "101596737",
+          "issn": "2168-8184",
+          "essn": "2168-8184"
+        }
+      },
+      "pubYear": "2026",
+      "pageInfo": "e110074",
+      "abstractText": "Colorectal cancer remains a common malignancy and a leading cause of cancer-related mortality in the United States. Colonoscopy is widely utilized for screening, with the goal of early detection of malignancy, as well as identification and removal of pre-cancerous lesions. Screening strategies are guided by individual risk factors, including family history, the presence of hereditary conditions associated with increased colorectal cancer risk, and findings from prior colonoscopic examinations, including polyp number, size, and histologic characteristics. These factors inform recommendations on the appropriate timing for initiation and surveillance intervals. Endoscopic resection is generally preferred for the removal of adenomatous polyps when feasible, while more advanced lesions may require surgical intervention or specialized endoscopic techniques. Despite advances in technique and operator experience, lesions may still be missed during colonoscopy. To address this limitation and increase the yield of colonoscopies detecting lesions, artificial intelligence (AI)-based tools have been increasingly incorporated to enhance polyp detection and improve overall procedural quality. These technologies aim to support endoscopists in identifying subtle lesions, thus increasing malignancy and polyp detection rates, and thereby potentially contributing to more effective colorectal cancer prevention, lowering healthcare costs, and ultimately improving overall patient outcomes.",
+      "affiliation": "Gastroenterology and Hepatology, University of Arizona College of Medicine - Tucson, Tucson, USA.",
+      "publicationStatus": "epublish",
+      "language": "eng",
+      "pubModel": "Electronic-eCollection",
+      "pubTypeList": {
+        "pubType": [
+          "review-article",
+          "Review",
+          "Journal Article"
+        ]
+      },
+      "keywordList": {
+        "keyword": [
+          "Screening",
+          "Surveillance",
+          "Adenoma",
+          "Colonoscopy",
+          "Colorectal Cancer",
+          "Polyp",
+          "Esophagogastroduodenoscopy (Egd)",
+          "Artificial Intelligence (Ai)"
+        ]
+      },
+      "fullTextUrlList": {
+        "fullTextUrl": [
+          {
+            "availability": "Subscription required",
+            "availabilityCode": "S",
+            "documentStyle": "doi",
+            "site": "DOI",
+            "url": "https://doi.org/10.7759/cureus.110074"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "html",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13322772"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "pdf",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13322772?pdf=render"
+          }
+        ]
+      },
+      "isOpenAccess": "Y",
+      "inEPMC": "Y",
+      "inPMC": "Y",
+      "hasPDF": "Y",
+      "hasBook": "N",
+      "hasSuppl": "N",
+      "citedByCount": 0,
+      "hasData": "Y",
+      "hasReferences": "Y",
+      "hasTextMinedTerms": "Y",
+      "hasDbCrossReferences": "N",
+      "hasLabsLinks": "N",
+      "license": "cc by",
+      "hasEvaluations": "N",
+      "authMan": "N",
+      "epmcAuthMan": "N",
+      "nihAuthMan": "N",
+      "hasTMAccessionNumbers": "Y",
+      "tmAccessionTypeList": {
+        "accessionType": [
+          "doi"
+        ]
+      },
+      "dateOfCompletion": "2026-07-02",
+      "dateOfCreation": "2026-07-02",
+      "firstIndexDate": "2026-07-02",
+      "fullTextReceivedDate": "2026-08-19",
+      "dateOfRevision": "2026-08-13",
+      "electronicPublicationDate": "2026-06-01",
+      "firstPublicationDate": "2026-06-01"
+    },
+    {
+      "id": "42359059",
+      "source": "MED",
+      "pmid": "42359059",
+      "pmcid": "PMC13290548",
+      "fullTextIdList": {
+        "fullTextId": [
+          "PMC13290548"
+        ]
+      },
+      "doi": "10.3389/fmed.2026.1800666",
+      "title": "PolyMamba-Net: a lightweight and boundary-aware network for real-time polyp segmentation in colonoscopy.",
+      "authorString": "Yuan W, Cai Y, Wang W, Shen J, Li Y, Zhang J, Qian C.",
+      "authorList": {
+        "author": [
+          {
+            "fullName": "Yuan W",
+            "firstName": "Weiyan",
+            "lastName": "Yuan",
+            "initials": "W",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Gastroenterology, Nantong First People's Hospital, Nantong, China."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Cai Y",
+            "firstName": "Yuyang",
+            "lastName": "Cai",
+            "initials": "Y",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "School of Medicine, Nantong University, Nantong, China."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Wang W",
+            "firstName": "Weiwei",
+            "lastName": "Wang",
+            "initials": "W",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Gastroenterology, Nantong Sixth People's Hospital, Nantong, China."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Shen J",
+            "firstName": "Jieyu",
+            "lastName": "Shen",
+            "initials": "J",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Yangzhou University, Yangzhou, China."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Li Y",
+            "firstName": "Yan",
+            "lastName": "Li",
+            "initials": "Y",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "School of Medicine, Nantong University, Nantong, China."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Zhang J",
+            "firstName": "Jian",
+            "lastName": "Zhang",
+            "initials": "J",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Emergency Internal Medicine, Nantong First People's Hospital, Nantong, China."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Qian C",
+            "firstName": "Chen",
+            "lastName": "Qian",
+            "initials": "C",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Emergency Internal Medicine, Nantong First People's Hospital, Nantong, China."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "journalInfo": {
+        "volume": "13",
+        "journalIssueId": 4110742,
+        "dateOfPublication": "2026 ",
+        "monthOfPublication": 0,
+        "yearOfPublication": 2026,
+        "printPublicationDate": "2026-01-01",
+        "journal": {
+          "title": "Frontiers in medicine",
+          "medlineAbbreviation": "Front Med (Lausanne)",
+          "isoabbreviation": "Front Med (Lausanne)",
+          "nlmid": "101648047",
+          "issn": "2296-858X",
+          "essn": "2296-858X"
+        }
+      },
+      "pubYear": "2026",
+      "pageInfo": "1800666",
+      "abstractText": "<h4>Background</h4>Colorectal cancer (CRC) is a leading cause of cancer-related mortality globally. The early detection and resection of adenomatous polyps via colonoscopy are critical for improving survival rates. However, missed diagnosis rates remain suboptimal, primarily due to the subtle appearance of flat polyps and the variable complexity of the intestinal environment. While deep learning has shown promise in automated polyp segmentation, existing models often face a trade-off between high segmentation accuracy and the real-time inference speeds required for clinical deployment.<h4>Methods</h4>To address this challenge, we propose PolyMamba-Net, a novel hybrid architecture that synergizes the efficient long-range dependency modeling of State Space Models (Mamba) with the local feature extraction capabilities of Convolutional Neural Networks (CNNs). Specifically, we introduce a dual-branch encoder designed to capture both global context and fine-grained textures, coupled with a Boundary-Aware Module (BAM) to explicitly refine polyp margins. A composite loss function targeting structural, pixel-level, and boundary consistency was employed for training.<h4>Results</h4>Extensive experiments were conducted on two public benchmarks: Kvasir-SEG and CVC-ClinicDB. PolyMamba-Net achieved a Dice Coefficient of 0.942 and 0.935, respectively, significantly outperforming state-of-the-art methods such as Swin-UNet and PraNet. Furthermore, our model surpasses recent 2024-2025 approaches including ADPNet and AAPCNet across all evaluation metrics, with all improvements confirmed as statistically significant (<i>p</i> < 0.05, Wilcoxon signed-rank test). Notably, our model operates at 115 FPS on a single NVIDIA RTX 3090 with only 25.3M parameters and 12.8 GFLOPs, demonstrating significantly higher efficiency than transformer-based counterparts. Cross-dataset evaluations on three unseen benchmarks further validate the model's generalizability.<h4>Conclusion</h4>PolyMamba-Net demonstrates superior segmentation precision combined with real-time processing capability. It offers a clinically feasible solution for assisting endoscopists in minimizing missed detection rates during routine colonoscopies.",
+      "affiliation": "Department of Gastroenterology, Nantong First People's Hospital, Nantong, China.",
+      "publicationStatus": "epublish",
+      "language": "eng",
+      "pubModel": "Electronic-eCollection",
+      "pubTypeList": {
+        "pubType": [
+          "research-article",
+          "Journal Article"
+        ]
+      },
+      "keywordList": {
+        "keyword": [
+          "Medical Image Analysis",
+          "Deep Learning",
+          "Real-time Diagnosis",
+          "State Space Models",
+          "Polyp Segmentation"
+        ]
+      },
+      "fullTextUrlList": {
+        "fullTextUrl": [
+          {
+            "availability": "Subscription required",
+            "availabilityCode": "S",
+            "documentStyle": "doi",
+            "site": "DOI",
+            "url": "https://doi.org/10.3389/fmed.2026.1800666"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "html",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13290548"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "pdf",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13290548?pdf=render"
+          }
+        ]
+      },
+      "isOpenAccess": "Y",
+      "inEPMC": "Y",
+      "inPMC": "Y",
+      "hasPDF": "Y",
+      "hasBook": "N",
+      "hasSuppl": "N",
+      "citedByCount": 0,
+      "hasData": "N",
+      "hasReferences": "Y",
+      "hasTextMinedTerms": "Y",
+      "hasDbCrossReferences": "N",
+      "hasLabsLinks": "N",
+      "license": "cc by",
+      "hasEvaluations": "N",
+      "authMan": "N",
+      "epmcAuthMan": "N",
+      "nihAuthMan": "N",
+      "hasTMAccessionNumbers": "N",
+      "dateOfCompletion": "2026-06-26",
+      "dateOfCreation": "2026-06-26",
+      "firstIndexDate": "2026-06-27",
+      "fullTextReceivedDate": "2026-06-26",
+      "dateOfRevision": "2026-08-13",
+      "electronicPublicationDate": "2026-06-10",
+      "firstPublicationDate": "2026-06-10"
+    },
+    {
+      "id": "42221160",
+      "source": "MED",
+      "pmid": "42221160",
+      "pmcid": "PMC13216465",
+      "fullTextIdList": {
+        "fullTextId": [
+          "PMC13216465"
+        ]
+      },
+      "doi": "10.3389/fdgth.2026.1797571",
+      "title": "MAPSeg: self-supervised colorectal polyp segmentation via memory-augmented framework and synthetic polyp simulation.",
+      "authorString": "Delprete C, Buongiorno D, Scardigno RM, Sibilano E, Brunetti A, Bevilacqua V.",
+      "authorList": {
+        "author": [
+          {
+            "fullName": "Delprete C",
+            "firstName": "Claudia",
+            "lastName": "Delprete",
+            "initials": "C",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Buongiorno D",
+            "firstName": "Domenico",
+            "lastName": "Buongiorno",
+            "initials": "D",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Scardigno RM",
+            "firstName": "Roberto Maria",
+            "lastName": "Scardigno",
+            "initials": "RM",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Sibilano E",
+            "firstName": "Elena",
+            "lastName": "Sibilano",
+            "initials": "E",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Brunetti A",
+            "firstName": "Antonio",
+            "lastName": "Brunetti",
+            "initials": "A",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy."
+                }
+              ]
+            }
+          },
+          {
+            "fullName": "Bevilacqua V",
+            "firstName": "Vitoantonio",
+            "lastName": "Bevilacqua",
+            "initials": "V",
+            "authorAffiliationDetailsList": {
+              "authorAffiliation": [
+                {
+                  "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy."
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "dataLinksTagsList": {
+        "dataLinkstag": [
+          "altmetrics",
+          "supporting_data"
+        ]
+      },
+      "journalInfo": {
+        "volume": "8",
+        "journalIssueId": 4117475,
+        "dateOfPublication": "2026 ",
+        "monthOfPublication": 0,
+        "yearOfPublication": 2026,
+        "printPublicationDate": "2026-01-01",
+        "journal": {
+          "title": "Frontiers in digital health",
+          "medlineAbbreviation": "Front Digit Health",
+          "isoabbreviation": "Front Digit Health",
+          "nlmid": "101771889",
+          "issn": "2673-253X",
+          "essn": "2673-253X"
+        }
+      },
+      "pubYear": "2026",
+      "pageInfo": "1797571",
+      "abstractText": "<h4>Introduction</h4>Colorectal cancer originates in most cases from polyps that progressively become malignant over time and colonoscopy offers a highly studied early diagnostic strategy to ensure a timely treatment plan. Automatic image segmentation of polyps, using intelligent supervised approaches, achieved good performance, but the need of their large annotated datasets limits the clinical applicability.<h4>Methods</h4>This study presents MAPSeg (Memory-Augmented Polyp Segmentation), a fully self-supervised and annotation-free framework for colorectal polyp segmentation, trained exclusively on images of healthy mucosa within an anomaly detection paradigm. The key novelty of MAPSeg mainly lies in SIMPO (Simulation of Polyps), a synthetic augmentation strategy that generates realistic polyp shapes and textures in a colon-specific context, combined with a memory-augmented encoder that models structural priors of normal tissue.<h4>Results</h4>Extensive experiments demonstrate that MAPSeg outperforms the strongest unsupervised methods by approximately 23% in Intersection over Union and 12% in DICE score on the Hyper-Kvasir dataset and consistently maintains this performance margin across multiple out-of-distribution benchmarks, indicating strong generalization capability.<h4>Discussion</h4>The results highlight MAPSeg supported by SIMPO as a viable solution for unsupervised colorectal polyp segmentation, significantly reducing the dependency on manual annotations while maintaining high segmentation accuracy.",
+      "affiliation": "Department of Electrical and Information Engineering, Polytechnic University of Bari, Bari, Italy.",
+      "publicationStatus": "epublish",
+      "language": "eng",
+      "pubModel": "Electronic-eCollection",
+      "pubTypeList": {
+        "pubType": [
+          "research-article",
+          "Journal Article"
+        ]
+      },
+      "keywordList": {
+        "keyword": [
+          "Unsupervised Learning",
+          "Medical Image Analysis",
+          "Anomaly Detection",
+          "Synthetic Data Generation",
+          "Polyp Segmentation",
+          "Memory-Augmented Networks"
+        ]
+      },
+      "fullTextUrlList": {
+        "fullTextUrl": [
+          {
+            "availability": "Subscription required",
+            "availabilityCode": "S",
+            "documentStyle": "doi",
+            "site": "DOI",
+            "url": "https://doi.org/10.3389/fdgth.2026.1797571"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "html",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13216465"
+          },
+          {
+            "availability": "Open access",
+            "availabilityCode": "OA",
+            "documentStyle": "pdf",
+            "site": "Europe_PMC",
+            "url": "https://europepmc.org/articles/PMC13216465?pdf=render"
+          }
+        ]
+      },
+      "isOpenAccess": "Y",
+      "inEPMC": "Y",
+      "inPMC": "Y",
+      "hasPDF": "Y",
+      "hasBook": "N",
+      "hasSuppl": "N",
+      "citedByCount": 0,
+      "hasData": "Y",
+      "hasReferences": "Y",
+      "hasTextMinedTerms": "Y",
+      "hasDbCrossReferences": "N",
+      "hasLabsLinks": "Y",
+      "license": "cc by",
+      "hasEvaluations": "N",
+      "authMan": "N",
+      "epmcAuthMan": "N",
+      "nihAuthMan": "N",
+      "hasTMAccessionNumbers": "Y",
+      "tmAccessionTypeList": {
+        "accessionType": [
+          "doi"
+        ]
+      },
+      "dateOfCompletion": "2026-06-01",
+      "dateOfCreation": "2026-06-01",
+      "firstIndexDate": "2026-06-02",
+      "fullTextReceivedDate": "2026-06-02",
+      "dateOfRevision": "2026-08-13",
+      "electronicPublicationDate": "2026-05-14",
+      "firstPublicationDate": "2026-05-14"
+    }
+  ]
+}

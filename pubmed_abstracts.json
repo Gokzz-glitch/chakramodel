@@ -1,0 +1,79 @@
+[
+  {
+    "pmid": "32972656",
+    "title": "Deep learning to find colorectal polyps in colonoscopy: A systematic literature review.",
+    "authors": [
+      "S\u00e1nchez-Peralta LF",
+      "Bote-Curiel L",
+      "Pic\u00f3n A",
+      "S\u00e1nchez-Margallo FM",
+      "Pagador JB"
+    ],
+    "journal": "Artificial intelligence in medicine",
+    "pubdate": "2020 Aug",
+    "doi": "10.1016/j.artmed.2020.101923",
+    "abstract": "Colorectal cancer has a great incidence rate worldwide, but its early detection significantly increases the survival rate. Colonoscopy is the gold standard procedure for diagnosis and removal of colorectal lesions with potential to evolve into cancer and computer-aided detection systems can help gastroenterologists to increase the adenoma detection rate, one of the main indicators for colonoscopy quality and predictor for colorectal cancer prevention. The recent success of deep learning approaches in computer vision has also reached this field and has boosted the number of proposed methods for polyp detection, localization and segmentation. Through a systematic search, 35 works have been retrieved. The current systematic review provides an analysis of these methods, stating advantages and disadvantages for the different categories used; comments seven publicly available datasets of colonoscopy images; analyses the metrics used for reporting and identifies future challenges and recommendations. Convolutional neural networks are the most used architecture together with an important presence of data augmentation strategies, mainly based on image transformations and the use of patches. End-to-end methods are preferred over hybrid methods, with a rising tendency. As for detection and localization tasks, the most used metric for reporting is the recall, while Intersection over Union is highly used in segmentation. One of the major concerns is the difficulty for a fair comparison and reproducibility of methods. Even despite the organization of challenges, there is still a need for a common validation framework based on a large, annotated and publicly available database, which also includes the most convenient metrics to report results. Finally, it is also important to highlight that efforts should be focused in the future on proving the clinical value of the deep learning based methods, by increasing the adenoma detection rate."
+  },
+  {
+    "pmid": "31755802",
+    "title": "An overview of deep learning algorithms and water exchange in colonoscopy in improving adenoma detection.",
+    "authors": [
+      "Hsieh YH",
+      "Leung FW"
+    ],
+    "journal": "Expert review of gastroenterology & hepatology",
+    "pubdate": "2019 Dec",
+    "doi": "10.1080/17474124.2019.1694903",
+    "abstract": "Introduction: Among the Gastrointestinal (GI) Endoscopy Editorial Board top 10 topics in advances in endoscopy in 2018, water exchange colonoscopy and artificial intelligence were both considered important advances. Artificial intelligence holds the potential to increase and water exchange significantly increases adenoma detection.Areas covered: The authors searched MEDLINE (1998-2019) using the following medical subject terms: water-aided, water-assisted and water exchange colonoscopy, adenoma, artificial intelligence, deep learning, computer-assisted detection, and neural networks. Additional related studies were manually searched from the reference lists of publications. Only fully published journal articles in English were reviewed. The latest date of the search was Aug10, 2019. Artificial intelligence, machine learning, and deep learning contribute to the promise of real-time computer-aided detection diagnosis. By emphasizing near-complete suction of infused water during insertion, water exchange provides salvage cleaning and decreases cleaning-related multi-tasking distractions during withdrawal, increasing adenoma detection. The review will address how artificial intelligence and water exchange can complement each other in improving adenoma detection during colonoscopy.Expert opinion: In 5 years, research on artificial intelligence will likely achieve real-time application and evaluation of factors contributing to quality colonoscopy. Better understanding and more widespread use of water exchange will be possible."
+  },
+  {
+    "pmid": "38225761",
+    "title": "Two-stage deep-learning-based colonoscopy polyp detection incorporating fisheye and reflection correction.",
+    "authors": [
+      "Hsu CM",
+      "Chen TH",
+      "Hsu CC",
+      "Wu CH",
+      "Lin CJ",
+      "Le PH",
+      "Lin CY",
+      "Kuo T"
+    ],
+    "journal": "Journal of gastroenterology and hepatology",
+    "pubdate": "2024 Apr",
+    "doi": "10.1111/jgh.16470",
+    "abstract": "BACKGROUND AND AIM: Colonoscopy is a useful method for the diagnosis and management of colorectal diseases. Many computer-aided systems have been developed to assist clinicians in detecting colorectal lesions by analyzing colonoscopy images. However, fisheye-lens distortion and light reflection in colonoscopy images can substantially affect the clarity of these images and their utility in detecting polyps. This study proposed a two-stage deep-learning model to correct distortion and reflections in colonoscopy images and thus facilitate polyp detection.\nMETHODS: Images were collected from the PolypSet dataset, the Kvasir-SEG dataset, and one medical center's patient archiving and communication system. The training, validation, and testing datasets comprised 808, 202, and 1100 images, respectively. The first stage involved the correction of fisheye-related distortion in colonoscopy images and polyp detection, which was performed using a convolutional neural network. The second stage involved the use of generative and adversarial networks for correcting reflective colonoscopy images before the convolutional neural network was used for polyp detection.\nRESULTS: The model had higher accuracy when it was validated using corrected images than when it was validated using uncorrected images (96.8% vs 90.8%, P\u00a0<\u00a00.001). The model's accuracy in detecting polyps in the Kvasir-SEG dataset reached 96%, and the area under the receiver operating characteristic curve was 0.94.\nCONCLUSION: The proposed model can facilitate the clinical diagnosis of colorectal polyps and improve the quality of colonoscopy."
+  },
+  {
+    "pmid": "40137196",
+    "title": "Deep Learning-Based Semantic Segmentation for Objective Colonoscopy Quality Assessment.",
+    "authors": [
+      "Vulpoi RA",
+      "Ciobanu A",
+      "Drug VL",
+      "Mihai C",
+      "Barboi OB",
+      "Floria DE",
+      "Coseru AI",
+      "Olteanu A",
+      "Rosca V",
+      "Luca M"
+    ],
+    "journal": "Journal of imaging",
+    "pubdate": "2025 Mar 18",
+    "doi": "10.3390/jimaging11030084",
+    "abstract": "Background: This study aims to objectively evaluate the overall quality of colonoscopies using a specially trained deep learning-based semantic segmentation neural network. This represents a modern and valuable approach for the analysis of colonoscopy frames. Methods: We collected thousands of colonoscopy frames extracted from a set of video colonoscopy files. A color-based image processing method was used to extract color features from specific regions of each colonoscopy frame, namely, the intestinal mucosa, residues, artifacts, and lumen. With these features, we automatically annotated all the colonoscopy frames and then selected the best of them to train a semantic segmentation network. This trained network was used to classify the four region types in a different set of test colonoscopy frames and extract pixel statistics that are relevant to quality evaluation. The test colonoscopies were also evaluated by colonoscopy experts using the Boston scale. Results: The deep learning semantic segmentation method obtained good results, in terms of classifying the four key regions in colonoscopy frames, and produced pixel statistics that are efficient in terms of objective quality assessment. The Spearman correlation results were as follows: BBPS vs. pixel scores: 0.69; BBPS vs. mucosa pixel percentage: 0.63; BBPS vs. residue pixel percentage: -0.47; BBPS vs. Artifact Pixel Percentage: -0.65. The agreement analysis using Cohen's Kappa yielded a value of 0.28. The colonoscopy evaluation based on the extracted pixel statistics showed a fair level of compatibility with the experts' evaluations. Conclusions: Our proposed deep learning semantic segmentation approach is shown to be a promising tool for evaluating the overall quality of colonoscopies and goes beyond the Boston Bowel Preparation Scale in terms of assessing colonoscopy quality. In particular, while the Boston scale focuses solely on the amount of residual content, our method can identify and quantify the percentage of colonic mucosa, residues, and artifacts, providing a more comprehensive and objective evaluation."
+  },
+  {
+    "pmid": "36058054",
+    "title": "UC-NfNet: Deep learning-enabled assessment of ulcerative colitis from colonoscopy images.",
+    "authors": [
+      "Turan M",
+      "Durmus F"
+    ],
+    "journal": "Medical image analysis",
+    "pubdate": "2022 Nov",
+    "doi": "10.1016/j.media.2022.102587",
+    "abstract": "Ulcerative colitis (UC) belongs to the inflammatory bowel disease (IBD) family, which is mainly caused by inflammation of the tissue in the colon and rectum. The severity of this infection can radically affect the patient's overall well-being. Although there is no definitive treatment for this disease, diagnosis of the severity of the disease through colonoscopy imaging and the use of personalized treatment can prevent progression to more malignant stages. Inter- and intra-observer variability combined with the complex nature of UC infection makes medical assessment cumbersome. Diagnosis and treatment of UC can be made more accurate and robust if disease severity can be determined in a standardized and automated manner. Therefore, the development of a computerized tool that can be integrated into the clinical decision-making process of UC classification is of great importance. In this work, we present an automated UC classification method, UC-NfNet, complemented by a synthetic data generation pipeline aimed at classifying colonoscopy UC images. We show that our model quantitatively outperforms state-of-the-art classification models such as ConViT, Inception-v4, NFNets, ResNets and Swin Transformer. In an independent reader study of five gastroenterologists, the average agreement between the UC-NfNet and individual gastroenterologists was higher than the agreement between individual gastroenterologists. This robust evaluation of the proposed AI system paves the way for clinical trials of AI-assisted UC classification. The code and dataset are publicly available at https://github.com/DeepMIALab/UC-NfNet."
+  }
+]
