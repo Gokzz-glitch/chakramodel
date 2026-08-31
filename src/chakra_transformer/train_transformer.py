@@ -16,7 +16,7 @@ from transformer_segmenter import ChakraTransformerSegmenter
 
 def main():
     parser = argparse.ArgumentParser(description="Train ChakraTransformer (Research Track)")
-    parser.add_argument('--batch-size', type=int, default=4, help='Batch size for training')
+    parser.add_argument('--batch-size', type=int, default=16, help='Batch size for training')
     parser.add_argument('--epochs', type=int, default=50, help='Number of epochs')
     parser.add_argument('--lr', type=float, default=1e-4, help='Learning rate (AdamW)')
     args = parser.parse_args()
@@ -54,8 +54,8 @@ def main():
     train_set = torch.utils.data.Subset(full_dataset, range(n_train))
     val_set   = torch.utils.data.Subset(val_dataset,  range(n_train, len(full_dataset)))
 
-    train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True,  num_workers=0, pin_memory=True)
-    val_loader   = DataLoader(val_set,   batch_size=args.batch_size, shuffle=False, num_workers=0, pin_memory=True)
+    train_loader = DataLoader(train_set, batch_size=args.batch_size, shuffle=True,  num_workers=4, pin_memory=True)
+    val_loader   = DataLoader(val_set,   batch_size=args.batch_size, shuffle=False, num_workers=4, pin_memory=True)
 
     weights_dir = root / "weights"
     weights_dir.mkdir(exist_ok=True)
