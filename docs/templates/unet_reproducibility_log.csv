@@ -1,0 +1,1 @@
+run_id,model_name,paper_reference,dataset,split_id,input_size,optimizer,scheduler,learning_rate,batch_size,epochs,augmentation_policy,loss_function,seed,hardware,params_m,flops_g,fps_or_ms,dice,iou,precision,recall,checkpoint_path,notes

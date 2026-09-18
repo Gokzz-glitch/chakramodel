@@ -62,6 +62,10 @@ ChakraNet is a systematically developed six-combination deep learning framework 
 - `model_comparison_report.md` — Quantitative comparison vs. all SOTA models
 - `overfitting_analysis_report.md` — Generalization gap analysis across 4 datasets
 - `model_comparison_report.md` — Benchmark vs. published literature
+- `docs/unet_study_protocol.md` — Baseline-to-novel U-Net study workflow
+- `docs/templates/unet_paper_comparison_template.md` — Paper analysis template
+- `docs/templates/unet_reproducibility_log.csv` — Controlled reproduction log template
+- `docs/templates/unet_failure_ablation_matrix.csv` — Failure/ablation tracking matrix
 
 ### Source Code
 - `src/run_all_combos.py` — Master training pipeline for Combos 1–4
