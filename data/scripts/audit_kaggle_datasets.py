@@ -49,8 +49,8 @@ def audit_dataset(root: Path) -> dict:
     videos = [path for path in files if path.suffix.lower() in VIDEO_EXTS]
     mask_candidates = []
     for path in images:
-        relative_parts = path.relative_to(root).parts
-        if any(part.lower() in MASK_WORDS for part in relative_parts):
+        relative_folder_parts = path.relative_to(root).parent.parts
+        if any(part.lower() in MASK_WORDS for part in relative_folder_parts):
             mask_candidates.append(path)
             continue
         if any(word in path.stem.lower() for word in MASK_WORDS):
