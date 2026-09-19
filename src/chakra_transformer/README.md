@@ -30,17 +30,15 @@ First audit every mounted Kaggle input:
 ```bash
 python data/scripts/audit_kaggle_datasets.py \
   --root /kaggle/input \
-  --dataset-depth 3 \
   --output /kaggle/working/dataset_audit \
   --hash-images
 ```
 
-Kaggle commonly mounts inputs as `/kaggle/input/<owner>/<dataset>/...`, so
-depth 3 audits each dataset separately rather than combining all datasets into
-one `datasets` directory. Review `summary.json` and `summary.csv`. In
-particular, verify that masks are
-actually binary segmentation images, not YOLO text labels or bounding boxes,
-and check duplicate stems before selecting a source dataset.
+The audit auto-discovers dataset roots from image/video-bearing directories and
+avoids treating `images`, `masks`, `labels`, or other ancestor folders as a
+separate dataset. Review `summary.json` and `summary.csv`. In particular,
+verify that masks are actually binary segmentation images, not YOLO text labels
+or bounding boxes, and check duplicate stems before selecting a source dataset.
 
 An upload-ready notebook containing this ordered workflow is available at
 `notebooks/Kaggle_XAttnUNet_Pilot.ipynb`. Upload it to Kaggle, attach the

@@ -1,0 +1,23 @@
+{
+  "timestamp_utc": "2026-09-19T19:45:00Z",
+  "dataset_pair_name": "kvasir_clinicdb",
+  "primary_train": {
+    "dataset": "datasets/gokulrocky/chakramodel-evaluation-datasets/kvasir-seg",
+    "images": "kvasir-seg/images",
+    "masks": "kvasir-seg/masks"
+  },
+  "validation": {
+    "dataset": "datasets/gokulrocky/chakramodel-evaluation-datasets/cvc-clinicdb",
+    "images": "cvc-clinicdb/images",
+    "masks": "cvc-clinicdb/masks"
+  },
+  "external_test_candidates": [
+    "datasets/gokulrocky/endoscene-cvc300-polyp-raw-dataset/CVC-300",
+    "datasets/gokulrocky/polypdb-polyp-raw/PolypDB"
+  ],
+  "false_positive_test": {
+    "dataset": "datasets/gokulraj324/ldpolypvideowithoutpolyps",
+    "notes": "Use for false-positive and specificity testing, not primary training."
+  },
+  "status": "selected_for_first_pilot"
+}
