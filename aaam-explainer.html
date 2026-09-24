@@ -330,6 +330,106 @@
             z-index: 1;
         }
 
+        /* Transformer architecture slide */
+        .transformer-slide {
+            background: linear-gradient(135deg, rgba(71,120,233,0.09), rgba(233,118,88,0.06));
+            border: 1px solid rgba(108,141,232,0.28);
+            border-radius: 24px;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        .transformer-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            align-items: stretch;
+            margin: 2rem 0;
+        }
+        .transformer-stage {
+            position: relative;
+            min-height: 145px;
+            padding: 1.1rem;
+            background: rgba(5,7,15,0.58);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+        }
+        .transformer-stage:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f0a858;
+            font-size: 1.4rem;
+            z-index: 2;
+        }
+        .transformer-stage .stage-number {
+            display: inline-flex;
+            width: 25px;
+            height: 25px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.65rem;
+            border-radius: 50%;
+            background: var(--blue-grad);
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.75rem;
+        }
+        .transformer-stage h4 {
+            color: #fff;
+            margin-bottom: 0.45rem;
+        }
+        .transformer-stage p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+        .attention-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .attention-card {
+            background: rgba(5,7,15,0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+        .attention-card h4 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .attention-card p, .attention-card li {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+        .attention-card ul {
+            padding-left: 1.2rem;
+            margin-top: 0.6rem;
+        }
+        .formula-wide {
+            display: block;
+            margin-top: 0.85rem;
+            overflow-x: auto;
+            color: #f0a858;
+            font-family: monospace;
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+        @media (max-width: 900px) {
+            .transformer-flow { grid-template-columns: 1fr; }
+            .transformer-stage:not(:last-child)::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -1.1rem;
+                transform: translateX(50%);
+            }
+            .attention-panel { grid-template-columns: 1fr; }
+        }
+
         /* 5. Data Flow */
         .timeline {
             position: relative;
@@ -609,6 +709,7 @@
             <li><a href="#what-is">About</a></li>
             <li><a href="#tech-stack">Tech</a></li>
             <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#transformer">Transformer</a></li>
             <li><a href="#dashboard">Dashboard</a></li>
             <li><a href="#api">API</a></li>
             <li><a href="#guide">Guide</a></li>
@@ -734,6 +835,61 @@
                     <h4>Hardware</h4>
                     <p>Telemetry input; actuator planned</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4B. TRANSFORMER ARCHITECTURE SLIDE -->
+    <section id="transformer" class="container">
+        <h2 class="section-title">Inside the <span class="text-gradient-blue">Transformer</span></h2>
+        <p class="section-subtitle">A compact architecture slide showing how AAAM turns ordered AQI observations into a forecast. Chronos-2 is the pretrained model; PyTorch is the runtime that executes it.</p>
+        <div class="transformer-slide animate-on-scroll">
+            <div class="transformer-flow">
+                <div class="transformer-stage">
+                    <span class="stage-number">1</span>
+                    <h4>AQI context</h4>
+                    <p>Up to 336 hourly values arrive from Open-Meteo or hardware telemetry. Missing and invalid values are removed.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">2</span>
+                    <h4>Tensor representation</h4>
+                    <p>PyTorch stores the ordered numbers as a tensor and prepares them for the Chronos-2 inference pipeline.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">3</span>
+                    <h4>Self-attention</h4>
+                    <p>Transformer attention weighs relationships across the context, allowing distant AQI observations to influence one another.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">4</span>
+                    <h4>64 trajectories</h4>
+                    <p>Chronos-2 samples 64 plausible continuations for the requested 1–14 forecast steps.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">5</span>
+                    <h4>Forecast + risk</h4>
+                    <p>AAAM takes the median at each step, then compares the result with the AQI 150 spike threshold.</p>
+                </div>
+            </div>
+            <div class="attention-panel">
+                <div class="attention-card">
+                    <h4>What “attention” means</h4>
+                    <p>Attention is a learned weighting mechanism. For each position in the AQI sequence, the Transformer estimates which other positions are useful context. It is not a simple average and it is not LSTM memory.</p>
+                    <span class="formula-wide">attention(Q,K,V) = softmax(QKᵀ / √dₖ)V</span>
+                </div>
+                <div class="attention-card">
+                    <h4>What this implementation does not do</h4>
+                    <ul>
+                        <li>It does not retrain Chronos-2 during each request.</li>
+                        <li>It does not use a conventional LSTM or linear regression.</li>
+                        <li>It does not return calibrated confidence intervals yet.</li>
+                        <li>It does not automatically publish purifier commands.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="attention-card" style="margin-top: 1rem;">
+                <h4>Why multiple trajectories?</h4>
+                <p>Air quality is uncertain. Instead of producing only one deterministic line, the model generates multiple plausible futures. The median is used as a robust central estimate; the current AAAM API exposes a separate heuristic spike score rather than a formal uncertainty interval.</p>
             </div>
         </div>
     </section>
