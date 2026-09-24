@@ -547,6 +547,114 @@
             color: var(--text-muted);
         }
         .kid-note strong { color: #fff; }
+        .scene-3d {
+            perspective: 900px;
+            min-height: 245px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 18px;
+            background: radial-gradient(circle at 50% 30%, rgba(71,120,233,0.2), transparent 58%), #080b16;
+            border: 1px solid var(--glass-border);
+        }
+        .scene-3d-inner {
+            position: relative;
+            width: 270px;
+            height: 180px;
+            transform-style: preserve-3d;
+            transform: rotateX(58deg) rotateZ(-28deg);
+            animation: scene-float 6s ease-in-out infinite;
+        }
+        .scene-floor {
+            position: absolute;
+            inset: 0;
+            transform: translateZ(-18px);
+            background: linear-gradient(90deg, rgba(71,120,233,0.2) 1px, transparent 1px), linear-gradient(rgba(71,120,233,0.2) 1px, transparent 1px);
+            background-size: 27px 27px;
+            border: 1px solid rgba(108,141,232,0.35);
+            box-shadow: 0 0 45px rgba(71,120,233,0.25);
+        }
+        .data-block {
+            position: absolute;
+            bottom: 24px;
+            width: 28px;
+            border: 1px solid rgba(240,168,88,0.8);
+            background: linear-gradient(#f0a858, #e97658);
+            box-shadow: 0 0 18px rgba(240,168,88,0.35);
+            transform: translateZ(10px);
+        }
+        .data-block.one { left: 28px; height: 48px; }
+        .data-block.two { left: 72px; height: 75px; }
+        .data-block.three { left: 116px; height: 103px; }
+        .data-block.four { left: 160px; height: 128px; }
+        .model-core {
+            position: absolute;
+            left: 94px;
+            top: 39px;
+            width: 100px;
+            height: 100px;
+            transform: translateZ(56px);
+            border-radius: 18px;
+            background: linear-gradient(135deg, #4778e9, #6c8de8 48%, #e97658);
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 0 35px rgba(108,141,232,0.7);
+        }
+        .model-core::before,
+        .model-core::after {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border: 1px dashed rgba(255,255,255,0.75);
+            border-radius: 50%;
+            transform: rotateX(65deg) rotateY(25deg);
+        }
+        .model-core::after { transform: rotateX(20deg) rotateY(65deg); }
+        .model-label {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            transform: rotateZ(28deg);
+        }
+        .forecast-orbit {
+            position: absolute;
+            left: 70px;
+            top: 20px;
+            width: 160px;
+            height: 145px;
+            border: 2px solid rgba(240,168,88,0.75);
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            transform: translateZ(72px) rotateX(65deg) rotateZ(18deg);
+        }
+        .alert-beacon {
+            position: absolute;
+            right: -8px;
+            top: 8px;
+            width: 40px;
+            height: 40px;
+            transform: translateZ(100px);
+            border-radius: 50%;
+            background: #e97658;
+            box-shadow: 0 0 0 9px rgba(233,118,88,0.13), 0 0 30px rgba(233,118,88,0.9);
+            animation: beacon-pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes scene-float {
+            0%, 100% { transform: rotateX(58deg) rotateZ(-28deg) translateY(0); }
+            50% { transform: rotateX(58deg) rotateZ(-28deg) translateY(-9px); }
+        }
+        @keyframes beacon-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; transform: translateZ(100px) scale(1.12); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .scene-3d-inner, .alert-beacon { animation: none; }
+        }
         @media (max-width: 700px) {
             .kid-level { grid-template-columns: 1fr; }
             .kid-attention { grid-template-columns: repeat(3, 1fr); }
@@ -967,6 +1075,18 @@
         <h2 class="section-title">Inside the <span class="text-gradient-blue">Transformer</span></h2>
         <p class="section-subtitle">A compact architecture slide showing how AAAM turns ordered AQI observations into a forecast. Chronos-2 is the pretrained model; PyTorch is the runtime that executes it.</p>
         <div class="transformer-slide animate-on-scroll">
+            <div class="scene-3d" aria-label="3D illustration of AQI data entering a forecasting model and producing an alert">
+                <div class="scene-3d-inner">
+                    <div class="scene-floor"></div>
+                    <div class="data-block one"></div>
+                    <div class="data-block two"></div>
+                    <div class="data-block three"></div>
+                    <div class="data-block four"></div>
+                    <div class="model-core"><span class="model-label">CHRONOS<br>2</span></div>
+                    <div class="forecast-orbit"></div>
+                    <div class="alert-beacon" title="AQI spike alert"></div>
+                </div>
+            </div>
             <div class="transformer-flow">
                 <div class="transformer-stage">
                     <span class="stage-number">1</span>
@@ -1022,6 +1142,18 @@
         <h2 class="section-title">How AAAM Works: <span class="text-gradient-coral">Kid to Expert</span></h2>
         <p class="section-subtitle">Imagine AAAM as a careful air-quality detective. It looks at pollution clues from the past, guesses what may happen next, and raises a flag when the air may become unhealthy.</p>
         <div class="kid-slide animate-on-scroll">
+            <div class="scene-3d" aria-label="3D illustration for the child-friendly air-quality detective analogy">
+                <div class="scene-3d-inner">
+                    <div class="scene-floor"></div>
+                    <div class="data-block one"></div>
+                    <div class="data-block two"></div>
+                    <div class="data-block three"></div>
+                    <div class="data-block four"></div>
+                    <div class="model-core"><span class="model-label">AQI<br>DETECTIVE</span></div>
+                    <div class="forecast-orbit"></div>
+                    <div class="alert-beacon" title="Possible spike"></div>
+                </div>
+            </div>
             <div class="kid-levels">
                 <div class="kid-level">
                     <div class="kid-level-label">1. Super simple<small>“Look at the clues”</small></div>
