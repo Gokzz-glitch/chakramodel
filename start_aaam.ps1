@@ -23,6 +23,18 @@ function Stop-AAAM {
     }
 }
 
+function Test-AAAMEndpoint {
+    param(
+        [string]$Url
+    )
+    try {
+        $response = Invoke-WebRequest $Url -UseBasicParsing -TimeoutSec 2
+        return $response.StatusCode -eq 200
+    } catch {
+        return $false
+    }
+}
+
 try {
     Set-Location $projectRoot
     wsl.exe -d $wslDistro -- true 2>$null
@@ -105,7 +117,9 @@ try {
     Write-Host "Hardware telemetry: POST http://127.0.0.1:8000/api/telemetry"
     Write-Host "Input mode:        POST http://127.0.0.1:8000/api/source"
     while ($true) {
-        if ($script:apiProcess.HasExited -or $script:webProcess.HasExited) {
+        # wsl.exe and powershell.exe can be wrapper processes; the service port is authoritative.
+        if (-not (Test-AAAMEndpoint "http://127.0.0.1:8000/health") -or
+            -not (Test-AAAMEndpoint "http://127.0.0.1:5173")) {
             throw "One AAAM service stopped. Check aaam-api.log and aaam-web.log."
         }
         Start-Sleep -Seconds 2
