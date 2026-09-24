@@ -3,7 +3,6 @@ name: Deploy Explainer to GitHub Pages
 on:
   push:
     branches: ["310624121022-star-aqi-prediction-dashboard"]
-    paths: ["aaam-explainer.html"]
   workflow_dispatch:
 
 permissions:
