@@ -681,8 +681,8 @@
                 <p>FastAPI & Uvicorn running on Python 3.12 for lightning-fast asynchronous endpoint resolution.</p>
             </div>
             <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 200ms;">
-                <h3>🤖 ML Model</h3>
-                <p>Amazon Chronos-2 via Hugging Face and PyTorch. The tested WSL environment used Python 3.12 and PyTorch 2.14.0+cu130; exact versions can vary by environment.</p>
+                <h3>🤖 Chronos-2 + PyTorch</h3>
+                <p><strong>Chronos-2</strong> is the pretrained time-series model that learns patterns in the AQI history and generates possible future values. <strong>PyTorch</strong> is the numerical runtime that stores the history as tensors, runs the model, and performs the median calculation. AAAM asks for 64 model samples and returns their median as the point forecast. PyTorch runs on CPU or a compatible GPU; it is the engine, not a separate forecasting model.</p>
             </div>
             <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 300ms;">
                 <h3>☁️ Data Source</h3>
@@ -727,8 +727,8 @@
                     <p>External history/current AQI</p>
                 </div>
                 <div class="arch-node">
-                    <h4>Chronos-2</h4>
-                    <p>PyTorch Pipeline</p>
+                    <h4>Chronos-2 inference</h4>
+                    <p>PyTorch tensor runtime</p>
                 </div>
                 <div class="arch-node">
                     <h4>Hardware</h4>
@@ -758,7 +758,7 @@ GET <span class="str">https://air-quality-api.open-meteo.com/v1/air-quality</spa
             <!-- Step 2 -->
             <div class="timeline-step timeline-content animate-on-scroll">
                 <h3>ML Inference (Chronos-2)</h3>
-                <p>The history tensor is passed into the configured <code>amazon/chronos-2</code> pipeline. The backend requests 64 sample trajectories and takes their median for the returned point forecast. This is model output, not a guarantee; calibrated confidence intervals are not currently returned.</p>
+                <p>Chronos-2 is the forecasting model; PyTorch is the runtime underneath it. The backend converts the hourly AQI list into a PyTorch tensor, sends it through the configured <code>amazon/chronos-2</code> pipeline, requests 64 possible trajectories, and takes the median at each step. This reduces the effect of an unusually high or low sample, but it is still model output—not a guarantee—and calibrated confidence intervals are not currently returned.</p>
 <pre class="code-block"><code><span class="kw">from</span> chronos <span class="kw">import</span> Chronos2Pipeline
 <span class="kw">import</span> torch
 
@@ -1049,7 +1049,6 @@ POST /api/source
         <div class="container">
             <h3 class="text-gradient-blue" style="margin-bottom: 1rem;">AAAM Dashboard</h3>
             <p>Built for Primeoxy AQI Dataset</p>
-            <p>Tata Centre for Technology and Design, 2026</p>
             <div class="footer-links">
                 <a href="#hero">Top</a>
                 <a href="#api">API Docs</a>
