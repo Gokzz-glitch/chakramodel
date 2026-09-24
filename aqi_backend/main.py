@@ -1,5 +1,7 @@
 import math
 import os
+import threading
+import uuid
 from datetime import datetime, timezone
 from functools import lru_cache
 from typing import Any
@@ -26,6 +28,25 @@ class DeviceCommand(BaseModel):
     mode: str = Field(pattern="^(auto|manual)$")
     purifier_level: int = Field(ge=0, le=100)
     reason: str = Field(min_length=1, max_length=300)
+
+
+class Telemetry(BaseModel):
+    device_id: str = Field(min_length=1, max_length=100)
+    aqi: float = Field(ge=0, le=1000)
+    pm25: float | None = Field(default=None, ge=0)
+    pm10: float | None = Field(default=None, ge=0)
+    recorded_at: datetime | None = None
+
+
+class SourceSelection(BaseModel):
+    source: str = Field(pattern="^(api|hardware)$")
+    device_id: str | None = None
+
+
+state_lock = threading.Lock()
+input_source = "api"
+hardware_history: dict[str, list[float]] = {}
+last_telemetry: dict[str, dict[str, Any]] = {}
 
 
 @lru_cache(maxsize=1)
@@ -66,6 +87,18 @@ def load_history(latitude: float, longitude: float) -> list[float]:
     return values
 
 
+def history_for_request(request: ForecastRequest) -> tuple[list[float], str, str | None]:
+    with state_lock:
+        selected_source = input_source
+        telemetry_devices = list(hardware_history)
+        if selected_source == "hardware" and telemetry_devices:
+            device_id = telemetry_devices[0]
+            history = hardware_history[device_id][-336:]
+            if len(history) >= 48:
+                return history, "hardware", device_id
+    return load_history(request.latitude, request.longitude), "api", None
+
+
 def infer_forecast(history: list[float], horizon: int) -> list[float]:
     pipeline = load_pipeline()
     import torch
@@ -88,13 +121,52 @@ def spike_probability(predictions: list[float], history: list[float]) -> float:
 @app.get("/health")
 def health() -> dict[str, Any]:
     model_loaded = load_pipeline.cache_info().currsize > 0
-    return {"service": "aaam-aqi", "model": MODEL_ID, "model_loaded": model_loaded}
+    with state_lock:
+        selected_source = input_source
+        device_count = len(hardware_history)
+    return {"service": "aaam-aqi", "model": MODEL_ID, "model_loaded": model_loaded, "input_source": selected_source, "hardware_devices": device_count}
+
+
+@app.get("/api/source")
+def get_source() -> dict[str, Any]:
+    with state_lock:
+        device_ids = list(hardware_history)
+        return {"source": input_source, "device_id": device_ids[0] if device_ids else None, "hardware_devices": device_ids}
+
+
+@app.post("/api/source")
+def set_source(selection: SourceSelection) -> dict[str, Any]:
+    global input_source
+    with state_lock:
+        if selection.source == "hardware" and selection.device_id and selection.device_id not in hardware_history:
+            raise HTTPException(status_code=409, detail="No telemetry has been received from this device yet.")
+        if selection.source == "hardware" and not hardware_history:
+            raise HTTPException(status_code=409, detail="Hardware mode requires at least one telemetry sample.")
+        input_source = selection.source
+        return {"source": input_source, "device_id": selection.device_id}
+
+
+@app.post("/api/telemetry")
+def ingest_telemetry(telemetry: Telemetry) -> dict[str, Any]:
+    timestamp = telemetry.recorded_at or datetime.now(timezone.utc)
+    with state_lock:
+        history = hardware_history.setdefault(telemetry.device_id, [])
+        history.append(telemetry.aqi)
+        del history[:-336]
+        last_telemetry[telemetry.device_id] = {
+            "device_id": telemetry.device_id,
+            "aqi": telemetry.aqi,
+            "pm25": telemetry.pm25,
+            "pm10": telemetry.pm10,
+            "recorded_at": timestamp.isoformat(),
+        }
+    return {"accepted": True, "device_id": telemetry.device_id, "samples": len(history)}
 
 
 @app.post("/api/forecast")
 def forecast(request: ForecastRequest) -> dict[str, Any]:
     try:
-        history = load_history(request.latitude, request.longitude)
+        history, source, device_id = history_for_request(request)
         predictions = infer_forecast(history, request.horizon)
     except Exception as exc:
         raise HTTPException(
@@ -115,6 +187,8 @@ def forecast(request: ForecastRequest) -> dict[str, Any]:
         "spike_probability": probability,
         "spike_threshold": SPIKE_THRESHOLD,
         "history_points": len(history),
+        "input_source": source,
+        "device_id": device_id,
     }
 
 

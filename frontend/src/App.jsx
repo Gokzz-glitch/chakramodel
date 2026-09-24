@@ -62,6 +62,8 @@ function App() {
   const [modelForecast, setModelForecast] = useState(null)
   const [modelStatus, setModelStatus] = useState('Connecting to AAAM model…')
   const [modelSpikeProbability, setModelSpikeProbability] = useState(null)
+  const [inputSource, setInputSource] = useState('api')
+  const [hardwareDevice, setHardwareDevice] = useState(null)
   const currentForecast = modelForecast ?? forecast
   useEffect(() => {
     const coordinates = locations[location]
@@ -80,6 +82,15 @@ function App() {
       })
     return () => controller.abort()
   }, [location])
+  useEffect(() => {
+    fetch('/api/source')
+      .then((response) => response.json())
+      .then((data) => {
+        setInputSource(data.source)
+        setHardwareDevice(data.device_id)
+      })
+      .catch(() => setModelStatus('AAAM API unavailable'))
+  }, [])
   useEffect(() => {
     const coordinates = locations[location]
     const controller = new AbortController()
@@ -108,6 +119,22 @@ function App() {
     setToast(message)
     window.setTimeout(() => setToast(''), 2600)
   }
+  const switchInputSource = (source) => {
+    setModelStatus(source === 'hardware' ? 'Switching to hardware…' : 'Switching to city API…')
+    fetch('/api/source', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ source, device_id: source === 'hardware' ? hardwareDevice : null }),
+    })
+      .then((response) => response.ok ? response.json() : response.json().then((body) => Promise.reject(new Error(body.detail ?? 'Source switch failed'))))
+      .then((data) => {
+        setInputSource(data.source)
+        setModelForecast(null)
+        setModelSpikeProbability(null)
+        setModelStatus(source === 'hardware' ? `Hardware input · ${data.device_id}` : 'Running Chronos-2 from city API…')
+      })
+      .catch((error) => setModelStatus(error.message))
+  }
 
   const navItems = [['Overview', 'grid'], ['Forecasts', 'chart'], ['Alerts', 'bell'], ['Data sources', 'database'], ['Open-source toolkit', 'settings']]
   return <div className="shell">
@@ -119,7 +146,7 @@ function App() {
       <div className="sidebar-bottom"><div className="model-status"><span className={`status-dot ${modelForecast ? '' : 'pulse'}`} /><div><b>{modelForecast ? 'Chronos-2 online' : 'Model starting'}</b><small>{modelForecast ? 'Forecasts enabled' : 'Alerts paused'}</small></div></div><button className="user-card" onClick={() => notify('Profile settings are coming soon.')}><span className="avatar">AK</span><span><b>Arjun Kumar</b><small>Administrator</small></span><span className="more">•••</span></button></div>
     </aside>
     <main className="main">
-      <header className="topbar"><div><div className="eyebrow">AAAM / AIR QUALITY / LIVE MONITORING</div><h1>{active === 'Overview' ? 'Good morning, buddy' : active}</h1><div className="live-status"><span className={`status-dot ${liveAqi ? '' : 'pulse'}`} /> {liveStatus}<span className={`status-dot model-status-dot ${modelForecast ? '' : 'pulse'}`} /> {modelStatus}</div></div><div className="header-actions"><label className="location"><span>⌖</span><select value={location} onChange={(event) => { setLocation(event.target.value); setLiveStatus('Updating live reading…'); setLiveAqi(null); setModelStatus('Running Chronos-2…'); setModelForecast(null); setModelSpikeProbability(null) }}>{Object.keys(locations).map((name) => <option key={name}>{name}</option>)}</select></label><button className={`icon-button ${notifications ? 'has-alert' : ''}`} onClick={() => setNotifications(!notifications)} aria-label="Toggle notifications"><Icon name="bell" /></button><button className="primary-button" onClick={() => notify('Forecast refreshed using the latest uploaded data.')}><Icon name="upload" size={16} /> Update data</button></div></header>
+      <header className="topbar"><div><div className="eyebrow">AAAM / AIR QUALITY / LIVE MONITORING</div><h1>{active === 'Overview' ? 'Good morning, buddy' : active}</h1><div className="live-status"><span className={`status-dot ${liveAqi ? '' : 'pulse'}`} /> {liveStatus}<span className={`status-dot model-status-dot ${modelForecast ? '' : 'pulse'}`} /> {modelStatus}</div></div><div className="header-actions"><div className="input-toggle" role="group" aria-label="Model input source"><button className={inputSource === 'api' ? 'active' : ''} onClick={() => switchInputSource('api')}>City API</button><button className={inputSource === 'hardware' ? 'active' : ''} onClick={() => switchInputSource('hardware')}>Hardware{hardwareDevice ? ` · ${hardwareDevice}` : ''}</button></div><label className="location"><span>⌖</span><select value={location} onChange={(event) => { setLocation(event.target.value); setLiveStatus('Updating live reading…'); setLiveAqi(null); setModelStatus('Running Chronos-2…'); setModelForecast(null); setModelSpikeProbability(null) }}>{Object.keys(locations).map((name) => <option key={name}>{name}</option>)}</select></label><button className={`icon-button ${notifications ? 'has-alert' : ''}`} onClick={() => setNotifications(!notifications)} aria-label="Toggle notifications"><Icon name="bell" /></button><button className="primary-button" onClick={() => notify('Forecast refreshed using the latest uploaded data.')}><Icon name="upload" size={16} /> Update data</button></div></header>
       {active !== 'Overview' ? <Module active={active} onBack={() => setActive('Overview')} notify={notify} /> : <><section className="alert-banner"><div className="alert-icon"><Icon name="bell" /></div><div><b>{modelForecast ? 'Elevated AQI expected this weekend' : 'Spike alerts are paused'}</b><p>{modelForecast ? <>Chronos-2 detects a <strong>{modelSpikeProbability}% probability</strong> of a spike above 150 between Sat 19 – Sun 20 Sep.</> : 'AAAM is waiting for the Chronos-2 backend. Baseline values will not trigger purifier commands.'}</p></div><button onClick={() => setActive('Alerts')}>View status <Icon name="arrow" size={15} /></button><span className="dismiss" onClick={(event) => event.currentTarget.parentElement.remove()}>×</span></section>
         <section className="stat-grid"><div className="stat-card"><div className="stat-top"><span>Current AQI</span><span className="status-pill moderate">Live</span></div><div className="stat-value">{liveAqi?.value ?? 124} <small>US AQI</small></div><div className="stat-delta down">PM2.5 {liveAqi?.pm25 ?? '—'} µg/m³ <em>real-time</em></div><div className="mini-bars">{[40, 55, 44, 71, 58, 64, 49, 68, 62, 55, 48, 53].map((height, i) => <i key={i} style={{ height: `${height}%` }} />)}</div></div><div className="stat-card"><div className="stat-top"><span>Next 7-day avg.</span><span className="trend-up">↗</span></div><div className="stat-value">{Math.round(currentForecast.reduce((sum, value) => sum + value, 0) / currentForecast.length)} <small>US AQI</small></div><div className="stat-delta up">{modelForecast ? 'Chronos-2' : 'Waiting for model'} <em>{modelForecast ? 'live forecast' : 'not a model result'}</em></div><div className="sparkline"><svg viewBox="0 0 150 35" preserveAspectRatio="none"><polyline points="0,28 16,25 30,27 45,20 59,22 72,14 88,18 103,9 116,13 132,5 150,8" /></svg></div></div><div className="stat-card"><div className="stat-top"><span>Spike likelihood</span><span className={`status-pill ${modelForecast ? 'high' : 'moderate'}`}>{modelForecast ? 'Model risk' : 'Waiting'}</span></div><div className="stat-value">{modelSpikeProbability ?? '—'} <small>%</small></div><div className="stat-delta up">{modelForecast ? 'Chronos-2 probability' : 'No alert generated'} <em>threshold &gt;150</em></div><div className="risk-meter"><span style={{ width: `${modelSpikeProbability ?? 0}%` }} /></div><div className="meter-labels"><span>Low</span><span>High</span></div></div><div className="stat-card"><div className="stat-top"><span>Model confidence</span><span className="confidence-dot" /></div><div className="stat-value">{modelForecast ? 89 : '—'} <small>{modelForecast ? '%' : ''}</small></div><div className="stat-delta neutral">{modelForecast ? 'Chronos-2 ready' : 'Model offline'} <em>7-day horizon</em></div><div className="confidence-row"><span>PM10 (live)</span><b>{liveAqi?.pm10 ?? '—'} µg/m³</b></div></div></section>
         <section className="content-grid"><div className="glass-card chart-card"><div className="section-heading"><div><span className="eyebrow">PREDICTION OUTLOOK</span><h2>AQI trend & forecast</h2><p>{modelForecast ? 'Chronos-2 forecast from live AQI history.' : 'Waiting for Chronos-2 backend; no forecast alert is active.'}</p></div><div className="segmented">{['24 hours', '7 days', '30 days'].map((item) => <button key={item} className={range === item ? 'active' : ''} onClick={() => setRange(item)}>{item}</button>)}</div></div><div className="chart-legend"><span><i className="legend-history" /> Observed</span><span><i className="legend-forecast" /> {modelForecast ? 'Chronos-2' : 'Awaiting model'}</span><span><i className="legend-band" /> Confidence band</span><span className="chart-source">US AQI scale</span></div><ForecastChart values={currentForecast} /><div className="forecast-days">{forecastDays.map((day, index) => <div key={day}><span>{day}</span><b>{currentForecast[index]}</b><small className={modelForecast && currentForecast[index] > 150 ? 'risk-text' : ''}>{modelForecast && currentForecast[index] > 150 ? 'Spike risk' : modelForecast ? 'Forecast' : 'Pending'}</small></div>)}</div></div><Alerts modelReady={Boolean(modelForecast)} spikeProbability={modelSpikeProbability} onView={() => setActive('Alerts')} /></section>
