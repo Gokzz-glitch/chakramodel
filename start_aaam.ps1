@@ -43,9 +43,10 @@ try {
         wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && python3 -m venv .venv-aaam"
         if ($LASTEXITCODE -ne 0) {
             Write-Host "Installing the missing Ubuntu venv package..." -ForegroundColor Cyan
-            wsl.exe -d $wslDistro -- bash -lc "sudo -n apt-get update && sudo -n apt-get install -y python3.12-venv"
+            # Use WSL's root login directly. Windows sudo is unrelated and may be disabled.
+            wsl.exe -d $wslDistro -u root -- bash -lc "apt-get update && apt-get install -y python3.12-venv"
             if ($LASTEXITCODE -ne 0) {
-                throw "WSL needs python3.12-venv. Open Ubuntu and run: sudo apt-get update; sudo apt-get install -y python3.12-venv; then run this launcher again."
+                throw "WSL could not install python3.12-venv as root. Run 'wsl.exe -d Ubuntu -u root -- bash -lc ""apt-get update && apt-get install -y python3.12-venv""' and then run this launcher again."
             }
             wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && python3 -m venv .venv-aaam"
             if ($LASTEXITCODE -ne 0) {
@@ -53,8 +54,8 @@ try {
             }
         }
     }
-    $depsCheck = wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && . .venv-aaam/bin/activate && python -c 'import fastapi, chronos' >/dev/null 2>&1; echo `$?"
-    if ($depsCheck.Trim() -ne "0") {
+    $depsCheck = wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && . .venv-aaam/bin/activate && if python -c 'import fastapi, chronos' >/dev/null 2>&1; then echo ready; else echo missing; fi"
+    if ($depsCheck.Trim() -ne "ready") {
         Write-Host "Installing AAAM WSL model dependencies..." -ForegroundColor Cyan
         wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && . .venv-aaam/bin/activate && pip install -r requirements-aqi.txt"
         if ($LASTEXITCODE -ne 0) {
