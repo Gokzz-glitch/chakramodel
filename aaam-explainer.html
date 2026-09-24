@@ -611,6 +611,7 @@
             <li><a href="#architecture">Architecture</a></li>
             <li><a href="#dashboard">Dashboard</a></li>
             <li><a href="#api">API</a></li>
+            <li><a href="#guide">Guide</a></li>
             <li><a href="#run">Quick Start</a></li>
         </ul>
     </nav>
@@ -622,7 +623,7 @@
             <h2 class="text-gradient-coral">AAAM</h2>
             <h1>AQI Prediction Dashboard</h1>
             <h2>Automated Air-quality Alert & Monitoring</h2>
-            <p style="margin: 0 auto;">Predicting air quality spikes before they happen, powered by Amazon Chronos-2.</p>
+            <p style="margin: 0 auto;">An AQI monitoring and forecasting workbench powered by Amazon Chronos-2, with explicit safeguards around uncertainty and hardware control.</p>
         </div>
         <div class="scroll-indicator">
             <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -634,13 +635,13 @@
     <!-- 2. WHAT IS AAAM? -->
     <section id="what-is" class="container">
         <h2 class="section-title">What is AAAM?</h2>
-        <p class="section-subtitle">A seamless pipeline that bridges real-world weather data, advanced Time-Series ML, and actionable hardware commands. It monitors air quality and predicts dangerous spikes days in advance.</p>
+        <p class="section-subtitle">AAAM combines live Open-Meteo readings, historical AQI context, a pretrained time-series model, and a dashboard for alerts. It is a working local prototype; it does not yet operate a purifier or promise a calibrated prediction.</p>
         
         <div class="features-grid">
             <div class="glass-card feature-card animate-on-scroll">
                 <span class="feature-icon">📡</span>
                 <h3>Data Fetch</h3>
-                <p>Pulls real-time AQI data from the Open-Meteo API automatically.</p>
+                <p>Reads current US AQI, PM2.5, and PM10 from Open-Meteo for the selected coordinates. “Live” means provider data fetched by the browser, not a private sensor stream.</p>
             </div>
             <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 100ms;">
                 <span class="feature-icon">🧠</span>
@@ -650,17 +651,17 @@
             <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 200ms;">
                 <span class="feature-icon">📊</span>
                 <h3>Forecasting</h3>
-                <p>Predicts AQI levels accurately for the next 1 to 14 days.</p>
+                <p>Requests between 1 and 14 forecast steps. The current backend uses hourly history; the UI presents a seven-value outlook, so do not interpret each value as a guaranteed calendar day.</p>
             </div>
             <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 300ms;">
                 <span class="feature-icon">⚠️</span>
                 <h3>Spike Detection</h3>
-                <p>Calculates the probability of AQI crossing the dangerous >150 threshold.</p>
+                <p>Scores predicted exceedance of the configurable AQI 150 threshold. This is a heuristic risk score, not a calibrated probability of a future event.</p>
             </div>
             <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 400ms;">
                 <span class="feature-icon">🌬️</span>
                 <h3>Actuation</h3>
-                <p>Commands smart air purifiers via MQTT/API when risk is high.</p>
+                <p>Defines a device-command boundary, but the current endpoint returns <code>published: false</code>. MQTT/TLS publishing and physical actuation are planned, not enabled.</p>
             </div>
         </div>
     </section>
@@ -681,7 +682,7 @@
             </div>
             <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 200ms;">
                 <h3>🤖 ML Model</h3>
-                <p>Amazon Chronos-2 via HuggingFace and PyTorch 2.14 for state-of-the-art zero-shot time series forecasting.</p>
+                <p>Amazon Chronos-2 via Hugging Face and PyTorch. The tested WSL environment used Python 3.12 and PyTorch 2.14.0+cu130; exact versions can vary by environment.</p>
             </div>
             <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 300ms;">
                 <h3>☁️ Data Source</h3>
@@ -723,7 +724,7 @@
             <div class="arch-row">
                 <div class="arch-node">
                     <h4>Open-Meteo API</h4>
-                    <p>External (14 Days AQI)</p>
+                    <p>External history/current AQI</p>
                 </div>
                 <div class="arch-node">
                     <h4>Chronos-2</h4>
@@ -731,7 +732,7 @@
                 </div>
                 <div class="arch-node">
                     <h4>Hardware</h4>
-                    <p>Sensors & Purifiers</p>
+                    <p>Telemetry input; actuator planned</p>
                 </div>
             </div>
         </div>
@@ -745,7 +746,7 @@
             <!-- Step 1 -->
             <div class="timeline-step timeline-content animate-on-scroll">
                 <h3>Data Collection</h3>
-                <p>The backend calls the Open-Meteo API retrieving 14 days of hourly AQI readings (~336 data points). A minimum of 48 points is required for a reliable context window.</p>
+                <p>In API mode the backend requests up to 14 past days of hourly <code>us_aqi</code> values, roughly 336 points. It rejects a response with fewer than 48 usable observations. In hardware mode it keeps at most 336 AQI samples per device in memory and needs at least 48 samples; that buffer is lost when the process restarts.</p>
 <pre class="code-block"><code><span class="cmt"># API Call</span>
 GET <span class="str">https://air-quality-api.open-meteo.com/v1/air-quality</span>
   ?latitude=<span class="num">13.08</span>
@@ -757,23 +758,23 @@ GET <span class="str">https://air-quality-api.open-meteo.com/v1/air-quality</spa
             <!-- Step 2 -->
             <div class="timeline-step timeline-content animate-on-scroll">
                 <h3>ML Inference (Chronos-2)</h3>
-                <p>The history tensor is passed into the Chronos-2 pipeline. 64 sample trajectories are generated, and the median is taken as the final robust prediction.</p>
-<pre class="code-block"><code><span class="kw">from</span> chronos <span class="kw">import</span> ChronosPipeline
+                <p>The history tensor is passed into the configured <code>amazon/chronos-2</code> pipeline. The backend requests 64 sample trajectories and takes their median for the returned point forecast. This is model output, not a guarantee; calibrated confidence intervals are not currently returned.</p>
+<pre class="code-block"><code><span class="kw">from</span> chronos <span class="kw">import</span> Chronos2Pipeline
 <span class="kw">import</span> torch
 
-pipeline = ChronosPipeline.from_pretrained(<span class="str">"amazon/chronos-t5-small"</span>)
-context = torch.tensor(history) <span class="cmt"># 336 hourly values</span>
+pipeline = Chronos2Pipeline.from_pretrained(<span class="str">"amazon/chronos-2"</span>, device_map=<span class="str">"auto"</span>)
+context = torch.tensor(history) <span class="cmt"># hourly AQI values</span>
 
-<span class="cmt"># Generate 64 samples for the next 7 days (168 hours)</span>
-samples = pipeline.predict(context, prediction_length=<span class="num">168</span>, num_samples=<span class="num">64</span>)
+<span class="cmt"># The API currently requests 1–14 forecast steps; the UI sends 7.</span>
+samples = pipeline.predict(context, prediction_length=<span class="num">7</span>, num_samples=<span class="num">64</span>)
 median_forecast = samples.median(dim=<span class="num">0</span>).values</code></pre>
             </div>
 
             <!-- Step 3 -->
             <div class="timeline-step timeline-content animate-on-scroll">
                 <h3>Spike Detection</h3>
-                <p>The system compares the forecasted trajectory against the danger threshold (AQI > 150). It calculates the exceedance magnitude to return a probability.</p>
-                <div class="formula">P(Spike) = (Count(AQI > 150) / Forecast_Horizon) * 100%</div>
+                <p>The system compares predictions with <code>AAAM_SPIKE_THRESHOLD</code>, which defaults to 150. It uses recent-history baseline and forecast exceedance magnitude to produce a bounded score from 0.01 to 0.99. The API calls this a probability, but the score has not been statistically calibrated.</p>
+                <div class="formula">score = clamp(exceedance / (steps × max(10, 150 − recent_mean)), 0.01, 0.99)</div>
             </div>
 
             <!-- Step 4 -->
@@ -808,7 +809,7 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
             <div class="wf-main">
                 <div class="wf-card"><div class="wf-item" style="width: 50%;"></div><h1 style="color:#fff">42 AQI</h1></div>
                 <div class="wf-card"><div class="wf-item" style="width: 70%;"></div><h1 style="color:#fff">55 AQI</h1></div>
-                <div class="wf-card"><div class="wf-item" style="width: 60%;"></div><h1 style="color:#e97658">89%</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 60%;"></div><h1 style="color:#e97658">—</h1></div>
                 <div class="wf-card"><div class="wf-item" style="width: 40%;"></div><h1 style="color:#6c8de8">High</h1></div>
                 
                 <div class="wf-chart">
@@ -829,7 +830,7 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
     <!-- 7. DUAL INPUT SYSTEM -->
     <section id="dual-input" class="container">
         <h2 class="section-title">Dual Input System</h2>
-        <p class="section-subtitle">Toggle between global open-data API and local hardware telemetry seamlessly.</p>
+        <p class="section-subtitle">Choose a location-backed API source or switch to telemetry from a sensor that has already sent samples.</p>
 
         <div class="glass-card animate-on-scroll" style="padding: 0; overflow:hidden;">
             <table class="comparison-table">
@@ -853,8 +854,8 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
                     </tr>
                     <tr>
                         <td>Latency</td>
-                        <td>~20 seconds</td>
-                        <td>Real-time</td>
+                        <td>Depends on provider/network/model load</td>
+                        <td>In-memory ingestion; forecast still needs 48 samples</td>
                     </tr>
                     <tr>
                         <td>Cost</td>
@@ -863,8 +864,8 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
                     </tr>
                     <tr>
                         <td>Coverage</td>
-                        <td>6 preset cities</td>
-                        <td>Your exact location</td>
+                        <td>38 Tamil Nadu district headquarters plus Chennai, Washington, Moscow, and a Russia representative view</td>
+                        <td>Your device ID and its received AQI history</td>
                     </tr>
                 </tbody>
             </table>
@@ -884,17 +885,17 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
             <div class="glass-card api-card animate-on-scroll">
                 <span class="badge get">GET</span>
                 <span class="api-path">/health</span>
-                <p>Service health check. Verifies Chronos model is loaded and WSL is responsive.</p>
+                <p>Service health check. Reports the configured model, whether the lazy model cache is loaded, the selected source, and hardware-device count; it does not force model loading.</p>
             </div>
             <div class="glass-card api-card animate-on-scroll">
                 <span class="badge post">POST</span>
                 <span class="api-path">/api/forecast</span>
-                <p>Run AQI forecast. Requires payload with <code>latitude</code>, <code>longitude</code>, and <code>horizon</code> (days).</p>
+                <p>Run a forecast with <code>latitude</code>, <code>longitude</code>, and <code>horizon</code> (1–14 model steps). A model/provider failure returns HTTP 503 with an explicit error.</p>
             </div>
             <div class="glass-card api-card animate-on-scroll">
                 <span class="badge post">POST</span>
                 <span class="api-path">/api/telemetry</span>
-                <p>Ingest hardware sensor readings directly into the ML context buffer.</p>
+                <p>Validate and append one AQI telemetry sample, with optional PM2.5, PM10, and timestamp, to the device's in-memory context buffer.</p>
             </div>
             <div class="glass-card api-card animate-on-scroll">
                 <span class="badge post">POST</span>
@@ -904,14 +905,27 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
             <div class="glass-card api-card animate-on-scroll">
                 <span class="badge post">POST</span>
                 <span class="api-path">/api/devices/command</span>
-                <p>Send actuation commands to registered air purifiers (e.g. <code>{"action":"turn_on","fan_speed":"high"}</code>).</p>
+                <p>Validate a purifier command and return it as accepted. The current implementation deliberately reports <code>published: false</code>; no broker or purifier is contacted.</p>
             </div>
         </div>
+        <pre class="code-block animate-on-scroll"><code><span class="cmt"># Forecast request: horizon is model steps (1–14), not automatically days</span>
+POST /api/forecast
+{"latitude": 13.0827, "longitude": 80.2707, "horizon": 7}
+
+<span class="cmt"># Select hardware only after telemetry exists</span>
+POST /api/source
+{"source": "hardware", "device_id": "sensor-01"}
+
+<span class="cmt"># Successful forecast response includes these fields</span>
+{"model": "amazon/chronos-2", "forecast": [ ... ],
+ "spike_probability": 0.42, "spike_threshold": 150,
+ "history_points": 336, "input_source": "api"}</code></pre>
     </section>
 
     <!-- 9. SUPPORTED LOCATIONS -->
     <section id="locations" class="container">
         <h2 class="section-title">Supported <span class="text-gradient-coral">Locations</span></h2>
+        <p class="section-subtitle">The dashboard sends latitude/longitude to Open-Meteo. These are point locations, not city-wide or national monitoring networks. “Russia” is represented by Moscow coordinates.</p>
         
         <div class="locations-grid">
             <div class="glass-card location-card animate-on-scroll">
@@ -945,18 +959,58 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
                 <div class="loc-coords">Any Lat/Lon via API</div>
             </div>
         </div>
+        <div class="glass-card animate-on-scroll" style="margin-top: 1.5rem;">
+            <h3>Tamil Nadu district headquarters</h3>
+            <p style="margin-top: 0.75rem;">Chennai, Ariyalur, Chengalpattu, Coimbatore, Cuddalore, Dharmapuri, Dindigul, Erode, Kallakurichi, Kancheepuram, Karur, Krishnagiri, Madurai, Mayiladuthurai, Nagapattinam, Nagercoil (Kanniyakumari representation), Namakkal, Perambalur, Pudukkottai, Ramanathapuram, Ranipet, Salem, Sivaganga, Tenkasi, Thanjavur, Theni, Thoothukudi, Tiruchirappalli, Tirunelveli, Tirupathur, Tiruppur, Tiruvallur, Tiruvannamalai, Tiruvarur, Vellore, Viluppuram, and Virudhunagar.</p>
+        </div>
     </section>
 
-    <!-- 10. STARTUP SEQUENCE -->
+    <!-- 10. BEGINNER TO PRO GUIDE -->
+    <section id="guide" class="container">
+        <h2 class="section-title">Beginner to <span class="text-gradient-blue">Professional Guide</span></h2>
+        <p class="section-subtitle">What the numbers mean, how to operate the prototype, and what must be added before a production safety system.</p>
+        <div class="features-grid">
+            <div class="glass-card animate-on-scroll">
+                <h3>Beginner: what is AQI?</h3>
+                <p>AQI is an index that summarizes pollution into an easier scale. AAAM displays US AQI and also shows PM2.5 and PM10 when the provider supplies them. A larger number means worse air; 150 is the current AAAM spike threshold, not a universal medical boundary.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Beginner: what happens?</h3>
+                <p>Select a location, let the dashboard fetch a live reading, then wait for the backend to load Chronos-2 on the first forecast request. The API path supplies history; Hardware mode accepts repeated <code>POST /api/telemetry</code> samples.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Intermediate: source modes</h3>
+                <p>API mode uses Open-Meteo history and coordinates. Hardware mode uses the first registered in-memory device history and falls back to the provider if it has fewer than 48 samples. Restarting the backend clears telemetry.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Intermediate: alerts</h3>
+                <p>Alerts are shown only after a successful model response. Provider errors, missing hardware context, and model-load failures remain explicit; baseline placeholder values must not create a purifier alert.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Professional: validate forecasts</h3>
+                <p>Backtest by time-splitting the PrimeOxy workbook and external observations. Measure MAE/RMSE, threshold precision and recall, false-alert rate, latency, missing-data behavior, and calibration of the spike score before operational use.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Professional: production gate</h3>
+                <p>Add durable telemetry storage, device authentication, AWS IoT Core MQTT/TLS, signed and idempotent commands, acknowledgements, retries, stale-data fail-safe behavior, manual override, monitoring, access control, and a calibrated uncertainty policy. None of those production controls are complete in this prototype.</p>
+            </div>
+        </div>
+        <div class="glass-card animate-on-scroll" style="margin-top: 1.5rem;">
+            <h3>Important scope note</h3>
+            <p style="margin-top: 0.75rem;">The supplied PrimeOxy AQI workbook has not yet been fully normalized into the live forecasting pipeline. Current API forecasts use Open-Meteo history; current hardware forecasts use telemetry posted to this process. “Powered by Chronos-2” identifies the model, not a guarantee of forecast accuracy.</p>
+        </div>
+    </section>
+
+    <!-- 11. STARTUP SEQUENCE -->
     <section id="startup" class="container">
         <h2 class="section-title">Startup Sequence</h2>
         <p class="section-subtitle">What happens when you run <code>start_aaam.ps1</code></p>
         
         <div class="startup-steps animate-on-scroll">
             <div class="startup-box"><span class="startup-num">1</span> Check WSL Ubuntu</div>
-            <div class="startup-box"><span class="startup-num">2</span> Install Node Modules</div>
-            <div class="startup-box"><span class="startup-num">3</span> Create .venv-aaam</div>
-            <div class="startup-box"><span class="startup-num">4</span> Install PyTorch/FastAPI</div>
+            <div class="startup-box"><span class="startup-num">2</span> Check/install frontend modules</div>
+            <div class="startup-box"><span class="startup-num">3</span> Repair/create .venv-aaam</div>
+            <div class="startup-box"><span class="startup-num">4</span> Install WSL model dependencies if missing</div>
             <div class="startup-box"><span class="startup-num">5</span> Start Backend (:8000)</div>
             <div class="startup-box"><span class="startup-num">6</span> Health Check Loop</div>
             <div class="startup-box"><span class="startup-num">7</span> Start Frontend (:5173)</div>
@@ -964,7 +1018,7 @@ median_forecast = samples.median(dim=<span class="num">0</span>).values</code></
         </div>
     </section>
 
-    <!-- 11. HOW TO RUN -->
+    <!-- 12. HOW TO RUN -->
     <section id="run" class="container">
         <h2 class="section-title">How to Run</h2>
         
