@@ -37,9 +37,21 @@ try {
     }
 
     Write-Host "Checking WSL model environment..." -ForegroundColor Cyan
-    $venvCheck = wsl.exe -d $wslDistro -- bash -lc "test -x '$wslProject/.venv-aaam/bin/python' && echo ready || echo missing"
+    $venvCheck = wsl.exe -d $wslDistro -- bash -lc "test -x '$wslProject/.venv-aaam/bin/python' && test -f '$wslProject/.venv-aaam/bin/activate' && echo ready || echo missing"
     if ($venvCheck.Trim() -ne "ready") {
-        throw "WSL environment is missing. Create it in Ubuntu with: sudo apt-get install python3.12-venv; cd '$wslProject'; python3 -m venv .venv-aaam; . .venv-aaam/bin/activate; pip install -r requirements-aqi.txt"
+        Write-Host "Repairing WSL virtual environment..." -ForegroundColor Cyan
+        wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && python3 -m venv .venv-aaam"
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Installing the missing Ubuntu venv package..." -ForegroundColor Cyan
+            wsl.exe -d $wslDistro -- bash -lc "sudo -n apt-get update && sudo -n apt-get install -y python3.12-venv"
+            if ($LASTEXITCODE -ne 0) {
+                throw "WSL needs python3.12-venv. Open Ubuntu and run: sudo apt-get update; sudo apt-get install -y python3.12-venv; then run this launcher again."
+            }
+            wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && python3 -m venv .venv-aaam"
+            if ($LASTEXITCODE -ne 0) {
+                throw "WSL could not create .venv-aaam after installing python3.12-venv."
+            }
+        }
     }
     $depsCheck = wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && . .venv-aaam/bin/activate && python -c 'import fastapi, chronos' >/dev/null 2>&1; echo `$?"
     if ($depsCheck.Trim() -ne "0") {
