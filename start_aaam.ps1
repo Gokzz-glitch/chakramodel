@@ -35,6 +35,14 @@ try {
     if ($venvCheck.Trim() -ne "ready") {
         throw "WSL environment is missing. Create it in Ubuntu with: sudo apt-get install python3.12-venv; cd '$wslProject'; python3 -m venv .venv-aaam; . .venv-aaam/bin/activate; pip install -r requirements-aqi.txt"
     }
+    $depsCheck = wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && . .venv-aaam/bin/activate && python -c 'import fastapi, chronos' >/dev/null 2>&1; echo `$?"
+    if ($depsCheck.Trim() -ne "0") {
+        Write-Host "Installing AAAM WSL model dependencies..." -ForegroundColor Cyan
+        wsl.exe -d $wslDistro -- bash -lc "cd '$wslProject' && . .venv-aaam/bin/activate && pip install -r requirements-aqi.txt"
+        if ($LASTEXITCODE -ne 0) {
+            throw "WSL dependency installation failed."
+        }
+    }
 
     Write-Host "Starting FastAPI + Chronos-2 service on http://127.0.0.1:8000..." -ForegroundColor Cyan
     $apiCommand = "cd '$wslProject' && . .venv-aaam/bin/activate && AAAM_DEVICE_MAP=auto python -m uvicorn aqi_backend.main:app --host 0.0.0.0 --port 8000"
