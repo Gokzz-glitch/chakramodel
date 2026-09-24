@@ -5,6 +5,7 @@ __pycache__/
 
 # Virtual Environment
 .venv/
+.venv-aaam/
 env/
 venv/
 ENV/
@@ -40,6 +41,7 @@ outputs/clinical_reports/keyframes/
 # SECURITY: Never commit credentials or sensitive data
 .env
 *.env
+aaam-*.log
 test_smtp.py
 automated_outreach.py
 find_researchers.py

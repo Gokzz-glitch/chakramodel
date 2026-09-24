@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAAM — AQI Prediction Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0e1a;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --coral-grad: linear-gradient(135deg, #e97658, #f0a858);
+            --blue-grad: linear-gradient(135deg, #4778e9, #6c8de8);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-hover: rgba(255, 255, 255, 0.06);
+            --font-body: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+            --nav-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(71, 120, 233, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(233, 118, 88, 0.08) 0%, transparent 50%),
+                linear-gradient(var(--glass-border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+        }
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* Typography */
+        .text-gradient-coral {
+            background: var(--coral-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-blue {
+            background: var(--blue-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            font-size: 1.1rem;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+        .glass-card:hover::before {
+            left: 150%;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(71, 120, 233, 0.1);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* 1. Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: var(--nav-height);
+        }
+        .hero-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(71,120,233,0.15) 0%, rgba(233,118,88,0.15) 50%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+        }
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        .hero h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: float 2s infinite;
+        }
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--text-muted);
+        }
+
+        /* 2. What is AAAM */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 3. Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .tech-card h3 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tech-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .tech-card:hover {
+            box-shadow: 0 0 20px rgba(233, 118, 88, 0.2);
+        }
+
+        /* 4. Architecture Diagram */
+        .arch-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 4rem 2rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+        }
+        .arch-row {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            width: 100%;
+        }
+        .arch-node {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+            z-index: 2;
+            transition: 0.3s;
+        }
+        .arch-node:hover {
+            transform: scale(1.05);
+            border-color: rgba(71, 120, 233, 0.5);
+            box-shadow: 0 0 20px rgba(71, 120, 233, 0.2);
+        }
+        .arch-node h4 {
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .arch-node p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .arch-line-v, .arch-line-h {
+            position: relative;
+        }
+        .arch-line-v::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 2rem;
+            background: var(--glass-border);
+            z-index: 1;
+        }
+        .arch-line-h::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 4rem;
+            height: 2px;
+            background: var(--glass-border);
+            z-index: 1;
+        }
+
+        /* Transformer architecture slide */
+        .transformer-slide {
+            background: linear-gradient(135deg, rgba(71,120,233,0.09), rgba(233,118,88,0.06));
+            border: 1px solid rgba(108,141,232,0.28);
+            border-radius: 24px;
+            padding: 2rem;
+            overflow: hidden;
+        }
+        .transformer-flow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.75rem;
+            align-items: stretch;
+            margin: 2rem 0;
+        }
+        .transformer-stage {
+            position: relative;
+            min-height: 145px;
+            padding: 1.1rem;
+            background: rgba(5,7,15,0.58);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+        }
+        .transformer-stage:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -0.8rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #f0a858;
+            font-size: 1.4rem;
+            z-index: 2;
+        }
+        .transformer-stage .stage-number {
+            display: inline-flex;
+            width: 25px;
+            height: 25px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.65rem;
+            border-radius: 50%;
+            background: var(--blue-grad);
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.75rem;
+        }
+        .transformer-stage h4 {
+            color: #fff;
+            margin-bottom: 0.45rem;
+        }
+        .transformer-stage p {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+        .attention-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .attention-card {
+            background: rgba(5,7,15,0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 1.25rem;
+        }
+        .attention-card h4 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        .attention-card p, .attention-card li {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+        }
+        .attention-card ul {
+            padding-left: 1.2rem;
+            margin-top: 0.6rem;
+        }
+        .formula-wide {
+            display: block;
+            margin-top: 0.85rem;
+            overflow-x: auto;
+            color: #f0a858;
+            font-family: monospace;
+            font-size: 0.82rem;
+            white-space: nowrap;
+        }
+        @media (max-width: 900px) {
+            .transformer-flow { grid-template-columns: 1fr; }
+            .transformer-stage:not(:last-child)::after {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -1.1rem;
+                transform: translateX(50%);
+            }
+            .attention-panel { grid-template-columns: 1fr; }
+        }
+
+        /* Kid-friendly architecture slide */
+        .kid-slide {
+            background: linear-gradient(145deg, rgba(255,190,90,0.08), rgba(71,120,233,0.08));
+            border: 1px solid rgba(240,168,88,0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+        .kid-levels {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .kid-level {
+            display: grid;
+            grid-template-columns: 170px 1fr;
+            gap: 1.25rem;
+            align-items: center;
+            padding: 1.25rem;
+            background: rgba(5,7,15,0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+        .kid-level-label {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+        }
+        .kid-level-label small {
+            display: block;
+            margin-top: 0.3rem;
+            color: #f0a858;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+        }
+        .kid-level p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.65rem;
+        }
+        .kid-technical {
+            margin-top: 0.7rem;
+            padding: 0.7rem 0.85rem;
+            border-left: 2px solid rgba(108,141,232,0.65);
+            background: rgba(71,120,233,0.06);
+            color: #b8c5e8;
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+        .kid-technical strong { color: #fff; }
+        .kid-example {
+            margin-top: 0.55rem;
+            color: #f0a858 !important;
+            font-family: monospace;
+            font-size: 0.76rem !important;
+        }
+        .kid-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+        .kid-box {
+            display: inline-flex;
+            min-width: 88px;
+            min-height: 45px;
+            padding: 0.55rem 0.7rem;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 10px;
+            background: rgba(71,120,233,0.18);
+            border: 1px solid rgba(108,141,232,0.48);
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .kid-box.hot {
+            background: rgba(233,118,88,0.18);
+            border-color: rgba(233,118,88,0.55);
+        }
+        .kid-arrow {
+            color: #f0a858;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        .kid-attention {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.45rem;
+            width: min(100%, 560px);
+            margin: 0 auto;
+        }
+        .kid-attention::before {
+            content: '';
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            top: 50%;
+            border-top: 2px dashed rgba(240,168,88,0.55);
+        }
+        .kid-attention .kid-box {
+            position: relative;
+            z-index: 1;
+            min-width: 0;
+            background: #151b2d;
+        }
+        .kid-note {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-left: 4px solid #f0a858;
+            background: rgba(240,168,88,0.08);
+            border-radius: 8px;
+            color: var(--text-muted);
+        }
+        .kid-note strong { color: #fff; }
+        .scene-3d {
+            perspective: 900px;
+            min-height: 245px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 18px;
+            background: radial-gradient(circle at 50% 30%, rgba(71,120,233,0.2), transparent 58%), #080b16;
+            border: 1px solid var(--glass-border);
+        }
+        .scene-3d-inner {
+            position: relative;
+            width: 270px;
+            height: 180px;
+            transform-style: preserve-3d;
+            transform: rotateX(58deg) rotateZ(-28deg);
+            animation: scene-float 6s ease-in-out infinite;
+        }
+        .scene-floor {
+            position: absolute;
+            inset: 0;
+            transform: translateZ(-18px);
+            background: linear-gradient(90deg, rgba(71,120,233,0.2) 1px, transparent 1px), linear-gradient(rgba(71,120,233,0.2) 1px, transparent 1px);
+            background-size: 27px 27px;
+            border: 1px solid rgba(108,141,232,0.35);
+            box-shadow: 0 0 45px rgba(71,120,233,0.25);
+        }
+        .data-block {
+            position: absolute;
+            bottom: 24px;
+            width: 28px;
+            border: 1px solid rgba(240,168,88,0.8);
+            background: linear-gradient(#f0a858, #e97658);
+            box-shadow: 0 0 18px rgba(240,168,88,0.35);
+            transform: translateZ(10px);
+        }
+        .data-block.one { left: 28px; height: 48px; }
+        .data-block.two { left: 72px; height: 75px; }
+        .data-block.three { left: 116px; height: 103px; }
+        .data-block.four { left: 160px; height: 128px; }
+        .model-core {
+            position: absolute;
+            left: 94px;
+            top: 39px;
+            width: 100px;
+            height: 100px;
+            transform: translateZ(56px);
+            border-radius: 18px;
+            background: linear-gradient(135deg, #4778e9, #6c8de8 48%, #e97658);
+            border: 2px solid rgba(255,255,255,0.6);
+            box-shadow: 0 0 35px rgba(108,141,232,0.7);
+        }
+        .model-core::before,
+        .model-core::after {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border: 1px dashed rgba(255,255,255,0.75);
+            border-radius: 50%;
+            transform: rotateX(65deg) rotateY(25deg);
+        }
+        .model-core::after { transform: rotateX(20deg) rotateY(65deg); }
+        .model-label {
+            position: absolute;
+            left: 15px;
+            top: 42px;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            transform: rotateZ(28deg);
+        }
+        .forecast-orbit {
+            position: absolute;
+            left: 70px;
+            top: 20px;
+            width: 160px;
+            height: 145px;
+            border: 2px solid rgba(240,168,88,0.75);
+            border-left-color: transparent;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            transform: translateZ(72px) rotateX(65deg) rotateZ(18deg);
+        }
+        .alert-beacon {
+            position: absolute;
+            right: -8px;
+            top: 8px;
+            width: 40px;
+            height: 40px;
+            transform: translateZ(100px);
+            border-radius: 50%;
+            background: #e97658;
+            box-shadow: 0 0 0 9px rgba(233,118,88,0.13), 0 0 30px rgba(233,118,88,0.9);
+            animation: beacon-pulse 1.8s ease-in-out infinite;
+        }
+        @keyframes scene-float {
+            0%, 100% { transform: rotateX(58deg) rotateZ(-28deg) translateY(0); }
+            50% { transform: rotateX(58deg) rotateZ(-28deg) translateY(-9px); }
+        }
+        @keyframes beacon-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; transform: translateZ(100px) scale(1.12); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .scene-3d-inner, .alert-beacon { animation: none; }
+        }
+        @media (max-width: 700px) {
+            .kid-level { grid-template-columns: 1fr; }
+            .kid-attention { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* 5. Data Flow */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 11px;
+            width: 2px; height: 100%;
+            background: var(--glass-border);
+        }
+        .timeline-step {
+            position: relative;
+            margin-bottom: 4rem;
+        }
+        .timeline-step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            top: 0; left: -2rem;
+            width: 24px; height: 24px;
+            background: var(--bg-color);
+            border: 2px solid #4778e9;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #4778e9;
+            z-index: 2;
+        }
+        body {
+            counter-reset: step-counter;
+        }
+        .timeline-content h3 {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .timeline-content p {
+            margin-bottom: 1rem;
+        }
+        .formula {
+            display: inline-block;
+            background: rgba(233, 118, 88, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px dashed rgba(233, 118, 88, 0.3);
+            font-family: monospace;
+            color: #f0a858;
+        }
+
+        /* Code Blocks */
+        pre.code-block {
+            background: #05070f;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 1rem;
+        }
+        .kw { color: #c678dd; } /* keyword */
+        .fn { color: #61afef; } /* function */
+        .str { color: #98c379; } /* string */
+        .cmt { color: #5c6370; font-style: italic; } /* comment */
+        .num { color: #d19a66; } /* number */
+        .var { color: #e06c75; } /* variable */
+
+        /* 6. Dashboard Wireframe */
+        .wireframe {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr;
+            gap: 1rem;
+            background: #0f1423;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1rem;
+            height: 600px;
+        }
+        .wf-sidebar {
+            grid-row: 1 / 3;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .wf-header {
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+        }
+        .wf-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto 1fr;
+            gap: 1rem;
+        }
+        .wf-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+        .wf-chart {
+            grid-column: 1 / 4;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .wf-chart::before {
+            content: '';
+            position: absolute;
+            bottom: 20%; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, #e97658 50%, transparent 50%);
+            background-size: 10px 2px;
+            opacity: 0.5;
+        }
+        .wf-chart::after {
+            content: '';
+            position: absolute;
+            bottom: 20%; left: 0;
+            width: 60%; height: 2px;
+            background: #e97658;
+            transform: rotate(-10deg);
+            transform-origin: left;
+        }
+        .wf-alerts {
+            grid-column: 4 / 5;
+            background: rgba(233,118,88,0.05);
+            border: 1px solid rgba(233,118,88,0.2);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        .wf-item {
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        .wf-item.brand { height: 30px; background: var(--blue-grad); margin-bottom: 2rem; }
+        .wf-item.circle { width: 30px; height: 30px; border-radius: 50%; display: inline-block; }
+
+        /* 7. Dual Input */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .comparison-table th {
+            font-family: var(--font-heading);
+            color: #fff;
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* 8. API Endpoints */
+        .api-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .api-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .badge.get { background: rgba(71, 120, 233, 0.2); color: #6c8de8; border: 1px solid #4778e9; }
+        .badge.post { background: rgba(233, 118, 88, 0.2); color: #f0a858; border: 1px solid #e97658; }
+        .api-path { font-family: monospace; font-size: 1.1rem; color: #fff; }
+
+        /* 9. Supported Locations */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .location-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .loc-flag { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .loc-coords { font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top: 0.5rem; }
+
+        /* 10. Startup Sequence */
+        .startup-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .startup-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1rem;
+            width: 250px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .startup-num {
+            background: var(--glass-bg);
+            width: 30px; height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 4rem;
+            background: rgba(0,0,0,0.5);
+        }
+        footer p { margin-bottom: 0.5rem; color: var(--text-muted); }
+        .footer-links { margin-top: 1rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.9rem; }
+        .footer-links a:hover { color: #fff; text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .arch-row { flex-direction: column; align-items: center; gap: 2rem; }
+            .arch-line-h::after {
+                width: 2px; height: 2rem;
+                top: 100%; left: 50%; transform: translateX(-50%);
+            }
+            .wireframe { display: none; } /* Hide complex wireframe on mobile, or simplify */
+            .api-card { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#what-is">About</a></li>
+            <li><a href="#tech-stack">Tech</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#transformer">Transformer</a></li>
+            <li><a href="#kid-guide">Kid Guide</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#api">API</a></li>
+            <li><a href="#guide">Guide</a></li>
+            <li><a href="#run">Quick Start</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-bg"></div>
+        <div class="container animate-on-scroll">
+            <h2 class="text-gradient-coral">AAAM</h2>
+            <h1>AQI Prediction Dashboard</h1>
+            <h2>Automated Air-quality Alert & Monitoring</h2>
+            <p style="margin: 0 auto;">An AQI monitoring and forecasting workbench powered by Amazon Chronos-2, with explicit safeguards around uncertainty and hardware control.</p>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 2. WHAT IS AAAM? -->
+    <section id="what-is" class="container">
+        <h2 class="section-title">What is AAAM?</h2>
+        <p class="section-subtitle">AAAM combines live Open-Meteo readings, historical AQI context, a pretrained time-series model, and a dashboard for alerts. It is a working local prototype; it does not yet operate a purifier or promise a calibrated prediction.</p>
+        
+        <div class="features-grid">
+            <div class="glass-card feature-card animate-on-scroll">
+                <span class="feature-icon">📡</span>
+                <h3>Data Fetch</h3>
+                <p>Reads current US AQI, PM2.5, and PM10 from Open-Meteo for the selected coordinates. “Live” means provider data fetched by the browser, not a private sensor stream.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 100ms;">
+                <span class="feature-icon">🧠</span>
+                <h3>ML Inference</h3>
+                <p>Feeds historical data into the Amazon Chronos-2 Time-Series model.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 200ms;">
+                <span class="feature-icon">📊</span>
+                <h3>Forecasting</h3>
+                <p>Requests between 1 and 14 forecast steps. The current backend uses hourly history; the UI presents a seven-value outlook, so do not interpret each value as a guaranteed calendar day.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 300ms;">
+                <span class="feature-icon">⚠️</span>
+                <h3>Spike Detection</h3>
+                <p>Scores predicted exceedance of the configurable AQI 150 threshold. This is a heuristic risk score, not a calibrated probability of a future event.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 400ms;">
+                <span class="feature-icon">🌬️</span>
+                <h3>Actuation</h3>
+                <p>Defines a device-command boundary, but the current endpoint returns <code>published: false</code>. MQTT/TLS publishing and physical actuation are planned, not enabled.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. TECH STACK -->
+    <section id="tech-stack" class="container">
+        <h2 class="section-title">Premium <span class="text-gradient-blue">Tech Stack</span></h2>
+        <p class="section-subtitle">Built with modern, lightweight, and high-performance technologies.</p>
+
+        <div class="tech-grid">
+            <div class="glass-card tech-card animate-on-scroll">
+                <h3>⚛️ Frontend</h3>
+                <p>React 19 & Vite 8 with Vanilla CSS. A 27KB design system featuring Pure SVG charts and Glassmorphism.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 100ms;">
+                <h3>⚡ Backend</h3>
+                <p>FastAPI & Uvicorn running on Python 3.12 for lightning-fast asynchronous endpoint resolution.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 200ms;">
+                <h3>🤖 Chronos-2 + PyTorch</h3>
+                <p><strong>Chronos-2</strong> is the pretrained time-series model that learns patterns in the AQI history and generates possible future values. <strong>PyTorch</strong> is the numerical runtime that stores the history as tensors, runs the model, and performs the median calculation. AAAM asks for 64 model samples and returns their median as the point forecast. PyTorch runs on CPU or a compatible GPU; it is the engine, not a separate forecasting model.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 300ms;">
+                <h3>☁️ Data Source</h3>
+                <p>Open-Meteo Air Quality API. 100% free, requiring no API key for historical and current data.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 400ms;">
+                <h3>🖥️ Infrastructure</h3>
+                <p>WSL2 Ubuntu backend bridged natively with a PowerShell orchestrator script for Windows hosts.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 500ms;">
+                <h3>✨ Design</h3>
+                <p>DM Sans & Manrope fonts, deep dark themes, backdrop blurs, and scroll-triggered animations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ARCHITECTURE DIAGRAM -->
+    <section id="architecture" class="container">
+        <h2 class="section-title">System Architecture</h2>
+        <p class="section-subtitle">How the components interact from browser to machine learning to hardware.</p>
+
+        <div class="arch-diagram animate-on-scroll">
+            <div class="arch-row">
+                <div class="arch-node arch-line-v">
+                    <h4>User's Browser</h4>
+                    <p>React Dashboard (:5173)</p>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-node arch-line-h arch-line-v">
+                    <h4>Vite Proxy</h4>
+                    <p>Routes /api requests</p>
+                </div>
+                <div class="arch-node arch-line-v">
+                    <h4>FastAPI Backend</h4>
+                    <p>Ubuntu WSL2 (:8000)</p>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-node">
+                    <h4>Open-Meteo API</h4>
+                    <p>External history/current AQI</p>
+                </div>
+                <div class="arch-node">
+                    <h4>Chronos-2 inference</h4>
+                    <p>PyTorch tensor runtime</p>
+                </div>
+                <div class="arch-node">
+                    <h4>Hardware</h4>
+                    <p>Telemetry input; actuator planned</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4B. TRANSFORMER ARCHITECTURE SLIDE -->
+    <section id="transformer" class="container">
+        <h2 class="section-title">Inside the <span class="text-gradient-blue">Transformer</span></h2>
+        <p class="section-subtitle">A compact architecture slide showing how AAAM turns ordered AQI observations into a forecast. Chronos-2 is the pretrained model; PyTorch is the runtime that executes it.</p>
+        <div class="transformer-slide animate-on-scroll">
+            <div class="scene-3d" aria-label="3D illustration of AQI data entering a forecasting model and producing an alert">
+                <div class="scene-3d-inner">
+                    <div class="scene-floor"></div>
+                    <div class="data-block one"></div>
+                    <div class="data-block two"></div>
+                    <div class="data-block three"></div>
+                    <div class="data-block four"></div>
+                    <div class="model-core"><span class="model-label">CHRONOS<br>2</span></div>
+                    <div class="forecast-orbit"></div>
+                    <div class="alert-beacon" title="AQI spike alert"></div>
+                </div>
+            </div>
+            <div class="transformer-flow">
+                <div class="transformer-stage">
+                    <span class="stage-number">1</span>
+                    <h4>AQI context</h4>
+                    <p>Up to 336 hourly values arrive from Open-Meteo or hardware telemetry. Missing and invalid values are removed.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">2</span>
+                    <h4>Tensor representation</h4>
+                    <p>PyTorch stores the ordered numbers as a tensor and prepares them for the Chronos-2 inference pipeline.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">3</span>
+                    <h4>Self-attention</h4>
+                    <p>Transformer attention weighs relationships across the context, allowing distant AQI observations to influence one another.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">4</span>
+                    <h4>64 trajectories</h4>
+                    <p>Chronos-2 samples 64 plausible continuations for the requested 1–14 forecast steps.</p>
+                </div>
+                <div class="transformer-stage">
+                    <span class="stage-number">5</span>
+                    <h4>Forecast + risk</h4>
+                    <p>AAAM takes the median at each step, then compares the result with the AQI 150 spike threshold.</p>
+                </div>
+            </div>
+            <div class="attention-panel">
+                <div class="attention-card">
+                    <h4>What “attention” means</h4>
+                    <p>Attention is a learned weighting mechanism. For each position in the AQI sequence, the Transformer estimates which other positions are useful context. It is not a simple average and it is not LSTM memory.</p>
+                    <span class="formula-wide">attention(Q,K,V) = softmax(QKᵀ / √dₖ)V</span>
+                </div>
+                <div class="attention-card">
+                    <h4>What this implementation does not do</h4>
+                    <ul>
+                        <li>It does not retrain Chronos-2 during each request.</li>
+                        <li>It does not use a conventional LSTM or linear regression.</li>
+                        <li>It does not return calibrated confidence intervals yet.</li>
+                        <li>It does not automatically publish purifier commands.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="attention-card" style="margin-top: 1rem;">
+                <h4>Why multiple trajectories?</h4>
+                <p>Air quality is uncertain. Instead of producing only one deterministic line, the model generates multiple plausible futures. The median is used as a robust central estimate; the current AAAM API exposes a separate heuristic spike score rather than a formal uncertainty interval.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4C. KID-FRIENDLY ARCHITECTURE SLIDE -->
+    <section id="kid-guide" class="container">
+        <h2 class="section-title">How AAAM Works: <span class="text-gradient-coral">Kid to Expert</span></h2>
+        <p class="section-subtitle">Imagine AAAM as a careful air-quality detective. It looks at pollution clues from the past, guesses what may happen next, and raises a flag when the air may become unhealthy.</p>
+        <div class="kid-slide animate-on-scroll">
+            <div class="scene-3d" aria-label="3D illustration for the child-friendly air-quality detective analogy">
+                <div class="scene-3d-inner">
+                    <div class="scene-floor"></div>
+                    <div class="data-block one"></div>
+                    <div class="data-block two"></div>
+                    <div class="data-block three"></div>
+                    <div class="data-block four"></div>
+                    <div class="model-core"><span class="model-label">AQI<br>DETECTIVE</span></div>
+                    <div class="forecast-orbit"></div>
+                    <div class="alert-beacon" title="Possible spike"></div>
+                </div>
+            </div>
+            <div class="kid-levels">
+                <div class="kid-level">
+                    <div class="kid-level-label">1. Super simple<small>“Look at the clues”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">AQI 80</span><span class="kid-arrow">→</span><span class="kid-box">AQI 100</span><span class="kid-arrow">→</span><span class="kid-box hot">AQI 145</span><span class="kid-arrow">→</span><span class="kid-box">What next?</span>
+                        </div>
+                        <p>Like noticing that the air has been getting dirtier every hour. AAAM studies the order of the numbers, not just one number.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> this is a univariate time series: one measured variable, AQI, indexed by time. The order is preserved because AQI at 10:00 can be related to AQI at 09:00, 08:00, or yesterday.</div>
+                        <p class="kid-example">[80, 100, 145] → context window → future estimate</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">2. Simple<small>“Make a smart guess”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">Past AQI clues</span><span class="kid-arrow">→</span><span class="kid-box">Chronos-2 detective</span><span class="kid-arrow">→</span><span class="kid-box hot">Possible AQI</span>
+                        </div>
+                        <p>Chronos-2 is like a very experienced pattern detective. It has learned from many kinds of time patterns and uses the recent AQI clues to suggest what could come next.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> AAAM uses the pretrained <code>amazon/chronos-2</code> model. It does not retrain the model for every city or request. The selected location supplies the context; the model supplies the forecasting capability.</div>
+                        <p class="kid-example">historical context + pretrained weights → forecast distribution</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">3. Attention<small>“Which clues matter?”</small></div>
+                    <div>
+                        <div class="kid-attention">
+                            <span class="kid-box">Morning</span>
+                            <span class="kid-box">Lunch</span>
+                            <span class="kid-box hot">Traffic</span>
+                            <span class="kid-box">Evening</span>
+                            <span class="kid-box">Now</span>
+                        </div>
+                        <p>The Transformer’s attention is like highlighting important clues with a marker. It can connect “traffic was high earlier” with “AQI is rising now,” even when those clues are not next to each other.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> each position creates a query, key, and value. Similarity between queries and keys produces weights; a softmax turns those weights into a mixture of values. Multiple attention heads can learn different relationships, such as short-term changes or repeated patterns.</div>
+                        <p class="kid-example">Q = “what do I need?” · K = “what clue is this?” · V = “what information should I pass?”</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">4. More technical<small>“Try many futures”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">AQI history</span><span class="kid-arrow">→</span><span class="kid-box">PyTorch tensor</span><span class="kid-arrow">→</span><span class="kid-box">64 possible futures</span><span class="kid-arrow">→</span><span class="kid-box hot">Median forecast</span>
+                        </div>
+                        <p>Instead of trusting one guess, AAAM asks Chronos-2 for 64 possible continuations. It takes the middle value at each step so one extreme guess does not dominate.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> PyTorch holds the input tensor and executes inference. <code>prediction_length</code> is 1–14 in the API, while <code>num_samples=64</code> asks for 64 generated trajectories. AAAM takes the median along the sample dimension, then clamps negative AQI forecasts to zero.</div>
+                        <p class="kid-example">64 samples at step 1 → sort → middle sample = returned step-1 forecast</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">5. Full system<small>“Decide whether to alert”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">Open-Meteo<br>or sensor</span><span class="kid-arrow">→</span><span class="kid-box">FastAPI backend</span><span class="kid-arrow">→</span><span class="kid-box">Chronos-2 + PyTorch</span><span class="kid-arrow">→</span><span class="kid-box hot">AQI &gt; 150?</span><span class="kid-arrow">→</span><span class="kid-box hot">Dashboard alert</span>
+                        </div>
+                        <p>The complete path is: collect data, validate it, forecast the next values, compare them with the AAAM threshold of 150, and show a warning. The current prototype shows the warning; it does not yet switch on a real purifier.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> FastAPI returns the model name, forecast list, spike score, threshold, history length, source, device ID, and timestamp. The risk score uses recent 24-hour mean and forecast exceedance; it is bounded from 0.01 to 0.99 but is not calibrated probability.</div>
+                        <p class="kid-example">data → validation → tensor → model → median → risk score → React alert</p>
+                    </div>
+                </div>
+            </div>
+            <div class="kid-note"><strong>One-sentence version:</strong> AAAM is like a weather detective that reads a timeline of AQI clues, pays attention to the important clues, imagines many possible futures, chooses a middle forecast, and warns the dashboard if the air may cross the danger threshold.<br><br><strong>Engineering version:</strong> AAAM is a pretrained Transformer-based probabilistic time-series inference service. It receives validated AQI context, executes Chronos-2 through PyTorch, aggregates 64 sampled trajectories with a median, applies a heuristic exceedance score, and returns an alert-ready response to React.</div>
+        </div>
+    </section>
+
+    <!-- 5. DATA FLOW -->
+    <section id="data-flow" class="container">
+        <h2 class="section-title">Data Flow <span class="text-gradient-coral">Step-by-Step</span></h2>
+        
+        <div class="timeline">
+            <!-- Step 1 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>Data Collection</h3>
+                <p>In API mode the backend requests up to 14 past days of hourly <code>us_aqi</code> values, roughly 336 points. It rejects a response with fewer than 48 usable observations. In hardware mode it keeps at most 336 AQI samples per device in memory and needs at least 48 samples; that buffer is lost when the process restarts.</p>
+<pre class="code-block"><code><span class="cmt"># API Call</span>
+GET <span class="str">https://air-quality-api.open-meteo.com/v1/air-quality</span>
+  ?latitude=<span class="num">13.08</span>
+  &longitude=<span class="num">80.27</span>
+  &hourly=<span class="str">us_aqi</span>
+  &past_days=<span class="num">14</span></code></pre>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>ML Inference (Chronos-2)</h3>
+                <p>Chronos-2 is the forecasting model; PyTorch is the runtime underneath it. The backend converts the hourly AQI list into a PyTorch tensor, sends it through the configured <code>amazon/chronos-2</code> pipeline, requests 64 possible trajectories, and takes the median at each step. This reduces the effect of an unusually high or low sample, but it is still model output—not a guarantee—and calibrated confidence intervals are not currently returned.</p>
+<pre class="code-block"><code><span class="kw">from</span> chronos <span class="kw">import</span> Chronos2Pipeline
+<span class="kw">import</span> torch
+
+pipeline = Chronos2Pipeline.from_pretrained(<span class="str">"amazon/chronos-2"</span>, device_map=<span class="str">"auto"</span>)
+context = torch.tensor(history) <span class="cmt"># hourly AQI values</span>
+
+<span class="cmt"># The API currently requests 1–14 forecast steps; the UI sends 7.</span>
+samples = pipeline.predict(context, prediction_length=<span class="num">7</span>, num_samples=<span class="num">64</span>)
+median_forecast = samples.median(dim=<span class="num">0</span>).values</code></pre>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>Spike Detection</h3>
+                <p>The system compares predictions with <code>AAAM_SPIKE_THRESHOLD</code>, which defaults to 150. It uses recent-history baseline and forecast exceedance magnitude to produce a bounded score from 0.01 to 0.99. The API calls this a probability, but the score has not been statistically calibrated.</p>
+                <div class="formula">score = clamp(exceedance / (steps × max(10, 150 − recent_mean)), 0.01, 0.99)</div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>Dashboard Display</h3>
+                <p>The React frontend consumes the API payload and renders the SVG forecast charts, status panels, and alerts banner based on the spike probability.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. THE DASHBOARD -->
+    <section id="dashboard" class="container">
+        <h2 class="section-title">Dashboard <span class="text-gradient-blue">UI Breakdown</span></h2>
+        <p class="section-subtitle">A conceptual wireframe of the AAAM Frontend interface.</p>
+
+        <div class="wireframe animate-on-scroll">
+            <div class="wf-sidebar">
+                <div class="wf-item brand"></div>
+                <div class="wf-item"></div>
+                <div class="wf-item"></div>
+                <div class="wf-item"></div>
+                <div class="wf-item"></div>
+                <div style="margin-top: auto;" class="wf-item"></div>
+            </div>
+            <div class="wf-header">
+                <div class="wf-item" style="width: 200px; margin:0;"></div>
+                <div>
+                    <div class="wf-item circle" style="margin:0; margin-right: 10px;"></div>
+                    <div class="wf-item circle" style="margin:0;"></div>
+                </div>
+            </div>
+            <div class="wf-main">
+                <div class="wf-card"><div class="wf-item" style="width: 50%;"></div><h1 style="color:#fff">42 AQI</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 70%;"></div><h1 style="color:#fff">55 AQI</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 60%;"></div><h1 style="color:#e97658">—</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 40%;"></div><h1 style="color:#6c8de8">High</h1></div>
+                
+                <div class="wf-chart">
+                    <!-- CSS pseudo elements simulate the chart -->
+                    <span style="position:absolute; top: 10px; left: 10px; font-family:monospace; color:var(--text-muted)">AQI Forecast (7 Days)</span>
+                </div>
+                
+                <div class="wf-alerts">
+                    <h4 style="color:#e97658; margin-bottom:1rem;">⚠️ Active Alerts</h4>
+                    <div class="wf-item" style="background: rgba(233,118,88,0.2);"></div>
+                    <div class="wf-item" style="background: rgba(233,118,88,0.2);"></div>
+                    <div class="wf-item" style="background: rgba(233,118,88,0.2);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. DUAL INPUT SYSTEM -->
+    <section id="dual-input" class="container">
+        <h2 class="section-title">Dual Input System</h2>
+        <p class="section-subtitle">Choose a location-backed API source or switch to telemetry from a sensor that has already sent samples.</p>
+
+        <div class="glass-card animate-on-scroll" style="padding: 0; overflow:hidden;">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>City API Mode</th>
+                        <th>Hardware Mode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Source</td>
+                        <td>Open-Meteo</td>
+                        <td>Your local sensors</td>
+                    </tr>
+                    <tr>
+                        <td>Data Ingestion</td>
+                        <td>14 days auto-fetched</td>
+                        <td>POST /api/telemetry</td>
+                    </tr>
+                    <tr>
+                        <td>Latency</td>
+                        <td>Depends on provider/network/model load</td>
+                        <td>In-memory ingestion; forecast still needs 48 samples</td>
+                    </tr>
+                    <tr>
+                        <td>Cost</td>
+                        <td>Free</td>
+                        <td>Hardware cost</td>
+                    </tr>
+                    <tr>
+                        <td>Coverage</td>
+                        <td>38 Tamil Nadu district headquarters plus Chennai, Washington, Moscow, and a Russia representative view</td>
+                        <td>Your device ID and its received AQI history</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+<pre class="code-block animate-on-scroll"><code><span class="cmt"># Sending Hardware Telemetry</span>
+<span class="fn">curl</span> -X POST http://127.0.0.1:8000/api/telemetry \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{"device_id": "sensor-01", "aqi": 142, "pm25": 58.3}'</span></code></pre>
+    </section>
+
+    <!-- 8. API ENDPOINTS -->
+    <section id="api" class="container">
+        <h2 class="section-title">REST API Endpoints</h2>
+        
+        <div class="api-grid">
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge get">GET</span>
+                <span class="api-path">/health</span>
+                <p>Service health check. Reports the configured model, whether the lazy model cache is loaded, the selected source, and hardware-device count; it does not force model loading.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/forecast</span>
+                <p>Run a forecast with <code>latitude</code>, <code>longitude</code>, and <code>horizon</code> (1–14 model steps). A model/provider failure returns HTTP 503 with an explicit error.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/telemetry</span>
+                <p>Validate and append one AQI telemetry sample, with optional PM2.5, PM10, and timestamp, to the device's in-memory context buffer.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/source</span>
+                <p>Switch backend mode between 'api' and 'hardware'.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/devices/command</span>
+                <p>Validate a purifier command and return it as accepted. The current implementation deliberately reports <code>published: false</code>; no broker or purifier is contacted.</p>
+            </div>
+        </div>
+        <pre class="code-block animate-on-scroll"><code><span class="cmt"># Forecast request: horizon is model steps (1–14), not automatically days</span>
+POST /api/forecast
+{"latitude": 13.0827, "longitude": 80.2707, "horizon": 7}
+
+<span class="cmt"># Select hardware only after telemetry exists</span>
+POST /api/source
+{"source": "hardware", "device_id": "sensor-01"}
+
+<span class="cmt"># Successful forecast response includes these fields</span>
+{"model": "amazon/chronos-2", "forecast": [ ... ],
+ "spike_probability": 0.42, "spike_threshold": 150,
+ "history_points": 336, "input_source": "api"}</code></pre>
+    </section>
+
+    <!-- 9. SUPPORTED LOCATIONS -->
+    <section id="locations" class="container">
+        <h2 class="section-title">Supported <span class="text-gradient-coral">Locations</span></h2>
+        <p class="section-subtitle">The dashboard sends latitude/longitude to Open-Meteo. These are point locations, not city-wide or national monitoring networks. “Russia” is represented by Moscow coordinates.</p>
+        
+        <div class="locations-grid">
+            <div class="glass-card location-card animate-on-scroll">
+                <div class="loc-flag">🇮🇳</div>
+                <h3>Chennai</h3>
+                <div class="loc-coords">13.08°N, 80.27°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 100ms;">
+                <div class="loc-flag">🇮🇳</div>
+                <h3>Krishnagiri</h3>
+                <div class="loc-coords">12.52°N, 78.21°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 200ms;">
+                <div class="loc-flag">🇮🇳</div>
+                <h3>Salem</h3>
+                <div class="loc-coords">11.66°N, 78.15°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 300ms;">
+                <div class="loc-flag">🇺🇸</div>
+                <h3>Washington</h3>
+                <div class="loc-coords">38.91°N, 77.04°W</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 400ms;">
+                <div class="loc-flag">🇷🇺</div>
+                <h3>Moscow</h3>
+                <div class="loc-coords">55.76°N, 37.62°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 500ms;">
+                <div class="loc-flag">📍</div>
+                <h3>Custom</h3>
+                <div class="loc-coords">Any Lat/Lon via API</div>
+            </div>
+        </div>
+        <div class="glass-card animate-on-scroll" style="margin-top: 1.5rem;">
+            <h3>Tamil Nadu district headquarters</h3>
+            <p style="margin-top: 0.75rem;">Chennai, Ariyalur, Chengalpattu, Coimbatore, Cuddalore, Dharmapuri, Dindigul, Erode, Kallakurichi, Kancheepuram, Karur, Krishnagiri, Madurai, Mayiladuthurai, Nagapattinam, Nagercoil (Kanniyakumari representation), Namakkal, Perambalur, Pudukkottai, Ramanathapuram, Ranipet, Salem, Sivaganga, Tenkasi, Thanjavur, Theni, Thoothukudi, Tiruchirappalli, Tirunelveli, Tirupathur, Tiruppur, Tiruvallur, Tiruvannamalai, Tiruvarur, Vellore, Viluppuram, and Virudhunagar.</p>
+        </div>
+    </section>
+
+    <!-- 10. BEGINNER TO PRO GUIDE -->
+    <section id="guide" class="container">
+        <h2 class="section-title">Beginner to <span class="text-gradient-blue">Professional Guide</span></h2>
+        <p class="section-subtitle">What the numbers mean, how to operate the prototype, and what must be added before a production safety system.</p>
+        <div class="features-grid">
+            <div class="glass-card animate-on-scroll">
+                <h3>Beginner: what is AQI?</h3>
+                <p>AQI is an index that summarizes pollution into an easier scale. AAAM displays US AQI and also shows PM2.5 and PM10 when the provider supplies them. A larger number means worse air; 150 is the current AAAM spike threshold, not a universal medical boundary.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Beginner: what happens?</h3>
+                <p>Select a location, let the dashboard fetch a live reading, then wait for the backend to load Chronos-2 on the first forecast request. The API path supplies history; Hardware mode accepts repeated <code>POST /api/telemetry</code> samples.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Intermediate: source modes</h3>
+                <p>API mode uses Open-Meteo history and coordinates. Hardware mode uses the first registered in-memory device history and falls back to the provider if it has fewer than 48 samples. Restarting the backend clears telemetry.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Intermediate: alerts</h3>
+                <p>Alerts are shown only after a successful model response. Provider errors, missing hardware context, and model-load failures remain explicit; baseline placeholder values must not create a purifier alert.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Professional: validate forecasts</h3>
+                <p>Backtest by time-splitting the PrimeOxy workbook and external observations. Measure MAE/RMSE, threshold precision and recall, false-alert rate, latency, missing-data behavior, and calibration of the spike score before operational use.</p>
+            </div>
+            <div class="glass-card animate-on-scroll">
+                <h3>Professional: production gate</h3>
+                <p>Add durable telemetry storage, device authentication, AWS IoT Core MQTT/TLS, signed and idempotent commands, acknowledgements, retries, stale-data fail-safe behavior, manual override, monitoring, access control, and a calibrated uncertainty policy. None of those production controls are complete in this prototype.</p>
+            </div>
+        </div>
+        <div class="glass-card animate-on-scroll" style="margin-top: 1.5rem;">
+            <h3>Important scope note</h3>
+            <p style="margin-top: 0.75rem;">The supplied PrimeOxy AQI workbook has not yet been fully normalized into the live forecasting pipeline. Current API forecasts use Open-Meteo history; current hardware forecasts use telemetry posted to this process. “Powered by Chronos-2” identifies the model, not a guarantee of forecast accuracy.</p>
+        </div>
+    </section>
+
+    <!-- 11. STARTUP SEQUENCE -->
+    <section id="startup" class="container">
+        <h2 class="section-title">Startup Sequence</h2>
+        <p class="section-subtitle">What happens when you run <code>start_aaam.ps1</code></p>
+        
+        <div class="startup-steps animate-on-scroll">
+            <div class="startup-box"><span class="startup-num">1</span> Check WSL Ubuntu</div>
+            <div class="startup-box"><span class="startup-num">2</span> Check/install frontend modules</div>
+            <div class="startup-box"><span class="startup-num">3</span> Repair/create .venv-aaam</div>
+            <div class="startup-box"><span class="startup-num">4</span> Install WSL model dependencies if missing</div>
+            <div class="startup-box"><span class="startup-num">5</span> Start Backend (:8000)</div>
+            <div class="startup-box"><span class="startup-num">6</span> Health Check Loop</div>
+            <div class="startup-box"><span class="startup-num">7</span> Start Frontend (:5173)</div>
+            <div class="startup-box"><span class="startup-num">8</span> Dashboard Ready</div>
+        </div>
+    </section>
+
+    <!-- 12. HOW TO RUN -->
+    <section id="run" class="container">
+        <h2 class="section-title">How to Run</h2>
+        
+        <div class="glass-card animate-on-scroll">
+            <h3>One Command (Recommended)</h3>
+<pre class="code-block"><code><span class="cmt"># Run the PowerShell orchestrator</span>
+.\start_aaam.ps1
+
+<span class="cmt"># API will be available at: http://127.0.0.1:8000</span>
+<span class="cmt"># Dashboard will open at: http://localhost:5173</span>
+<span class="cmt"># Press Ctrl+C to gracefully stop all services.</span></code></pre>
+        </div>
+
+        <div class="glass-card animate-on-scroll" style="margin-top: 2rem;">
+            <h3>Manual Execution</h3>
+<pre class="code-block"><code><span class="cmt"># Terminal 1 (WSL - Backend)</span>
+<span class="fn">source</span> .venv-aaam/bin/activate
+<span class="fn">uvicorn</span> aqi_backend.main:app --host 0.0.0.0 --port 8000
+
+<span class="cmt"># Terminal 2 (Windows - Frontend)</span>
+<span class="fn">cd</span> frontend
+<span class="fn">npm</span> run dev</code></pre>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <h3 class="text-gradient-blue" style="margin-bottom: 1rem;">AAAM Dashboard</h3>
+            <p>Built for Primeoxy AQI Dataset</p>
+            <div class="footer-links">
+                <a href="#hero">Top</a>
+                <a href="#api">API Docs</a>
+                <a href="https://github.com/amazon-science/chronos-forecasting" target="_blank">Chronos</a>
+                <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
