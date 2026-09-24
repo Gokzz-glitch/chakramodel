@@ -5,7 +5,9 @@ $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $frontendRoot = Join-Path $projectRoot "frontend"
 $wslDistro = "Ubuntu"
-$wslProject = (wsl.exe -d $wslDistro -- wslpath -a $projectRoot).Trim()
+$windowsRoot = [System.IO.Path]::GetPathRoot($projectRoot)
+$driveLetter = $windowsRoot.TrimEnd('\').TrimEnd(':').ToLowerInvariant()
+$wslProject = "/mnt/$driveLetter/" + $projectRoot.Substring($windowsRoot.Length).TrimStart('\').Replace('\', '/')
 $apiLog = Join-Path $projectRoot "aaam-api.log"
 $apiErrorLog = Join-Path $projectRoot "aaam-api-error.log"
 $webLog = Join-Path $projectRoot "aaam-web.log"
@@ -23,6 +25,10 @@ function Stop-AAAM {
 
 try {
     Set-Location $projectRoot
+    wsl.exe -d $wslDistro -- true 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        throw "WSL distribution '$wslDistro' was not found. Run 'wsl.exe -l -v' to inspect installed distributions."
+    }
     if (-not (Test-Path (Join-Path $frontendRoot "node_modules"))) {
         Write-Host "Installing frontend dependencies..." -ForegroundColor Cyan
         Push-Location $frontendRoot
