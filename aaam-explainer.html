@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AAAM — AQI Prediction Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0e1a;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --coral-grad: linear-gradient(135deg, #e97658, #f0a858);
+            --blue-grad: linear-gradient(135deg, #4778e9, #6c8de8);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-hover: rgba(255, 255, 255, 0.06);
+            --font-body: 'Inter', sans-serif;
+            --font-heading: 'Outfit', sans-serif;
+            --nav-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(71, 120, 233, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(233, 118, 88, 0.08) 0%, transparent 50%),
+                linear-gradient(var(--glass-border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 600;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Nav */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: rgba(10, 14, 26, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+        }
+        nav ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        nav a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #fff;
+            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* Typography */
+        .text-gradient-coral {
+            background: var(--coral-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .text-gradient-blue {
+            background: var(--blue-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            font-size: 1.1rem;
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+        .glass-card:hover::before {
+            left: 150%;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(71, 120, 233, 0.1);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* 1. Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding-top: var(--nav-height);
+        }
+        .hero-bg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60vw;
+            height: 60vw;
+            background: radial-gradient(circle, rgba(71,120,233,0.15) 0%, rgba(233,118,88,0.15) 50%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+        }
+        .hero h1 {
+            font-size: 5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+        .hero h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: float 2s infinite;
+        }
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--text-muted);
+        }
+
+        /* 2. What is AAAM */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 3. Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .tech-card h3 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tech-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .tech-card:hover {
+            box-shadow: 0 0 20px rgba(233, 118, 88, 0.2);
+        }
+
+        /* 4. Architecture Diagram */
+        .arch-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 4rem 2rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+        }
+        .arch-row {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            width: 100%;
+        }
+        .arch-node {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 200px;
+            position: relative;
+            z-index: 2;
+            transition: 0.3s;
+        }
+        .arch-node:hover {
+            transform: scale(1.05);
+            border-color: rgba(71, 120, 233, 0.5);
+            box-shadow: 0 0 20px rgba(71, 120, 233, 0.2);
+        }
+        .arch-node h4 {
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .arch-node p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .arch-line-v, .arch-line-h {
+            position: relative;
+        }
+        .arch-line-v::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 2rem;
+            background: var(--glass-border);
+            z-index: 1;
+        }
+        .arch-line-h::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            transform: translateY(-50%);
+            width: 4rem;
+            height: 2px;
+            background: var(--glass-border);
+            z-index: 1;
+        }
+
+        /* 5. Data Flow */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-left: 2rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 11px;
+            width: 2px; height: 100%;
+            background: var(--glass-border);
+        }
+        .timeline-step {
+            position: relative;
+            margin-bottom: 4rem;
+        }
+        .timeline-step::before {
+            content: counter(step-counter);
+            counter-increment: step-counter;
+            position: absolute;
+            top: 0; left: -2rem;
+            width: 24px; height: 24px;
+            background: var(--bg-color);
+            border: 2px solid #4778e9;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: #4778e9;
+            z-index: 2;
+        }
+        body {
+            counter-reset: step-counter;
+        }
+        .timeline-content h3 {
+            margin-bottom: 1rem;
+            color: #fff;
+        }
+        .timeline-content p {
+            margin-bottom: 1rem;
+        }
+        .formula {
+            display: inline-block;
+            background: rgba(233, 118, 88, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px dashed rgba(233, 118, 88, 0.3);
+            font-family: monospace;
+            color: #f0a858;
+        }
+
+        /* Code Blocks */
+        pre.code-block {
+            background: #05070f;
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-top: 1rem;
+        }
+        .kw { color: #c678dd; } /* keyword */
+        .fn { color: #61afef; } /* function */
+        .str { color: #98c379; } /* string */
+        .cmt { color: #5c6370; font-style: italic; } /* comment */
+        .num { color: #d19a66; } /* number */
+        .var { color: #e06c75; } /* variable */
+
+        /* 6. Dashboard Wireframe */
+        .wireframe {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr;
+            gap: 1rem;
+            background: #0f1423;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1rem;
+            height: 600px;
+        }
+        .wf-sidebar {
+            grid-row: 1 / 3;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .wf-header {
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+        }
+        .wf-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: auto 1fr;
+            gap: 1rem;
+        }
+        .wf-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+        .wf-chart {
+            grid-column: 1 / 4;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .wf-chart::before {
+            content: '';
+            position: absolute;
+            bottom: 20%; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, #e97658 50%, transparent 50%);
+            background-size: 10px 2px;
+            opacity: 0.5;
+        }
+        .wf-chart::after {
+            content: '';
+            position: absolute;
+            bottom: 20%; left: 0;
+            width: 60%; height: 2px;
+            background: #e97658;
+            transform: rotate(-10deg);
+            transform-origin: left;
+        }
+        .wf-alerts {
+            grid-column: 4 / 5;
+            background: rgba(233,118,88,0.05);
+            border: 1px solid rgba(233,118,88,0.2);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+        .wf-item {
+            height: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+        .wf-item.brand { height: 30px; background: var(--blue-grad); margin-bottom: 2rem; }
+        .wf-item.circle { width: 30px; height: 30px; border-radius: 50%; display: inline-block; }
+
+        /* 7. Dual Input */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .comparison-table th {
+            font-family: var(--font-heading);
+            color: #fff;
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* 8. API Endpoints */
+        .api-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .api-card {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+        }
+        .badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+        .badge.get { background: rgba(71, 120, 233, 0.2); color: #6c8de8; border: 1px solid #4778e9; }
+        .badge.post { background: rgba(233, 118, 88, 0.2); color: #f0a858; border: 1px solid #e97658; }
+        .api-path { font-family: monospace; font-size: 1.1rem; color: #fff; }
+
+        /* 9. Supported Locations */
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+        .location-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .loc-flag { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .loc-coords { font-size: 0.8rem; color: var(--text-muted); font-family: monospace; margin-top: 0.5rem; }
+
+        /* 10. Startup Sequence */
+        .startup-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+        }
+        .startup-box {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 1rem;
+            width: 250px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .startup-num {
+            background: var(--glass-bg);
+            width: 30px; height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--glass-border);
+            margin-top: 4rem;
+            background: rgba(0,0,0,0.5);
+        }
+        footer p { margin-bottom: 0.5rem; color: var(--text-muted); }
+        .footer-links { margin-top: 1rem; display: flex; justify-content: center; gap: 1.5rem; font-size: 0.9rem; }
+        .footer-links a:hover { color: #fff; text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .arch-row { flex-direction: column; align-items: center; gap: 2rem; }
+            .arch-line-h::after {
+                width: 2px; height: 2rem;
+                top: 100%; left: 50%; transform: translateX(-50%);
+            }
+            .wireframe { display: none; } /* Hide complex wireframe on mobile, or simplify */
+            .api-card { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#what-is">About</a></li>
+            <li><a href="#tech-stack">Tech</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#api">API</a></li>
+            <li><a href="#run">Quick Start</a></li>
+        </ul>
+    </nav>
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="hero">
+        <div class="hero-bg"></div>
+        <div class="container animate-on-scroll">
+            <h2 class="text-gradient-coral">AAAM</h2>
+            <h1>AQI Prediction Dashboard</h1>
+            <h2>Automated Air-quality Alert & Monitoring</h2>
+            <p style="margin: 0 auto;">Predicting air quality spikes before they happen, powered by Amazon Chronos-2.</p>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- 2. WHAT IS AAAM? -->
+    <section id="what-is" class="container">
+        <h2 class="section-title">What is AAAM?</h2>
+        <p class="section-subtitle">A seamless pipeline that bridges real-world weather data, advanced Time-Series ML, and actionable hardware commands. It monitors air quality and predicts dangerous spikes days in advance.</p>
+        
+        <div class="features-grid">
+            <div class="glass-card feature-card animate-on-scroll">
+                <span class="feature-icon">📡</span>
+                <h3>Data Fetch</h3>
+                <p>Pulls real-time AQI data from the Open-Meteo API automatically.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 100ms;">
+                <span class="feature-icon">🧠</span>
+                <h3>ML Inference</h3>
+                <p>Feeds historical data into the Amazon Chronos-2 Time-Series model.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 200ms;">
+                <span class="feature-icon">📊</span>
+                <h3>Forecasting</h3>
+                <p>Predicts AQI levels accurately for the next 1 to 14 days.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 300ms;">
+                <span class="feature-icon">⚠️</span>
+                <h3>Spike Detection</h3>
+                <p>Calculates the probability of AQI crossing the dangerous >150 threshold.</p>
+            </div>
+            <div class="glass-card feature-card animate-on-scroll" style="transition-delay: 400ms;">
+                <span class="feature-icon">🌬️</span>
+                <h3>Actuation</h3>
+                <p>Commands smart air purifiers via MQTT/API when risk is high.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. TECH STACK -->
+    <section id="tech-stack" class="container">
+        <h2 class="section-title">Premium <span class="text-gradient-blue">Tech Stack</span></h2>
+        <p class="section-subtitle">Built with modern, lightweight, and high-performance technologies.</p>
+
+        <div class="tech-grid">
+            <div class="glass-card tech-card animate-on-scroll">
+                <h3>⚛️ Frontend</h3>
+                <p>React 19 & Vite 8 with Vanilla CSS. A 27KB design system featuring Pure SVG charts and Glassmorphism.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 100ms;">
+                <h3>⚡ Backend</h3>
+                <p>FastAPI & Uvicorn running on Python 3.12 for lightning-fast asynchronous endpoint resolution.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 200ms;">
+                <h3>🤖 ML Model</h3>
+                <p>Amazon Chronos-2 via HuggingFace and PyTorch 2.14 for state-of-the-art zero-shot time series forecasting.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 300ms;">
+                <h3>☁️ Data Source</h3>
+                <p>Open-Meteo Air Quality API. 100% free, requiring no API key for historical and current data.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 400ms;">
+                <h3>🖥️ Infrastructure</h3>
+                <p>WSL2 Ubuntu backend bridged natively with a PowerShell orchestrator script for Windows hosts.</p>
+            </div>
+            <div class="glass-card tech-card animate-on-scroll" style="transition-delay: 500ms;">
+                <h3>✨ Design</h3>
+                <p>DM Sans & Manrope fonts, deep dark themes, backdrop blurs, and scroll-triggered animations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ARCHITECTURE DIAGRAM -->
+    <section id="architecture" class="container">
+        <h2 class="section-title">System Architecture</h2>
+        <p class="section-subtitle">How the components interact from browser to machine learning to hardware.</p>
+
+        <div class="arch-diagram animate-on-scroll">
+            <div class="arch-row">
+                <div class="arch-node arch-line-v">
+                    <h4>User's Browser</h4>
+                    <p>React Dashboard (:5173)</p>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-node arch-line-h arch-line-v">
+                    <h4>Vite Proxy</h4>
+                    <p>Routes /api requests</p>
+                </div>
+                <div class="arch-node arch-line-v">
+                    <h4>FastAPI Backend</h4>
+                    <p>Ubuntu WSL2 (:8000)</p>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-node">
+                    <h4>Open-Meteo API</h4>
+                    <p>External (14 Days AQI)</p>
+                </div>
+                <div class="arch-node">
+                    <h4>Chronos-2</h4>
+                    <p>PyTorch Pipeline</p>
+                </div>
+                <div class="arch-node">
+                    <h4>Hardware</h4>
+                    <p>Sensors & Purifiers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. DATA FLOW -->
+    <section id="data-flow" class="container">
+        <h2 class="section-title">Data Flow <span class="text-gradient-coral">Step-by-Step</span></h2>
+        
+        <div class="timeline">
+            <!-- Step 1 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>Data Collection</h3>
+                <p>The backend calls the Open-Meteo API retrieving 14 days of hourly AQI readings (~336 data points). A minimum of 48 points is required for a reliable context window.</p>
+<pre class="code-block"><code><span class="cmt"># API Call</span>
+GET <span class="str">https://air-quality-api.open-meteo.com/v1/air-quality</span>
+  ?latitude=<span class="num">13.08</span>
+  &longitude=<span class="num">80.27</span>
+  &hourly=<span class="str">us_aqi</span>
+  &past_days=<span class="num">14</span></code></pre>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>ML Inference (Chronos-2)</h3>
+                <p>The history tensor is passed into the Chronos-2 pipeline. 64 sample trajectories are generated, and the median is taken as the final robust prediction.</p>
+<pre class="code-block"><code><span class="kw">from</span> chronos <span class="kw">import</span> ChronosPipeline
+<span class="kw">import</span> torch
+
+pipeline = ChronosPipeline.from_pretrained(<span class="str">"amazon/chronos-t5-small"</span>)
+context = torch.tensor(history) <span class="cmt"># 336 hourly values</span>
+
+<span class="cmt"># Generate 64 samples for the next 7 days (168 hours)</span>
+samples = pipeline.predict(context, prediction_length=<span class="num">168</span>, num_samples=<span class="num">64</span>)
+median_forecast = samples.median(dim=<span class="num">0</span>).values</code></pre>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>Spike Detection</h3>
+                <p>The system compares the forecasted trajectory against the danger threshold (AQI > 150). It calculates the exceedance magnitude to return a probability.</p>
+                <div class="formula">P(Spike) = (Count(AQI > 150) / Forecast_Horizon) * 100%</div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="timeline-step timeline-content animate-on-scroll">
+                <h3>Dashboard Display</h3>
+                <p>The React frontend consumes the API payload and renders the SVG forecast charts, status panels, and alerts banner based on the spike probability.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. THE DASHBOARD -->
+    <section id="dashboard" class="container">
+        <h2 class="section-title">Dashboard <span class="text-gradient-blue">UI Breakdown</span></h2>
+        <p class="section-subtitle">A conceptual wireframe of the AAAM Frontend interface.</p>
+
+        <div class="wireframe animate-on-scroll">
+            <div class="wf-sidebar">
+                <div class="wf-item brand"></div>
+                <div class="wf-item"></div>
+                <div class="wf-item"></div>
+                <div class="wf-item"></div>
+                <div class="wf-item"></div>
+                <div style="margin-top: auto;" class="wf-item"></div>
+            </div>
+            <div class="wf-header">
+                <div class="wf-item" style="width: 200px; margin:0;"></div>
+                <div>
+                    <div class="wf-item circle" style="margin:0; margin-right: 10px;"></div>
+                    <div class="wf-item circle" style="margin:0;"></div>
+                </div>
+            </div>
+            <div class="wf-main">
+                <div class="wf-card"><div class="wf-item" style="width: 50%;"></div><h1 style="color:#fff">42 AQI</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 70%;"></div><h1 style="color:#fff">55 AQI</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 60%;"></div><h1 style="color:#e97658">89%</h1></div>
+                <div class="wf-card"><div class="wf-item" style="width: 40%;"></div><h1 style="color:#6c8de8">High</h1></div>
+                
+                <div class="wf-chart">
+                    <!-- CSS pseudo elements simulate the chart -->
+                    <span style="position:absolute; top: 10px; left: 10px; font-family:monospace; color:var(--text-muted)">AQI Forecast (7 Days)</span>
+                </div>
+                
+                <div class="wf-alerts">
+                    <h4 style="color:#e97658; margin-bottom:1rem;">⚠️ Active Alerts</h4>
+                    <div class="wf-item" style="background: rgba(233,118,88,0.2);"></div>
+                    <div class="wf-item" style="background: rgba(233,118,88,0.2);"></div>
+                    <div class="wf-item" style="background: rgba(233,118,88,0.2);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. DUAL INPUT SYSTEM -->
+    <section id="dual-input" class="container">
+        <h2 class="section-title">Dual Input System</h2>
+        <p class="section-subtitle">Toggle between global open-data API and local hardware telemetry seamlessly.</p>
+
+        <div class="glass-card animate-on-scroll" style="padding: 0; overflow:hidden;">
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>City API Mode</th>
+                        <th>Hardware Mode</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Source</td>
+                        <td>Open-Meteo</td>
+                        <td>Your local sensors</td>
+                    </tr>
+                    <tr>
+                        <td>Data Ingestion</td>
+                        <td>14 days auto-fetched</td>
+                        <td>POST /api/telemetry</td>
+                    </tr>
+                    <tr>
+                        <td>Latency</td>
+                        <td>~20 seconds</td>
+                        <td>Real-time</td>
+                    </tr>
+                    <tr>
+                        <td>Cost</td>
+                        <td>Free</td>
+                        <td>Hardware cost</td>
+                    </tr>
+                    <tr>
+                        <td>Coverage</td>
+                        <td>6 preset cities</td>
+                        <td>Your exact location</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+<pre class="code-block animate-on-scroll"><code><span class="cmt"># Sending Hardware Telemetry</span>
+<span class="fn">curl</span> -X POST http://127.0.0.1:8000/api/telemetry \
+  -H <span class="str">"Content-Type: application/json"</span> \
+  -d <span class="str">'{"device_id": "sensor-01", "aqi": 142, "pm25": 58.3}'</span></code></pre>
+    </section>
+
+    <!-- 8. API ENDPOINTS -->
+    <section id="api" class="container">
+        <h2 class="section-title">REST API Endpoints</h2>
+        
+        <div class="api-grid">
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge get">GET</span>
+                <span class="api-path">/health</span>
+                <p>Service health check. Verifies Chronos model is loaded and WSL is responsive.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/forecast</span>
+                <p>Run AQI forecast. Requires payload with <code>latitude</code>, <code>longitude</code>, and <code>horizon</code> (days).</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/telemetry</span>
+                <p>Ingest hardware sensor readings directly into the ML context buffer.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/source</span>
+                <p>Switch backend mode between 'api' and 'hardware'.</p>
+            </div>
+            <div class="glass-card api-card animate-on-scroll">
+                <span class="badge post">POST</span>
+                <span class="api-path">/api/devices/command</span>
+                <p>Send actuation commands to registered air purifiers (e.g. <code>{"action":"turn_on","fan_speed":"high"}</code>).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. SUPPORTED LOCATIONS -->
+    <section id="locations" class="container">
+        <h2 class="section-title">Supported <span class="text-gradient-coral">Locations</span></h2>
+        
+        <div class="locations-grid">
+            <div class="glass-card location-card animate-on-scroll">
+                <div class="loc-flag">🇮🇳</div>
+                <h3>Chennai</h3>
+                <div class="loc-coords">13.08°N, 80.27°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 100ms;">
+                <div class="loc-flag">🇮🇳</div>
+                <h3>Krishnagiri</h3>
+                <div class="loc-coords">12.52°N, 78.21°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 200ms;">
+                <div class="loc-flag">🇮🇳</div>
+                <h3>Salem</h3>
+                <div class="loc-coords">11.66°N, 78.15°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 300ms;">
+                <div class="loc-flag">🇺🇸</div>
+                <h3>Washington</h3>
+                <div class="loc-coords">38.91°N, 77.04°W</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 400ms;">
+                <div class="loc-flag">🇷🇺</div>
+                <h3>Moscow</h3>
+                <div class="loc-coords">55.76°N, 37.62°E</div>
+            </div>
+            <div class="glass-card location-card animate-on-scroll" style="transition-delay: 500ms;">
+                <div class="loc-flag">📍</div>
+                <h3>Custom</h3>
+                <div class="loc-coords">Any Lat/Lon via API</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 10. STARTUP SEQUENCE -->
+    <section id="startup" class="container">
+        <h2 class="section-title">Startup Sequence</h2>
+        <p class="section-subtitle">What happens when you run <code>start_aaam.ps1</code></p>
+        
+        <div class="startup-steps animate-on-scroll">
+            <div class="startup-box"><span class="startup-num">1</span> Check WSL Ubuntu</div>
+            <div class="startup-box"><span class="startup-num">2</span> Install Node Modules</div>
+            <div class="startup-box"><span class="startup-num">3</span> Create .venv-aaam</div>
+            <div class="startup-box"><span class="startup-num">4</span> Install PyTorch/FastAPI</div>
+            <div class="startup-box"><span class="startup-num">5</span> Start Backend (:8000)</div>
+            <div class="startup-box"><span class="startup-num">6</span> Health Check Loop</div>
+            <div class="startup-box"><span class="startup-num">7</span> Start Frontend (:5173)</div>
+            <div class="startup-box"><span class="startup-num">8</span> Dashboard Ready</div>
+        </div>
+    </section>
+
+    <!-- 11. HOW TO RUN -->
+    <section id="run" class="container">
+        <h2 class="section-title">How to Run</h2>
+        
+        <div class="glass-card animate-on-scroll">
+            <h3>One Command (Recommended)</h3>
+<pre class="code-block"><code><span class="cmt"># Run the PowerShell orchestrator</span>
+.\start_aaam.ps1
+
+<span class="cmt"># API will be available at: http://127.0.0.1:8000</span>
+<span class="cmt"># Dashboard will open at: http://localhost:5173</span>
+<span class="cmt"># Press Ctrl+C to gracefully stop all services.</span></code></pre>
+        </div>
+
+        <div class="glass-card animate-on-scroll" style="margin-top: 2rem;">
+            <h3>Manual Execution</h3>
+<pre class="code-block"><code><span class="cmt"># Terminal 1 (WSL - Backend)</span>
+<span class="fn">source</span> .venv-aaam/bin/activate
+<span class="fn">uvicorn</span> aqi_backend.main:app --host 0.0.0.0 --port 8000
+
+<span class="cmt"># Terminal 2 (Windows - Frontend)</span>
+<span class="fn">cd</span> frontend
+<span class="fn">npm</span> run dev</code></pre>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <h3 class="text-gradient-blue" style="margin-bottom: 1rem;">AAAM Dashboard</h3>
+            <p>Built for Primeoxy AQI Dataset</p>
+            <p>Tata Centre for Technology and Design, 2026</p>
+            <div class="footer-links">
+                <a href="#hero">Top</a>
+                <a href="#api">API Docs</a>
+                <a href="https://github.com/amazon-science/chronos-forecasting" target="_blank">Chronos</a>
+                <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        document.addEventListener("DOMContentLoaded", () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, { 
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
