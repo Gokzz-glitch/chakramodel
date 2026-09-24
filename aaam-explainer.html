@@ -430,6 +430,128 @@
             .attention-panel { grid-template-columns: 1fr; }
         }
 
+        /* Kid-friendly architecture slide */
+        .kid-slide {
+            background: linear-gradient(145deg, rgba(255,190,90,0.08), rgba(71,120,233,0.08));
+            border: 1px solid rgba(240,168,88,0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+        .kid-levels {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .kid-level {
+            display: grid;
+            grid-template-columns: 170px 1fr;
+            gap: 1.25rem;
+            align-items: center;
+            padding: 1.25rem;
+            background: rgba(5,7,15,0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+        }
+        .kid-level-label {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+        }
+        .kid-level-label small {
+            display: block;
+            margin-top: 0.3rem;
+            color: #f0a858;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+        }
+        .kid-level p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 0.65rem;
+        }
+        .kid-technical {
+            margin-top: 0.7rem;
+            padding: 0.7rem 0.85rem;
+            border-left: 2px solid rgba(108,141,232,0.65);
+            background: rgba(71,120,233,0.06);
+            color: #b8c5e8;
+            font-size: 0.78rem;
+            line-height: 1.5;
+        }
+        .kid-technical strong { color: #fff; }
+        .kid-example {
+            margin-top: 0.55rem;
+            color: #f0a858 !important;
+            font-family: monospace;
+            font-size: 0.76rem !important;
+        }
+        .kid-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+        }
+        .kid-box {
+            display: inline-flex;
+            min-width: 88px;
+            min-height: 45px;
+            padding: 0.55rem 0.7rem;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border-radius: 10px;
+            background: rgba(71,120,233,0.18);
+            border: 1px solid rgba(108,141,232,0.48);
+            color: #fff;
+            font-size: 0.78rem;
+            font-weight: 600;
+        }
+        .kid-box.hot {
+            background: rgba(233,118,88,0.18);
+            border-color: rgba(233,118,88,0.55);
+        }
+        .kid-arrow {
+            color: #f0a858;
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+        .kid-attention {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.45rem;
+            width: min(100%, 560px);
+            margin: 0 auto;
+        }
+        .kid-attention::before {
+            content: '';
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            top: 50%;
+            border-top: 2px dashed rgba(240,168,88,0.55);
+        }
+        .kid-attention .kid-box {
+            position: relative;
+            z-index: 1;
+            min-width: 0;
+            background: #151b2d;
+        }
+        .kid-note {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-left: 4px solid #f0a858;
+            background: rgba(240,168,88,0.08);
+            border-radius: 8px;
+            color: var(--text-muted);
+        }
+        .kid-note strong { color: #fff; }
+        @media (max-width: 700px) {
+            .kid-level { grid-template-columns: 1fr; }
+            .kid-attention { grid-template-columns: repeat(3, 1fr); }
+        }
+
         /* 5. Data Flow */
         .timeline {
             position: relative;
@@ -710,6 +832,7 @@
             <li><a href="#tech-stack">Tech</a></li>
             <li><a href="#architecture">Architecture</a></li>
             <li><a href="#transformer">Transformer</a></li>
+            <li><a href="#kid-guide">Kid Guide</a></li>
             <li><a href="#dashboard">Dashboard</a></li>
             <li><a href="#api">API</a></li>
             <li><a href="#guide">Guide</a></li>
@@ -891,6 +1014,76 @@
                 <h4>Why multiple trajectories?</h4>
                 <p>Air quality is uncertain. Instead of producing only one deterministic line, the model generates multiple plausible futures. The median is used as a robust central estimate; the current AAAM API exposes a separate heuristic spike score rather than a formal uncertainty interval.</p>
             </div>
+        </div>
+    </section>
+
+    <!-- 4C. KID-FRIENDLY ARCHITECTURE SLIDE -->
+    <section id="kid-guide" class="container">
+        <h2 class="section-title">How AAAM Works: <span class="text-gradient-coral">Kid to Expert</span></h2>
+        <p class="section-subtitle">Imagine AAAM as a careful air-quality detective. It looks at pollution clues from the past, guesses what may happen next, and raises a flag when the air may become unhealthy.</p>
+        <div class="kid-slide animate-on-scroll">
+            <div class="kid-levels">
+                <div class="kid-level">
+                    <div class="kid-level-label">1. Super simple<small>“Look at the clues”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">AQI 80</span><span class="kid-arrow">→</span><span class="kid-box">AQI 100</span><span class="kid-arrow">→</span><span class="kid-box hot">AQI 145</span><span class="kid-arrow">→</span><span class="kid-box">What next?</span>
+                        </div>
+                        <p>Like noticing that the air has been getting dirtier every hour. AAAM studies the order of the numbers, not just one number.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> this is a univariate time series: one measured variable, AQI, indexed by time. The order is preserved because AQI at 10:00 can be related to AQI at 09:00, 08:00, or yesterday.</div>
+                        <p class="kid-example">[80, 100, 145] → context window → future estimate</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">2. Simple<small>“Make a smart guess”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">Past AQI clues</span><span class="kid-arrow">→</span><span class="kid-box">Chronos-2 detective</span><span class="kid-arrow">→</span><span class="kid-box hot">Possible AQI</span>
+                        </div>
+                        <p>Chronos-2 is like a very experienced pattern detective. It has learned from many kinds of time patterns and uses the recent AQI clues to suggest what could come next.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> AAAM uses the pretrained <code>amazon/chronos-2</code> model. It does not retrain the model for every city or request. The selected location supplies the context; the model supplies the forecasting capability.</div>
+                        <p class="kid-example">historical context + pretrained weights → forecast distribution</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">3. Attention<small>“Which clues matter?”</small></div>
+                    <div>
+                        <div class="kid-attention">
+                            <span class="kid-box">Morning</span>
+                            <span class="kid-box">Lunch</span>
+                            <span class="kid-box hot">Traffic</span>
+                            <span class="kid-box">Evening</span>
+                            <span class="kid-box">Now</span>
+                        </div>
+                        <p>The Transformer’s attention is like highlighting important clues with a marker. It can connect “traffic was high earlier” with “AQI is rising now,” even when those clues are not next to each other.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> each position creates a query, key, and value. Similarity between queries and keys produces weights; a softmax turns those weights into a mixture of values. Multiple attention heads can learn different relationships, such as short-term changes or repeated patterns.</div>
+                        <p class="kid-example">Q = “what do I need?” · K = “what clue is this?” · V = “what information should I pass?”</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">4. More technical<small>“Try many futures”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">AQI history</span><span class="kid-arrow">→</span><span class="kid-box">PyTorch tensor</span><span class="kid-arrow">→</span><span class="kid-box">64 possible futures</span><span class="kid-arrow">→</span><span class="kid-box hot">Median forecast</span>
+                        </div>
+                        <p>Instead of trusting one guess, AAAM asks Chronos-2 for 64 possible continuations. It takes the middle value at each step so one extreme guess does not dominate.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> PyTorch holds the input tensor and executes inference. <code>prediction_length</code> is 1–14 in the API, while <code>num_samples=64</code> asks for 64 generated trajectories. AAAM takes the median along the sample dimension, then clamps negative AQI forecasts to zero.</div>
+                        <p class="kid-example">64 samples at step 1 → sort → middle sample = returned step-1 forecast</p>
+                    </div>
+                </div>
+                <div class="kid-level">
+                    <div class="kid-level-label">5. Full system<small>“Decide whether to alert”</small></div>
+                    <div>
+                        <div class="kid-diagram">
+                            <span class="kid-box">Open-Meteo<br>or sensor</span><span class="kid-arrow">→</span><span class="kid-box">FastAPI backend</span><span class="kid-arrow">→</span><span class="kid-box">Chronos-2 + PyTorch</span><span class="kid-arrow">→</span><span class="kid-box hot">AQI &gt; 150?</span><span class="kid-arrow">→</span><span class="kid-box hot">Dashboard alert</span>
+                        </div>
+                        <p>The complete path is: collect data, validate it, forecast the next values, compare them with the AAAM threshold of 150, and show a warning. The current prototype shows the warning; it does not yet switch on a real purifier.</p>
+                        <div class="kid-technical"><strong>Technical view:</strong> FastAPI returns the model name, forecast list, spike score, threshold, history length, source, device ID, and timestamp. The risk score uses recent 24-hour mean and forecast exceedance; it is bounded from 0.01 to 0.99 but is not calibrated probability.</div>
+                        <p class="kid-example">data → validation → tensor → model → median → risk score → React alert</p>
+                    </div>
+                </div>
+            </div>
+            <div class="kid-note"><strong>One-sentence version:</strong> AAAM is like a weather detective that reads a timeline of AQI clues, pays attention to the important clues, imagines many possible futures, chooses a middle forecast, and warns the dashboard if the air may cross the danger threshold.<br><br><strong>Engineering version:</strong> AAAM is a pretrained Transformer-based probabilistic time-series inference service. It receives validated AQI context, executes Chronos-2 through PyTorch, aggregates 64 sampled trajectories with a median, applies a heuristic exceedance score, and returns an alert-ready response to React.</div>
         </div>
     </section>
 
