@@ -1,0 +1,400 @@
+{
+ "tag": "r6_mixneg__vit_dpt_l__s43",
+ "model": "vit_dpt_l",
+ "manifest": "r6_mixneg.csv",
+ "seed": 43,
+ "epochs": 50,
+ "size": 352,
+ "params": 311565569,
+ "best_val_mDice": 0.680241246669341,
+ "bs": 4,
+ "accum": 4,
+ "effective_batch": 16,
+ "backbone_lr": 3.777893186295722e-07,
+ "lr": 0.0001,
+ "clip": 1.0,
+ "warmup_frac": 0.06,
+ "n_gpu": 2,
+ "workers": 4,
+ "llrd": 0.8,
+ "drop_path": 0.2,
+ "fast": true,
+ "amp_dtype": "bfloat16",
+ "compiled": false,
+ "deterministic": false,
+ "tf32": true,
+ "gpu_names": [
+  "Tesla T4",
+  "Tesla T4"
+ ],
+ "train_n": 1536,
+ "val_n": 222,
+ "train_minutes": 246.11437637408574,
+ "log": [
+  {
+   "epoch": 1,
+   "loss": 1.2303714792554576,
+   "val_mDice": 0.680241246669341,
+   "min": 4.940335536003113
+  },
+  {
+   "epoch": 2,
+   "loss": 1.2678242086743314,
+   "val_mDice": 0.2397988237633192,
+   "min": 9.888537474473317
+  },
+  {
+   "epoch": 3,
+   "loss": 1.6799482880160213,
+   "val_mDice": 0.23164410268206131,
+   "min": 14.804944189389547
+  },
+  {
+   "epoch": 4,
+   "loss": 1.6134709380567074,
+   "val_mDice": 0.2516282432771542,
+   "min": 19.708278048038483
+  },
+  {
+   "epoch": 5,
+   "loss": 1.4521313722555835,
+   "val_mDice": 0.0,
+   "min": 24.60385290781657
+  },
+  {
+   "epoch": 6,
+   "loss": 1.3827039568374555,
+   "val_mDice": 0.0,
+   "min": 29.509300541877746
+  },
+  {
+   "epoch": 7,
+   "loss": 1.3635402967532475,
+   "val_mDice": 0.0,
+   "min": 34.40760160684586
+  },
+  {
+   "epoch": 8,
+   "loss": 1.3401631638407707,
+   "val_mDice": 0.0,
+   "min": 39.30546212991079
+  },
+  {
+   "epoch": 9,
+   "loss": 1.3221453120931983,
+   "val_mDice": 0.0,
+   "min": 44.22760087251663
+  },
+  {
+   "epoch": 10,
+   "loss": 1.3241883606339495,
+   "val_mDice": 0.0,
+   "min": 49.158037932713825
+  },
+  {
+   "epoch": 11,
+   "loss": 1.3159205311288436,
+   "val_mDice": 0.0,
+   "min": 54.11708593765895
+  },
+  {
+   "epoch": 12,
+   "loss": 1.3111520567908883,
+   "val_mDice": 0.0,
+   "min": 59.05357839663824
+  },
+  {
+   "epoch": 13,
+   "loss": 1.309644098393619,
+   "val_mDice": 0.0,
+   "min": 63.982962894439694
+  },
+  {
+   "epoch": 14,
+   "loss": 1.3139814551298816,
+   "val_mDice": 0.0,
+   "min": 68.89323413769404
+  },
+  {
+   "epoch": 15,
+   "loss": 1.3107551063100498,
+   "val_mDice": 0.0,
+   "min": 73.79508398771286
+  },
+  {
+   "epoch": 16,
+   "loss": 1.3132162832965453,
+   "val_mDice": 0.0,
+   "min": 78.70514470338821
+  },
+  {
+   "epoch": 17,
+   "loss": 1.3146886775890987,
+   "val_mDice": 0.0,
+   "min": 83.6440205693245
+  },
+  {
+   "epoch": 18,
+   "loss": 1.3117905221879482,
+   "val_mDice": 0.0,
+   "min": 88.5738850315412
+  },
+  {
+   "epoch": 19,
+   "loss": 1.3097002239276965,
+   "val_mDice": 0.0,
+   "min": 93.50994115670522
+  },
+  {
+   "epoch": 20,
+   "loss": 1.3080805810168386,
+   "val_mDice": 0.0,
+   "min": 98.409683517615
+  },
+  {
+   "epoch": 21,
+   "loss": 1.3105593637252848,
+   "val_mDice": 0.0,
+   "min": 103.33314180374146
+  },
+  {
+   "epoch": 22,
+   "loss": 1.308029097194473,
+   "val_mDice": 0.0,
+   "min": 108.26016595363618
+  },
+  {
+   "epoch": 23,
+   "loss": 1.310038453899324,
+   "val_mDice": 0.0,
+   "min": 113.18799480199814
+  },
+  {
+   "epoch": 24,
+   "loss": 1.3095323384429018,
+   "val_mDice": 0.0,
+   "min": 118.11213223934173
+  },
+  {
+   "epoch": 25,
+   "loss": 1.3090677087505658,
+   "val_mDice": 0.0,
+   "min": 123.01836508512497
+  },
+  {
+   "epoch": 26,
+   "loss": 1.3083142753069599,
+   "val_mDice": 0.0,
+   "min": 127.9145181218783
+  },
+  {
+   "epoch": 27,
+   "loss": 1.3091719560325146,
+   "val_mDice": 0.0,
+   "min": 132.82493296861648
+  },
+  {
+   "epoch": 28,
+   "loss": 1.3089491457988818,
+   "val_mDice": 0.0,
+   "min": 137.7294463555018
+  },
+  {
+   "epoch": 29,
+   "loss": 1.3125972074146073,
+   "val_mDice": 0.0,
+   "min": 142.6426858584086
+  },
+  {
+   "epoch": 30,
+   "loss": 1.3087709844112396,
+   "val_mDice": 0.0,
+   "min": 147.55953163703282
+  },
+  {
+   "epoch": 31,
+   "loss": 1.3095011518647273,
+   "val_mDice": 0.0,
+   "min": 152.46768416166304
+  },
+  {
+   "epoch": 32,
+   "loss": 1.3097368879243731,
+   "val_mDice": 0.0,
+   "min": 157.3727062702179
+  },
+  {
+   "epoch": 33,
+   "loss": 1.3148111381257575,
+   "val_mDice": 0.0,
+   "min": 162.2878569841385
+  },
+  {
+   "epoch": 34,
+   "loss": 1.3163098854323227,
+   "val_mDice": 0.0,
+   "min": 167.2040885090828
+  },
+  {
+   "epoch": 35,
+   "loss": 1.3137251222506166,
+   "val_mDice": 0.0,
+   "min": 172.13199695746104
+  },
+  {
+   "epoch": 36,
+   "loss": 1.3140155638878543,
+   "val_mDice": 0.0,
+   "min": 177.03656641244888
+  },
+  {
+   "epoch": 37,
+   "loss": 1.3141391016542912,
+   "val_mDice": 0.0,
+   "min": 181.95821559031805
+  },
+  {
+   "epoch": 38,
+   "loss": 1.3168034786358476,
+   "val_mDice": 0.0,
+   "min": 186.8967031478882
+  },
+  {
+   "epoch": 39,
+   "loss": 1.3184369240577023,
+   "val_mDice": 0.0,
+   "min": 191.81873395840327
+  },
+  {
+   "epoch": 40,
+   "loss": 1.3155759939303,
+   "val_mDice": 0.0,
+   "min": 196.74526371558508
+  },
+  {
+   "epoch": 41,
+   "loss": 1.3182235077644389,
+   "val_mDice": 0.0,
+   "min": 201.66284808715184
+  },
+  {
+   "epoch": 42,
+   "loss": 1.320094645023346,
+   "val_mDice": 0.0,
+   "min": 206.5965747674306
+  },
+  {
+   "epoch": 43,
+   "loss": 1.31925536878407,
+   "val_mDice": 0.0,
+   "min": 211.5427031636238
+  },
+  {
+   "epoch": 44,
+   "loss": 1.3173239488775532,
+   "val_mDice": 0.0,
+   "min": 216.46209857463836
+  },
+  {
+   "epoch": 45,
+   "loss": 1.3181133555869262,
+   "val_mDice": 0.0,
+   "min": 221.36802251338958
+  },
+  {
+   "epoch": 46,
+   "loss": 1.3163209902122617,
+   "val_mDice": 0.0,
+   "min": 226.29609367450078
+  },
+  {
+   "epoch": 47,
+   "loss": 1.3182409337411325,
+   "val_mDice": 0.0,
+   "min": 231.23110666275025
+  },
+  {
+   "epoch": 48,
+   "loss": 1.3203442515805364,
+   "val_mDice": 0.0,
+   "min": 236.1833489616712
+  },
+  {
+   "epoch": 49,
+   "loss": 1.316463751718402,
+   "val_mDice": 0.0,
+   "min": 241.14184814691544
+  },
+  {
+   "epoch": 50,
+   "loss": 1.3158326617752512,
+   "val_mDice": 0.0,
+   "min": 246.09713622728984
+  }
+ ],
+ "latency": {
+  "ms_bs1_fp16": 184.86337859998457,
+  "fps_bs1_fp16": 5.409400215300855,
+  "peak_vram_mb": 13992.4951171875,
+  "gpu": "Tesla T4"
+ },
+ "tests": {
+  "neg_hyperkvasir": {
+   "false_alarm_rate@0.0": 0.834068544282321,
+   "false_alarm_rate@0.001": 0.8157448252460129,
+   "false_alarm_rate@0.01": 0.7170003393281303,
+   "n": 2947,
+   "mean_fg_frac": 0.049746303133151065
+  },
+  "neg_pg_heldout": {
+   "false_alarm_rate@0.0": 0.7154742096505824,
+   "false_alarm_rate@0.001": 0.690099833610649,
+   "false_alarm_rate@0.01": 0.5482529118136439,
+   "n": 2404,
+   "mean_fg_frac": 0.030959451178387932
+  },
+  "test_clinicdb": {
+   "n": 62,
+   "mDice": 0.5922621857298114,
+   "mIoU": 0.453381610959589,
+   "MAE": 0.2497955709695816,
+   "n_small": 29,
+   "mDice_small": 0.448113032110611
+  },
+  "test_colondb": {
+   "n": 380,
+   "mDice": 0.5760481798660411,
+   "mIoU": 0.4471080424914296,
+   "MAE": 0.24392306843870565,
+   "n_small": 227,
+   "mDice_small": 0.4990750670138889
+  },
+  "test_cvc300": {
+   "n": 60,
+   "mDice": 0.6318695007401113,
+   "mIoU": 0.4905646103429861,
+   "MAE": 0.23690106570720673,
+   "n_small": 53,
+   "mDice_small": 0.6113648110238387
+  },
+  "test_etis": {
+   "n": 196,
+   "mDice": 0.4270355699921292,
+   "mIoU": 0.3214948100119208,
+   "MAE": 0.2499016071004527,
+   "n_small": 141,
+   "mDice_small": 0.3178509948457696
+  },
+  "test_kvasir": {
+   "n": 100,
+   "mDice": 0.6929272718154807,
+   "mIoU": 0.5646963968285833,
+   "MAE": 0.2543135952949524,
+   "n_small": 21,
+   "mDice_small": 0.4598771058249569
+  }
+ },
+ "eval_errors": {
+  "neg_thirdsource": "FileNotFoundError('Caught FileNotFoundError in DataLoader worker process 0.\\nOriginal Traceback (most recent call last):\\n  File \"/usr/local/lib/python3.12/dist-packages/torch/utils/data/_utils/worker.py\", line 358, in _worker_loop\\n    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]\\n           ^^^^^^^^^^^^^^^^^^^^\\n  File \"/usr/local/lib/python3.12/dist-packages/torch/utils/data/_utils/fetch.py\", line 54, in fetch\\n    data = [self.dataset[idx] for idx in possibly_batched_index]\\n            ~~~~~~~~~~~~^^^^^\\n  File \"/kaggle/input/datasets/girupashankarv/5-r6-mixneg-s43om/chakra_run_5_r6_mixneg_s43/train.py\", line 63, in __getitem__\\n    if img is None: raise FileNotFoundError(self.resolve(r[\"image\"]))\\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nFileNotFoundError: /kaggle/input/datasets/gokulraj324/negatives-polypgen-v1/piccolo_clean/train/images/020_VP22_frame3661.png\\n')"
+ }
+}

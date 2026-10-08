@@ -1,0 +1,244 @@
+﻿D: DRIVE AUDIT - DIRECTORY ANALYSIS
+
+Directory: 
+D:\donot delete gokul\chakramodelpro\fixed_polyp_dataset_v1\supervised\val\masks
+Generated: 
+2026-10-07T05:57:11
+Direct files: 
+219
+ | Size: 
+0.32
+ MB | Zero-byte: 
+0
+Immediate subdirectories: 
+0
+
+DIRECT FILE INVENTORY
+- README_AUDIT.txt | 18,866 bytes | DATA/TEXT | modified 2026-10-06T17:48:54
+- train_102.png | 793 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_108.png | 1,106 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_109.png | 1,112 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_110.png | 1,217 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_114.png | 1,369 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_120.png | 1,262 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_123.png | 1,390 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_130.png | 788 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_132.png | 571 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_136.png | 711 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_143.png | 639 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_149.png | 725 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_157.png | 872 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_169.png | 763 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_182.png | 558 bytes | IMAGE | modified 2026-09-19T21:18:48
+- train_197.png | 639 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_200.png | 684 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_201.png | 698 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_208.png | 682 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_209.png | 582 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_214.png | 987 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_227.png | 552 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_232.png | 1,016 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_233.png | 1,024 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_234.png | 945 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_243.png | 1,088 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_259.png | 1,314 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_272.png | 1,304 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_281.png | 563 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_284.png | 501 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_288.png | 528 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_290.png | 494 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_292.png | 445 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_306.png | 1,184 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_313.png | 684 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_314.png | 950 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_336.png | 645 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_340.png | 446 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_369.png | 463 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_411.png | 746 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_412.png | 716 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_426.png | 867 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_440.png | 738 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_445.png | 976 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_446.png | 966 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_45.png | 668 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_455.png | 771 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_472.png | 1,412 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_473.png | 1,150 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_478.png | 1,480 bytes | IMAGE | modified 2026-09-19T21:18:50
+- train_486.png | 698 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_487.png | 723 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_497.png | 1,399 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_498.png | 1,294 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_500.png | 1,093 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_501.png | 1,076 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_502.png | 1,120 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_518.png | 738 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_520.png | 1,071 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_541.png | 722 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_56.png | 518 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_563.png | 855 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_564.png | 1,025 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_576.png | 817 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_577.png | 841 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_587.png | 496 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_592.png | 601 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_595.png | 517 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_609.png | 572 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_63.png | 435 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_7.png | 1,248 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_71.png | 429 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_74.png | 734 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_76.png | 596 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_78.png | 454 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_81.png | 835 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_97.png | 606 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_99.png | 688 bytes | IMAGE | modified 2026-09-19T21:18:52
+- train_cju13cgqmnhwn0988yrainhcp.png | 1,898 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju13fwthn9mq0835gacxgy01.png | 1,937 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju160wshltz10993i1gmqxbe.png | 971 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju16b6ynq8e40988m8vx0xnj.png | 840 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju16fpvhzypl0799p9phnlx6.png | 1,830 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju17r8il13910799dr2wme2e.png | 814 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju17v6ih0u7808783zcbg1jy.png | 2,750 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju17x0j4nfc10993y31pvlgs.png | 2,334 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1871y11d6r0799k6cw4yze.png | 1,507 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1brhsj3rls0855a1vgdlen.png | 1,139 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1cdxvz48hw0801i0fjwcnk.png | 1,293 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1d31sp4d4k0878r3fr02ul.png | 1,528 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1dfeupuzlw0835gnxip369.png | 3,467 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1djtprvd7b0988thwwrg09.png | 1,385 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1efbr0rqxz09931z0lf4vf.png | 1,208 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1ewnoh5z030855vpex9uzt.png | 1,718 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1ffnjn6ctm08015perkg37.png | 2,358 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1g20bdwq6u0835e16xugcd.png | 2,163 bytes | IMAGE | modified 2026-09-19T21:18:54
+- train_cju1h5w4wxajx0835mc954kxy.png | 1,713 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju1hmff8tkp809931jps6fbr.png | 2,798 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2hw5gjlr5h0988so2qqres.png | 1,977 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2hx006vidl0799igm81vmh.png | 1,010 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2p4ddkmzxj0993p94o62av.png | 1,420 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2p91qir00k08350ddfif0w.png | 3,208 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2qfie4rvz508357kad9z5o.png | 1,922 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2qn2fzs1vy0988l243cvzy.png | 2,333 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2qqn5ys4uo0988ewrt2ip2.png | 3,468 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2r7h21sj9608354gzks3ae.png | 951 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2rnkt22xep0801as160g9t.png | 1,132 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2sggy13na70855tbeoqgha.png | 2,867 bytes | IMAGE | modified 2026-09-19T21:18:56
+- train_cju2t9tdwuk700835kv0ljmtl.png | 1,840 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2wzu8wxtgu09880ku9x1pg.png | 1,735 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2xjz2ju8pe0993ysv9wg17.png | 1,839 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2y0z6g87p10878fpk5d3rq.png | 2,296 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2ycp1u8g2r0799jslnp7cz.png | 1,838 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2yljr0yzhw0988ecf271ly.png | 4,980 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2yw4s7z7p20988lmf2gdgd.png | 1,323 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2z9vlp9j0w0801oag91sy9.png | 1,615 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2zo0fwzv580988qlijd2xa.png | 1,782 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2zr3c3vwb00993jn06bbaz.png | 1,247 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2zxja9w1eh09933609ho9z.png | 1,140 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju2zy1e49pqk0878t6ncqn12.png | 1,095 bytes | IMAGE | modified 2026-09-19T21:18:58
+- train_cju30qbm1ad3x0855znuhpz9u.png | 2,307 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju323ypb1fbb0988gx5rzudb.png | 2,612 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju326h4v1gxw08352px40p7r.png | 2,776 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju32csyfblyh080170aa3x5p.png | 1,622 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju32pzh9bpw10855q4vaxfhe.png | 1,291 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju32qr9tbvsj08013pkpjenq.png | 1,524 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju33belnbyhm0878yxl42233.png | 1,825 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju33jon3ygbj0993pu22a4k6.png | 1,188 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju33za6l2qy70988jhrlp2ev.png | 1,659 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju34sh43d8zm08019xbwhc0o.png | 1,730 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju353d1eda8c07992afde611.png | 1,240 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju35740hzm0g0993zl5ic246.png | 1,091 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju35c4wzdhow0799h6eq4sgs.png | 1,756 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju35eg0tdmjt085525sb4bua.png | 1,496 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju35fxqyzt5p0993vusm54qz.png | 2,224 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju35k2fr3vc50988c85qkrwg.png | 1,724 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju3tsh4lfsok0987w6x3a0v1.png | 3,114 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju3u4lxmg59o0755rz42b9en.png | 2,039 bytes | IMAGE | modified 2026-09-19T21:19:00
+- train_cju3xhpvvimda0987ygrpzni2.png | 1,723 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju3xtufwiv9c0818djsc4cqd.png | 1,354 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju3xwpgviwlx0871rwm15q7v.png | 1,423 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju3yb47cj1xq0817zfotbni4.png | 1,884 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju40taxlkrho0987smigg0x0.png | 1,366 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju412uwlkva50850d1ps1ww7.png | 2,657 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju41z76wlgbz0801qdetlvby.png | 1,255 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju42u5bjlvi10801dc13sskp.png | 1,451 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju42xpi8lw4w0871ve317a1p.png | 1,334 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju43h43am1dy08176gwfhmnt.png | 1,023 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju43kj2pm34f0850l28ahpni.png | 804 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju43mkj9m8wb0871qiadahub.png | 1,598 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju43o6n7m9nk087191ijwqq9.png | 1,593 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju45lbgznahl08180xz1h7u6.png | 1,559 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju5ccpvqash50850kb4bs22k.png | 1,746 bytes | IMAGE | modified 2026-09-19T21:19:02
+- train_cju5eq8c8ck690850vix98hv3.png | 2,578 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5eyfe9cpk90987laa7tsl3.png | 2,424 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5f0dezct4q08183ydw11dx.png | 1,855 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5f26ebcuai0818xlwh6116.png | 1,547 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5fb86jd1jp0755b1ukbhq5.png | 1,890 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5g163vd6mt0817uccuga6u.png | 1,255 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5tenjojp1j0755ms4949h2.png | 2,136 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5u8gz4kj5b07552e2wpkwp.png | 2,766 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5uxjnol2r509871qv2yeia.png | 1,642 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5w7xn0lrkq0801f9k0htgx.png | 1,712 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5wrapcm2290818jsh26ppb.png | 1,609 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5x15djm7ae0755h8czf6nt.png | 1,678 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5yclrymlgj0818k426ud6z.png | 1,553 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju5yimthmlv80850zhoc90c2.png | 1,230 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju6vgdmivcvb08018fra5lnv.png | 1,982 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju6vqarjv7yo0987q4b1btk1.png | 1,630 bytes | IMAGE | modified 2026-09-19T21:19:04
+- train_cju6wll7wvo3y08502pagos8m.png | 2,249 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju6yxyt0wh080871sqpepu47.png | 1,572 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju6z2616wqbk07555bvnuyr1.png | 1,479 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7787c5yy3l080159mwqsnj.png | 1,447 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju77j66ez52p08019xygi0co.png | 993 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju77vvcwzcm50850lzoykuva.png | 1,526 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7agj961l2r0818z29iq8yn.png | 1,334 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7alcgr1lsr0871riqk84z7.png | 1,481 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7amjna1ly40871ugiokehb.png | 1,838 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7b2l561oas0871decgslaf.png | 1,479 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7b9vcs1luz0987ta60j1dy.png | 1,688 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7bfx651qr80801cs7epotb.png | 2,095 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7bmi1v1pnj0987pa52jjok.png | 1,693 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7cl8zm1xcu0817ado0jpas.png | 2,569 bytes | IMAGE | modified 2026-09-19T21:19:06
+- train_cju7efffp2ivf0817etg3jehl.png | 3,201 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7eueum2oqn0850rodmx8zo.png | 1,399 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7evxt12m730987rxivne3x.png | 2,505 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7ey10f2rvf0871bwbi9x82.png | 1,403 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7ezs7g2mxm098787atbran.png | 1,180 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7f900s2o0k08175gl1giid.png | 2,492 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7fd6yt2p740987wkr8exo1.png | 1,084 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7ff97z2ow40817u2r83my5.png | 1,077 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7fmvpk2q170987v6i3ola8.png | 2,154 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7frtqu2xa20818wq8r9fzf.png | 1,837 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju7g7ba42z310987bqzbi2bq.png | 2,807 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju83mki1jv5w0817kubxm31r.png | 2,087 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju83nwu1jxte0987h1krpfmv.png | 1,630 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju83syhdk6gs0801rf1rekdl.png | 1,709 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju84ih17kp5l09876bkooocl.png | 1,730 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju8567gdlcbq0801dwwyo2jt.png | 2,149 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju85c2d4ln1b0755zz1z3onx.png | 814 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju85citjlnfm0755i4rk5tqj.png | 1,029 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju85mpuglq8k0818d2it6hzb.png | 2,203 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju85plp7lmkw0850rx42jdpf.png | 2,664 bytes | IMAGE | modified 2026-09-19T21:19:08
+- train_cju88aq6vo1ij0755c2ey7z7n.png | 2,156 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju88gx09o2vk0818610zody3.png | 1,608 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju88l66no10s0850rsda7ej1.png | 2,581 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju88oh0po9gq0801nge4tgr1.png | 1,101 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju890guyoiti098753yg6cdu.png | 1,720 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8a56vxpy780850r45yu4wk.png | 1,989 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8adb60qbiu080188mxpf8d.png | 1,357 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8axq24r4an0755yhv9d4ly.png | 1,034 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8b5p40r2c60987ofa0mu03.png | 1,244 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8b7aqtr4a00987coba14b7.png | 1,188 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8bafgqrf4x0818twisk3ea.png | 2,056 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8bff9nrfi10850fmfzbf8v.png | 1,382 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8bn7m2rmm70817hgxpb1uq.png | 2,262 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_cju8cgi2kspp308011nxdtjp6.png | 1,023 bytes | IMAGE | modified 2026-09-19T21:19:10
+- train_ck2da7fwcjfis07218r1rvm95.png | 1,312 bytes | IMAGE | modified 2026-09-19T21:19:12
+
+IMMEDIATE SUBDIRECTORIES
+(none)
+
+GLOBAL REPORTS
+- D:\Dataset_Scripts_and_Logs\drive_organization_report_2026-10-06.md
+- D:\Dataset_Scripts_and_Logs\drive_inventory_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\duplicate_hash_groups_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\zero_byte_files_2026-10-06.csv

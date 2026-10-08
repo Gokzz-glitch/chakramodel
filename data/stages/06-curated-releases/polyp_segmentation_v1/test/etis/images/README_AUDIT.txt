@@ -1,0 +1,222 @@
+﻿D: DRIVE AUDIT - DIRECTORY ANALYSIS
+
+Directory: 
+D:\donot delete gokul\chakramodelpro\kaggle_ready_polyp_segmentation_v1\test\etis\images
+Generated: 
+2026-10-07T05:57:14
+Direct files: 
+197
+ | Size: 
+176.25
+ MB | Zero-byte: 
+0
+Immediate subdirectories: 
+0
+
+DIRECT FILE INVENTORY
+- etis_1.png | 9,78,149 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_10.png | 9,71,688 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_100.png | 10,70,039 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_101.png | 10,75,507 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_102.png | 10,99,010 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_103.png | 10,91,421 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_104.png | 10,93,819 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_105.png | 9,77,007 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_106.png | 9,37,279 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_107.png | 9,84,431 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_108.png | 8,60,446 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_109.png | 9,61,668 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_11.png | 9,66,580 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_110.png | 5,89,691 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_111.png | 9,82,040 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_112.png | 10,43,334 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_113.png | 11,32,424 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_114.png | 11,13,228 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_115.png | 11,50,087 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_116.png | 10,69,572 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_117.png | 11,52,136 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_118.png | 10,91,241 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_119.png | 11,05,718 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_12.png | 9,36,874 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_120.png | 10,93,417 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_121.png | 11,31,194 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_122.png | 11,60,136 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_123.png | 11,26,466 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_124.png | 9,25,010 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_125.png | 9,47,406 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_126.png | 11,47,041 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_127.png | 11,80,524 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_128.png | 10,01,740 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_129.png | 10,95,894 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_13.png | 9,66,580 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_130.png | 10,25,619 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_131.png | 11,80,524 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_132.png | 9,31,670 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_133.png | 6,40,858 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_134.png | 7,94,973 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_135.png | 7,03,710 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_136.png | 7,89,120 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_137.png | 7,84,194 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_138.png | 6,80,443 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_139.png | 9,81,847 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_14.png | 9,00,534 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_140.png | 8,78,302 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_141.png | 9,14,681 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_142.png | 9,22,571 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_143.png | 11,43,294 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_144.png | 11,67,737 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_145.png | 11,04,673 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_146.png | 9,08,612 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_147.png | 5,97,780 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_148.png | 6,64,900 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_149.png | 5,52,202 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_15.png | 9,89,887 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_150.png | 5,09,030 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_151.png | 7,78,614 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_152.png | 7,52,933 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_153.png | 8,82,923 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_154.png | 11,28,611 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_155.png | 8,81,957 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_156.png | 11,14,471 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_157.png | 11,15,662 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_158.png | 7,96,737 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_159.png | 11,51,779 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_16.png | 10,99,754 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_160.png | 9,48,317 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_161.png | 9,61,226 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_162.png | 10,39,714 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_163.png | 9,35,453 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_164.png | 9,48,502 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_165.png | 9,70,761 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_166.png | 8,55,407 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_167.png | 8,26,040 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_168.png | 9,62,077 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_169.png | 8,73,588 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_17.png | 8,72,703 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_170.png | 9,47,908 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_171.png | 6,47,647 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_172.png | 6,96,375 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_173.png | 7,76,891 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_174.png | 7,55,631 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_175.png | 6,96,375 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_176.png | 7,57,032 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_177.png | 5,30,127 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_178.png | 6,14,269 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_179.png | 7,13,375 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_18.png | 10,57,209 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_180.png | 6,98,223 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_181.png | 7,42,621 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_182.png | 7,56,713 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_183.png | 8,80,961 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_184.png | 9,15,225 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_185.png | 8,69,349 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_186.png | 9,20,336 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_187.png | 7,93,732 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_188.png | 9,39,046 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_189.png | 9,77,368 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_19.png | 6,21,004 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_190.png | 8,93,573 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_191.png | 10,85,777 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_192.png | 11,05,083 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_193.png | 9,76,714 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_194.png | 10,92,383 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_195.png | 11,43,396 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_196.png | 9,71,410 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_2.png | 10,64,867 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_20.png | 8,78,825 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_21.png | 8,38,178 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_22.png | 8,78,825 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_23.png | 8,52,422 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_24.png | 8,05,741 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_25.png | 8,23,473 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_26.png | 9,42,722 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_27.png | 9,15,022 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_28.png | 8,09,163 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_29.png | 9,54,490 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_3.png | 10,21,544 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_30.png | 9,94,132 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_31.png | 9,63,866 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_32.png | 9,22,468 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_33.png | 9,97,555 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_34.png | 8,93,360 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_35.png | 9,08,769 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_36.png | 8,27,800 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_37.png | 10,19,295 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_38.png | 11,48,850 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_39.png | 10,53,744 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_4.png | 10,36,210 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_40.png | 10,13,416 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_41.png | 10,23,772 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_42.png | 9,58,955 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_43.png | 10,51,311 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_44.png | 9,92,086 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_45.png | 10,72,058 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_46.png | 10,64,423 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_47.png | 9,95,830 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_48.png | 10,83,635 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_49.png | 10,13,576 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_5.png | 8,82,835 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_50.png | 10,07,248 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_51.png | 8,62,017 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_52.png | 8,92,173 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_53.png | 9,47,230 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_54.png | 9,70,430 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_55.png | 10,06,483 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_56.png | 7,90,106 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_57.png | 7,05,144 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_58.png | 7,99,671 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_59.png | 7,35,892 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_6.png | 10,52,027 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_60.png | 6,89,357 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_61.png | 7,49,627 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_62.png | 7,66,580 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_63.png | 8,73,928 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_64.png | 7,84,201 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_65.png | 9,79,676 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_66.png | 8,94,879 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_67.png | 9,82,938 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_68.png | 9,74,620 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_69.png | 8,20,403 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_7.png | 10,32,173 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_70.png | 9,19,002 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_71.png | 8,49,615 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_72.png | 8,24,290 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_73.png | 8,23,753 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_74.png | 8,37,290 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_75.png | 9,11,667 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_76.png | 8,50,981 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_77.png | 9,13,964 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_78.png | 9,90,995 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_79.png | 10,26,226 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_8.png | 9,65,902 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_80.png | 9,22,773 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_81.png | 10,05,552 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_82.png | 9,27,457 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_83.png | 9,65,630 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_84.png | 10,30,789 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_85.png | 10,46,327 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_86.png | 9,07,565 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_87.png | 12,71,722 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_88.png | 11,76,811 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_89.png | 12,28,474 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_9.png | 9,57,838 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_90.png | 11,61,544 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_91.png | 12,51,838 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_92.png | 11,68,573 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_93.png | 10,88,372 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_94.png | 10,58,275 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_95.png | 10,05,542 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_96.png | 10,13,716 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_97.png | 10,53,753 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_98.png | 10,89,446 bytes | IMAGE | modified 2026-09-19T21:12:16
+- etis_99.png | 10,79,101 bytes | IMAGE | modified 2026-09-19T21:12:16
+- README_AUDIT.txt | 14,748 bytes | DATA/TEXT | modified 2026-10-06T17:48:56
+
+IMMEDIATE SUBDIRECTORIES
+(none)
+
+GLOBAL REPORTS
+- D:\Dataset_Scripts_and_Logs\drive_organization_report_2026-10-06.md
+- D:\Dataset_Scripts_and_Logs\drive_inventory_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\duplicate_hash_groups_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\zero_byte_files_2026-10-06.csv

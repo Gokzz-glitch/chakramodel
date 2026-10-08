@@ -1,0 +1,391 @@
+{
+ "tag": "e4_negtrain__vit_dpt_l__s44",
+ "model": "vit_dpt_l",
+ "manifest": "e4_negtrain.csv",
+ "seed": 44,
+ "epochs": 50,
+ "size": 352,
+ "params": 311565569,
+ "best_val_mDice": 0.7410696117494857,
+ "bs": 4,
+ "accum": 4,
+ "effective_batch": 16,
+ "backbone_lr": 1e-05,
+ "lr": 0.0001,
+ "clip": 1.0,
+ "warmup_frac": 0.06,
+ "n_gpu": 2,
+ "workers": 4,
+ "fast": true,
+ "amp_dtype": "bfloat16",
+ "compiled": false,
+ "deterministic": false,
+ "tf32": true,
+ "gpu_names": [
+  "Tesla T4",
+  "Tesla T4"
+ ],
+ "train_n": 1536,
+ "val_n": 222,
+ "train_minutes": 246.10021898349126,
+ "log": [
+  {
+   "epoch": 1,
+   "loss": 1.2270115989570816,
+   "val_mDice": 0.7410696117494857,
+   "min": 4.972817059357961
+  },
+  {
+   "epoch": 2,
+   "loss": 1.0635843587418397,
+   "val_mDice": 0.5707500969451228,
+   "min": 9.92749574581782
+  },
+  {
+   "epoch": 3,
+   "loss": 1.3409698521718383,
+   "val_mDice": 0.2853128017786372,
+   "min": 14.844081656138103
+  },
+  {
+   "epoch": 4,
+   "loss": 1.52575826117148,
+   "val_mDice": 0.2716624887512881,
+   "min": 19.760691861311596
+  },
+  {
+   "epoch": 5,
+   "loss": 1.5274409214034677,
+   "val_mDice": 0.2536172195967352,
+   "min": 24.67121932109197
+  },
+  {
+   "epoch": 6,
+   "loss": 1.4832858474304278,
+   "val_mDice": 0.31114206224512725,
+   "min": 29.584699471791584
+  },
+  {
+   "epoch": 7,
+   "loss": 1.3905007240052025,
+   "val_mDice": 0.0,
+   "min": 34.49762766361236
+  },
+  {
+   "epoch": 8,
+   "loss": 1.3268283422415454,
+   "val_mDice": 0.0,
+   "min": 39.414623939990996
+  },
+  {
+   "epoch": 9,
+   "loss": 1.3017807469392817,
+   "val_mDice": 0.0,
+   "min": 44.32566330830256
+  },
+  {
+   "epoch": 10,
+   "loss": 1.2964221859971683,
+   "val_mDice": 0.0,
+   "min": 49.424949709574385
+  },
+  {
+   "epoch": 11,
+   "loss": 1.2979693297917645,
+   "val_mDice": 0.0,
+   "min": 54.54747966527939
+  },
+  {
+   "epoch": 12,
+   "loss": 1.2968999749670427,
+   "val_mDice": 0.0,
+   "min": 59.67926070690155
+  },
+  {
+   "epoch": 13,
+   "loss": 1.2968789969260495,
+   "val_mDice": 0.0,
+   "min": 64.7932186961174
+  },
+  {
+   "epoch": 14,
+   "loss": 1.2969762459397316,
+   "val_mDice": 0.0,
+   "min": 69.9167245944341
+  },
+  {
+   "epoch": 15,
+   "loss": 1.2964116415629785,
+   "val_mDice": 0.0,
+   "min": 74.95225304762522
+  },
+  {
+   "epoch": 16,
+   "loss": 1.2981822863221169,
+   "val_mDice": 0.0,
+   "min": 79.87331585089366
+  },
+  {
+   "epoch": 17,
+   "loss": 1.2985202663888533,
+   "val_mDice": 0.0,
+   "min": 84.76541182200114
+  },
+  {
+   "epoch": 18,
+   "loss": 1.2978914737080534,
+   "val_mDice": 0.0,
+   "min": 89.6553338487943
+  },
+  {
+   "epoch": 19,
+   "loss": 1.2949276560296614,
+   "val_mDice": 0.0,
+   "min": 94.51920144955317
+  },
+  {
+   "epoch": 20,
+   "loss": 1.2938456845780213,
+   "val_mDice": 0.0,
+   "min": 99.40633257627488
+  },
+  {
+   "epoch": 21,
+   "loss": 1.2938283964370687,
+   "val_mDice": 0.0,
+   "min": 104.2749480009079
+  },
+  {
+   "epoch": 22,
+   "loss": 1.2945649245133002,
+   "val_mDice": 0.0,
+   "min": 109.1720444758733
+  },
+  {
+   "epoch": 23,
+   "loss": 1.2957058011864622,
+   "val_mDice": 0.0,
+   "min": 114.05605568488438
+  },
+  {
+   "epoch": 24,
+   "loss": 1.2943960363045335,
+   "val_mDice": 0.0,
+   "min": 118.95579265753427
+  },
+  {
+   "epoch": 25,
+   "loss": 1.2939989635099967,
+   "val_mDice": 0.0,
+   "min": 123.83762404521306
+  },
+  {
+   "epoch": 26,
+   "loss": 1.293630117860933,
+   "val_mDice": 0.0,
+   "min": 128.71673332452775
+  },
+  {
+   "epoch": 27,
+   "loss": 1.2936908521999915,
+   "val_mDice": 0.0,
+   "min": 133.60876671870548
+  },
+  {
+   "epoch": 28,
+   "loss": 1.293871368902425,
+   "val_mDice": 0.0,
+   "min": 138.50565324227014
+  },
+  {
+   "epoch": 29,
+   "loss": 1.292807514468829,
+   "val_mDice": 0.0,
+   "min": 143.3929333726565
+  },
+  {
+   "epoch": 30,
+   "loss": 1.2926253639161587,
+   "val_mDice": 0.0,
+   "min": 148.28033810853958
+  },
+  {
+   "epoch": 31,
+   "loss": 1.2928523203978937,
+   "val_mDice": 0.0,
+   "min": 153.17043667236965
+  },
+  {
+   "epoch": 32,
+   "loss": 1.292653759320577,
+   "val_mDice": 0.0,
+   "min": 158.07031715313593
+  },
+  {
+   "epoch": 33,
+   "loss": 1.292844680448373,
+   "val_mDice": 0.0,
+   "min": 162.97000323136646
+  },
+  {
+   "epoch": 34,
+   "loss": 1.294139846848945,
+   "val_mDice": 0.0,
+   "min": 167.84575555324554
+  },
+  {
+   "epoch": 35,
+   "loss": 1.2946292646229267,
+   "val_mDice": 0.0,
+   "min": 172.72386502424877
+  },
+  {
+   "epoch": 36,
+   "loss": 1.2941299279530842,
+   "val_mDice": 0.0,
+   "min": 177.60660551389057
+  },
+  {
+   "epoch": 37,
+   "loss": 1.2954565361142159,
+   "val_mDice": 0.0,
+   "min": 182.48714315891266
+  },
+  {
+   "epoch": 38,
+   "loss": 1.2947402785842617,
+   "val_mDice": 0.0,
+   "min": 187.3635502854983
+  },
+  {
+   "epoch": 39,
+   "loss": 1.2943266791601975,
+   "val_mDice": 0.0,
+   "min": 192.23462737401326
+  },
+  {
+   "epoch": 40,
+   "loss": 1.2950373928373058,
+   "val_mDice": 0.0,
+   "min": 197.13035864432652
+  },
+  {
+   "epoch": 41,
+   "loss": 1.2946799146011472,
+   "val_mDice": 0.0,
+   "min": 202.02592749993008
+  },
+  {
+   "epoch": 42,
+   "loss": 1.294205153050522,
+   "val_mDice": 0.0,
+   "min": 206.94209751288096
+  },
+  {
+   "epoch": 43,
+   "loss": 1.2945640571415424,
+   "val_mDice": 0.0,
+   "min": 211.8479664603869
+  },
+  {
+   "epoch": 44,
+   "loss": 1.2953969814504187,
+   "val_mDice": 0.0,
+   "min": 216.7395203789075
+  },
+  {
+   "epoch": 45,
+   "loss": 1.2946631635228794,
+   "val_mDice": 0.0,
+   "min": 221.6226683616638
+  },
+  {
+   "epoch": 46,
+   "loss": 1.2946508663396041,
+   "val_mDice": 0.0,
+   "min": 226.50530033111573
+  },
+  {
+   "epoch": 47,
+   "loss": 1.295170871540904,
+   "val_mDice": 0.0,
+   "min": 231.39537484248478
+  },
+  {
+   "epoch": 48,
+   "loss": 1.2947279925768573,
+   "val_mDice": 0.0,
+   "min": 236.2860796928406
+  },
+  {
+   "epoch": 49,
+   "loss": 1.2940076729282737,
+   "val_mDice": 0.0,
+   "min": 241.19035077095032
+  },
+  {
+   "epoch": 50,
+   "loss": 1.2959802402183414,
+   "val_mDice": 0.0,
+   "min": 246.08400063117344
+  }
+ ],
+ "latency": {
+  "ms_bs1_fp16": 191.3562131800063,
+  "fps_bs1_fp16": 5.225855922740868,
+  "peak_vram_mb": 13991.62890625,
+  "gpu": "Tesla T4"
+ },
+ "tests": {
+  "neg_polypgen": {
+   "false_alarm_rate@0.0": 0.30198830409356725,
+   "false_alarm_rate@0.001": 0.28,
+   "false_alarm_rate@0.01": 0.1854970760233918,
+   "n": 4275,
+   "mean_fg_frac": 0.011858406757145057
+  },
+  "test_clinicdb": {
+   "n": 62,
+   "mDice": 0.6737771022899742,
+   "mIoU": 0.5598980570345082,
+   "MAE": 0.1991201086390403,
+   "n_small": 29,
+   "mDice_small": 0.5614043009432713
+  },
+  "test_colondb": {
+   "n": 380,
+   "mDice": 0.6405481960256277,
+   "mIoU": 0.5320386149997793,
+   "MAE": 0.20022738709261542,
+   "n_small": 227,
+   "mDice_small": 0.5914505460700424
+  },
+  "test_cvc300": {
+   "n": 60,
+   "mDice": 0.765571898460202,
+   "mIoU": 0.6456642091209177,
+   "MAE": 0.18607159107923507,
+   "n_small": 53,
+   "mDice_small": 0.7484952868847762
+  },
+  "test_etis": {
+   "n": 196,
+   "mDice": 0.49071241668576804,
+   "mIoU": 0.3993436102652017,
+   "MAE": 0.19746956563725762,
+   "n_small": 141,
+   "mDice_small": 0.39927379240477656
+  },
+  "test_kvasir": {
+   "n": 100,
+   "mDice": 0.7786190604402528,
+   "mIoU": 0.6687906142816934,
+   "MAE": 0.20511517137289048,
+   "n_small": 21,
+   "mDice_small": 0.6278103433794522
+  }
+ },
+ "eval_errors": {
+  "neg_hyperkvasir": "FileNotFoundError('Caught FileNotFoundError in DataLoader worker process 1.\\nOriginal Traceback (most recent call last):\\n  File \"/usr/local/lib/python3.12/dist-packages/torch/utils/data/_utils/worker.py\", line 358, in _worker_loop\\n    data = fetcher.fetch(index)  # type: ignore[possibly-undefined]\\n           ^^^^^^^^^^^^^^^^^^^^\\n  File \"/usr/local/lib/python3.12/dist-packages/torch/utils/data/_utils/fetch.py\", line 54, in fetch\\n    data = [self.dataset[idx] for idx in possibly_batched_index]\\n            ~~~~~~~~~~~~^^^^^\\n  File \"/kaggle/input/datasets/gokulrocky/dpt3muruga/chakra_run_3_vit_dpt_l_s44/train.py\", line 63, in __getitem__\\n    if img is None: raise FileNotFoundError(self.resolve(r[\"image\"]))\\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nFileNotFoundError: /kaggle/input/datasets/gokulrocky/chakra-leakbench-e4-v1/negatives_hyperkvasir_v1/images/d024d3f7-f9b8-4cbc-80aa-16e86492a3ec.jpg\\n')"
+ }
+}
