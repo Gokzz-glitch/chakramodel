@@ -1,0 +1,31 @@
+﻿D: DRIVE AUDIT - DIRECTORY ANALYSIS
+
+Directory: 
+D:\donot delete gokul\chakramodel\.claude\skills\wds-5-agentic-development\templates
+Generated: 
+2026-10-07T05:53:16
+Direct files: 
+6
+ | Size: 
+0.04
+ MB | Zero-byte: 
+0
+Immediate subdirectories: 
+1
+
+DIRECT FILE INVENTORY
+- demo-data-template.json | 1,954 bytes | DATA/TEXT | modified 2026-08-07T11:44:14
+- page-template.html | 21,452 bytes | FILE | modified 2026-08-07T11:44:14
+- PROTOTYPE-ROADMAP-template.md | 9,224 bytes | DATA/TEXT | modified 2026-08-07T11:44:14
+- README_AUDIT.txt | 1,087 bytes | DATA/TEXT | modified 2026-10-06T17:46:48
+- story-file-template.md | 4,415 bytes | DATA/TEXT | modified 2026-08-07T11:44:14
+- work-file-template.yaml | 8,594 bytes | DATA/TEXT | modified 2026-08-07T11:44:14
+
+IMMEDIATE SUBDIRECTORIES
+- components
+
+GLOBAL REPORTS
+- D:\Dataset_Scripts_and_Logs\drive_organization_report_2026-10-06.md
+- D:\Dataset_Scripts_and_Logs\drive_inventory_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\duplicate_hash_groups_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\zero_byte_files_2026-10-06.csv

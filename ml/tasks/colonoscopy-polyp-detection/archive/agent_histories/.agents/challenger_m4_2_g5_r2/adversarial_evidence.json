@@ -1,0 +1,339 @@
+{
+  "verification_status": "AUTHENTIC_GENUINE_PASS",
+  "samples_tested": 10,
+  "sample_indices": [
+    1,
+    6,
+    7,
+    8,
+    14,
+    15,
+    17,
+    40,
+    47,
+    56
+  ],
+  "all_matched": true,
+  "results": [
+    {
+      "sample_index": 1,
+      "filename": "cju0qoxqj9q6s0835b43399p4.jpg",
+      "calculated": {
+        "dice": 0.9053450230235958,
+        "iou": 0.8270597056293421,
+        "pred_pixels": 460141,
+        "gt_pixels": 390295,
+        "intersection_pixels": 384969,
+        "prob_min": 5.364418029785156e-07,
+        "prob_max": 1.0,
+        "prob_mean": 0.322204053401947
+      },
+      "recorded": {
+        "dice": 0.905345,
+        "iou": 0.82706,
+        "pred_pixels": 460141,
+        "gt_pixels": 390295,
+        "intersection_pixels": 384969,
+        "prob_min": 1e-06,
+        "prob_max": 1.0,
+        "prob_mean": 0.322204
+      },
+      "deltas": {
+        "delta_dsc": 2.3023595807636354e-08,
+        "delta_iou": 2.9437065796056316e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 6,
+      "filename": "cju0s690hkp960855tjuaqvv0.jpg",
+      "calculated": {
+        "dice": 0.8436683125238285,
+        "iou": 0.7296075353388002,
+        "pred_pixels": 15490,
+        "gt_pixels": 12054,
+        "intersection_pixels": 11619,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.05451169237494469
+      },
+      "recorded": {
+        "dice": 0.843668,
+        "iou": 0.729608,
+        "pred_pixels": 15490,
+        "gt_pixels": 12054,
+        "intersection_pixels": 11619,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.054512
+      },
+      "deltas": {
+        "delta_dsc": 3.125238284829024e-07,
+        "delta_iou": 4.6466119985044685e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 7,
+      "filename": "cju0sr5ghl0nd08789uzf1raf.jpg",
+      "calculated": {
+        "dice": 0.9457011308706563,
+        "iou": 0.8969953004425911,
+        "pred_pixels": 174288,
+        "gt_pixels": 165185,
+        "intersection_pixels": 160520,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.14151927828788757
+      },
+      "recorded": {
+        "dice": 0.945701,
+        "iou": 0.896995,
+        "pred_pixels": 174288,
+        "gt_pixels": 165185,
+        "intersection_pixels": 160520,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.141519
+      },
+      "deltas": {
+        "delta_dsc": 1.3087065631189887e-07,
+        "delta_iou": 3.004425911390385e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 8,
+      "filename": "cju0sxqiclckk08551ycbwhno.jpg",
+      "calculated": {
+        "dice": 0.2017082232241625,
+        "iou": 0.11216657154080231,
+        "pred_pixels": 117377,
+        "gt_pixels": 13168,
+        "intersection_pixels": 13166,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.38513830304145813
+      },
+      "recorded": {
+        "dice": 0.201708,
+        "iou": 0.112167,
+        "pred_pixels": 117377,
+        "gt_pixels": 13168,
+        "intersection_pixels": 13166,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.385138
+      },
+      "deltas": {
+        "delta_dsc": 2.2322416248776733e-07,
+        "delta_iou": 4.2845919769052276e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 14,
+      "filename": "cju0vtox5ain6099360pu62rp.jpg",
+      "calculated": {
+        "dice": 0.3696998811740576,
+        "iou": 0.2267679900864335,
+        "pred_pixels": 64389,
+        "gt_pixels": 14713,
+        "intersection_pixels": 14622,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.19183623790740967
+      },
+      "recorded": {
+        "dice": 0.3697,
+        "iou": 0.226768,
+        "pred_pixels": 64389,
+        "gt_pixels": 14713,
+        "intersection_pixels": 14622,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.191836
+      },
+      "deltas": {
+        "delta_dsc": 1.1882594236345412e-07,
+        "delta_iou": 9.91356649548969e-09,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 15,
+      "filename": "cju13cgqmnhwn0988yrainhcp.jpg",
+      "calculated": {
+        "dice": 0.6932228508757545,
+        "iou": 0.5304828381366874,
+        "pred_pixels": 79653,
+        "gt_pixels": 42478,
+        "intersection_pixels": 42332,
+        "prob_min": 5.960464477539063e-08,
+        "prob_max": 1.0,
+        "prob_mean": 0.23359520733356476
+      },
+      "recorded": {
+        "dice": 0.693223,
+        "iou": 0.530483,
+        "pred_pixels": 79653,
+        "gt_pixels": 42478,
+        "intersection_pixels": 42332,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.233595
+      },
+      "deltas": {
+        "delta_dsc": 1.4912424550761472e-07,
+        "delta_iou": 1.6186331264211873e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 17,
+      "filename": "cju13hp5rnbjx0835bf0jowgx.jpg",
+      "calculated": {
+        "dice": 0.7135788550700073,
+        "iou": 0.5547008130945242,
+        "pred_pixels": 60607,
+        "gt_pixels": 35189,
+        "intersection_pixels": 34179,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.18311336636543274
+      },
+      "recorded": {
+        "dice": 0.713579,
+        "iou": 0.554701,
+        "pred_pixels": 60607,
+        "gt_pixels": 35189,
+        "intersection_pixels": 34179,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.183113
+      },
+      "deltas": {
+        "delta_dsc": 1.4492999267368134e-07,
+        "delta_iou": 1.8690547576305505e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 40,
+      "filename": "cju17r8il13910799dr2wme2e.jpg",
+      "calculated": {
+        "dice": 0.23249093035625373,
+        "iou": 0.13153591932052405,
+        "pred_pixels": 28544,
+        "gt_pixels": 3982,
+        "intersection_pixels": 3781,
+        "prob_min": 2.8014183044433594e-06,
+        "prob_max": 1.0,
+        "prob_mean": 0.08589576184749603
+      },
+      "recorded": {
+        "dice": 0.232491,
+        "iou": 0.131536,
+        "pred_pixels": 28544,
+        "gt_pixels": 3982,
+        "intersection_pixels": 3781,
+        "prob_min": 3e-06,
+        "prob_max": 1.0,
+        "prob_mean": 0.085896
+      },
+      "deltas": {
+        "delta_dsc": 6.964374626994285e-08,
+        "delta_iou": 8.067947593337621e-08,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 47,
+      "filename": "cju18849rrsgr0988p90hkygb.jpg",
+      "calculated": {
+        "dice": 0.9826846703735413,
+        "iou": 0.9659587757660327,
+        "pred_pixels": 38061,
+        "gt_pixels": 37479,
+        "intersection_pixels": 37116,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.11661070585250854
+      },
+      "recorded": {
+        "dice": 0.982685,
+        "iou": 0.965959,
+        "pred_pixels": 38061,
+        "gt_pixels": 37479,
+        "intersection_pixels": 37116,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.116611
+      },
+      "deltas": {
+        "delta_dsc": 3.2962645868384044e-07,
+        "delta_iou": 2.2423396728310507e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    },
+    {
+      "sample_index": 56,
+      "filename": "cju1b3zgj3d8e0801kpolea6c.jpg",
+      "calculated": {
+        "dice": 0.9638661247699839,
+        "iou": 0.9302524971078524,
+        "pred_pixels": 45077,
+        "gt_pixels": 44977,
+        "intersection_pixels": 43400,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.14249202609062195
+      },
+      "recorded": {
+        "dice": 0.963866,
+        "iou": 0.930252,
+        "pred_pixels": 45077,
+        "gt_pixels": 44977,
+        "intersection_pixels": 43400,
+        "prob_min": 0.0,
+        "prob_max": 1.0,
+        "prob_mean": 0.142492
+      },
+      "deltas": {
+        "delta_dsc": 1.247699839002081e-07,
+        "delta_iou": 4.971078524373951e-07,
+        "delta_pred_pixels": 0,
+        "delta_gt_pixels": 0,
+        "delta_intersection_pixels": 0
+      },
+      "status": "PASS"
+    }
+  ]
+}

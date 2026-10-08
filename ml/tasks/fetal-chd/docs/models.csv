@@ -1,0 +1,3 @@
+name,loader,architecture,checkpoint_url,filename,sha256
+REPLACE_WITH_PUBLISHED_MODEL_01,torchscript,,"https://example.org/model01.pt",model01.pt,
+REPLACE_WITH_PUBLISHED_MODEL_02,torchscript,,"https://example.org/model02.pt",model02.pt,

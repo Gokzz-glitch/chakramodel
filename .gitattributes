@@ -1,0 +1,26 @@
+﻿# Auto detect text files and perform LF normalization
+* text=auto
+
+# Force LF for Python and markdown
+*.py    text eol=lf
+*.md    text eol=lf
+*.txt   text eol=lf
+*.json  text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+*.csv   text eol=lf
+*.sh    text eol=lf
+
+# Binary files - no conversion
+*.pth   binary
+*.pt    binary
+*.onnx  binary
+*.engine binary
+*.pkl   binary
+*.mp4   binary
+*.avi   binary
+*.jpg   binary
+*.png   binary
+*.h5    binary
+*.hdf5  binary
+*.ipynb text eol=lf

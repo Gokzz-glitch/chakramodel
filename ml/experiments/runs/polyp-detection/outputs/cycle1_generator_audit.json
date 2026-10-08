@@ -1,0 +1,195 @@
+{
+  "audit_version": "1.0",
+  "date": "2026-09-04",
+  "cycle": 1,
+  "generator_actions_applied": [
+    {
+      "id": "G-ACT-01",
+      "type": "correct_number",
+      "section": "Abstract, §5.1 Table",
+      "old_claim": "ChakraTransformer (Combo 6) achieves 0.8827 DSC",
+      "new_claim": "ChakraNet-Focal (Combo 1) achieves 0.9158 DSC; full pipeline (Combo 6) achieves 0.4555 DSC",
+      "evidence_file": "ablation_results.md",
+      "verified_value": 0.4555
+    },
+    {
+      "id": "G-ACT-02",
+      "type": "correct_number",
+      "section": "§5.1 Table — Baseline (PraNet Only)",
+      "old_claim": "PraNet baseline DSC=0.5277",
+      "new_claim": "PraNet baseline DSC=0.2618",
+      "evidence_file": "ablation_results.md",
+      "verified_value": 0.2618
+    },
+    {
+      "id": "G-ACT-03",
+      "type": "correct_number",
+      "section": "§5.1 Table — metric row assignment",
+      "old_claim": "wF=0.6178, S=0.8935, E=0.4592 listed in Combo 6 (0.8827 DSC) row",
+      "new_claim": "wF=0.6178, S=0.8935, E=0.4592 belong to the Combo 6 pipeline row at DSC=0.4555",
+      "evidence_file": "ablation_results.md",
+      "verified_value": "metric re-assigned to correct row"
+    },
+    {
+      "id": "G-ACT-04",
+      "type": "correct_number",
+      "section": "§5.1 Table FPS column, §6.1 Conclusion",
+      "old_claim": "YOLO FPS=16.6, Pipeline FPS=3.7",
+      "new_claim": "YOLO Stage 1 FPS=94.7, Stage1+2 Pipeline FPS=48.8",
+      "evidence_file": "outputs/eval/fps_latency_report.json",
+      "verified_value": {"stage1_fps": 94.7, "stage1_2_fps": 48.8}
+    },
+    {
+      "id": "G-ACT-05",
+      "type": "correct_number",
+      "section": "§4.3 Training Details",
+      "old_claim": "NVIDIA GPU with 8GB VRAM",
+      "new_claim": "NVIDIA GeForce RTX 3050 Laptop GPU, 4.00 GB VRAM",
+      "evidence_file": "combo4.log",
+      "verified_value": "4.00 GB VRAM"
+    },
+    {
+      "id": "G-ACT-06",
+      "type": "correct_number",
+      "section": "§4.3 Training Details",
+      "old_claim": "Batch size: 8, Epochs: 50",
+      "new_claim": "Batch size: 32, Epochs: 100 (Combo 4); Combo 1 trained beyond 360 epochs",
+      "evidence_file": "tests/deep_audit_results.json, combo4.log",
+      "verified_value": {"batch_size": 32, "epochs_combo4": 100}
+    },
+    {
+      "id": "G-ACT-07",
+      "type": "add_results",
+      "section": "§5.1 Table — added 3 missing datasets",
+      "old_claim": "CVC-ColonDB and CVC-300 mentioned but no results given",
+      "new_claim": "CVC-ColonDB Dice=0.0065, CVC-300 Dice=0.0048 added to Table 5.1",
+      "evidence_file": "outputs/eval/cvc-colondb_benchmark.json, outputs/eval/cvc-300_benchmark.json",
+      "verified_value": {"cvc_colondb_dice": 0.00648, "cvc_300_dice": 0.00477, "etis_dice": "~0.000"}
+    },
+    {
+      "id": "G-ACT-08",
+      "type": "correct_number",
+      "section": "§5.4 Conformal Prediction",
+      "old_claim": "empirical coverage ~89.13% under FWER pooling",
+      "new_claim": "Phantom claim removed; actual empirical coverage=95.0% (N=100)",
+      "evidence_file": "conformal_prediction_report.md, results/combo1_metrics.json",
+      "verified_value": 0.95
+    },
+    {
+      "id": "G-ACT-09",
+      "type": "mark_future_work",
+      "section": "ARCHITECTURE-SPINE.md §AD-03",
+      "old_claim": "ChakraSLAM described as an active architectural rule",
+      "new_claim": "Marked [PROPOSED / FUTURE WORK — NOT IMPLEMENTED]",
+      "evidence_file": "src/ — no SLAM code found via grep",
+      "verified_value": "zero_slam_code"
+    },
+    {
+      "id": "G-ACT-10",
+      "type": "correct_number",
+      "section": "§4.2 Implementation Details",
+      "old_claim": "strict 70/10/10/10 split",
+      "new_claim": "Combo 6 uses 3-way split (build_trisplit_dataloaders); 70/10/10/10 is the design target but not fully implemented",
+      "evidence_file": "tests/deep_audit_results.json",
+      "verified_value": "trisplit_3way_only"
+    },
+    {
+      "id": "G-ACT-11",
+      "type": "mark_limitation",
+      "section": "§5.2, §6.2",
+      "old_claim": "zero-shot safety transfer bound works; conformal ensures safe failure",
+      "new_claim": "Explicit limitation added: transfer bound fails on ColonDB/CVC-300; no alert mechanism verified",
+      "evidence_file": "outputs/eval/cvc-colondb_benchmark.json",
+      "verified_value": "catastrophic_failure_not_caught"
+    },
+    {
+      "id": "G-ACT-12",
+      "type": "mark_future_work",
+      "section": "§5.5 Topological Robustness",
+      "old_claim": "topo loss successfully penalized multi-component artifacts",
+      "new_claim": "Quantitative topo-loss ablation is required future work; qualitative claim removed",
+      "evidence_file": "No ablation log found; src/topo_loss.py exists",
+      "verified_value": "no_ablation_completed"
+    },
+    {
+      "id": "G-ACT-13",
+      "type": "correct_claim",
+      "section": "§3.3 Conformal Calibration",
+      "old_claim": "uncertainty-aware conformal using MC Dropout variance",
+      "new_claim": "Variance collapsed to 2.85e-15; system operates as standard deterministic conformal. MC Dropout fix is future work.",
+      "evidence_file": "results/combo1_metrics.json",
+      "verified_value": {"mean_uncertainty": 2.85e-15}
+    },
+    {
+      "id": "G-ACT-14",
+      "type": "correct_number",
+      "section": "§5.1 Table — CVC-ClinicDB row",
+      "old_claim": "0.6407 DSC for Combo 1 on CVC-ClinicDB implied as pipeline result",
+      "new_claim": "Full benchmark (N=495): Dice=0.8066; clarified as Combo 1 result not pipeline",
+      "evidence_file": "outputs/eval/cvc-clinicdb_benchmark.json",
+      "verified_value": 0.8066
+    },
+    {
+      "id": "G-ACT-15",
+      "type": "add_results",
+      "section": "§1.1 Contributions, §5.1 Table",
+      "old_claim": "first comparison of SIX orthogonal paradigms",
+      "new_claim": "Combo 1 and Combo 6 fully evaluated; Combos 2-5 marked as preliminary in Appendix A",
+      "evidence_file": "No logs for C2-C5 found",
+      "verified_value": "only_c1_c6_complete"
+    },
+    {
+      "id": "G-ACT-16",
+      "type": "mark_future_work",
+      "section": "ARCHITECTURE-SPINE.md §AD-03",
+      "old_claim": "ChakraSLAM is an active architectural rule",
+      "new_claim": "PROPOSED / FUTURE WORK — NOT IMPLEMENTED",
+      "evidence_file": "grep search: zero SLAM code in src/",
+      "verified_value": "not_implemented"
+    },
+    {
+      "id": "G-ACT-17",
+      "type": "add_limitation",
+      "section": "§6.2 Limitations",
+      "old_claim": "pipeline trades speed for precision",
+      "new_claim": "Pipeline DEGRADES vs YOLO alone on all spatial metrics; DSC drops from 0.9158 (C1) to 0.4555 (pipeline)",
+      "evidence_file": "ablation_results.md",
+      "verified_value": {"pipeline_dsc": 0.4555, "c1_dsc": 0.9158}
+    },
+    {
+      "id": "G-ACT-18",
+      "type": "run_experiment",
+      "section": "src/topo_loss.py L62-74",
+      "old_claim": "topo_loss.py correctly handles all edge cases",
+      "new_claim": "Fixed degenerate edge case: added comment guard for empty essential[0] array",
+      "evidence_file": "src/topo_loss.py",
+      "verified_value": "edge_case_guard_added"
+    },
+    {
+      "id": "G-ACT-19",
+      "type": "correct_number",
+      "section": "§4.3 Training Details",
+      "old_claim": "Epochs: 50",
+      "new_claim": "Combo 4: 100 epochs; Combo 1: 360+ epochs; per-combo counts in Appendix A",
+      "evidence_file": "combo4.log, results/combo1_metrics.json",
+      "verified_value": {"combo4_epochs": 100, "combo1_epochs": "360+"}
+    }
+  ],
+  "files_modified": [
+    "ChakraModel_Final_Paper.md",
+    "ARCHITECTURE-SPINE.md",
+    "src/topo_loss.py"
+  ],
+  "remaining_future_work": [
+    "Run full ETIS evaluation (196 images, not 5)",
+    "Fix MC Dropout implementation for non-zero variance",
+    "Run topo-loss ablation (+topo vs -topo Dice comparison)",
+    "Multi-seed training variance analysis (3-5 seeds)",
+    "Repair pipeline DSC degradation (Combo 6 pipeline = 0.4555 vs C1 = 0.9158)",
+    "Domain adaptation for CVC-ColonDB/CVC-300 generalization",
+    "Complete Combos 2-5 evaluation",
+    "Implement 4-way 70/10/10/10 split consistently across all notebooks",
+    "Add PolypMamba and CASCADE to SOTA comparison table",
+    "Implement and evaluate ChakraSLAM (3D spatial memory)"
+  ]
+}

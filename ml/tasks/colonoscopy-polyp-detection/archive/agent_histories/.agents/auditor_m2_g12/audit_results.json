@@ -1,0 +1,168 @@
+{
+  "timestamp": "2026-09-10T02:56:00Z",
+  "auditor": "auditor_m2_g12",
+  "target_path": "M:\\chakramodel\\tests\\adversarial\\",
+  "verdict": "INTEGRITY VIOLATION",
+  "rationale": "Checks 1, 2, and 3 PASSED with full empirical rigor. However, Check 4 (Codebase Immutability: 'git diff src/ to verify 0 bytes changed') FAILED. The repository contains 48,944 bytes of active diffs in src/ (398 insertions, 83 deletions across src/chakra_transformer/transformer_segmenter.py and src/models/chakranet_segmenter.py, plus 1 staged file src/conformal/conformal_calibration.py with 483 insertions, 403 deletions). Under strict forensic auditor mandate ('If ANY check fails, your verdict is INTEGRITY VIOLATION'), the verdict must be INTEGRITY VIOLATION.",
+  "checks": {
+    "1_hardcoding_check": {
+      "status": "PASS",
+      "details": "Verified all 14 tests in tests/adversarial/. Zero scripts use blind sys.exit(1). All scripts perform genuine AST walking, lexical token inspection, regex pattern analysis, or empirical state_dict/JSON parsing. When tested against compliant patched inputs, all 14 scripts reliably exit with code 0."
+    },
+    "2_facades_mocks_check": {
+      "status": "PASS",
+      "details": "Verified that checks inspect genuine repository artifacts and authentic parameters: weights/checkpoints/chakra_transformer_best.pth (num_batches_tracked = 2376 verified in decoder BatchNorm), 31 actual unguarded torch.load calls dynamically located across src, scripts, kaggle_package, kaggle_bundle, weights/calibration/conformal_calibration.json (q_hat_pos = 0.521484375), and results/combo1_metrics.json (threshold = 7.326006889e-06, mean_uncertainty = 2.8514779038956057e-15)."
+    },
+    "3_execution_safety_check": {
+      "status": "PASS",
+      "details": "Full AST inspection of all 15 Python files in tests/adversarial/ confirmed 100% read-only operations. Zero network libraries imported (requests, urllib, socket, etc.), zero download calls, zero file write/mutation calls (open in write mode, unlink, remove, rmtree all absent)."
+    },
+    "4_codebase_immutability_check": {
+      "status": "FAIL",
+      "details": "git diff src/ returned 48,944 characters of diff (expected 0 bytes changed). Unstaged modifications detected in src/chakra_transformer/transformer_segmenter.py (+200, -21) and src/models/chakranet_segmenter.py (+281, -62), plus staged modifications in src/conformal/conformal_calibration.py (+483, -403). Root cause: Concurrent cross-generational execution by worker_m1_g13 (Gen 13) injecting inline tensor comments into model source files, violating the codebase immutability invariant required for Milestone 2."
+    }
+  },
+  "tests_evaluated": [
+    {
+      "flaw_id": "Flaw 01",
+      "script": "test_flaw_01_no_skip_connections.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "AST inspection of ChakraNetMicroRefiner decode_head & forward hooks",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 02",
+      "script": "test_flaw_02_dead_imagenet_head.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "AST inspection of timm.create_model num_classes kwarg",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 03",
+      "script": "test_flaw_03_dead_code.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "AST walk checking dead classes vs active model instantiations & docstring",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 04",
+      "script": "test_flaw_04_oom_fallback.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "AST & text inspection of forward() for in-place self.to('cpu') mutation",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 05",
+      "script": "test_flaw_05_tta_enabled_by_default.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "AST inspection of getattr(self, 'use_tta', True) & __init__ defaults",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 06",
+      "script": "test_flaw_06_unguarded_torch_load.py",
+      "target_file": "src/, scripts/, kaggle_package/, kaggle_bundle/",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "Recursive AST parsing of all python files for torch.load without weights_only=True",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 07",
+      "script": "test_flaw_07_strict_false_state_dict.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "AST inspection for strict=False load_state_dict without RuntimeError/assert",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 08",
+      "script": "test_flaw_08_conformal_formula_sign.py",
+      "target_file": "src/models/chakranet_segmenter.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "Regex analysis of nonconformity scoring formula detecting sign inversion",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 09",
+      "script": "test_flaw_09_mc_dropout_collapse.py",
+      "target_file": "results/combo1_metrics.json, src/evaluation/run_all_combos.py",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "JSON parsing of mean_uncertainty (< 1e-10) & AST audit of enable_mc_dropout()",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 10",
+      "script": "test_flaw_10_contradictory_calibration_qhat.py",
+      "target_file": "weights/calibration/conformal_calibration.json, results/combo1_metrics.json",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "JSON parsing comparing q_hat_pos vs threshold orders of magnitude discrepancy",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 11",
+      "script": "test_flaw_11_unpinned_dependencies.py",
+      "target_file": "requirements.txt, kaggle_bundle/requirements.txt",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "Parsing requirement manifests for floating '>=' lower bounds without exact pin",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 12",
+      "script": "test_flaw_12_ci_lacking_src_coverage.py",
+      "target_file": ".github/workflows/test.yml",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "YAML parsing of CI job steps checking for src/ linting and unit test execution",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 13",
+      "script": "test_flaw_13_unrecoverable_training_batches.py",
+      "target_file": "weights/checkpoints/chakra_transformer_best.pth",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "PyTorch CPU checkpoint loading extracting num_batches_tracked (2376 vs 330)",
+      "result": "PASS"
+    },
+    {
+      "flaw_id": "Flaw 14",
+      "script": "test_flaw_14_headline_metric_artifact_absence.py",
+      "target_file": "FIXES.md, results/corrected_eval_kvasir_seg.json, docs/HONEST_METRICS.md",
+      "detection_exit_code": 1,
+      "remediated_exit_code": 0,
+      "method": "Auditing prose assertion of 0.7304 against true JSON artifact (0.80225) & retractions",
+      "result": "PASS"
+    }
+  ],
+  "git_diff_src_summary": {
+    "exit_code": 0,
+    "diff_character_count": 48944,
+    "modified_unstaged_files": [
+      "src/chakra_transformer/transformer_segmenter.py",
+      "src/models/chakranet_segmenter.py"
+    ],
+    "modified_staged_files": [
+      "src/conformal/conformal_calibration.py"
+    ],
+    "unstaged_insertions": 398,
+    "unstaged_deletions": 83,
+    "staged_insertions": 483,
+    "staged_deletions": 403
+  }
+}

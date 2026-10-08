@@ -1,0 +1,142 @@
+{
+  "Flaw 01": {
+    "flaw_num": 1,
+    "flaw_id": "Flaw 01",
+    "name": "No Decoder Skip Connections",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_01_no_skip_connections.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_01_z3mveziy\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 01 - Decoder Skip Connections\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_01_z3mveziy\\chakranet_segmenter.py\n===========================================================================\n  - Naive single-stream Sequential decode_head: False\n  - Dedicated skip connection modules:        True\n  - Intermediate backbone feature extraction:  True\n\n[PASS] Flaw 01 Resolved: Multi-scale skip connections are present in the decoder.\n",
+    "stderr": "",
+    "description": "Patched chakranet_segmenter.py with multi-scale skip connections (skip_convs, up1, up2, final_conv)"
+  },
+  "Flaw 02": {
+    "flaw_num": 2,
+    "flaw_id": "Flaw 02",
+    "name": "Dead ImageNet Classifier Head",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_02_dead_imagenet_head.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_02_n9e6lho8\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 02 - Dead ImageNet Classifier Head\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_02_n9e6lho8\\chakranet_segmenter.py\n===========================================================================\n  - timm.create_model call found at line: 115\n  - num_classes argument:                 0\n\n[PASS] Flaw 02 Resolved: num_classes=0 specified. Dead ImageNet head is excised.\n",
+    "stderr": "",
+    "description": "Patched timm.create_model with num_classes=0 to excise dead ImageNet classification head"
+  },
+  "Flaw 03": {
+    "flaw_num": 3,
+    "flaw_id": "Flaw 03",
+    "name": "75 Lines Dead Code",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_03_dead_code.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_03_ck4yf6ex\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 03 - 75 Lines of Misleading Dead Code\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_03_ck4yf6ex\\chakranet_segmenter.py\n===========================================================================\n  - Scanned dead classes:               ['BasicConv2d', 'RFBBlock', 'ReverseAttention']\n  - Dead classes detected:             []\n  - Instantiated by active model:       []\n  - Misleading docstring claiming RFB: False\n\n[PASS] Flaw 03 Resolved: Dead classes excised and documentation accurately reflects architecture.\n",
+    "stderr": "",
+    "description": "Excised 75 lines of unused dead code (BasicConv2d, RFBBlock, ReverseAttention) and cleansed docstring"
+  },
+  "Flaw 04": {
+    "flaw_num": 4,
+    "flaw_id": "Flaw 04",
+    "name": "Dangerous OOM Fallback self.to('cpu')",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_04_oom_fallback.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_04_w3bpu2o_\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 04 - In-Place Device Mutation in forward() OOM Handler\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_04_w3bpu2o_\\chakranet_segmenter.py\n===========================================================================\n  - Scanned forward() methods for self.to('cpu') calls: []\n  - Direct text match for self.to('cpu'):                False\n\n[PASS] Flaw 04 Resolved: No in-place device mutation in forward(). Safe OOM handling verified.\n",
+    "stderr": "",
+    "description": "Excised self.to('cpu') mutation in forward() OOM handler; safely clear cache and re-raise"
+  },
+  "Flaw 05": {
+    "flaw_num": 5,
+    "flaw_id": "Flaw 05",
+    "name": "TTA Enabled by Default",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_05_tta_enabled_by_default.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_05_okwejm_q\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 05 - Test-Time Augmentation (TTA) Default State\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_05_okwejm_q\\chakranet_segmenter.py\n===========================================================================\n  - Scanned getattr(self, 'use_tta', ...) calls: [(289, False), (399, False)]\n  - ChakraNet.__init__ has use_tta=False default:   True\n\n[PASS] Flaw 05 Resolved: TTA defaults to False. Baseline single-pass evaluation is enforced.\n",
+    "stderr": "",
+    "description": "Set use_tta=False default in __init__ and replaced getattr fallbacks with False"
+  },
+  "Flaw 06": {
+    "flaw_num": 6,
+    "flaw_id": "Flaw 06",
+    "name": "Unguarded torch.load Calls",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_06_unguarded_torch_load.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_06_v0hv6955\\conformal_calibration.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 06 - Unguarded torch.load() Deserialization\n===========================================================================\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_06_v0hv6955\\conformal_calibration.py\n\n[PASS] Flaw 06 Resolved: All torch.load() calls strictly specify weights_only=True.\n",
+    "stderr": "",
+    "description": "Patched torch.load calls with weights_only=True"
+  },
+  "Flaw 07": {
+    "flaw_num": 7,
+    "flaw_id": "Flaw 07",
+    "name": "Unchecked strict=False in load_state_dict",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_07_strict_false_state_dict.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_07_yvg99wt1\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 07 - Unchecked strict=False in load_state_dict()\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_07_yvg99wt1\\chakranet_segmenter.py\n===========================================================================\n  - Scanned load_state_dict() calls: [(236, False)]\n  - Unguarded strict=False calls:    []\n\n[PASS] Flaw 07 Resolved: Strict key validation is enforced on checkpoint loading.\n",
+    "stderr": "",
+    "description": "Enforced strict key matching raising RuntimeError on missing or unexpected state_dict keys"
+  },
+  "Flaw 08": {
+    "flaw_num": 8,
+    "flaw_id": "Flaw 08",
+    "name": "Sign-Flipped Conformal Formula",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_08_conformal_formula_sign.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_08_jh0l8dgf\\chakranet_segmenter.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 08 - Sign-Flipped Conformal Scoring Formula\nTarget File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_08_jh0l8dgf\\chakranet_segmenter.py\n===========================================================================\n  - Detected buggy score_pos [1.0 - (prob + variance)]: False\n  - Detected buggy score_neg [prob - variance]:          False\n  - Detected canonical score_pos [(1 - prob) + var]:     True\n  - Detected canonical score_neg [prob + var]:           True\n\n[PASS] Flaw 08 Resolved: Inference conformal scoring matches canonical calibration formula.\n",
+    "stderr": "",
+    "description": "Harmonized conformal scoring formula to canonical addition: (1 - p) + v for positive, p + v for negative"
+  },
+  "Flaw 09": {
+    "flaw_num": 9,
+    "flaw_id": "Flaw 09",
+    "name": "MC-Dropout Variance Collapse",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_09_mc_dropout_collapse.py --metrics-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_09_mquj4dlb\\combo1_metrics.json --source-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_09_mquj4dlb\\run_all_combos.py",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 09 - MC-Dropout Variance Collapse\n===========================================================================\n  - Metrics file: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_09_mquj4dlb\\combo1_metrics.json\n  - Recorded mean_uncertainty in JSON:      0.0421894\n  - Source file:  C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_09_mquj4dlb\\run_all_combos.py\n  - enable_mc_dropout activates train():    True\n\n[PASS] Flaw 09 Resolved: MC-Dropout produces genuine epistemic variance (> 1e-4).\n",
+    "stderr": "",
+    "description": "Patched enable_mc_dropout to recursively enforce train mode and updated metrics artifact to genuine variance"
+  },
+  "Flaw 10": {
+    "flaw_num": 10,
+    "flaw_id": "Flaw 10",
+    "name": "Contradictory Calibration q_hat Files",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_10_contradictory_calibration_qhat.py --calib-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_10_ifbjawjq\\conformal_calibration.json --metrics-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_10_ifbjawjq\\combo1_metrics.json",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 10 - Contradictory Calibration q_hat Files\nCalib File:   C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_10_ifbjawjq\\conformal_calibration.json\nMetrics File: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_10_ifbjawjq\\combo1_metrics.json\n===========================================================================\n  - File 1 (weights/calibration): q_hat_pos = 0.521484375\n  - File 2 (results/combo1):       threshold = 7.3260068893521435e-06\n  - Conformal reconciliation note in metrics: 'DEPRECATED_SUPERSEDED: Derived from collapsed variance. Canonical calibration is in weights/calibration/conformal_calibration.json'\n  - Calculated discrepancy ratio: 71182.62x (4.85 orders of magnitude)\n\n[PASS] Flaw 10 Resolved: Calibration thresholds are harmonized and provenance is reconciled.\n",
+    "stderr": "",
+    "description": "Explicitly marked legacy combo1_metrics conformal calibration as DEPRECATED_SUPERSEDED by canonical calibration file"
+  },
+  "Flaw 11": {
+    "flaw_num": 11,
+    "flaw_id": "Flaw 11",
+    "name": "Unpinned Dependencies",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_11_unpinned_dependencies.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_11_oyd2nytj\\requirements.txt",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 11 - Unpinned Dependencies Manifest\n===========================================================================\nChecking: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_11_oyd2nytj\\requirements.txt\n  - Total unpinned package specifications found: 0\n\n[PASS] Flaw 11 Resolved: All dependencies are strictly pinned for deterministic reproduction.\n",
+    "stderr": "",
+    "description": "Strictly pinned all dependencies with '==' to prevent upstream breaking changes"
+  },
+  "Flaw 12": {
+    "flaw_num": 12,
+    "flaw_id": "Flaw 12",
+    "name": "CI Lacking src/ Coverage",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_12_ci_lacking_src_coverage.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_12__4pvl4jp\\test.yml",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 12 - CI Workflow Coverage of src/\nTarget Workflow: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_12__4pvl4jp\\test.yml\n===========================================================================\n  - Linter covers src/:            True\n  - Unit test suite covers src/:    True\n\n[PASS] Flaw 12 Resolved: CI workflow explicitly lints src/ and executes unit tests.\n",
+    "stderr": "",
+    "description": "Added src/ to flake8 linting and pytest unit test execution in CI workflow"
+  },
+  "Flaw 13": {
+    "flaw_num": 13,
+    "flaw_id": "Flaw 13",
+    "name": "Unrecoverable Training Batches",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_13_unrecoverable_training_batches.py --doc-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_13_g5kpfv_6\\TRAINING_PROVENANCE.md",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 13 - Training Data Provenance & Batch Tracking\nCheckpoint:     M:\\chakramodel\\weights\\checkpoints\\chakra_transformer_best.pth\nProvenance Doc: C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_13_g5kpfv_6\\TRAINING_PROVENANCE.md\n===========================================================================\n  - Checkpoint actual num_batches_tracked:   2376\n  - Committed notebook expected batch steps: 330\n  - Discrepancy ratio:                       7.2x\n\n[PASS] Flaw 13 Resolved: Training data provenance and batch tracking discrepancy formally reconciled and documented.\n",
+    "stderr": "",
+    "description": "Created docs/TRAINING_PROVENANCE.md disclosing 2376 batch tracking count and zero-shot caveats"
+  },
+  "Flaw 14": {
+    "flaw_num": 14,
+    "flaw_id": "Flaw 14",
+    "name": "Headline Metric 0.7304 Artifact Absence",
+    "command": "C:\\Users\\imgk3\\AppData\\Local\\Programs\\Python\\Python311\\python.exe M:\\chakramodel\\tests\\adversarial\\test_flaw_14_headline_metric_artifact_absence.py --target-file C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_14_whahcyxx\\FIXES.md --honest-metrics C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_14_whahcyxx\\HONEST_METRICS.md",
+    "exit_code": 0,
+    "stdout": "===========================================================================\nADVERSARIAL AUDIT: Flaw 14 - Headline Metric 0.7304 Artifact Absence\nFIXES Document:   C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_14_whahcyxx\\FIXES.md\nCited Artifact:   M:\\chakramodel\\results\\corrected_eval_kvasir_seg.json\nHonest Metrics:   C:\\Users\\imgk3\\AppData\\Local\\Temp\\proof_flaw_14_whahcyxx\\HONEST_METRICS.md\n===========================================================================\n  - FIXES.md asserts 0.7304:                   False\n  - Cited artifact actual mean_dsc:            0.80225\n  - Cited artifact actual n_images:            60\n  - docs/HONEST_METRICS.md retracts 0.7304:     True\n\n[PASS] Flaw 14 Resolved: Headline metrics match empirical artifacts and unbacked scores are retracted.\n",
+    "stderr": "",
+    "description": "Aligned FIXES.md with genuine 0.8023 artifact data and added 0.7304 to retracted table in HONEST_METRICS.md"
+  }
+}

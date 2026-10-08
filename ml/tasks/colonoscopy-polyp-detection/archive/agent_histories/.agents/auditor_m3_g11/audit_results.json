@@ -1,0 +1,106 @@
+{
+  "timestamp": "2026-09-10T00:03:00Z",
+  "verdict": "CLEAN",
+  "checks": {
+    "file_existence": {
+      "status": "PASS",
+      "details": {
+        "docs/PERFORMANCE_ANALYSIS.md": {
+          "exists": true,
+          "size_bytes": 94224
+        },
+        "outputs/eval/pipeline_profiling_report.json": {
+          "exists": true,
+          "size_bytes": 2325
+        },
+        "outputs/eval/pipeline_profiling_report.md": {
+          "exists": true,
+          "size_bytes": 1785
+        },
+        "scripts/profile_inference_pipeline.py": {
+          "exists": true,
+          "size_bytes": 29154
+        }
+      }
+    },
+    "acceptance_criterion_1_latency": {
+      "status": "PASS",
+      "yolo_metrics": {
+        "mean_ms": 19.669613333341356,
+        "fps": 50.83984026797979
+      },
+      "vit_metrics": {
+        "fp32_mean_ms": 167.26178000050518,
+        "fp32_fps": 5.978652146335999,
+        "amp_mean_ms": 87.27348666652688,
+        "amp_fps": 11.458233630804886,
+        "tta_mean_ms": 175.15383333375212,
+        "tta_fps": 5.709266996712085
+      },
+      "issues": []
+    },
+    "acceptance_criterion_2_datasets": {
+      "status": "PASS",
+      "count": 5,
+      "datasets": {
+        "SUN-SEG": 8,
+        "CVC-VideoClinicDB": 5,
+        "LDPolypVideo": 4,
+        "PolypGen": 6,
+        "HyperKvasir": 4
+      }
+    },
+    "acceptance_criterion_3_literature_and_failure_modes": {
+      "status": "PASS",
+      "literature_count": 6,
+      "citations": {
+        "PNS-Net": 7,
+        "ST-PUNet": 4,
+        "FSNet": 4,
+        "PolyMamba-Net": 5,
+        "MAPSeg": 4,
+        "SegFormer": 13
+      },
+      "failure_mode_count": 5,
+      "failure_modes": {
+        "Motion Blur & Rapid Scope Dynamics": 6,
+        "Temporal Inconsistency & Mask Flickering": 8,
+        "Specular Glare & Reflections": 9,
+        "Occlusions & Debris": 28,
+        "Tissue Deformation & Peristalsis": 7
+      }
+    },
+    "immutability_src": {
+      "status": "PASS",
+      "unstaged_diff_empty": true,
+      "files_modified_during_analysis": [],
+      "pre_existing_staged_note": "src/conformal/conformal_calibration.py was staged on Sep 9 18:29 prior to milestone dispatch"
+    },
+    "non_fabrication_profiling": {
+      "status": "PASS",
+      "suspicious_mock_patterns": [],
+      "missing_constructs": [],
+      "script_loc": 584
+    },
+    "content_authenticity": {
+      "status": "PASS",
+      "doc_length_chars": 83635,
+      "doc_lines": 977,
+      "has_latex_formulas": true,
+      "has_markdown_tables": true,
+      "has_concrete_blueprints": true
+    },
+    "citation_authenticity": {
+      "status": "PASS",
+      "verified_references": {
+        "PNS-Net": "Ji et al., Progressively Normalized Self-Attention Network for Video Polyp Segmentation, MICCAI 2021",
+        "SUN-SEG": "Ji et al., Video Polyp Segmentation: A Deep Learning Perspective, MedIA 2023",
+        "CVC-VideoClinicDB": "Bernal et al., Polyp detection benchmark in colonoscopy videos, GIANA 2017",
+        "LDPolypVideo": "Ma et al., LDPolypVideo Benchmark, MICCAI 2021",
+        "PolypGen": "Ali et al., Multi-centre dataset for polyp detection and segmentation in colonoscopy, Scientific Data 2023",
+        "SegFormer": "Xie et al., SegFormer: Simple and Efficient Design for Semantic Segmentation with Transformers, NeurIPS 2021"
+      }
+    }
+  },
+  "failures": []
+}

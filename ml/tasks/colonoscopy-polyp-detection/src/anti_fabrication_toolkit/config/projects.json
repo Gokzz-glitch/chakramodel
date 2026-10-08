@@ -1,0 +1,21 @@
+{
+  "data": {
+    "chakramodel": {
+      "colondb": {
+        "dataset_root": "M:\\chakramodel\\data\\cvc-colondb",
+        "script": "M:\\chakramodel\\src\\verify_strict.py",
+        "section_label": "CVC-ColonDB",
+        "script_sha256": "85d34ec4fee714177beb9d56673f860650c82ae8a55737fc19ace7ffbc39686e",
+        "registered_at_epoch": 1788679207.6956744
+      },
+      "cvc300": {
+        "dataset_root": "M:\\chakramodel\\data\\cvc-300",
+        "script": "M:\\chakramodel\\src\\verify_strict.py",
+        "section_label": "CVC-300",
+        "script_sha256": "85d34ec4fee714177beb9d56673f860650c82ae8a55737fc19ace7ffbc39686e",
+        "registered_at_epoch": 1788679220.3483317
+      }
+    }
+  },
+  "signature": "7677c1a8ebac1096cf0a8dddab9cd98121da527b634f538771f83476b2723672"
+}

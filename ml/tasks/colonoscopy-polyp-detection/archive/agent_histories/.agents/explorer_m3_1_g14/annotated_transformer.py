@@ -1,0 +1,254 @@
+"""
+ChakraTransformerSegmenter: High-Accuracy Vision Transformer Polyp Segmentation Engine
+=======================================================================================
+Architecture Overview:
+- Structural Role Breakdown:
+  * [BODY]: Pretrained Vision Transformer Backbone (ViT-Large / vit_large_patch16_384)
+            Processes input patches via 24 Pre-LN Transformer blocks (dim=1024, 16 heads).
+  * [NECK / PROMPT ENCODER]: SAM-style learnable prompt embedding layer (Embedding(2, 1024))
+                             Injects spatial bounding-box priors directly into bottleneck features.
+  * [DECODER / HEAD]: Progressive 2-Stage Transposed Convolution Decoder (1024 -> 256 -> 64 -> 1)
+                      Reconstructs high-resolution 384x384 segmentation logits with MC Dropout.
+
+Total Model Parameters: 309,175,785 (Active: 308,150,785 | Dead Classifier Stub: 1,025,000)
+"""
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import timm
+
+class ChakraTransformerSegmenter(nn.Module):
+    """
+    High-Accuracy Vision Transformer (ViT) based segmentation model for Polyp Detection.
+    Upgraded to ViT-Large with 384x384 resolution since hardware is not a limitation.
+    """
+    def __init__(self, backbone_name='vit_large_patch16_384', pretrained=True, num_classes=1):
+        super(ChakraTransformerSegmenter, self).__init__()
+        
+        # =====================================================================
+        # [BODY]: Vision Transformer Backbone (ViT-Large / 24 Blocks / 1024 Dim)
+        # =====================================================================
+        # Total Backbone Parameters: 304,715,752
+        # - Patch Embedding: Conv2d(3, 1024, kernel_size=16, stride=16) -> 787,456 params
+        # - Class Token (CLS): nn.Parameter([1, 1, 1024]) -> 1,024 params
+        # - Position Embedding: nn.Parameter([1, 577, 1024]) -> 590,848 params
+        # - 24 Encoder Blocks: 24 x 12,596,224 = 302,309,376 params
+        #     * Pre-LayerNorm 1: LayerNorm(1024) -> 2,048 params
+        #     * Multi-Head Attention (16 heads, head dim 64):
+        #         - attn.qkv: Linear(1024, 3072) -> 3,148,800 params
+        #         - attn.proj: Linear(1024, 1024) -> 1,049,600 params
+        #     * Pre-LayerNorm 2: LayerNorm(1024) -> 2,048 params
+        #     * MLP / FeedForward (4x expansion):
+        #         - mlp.fc1: Linear(1024, 4096) + GELU -> 4,198,400 params
+        #         - mlp.fc2: Linear(4096, 1024) -> 4,195,328 params
+        # - Post-Transformer LayerNorm: LayerNorm(1024) -> 2,048 params
+        # - Unused ImageNet Classifier Head: Linear(1024, 1000) -> 1,025,000 params
+        self.backbone = timm.create_model(
+            backbone_name, 
+            pretrained=pretrained, 
+            features_only=False,
+            drop_rate=0.1,
+            attn_drop_rate=0.1
+        )
+        
+        # Feature dimension: 1024
+        self.embed_dim = self.backbone.embed_dim
+        
+        # =====================================================================
+        # [NECK / PROMPT ENCODER]: SAM-style Prompt Encoder for YOLO Bounding Boxes
+        # =====================================================================
+        # Maps binary spatial mask (1: inside bbox, 0: outside bbox) to ViT feature space
+        # Tensor shape: [B, 24, 24] -> [B, 24, 24, 1024] -> [B, 1024, 24, 24]
+        # Total Parameters: 2 x 1024 = 2,048
+        self.prompt_embedding = nn.Embedding(2, self.embed_dim)
+        
+        # =====================================================================
+        # [DECODER / HEAD]: Progressive 2-Stage Upsampling Decode Head
+        # =====================================================================
+        # Reconstructs full 384x384 pixel resolution from 24x24 bottleneck features.
+        # Total Decoder Parameters: 4,457,985
+        # 384 / 16 = 24x24 spatial grid at bottleneck.
+        self.decode_head = nn.Sequential(
+            # Stage 1: 4x Upsample (24x24 -> 96x96), channels: 1024 -> 256
+            # Layer 0 (ConvTranspose2d): [B, 1024, 24, 24] -> [B, 256, 96, 96]
+            # Params: 1024 * 256 * 4 * 4 + 256 = 4,194,560
+            nn.ConvTranspose2d(self.embed_dim, 256, kernel_size=4, stride=4),  # Layer 0
+            # Layer 1 (BatchNorm2d): [B, 256, 96, 96] -> [B, 256, 96, 96] (512 params)
+            nn.BatchNorm2d(256),                                              # Layer 1
+            # Layer 2 (ReLU): [B, 256, 96, 96] -> [B, 256, 96, 96] (0 params)
+            nn.ReLU(inplace=True),                                            # Layer 2
+            
+            # Stage 2: 4x Upsample (96x96 -> 384x384), channels: 256 -> 64
+            # Layer 3 (ConvTranspose2d): [B, 256, 96, 96] -> [B, 64, 384, 384]
+            # Params: 256 * 64 * 4 * 4 + 64 = 262,208
+            nn.ConvTranspose2d(256, 64, kernel_size=4, stride=4),             # Layer 3
+            # Layer 4 (BatchNorm2d): [B, 64, 384, 384] -> [B, 64, 384, 384] (128 params)
+            nn.BatchNorm2d(64),                                               # Layer 4
+            # Layer 5 (ReLU): [B, 64, 384, 384] -> [B, 64, 384, 384] (0 params)
+            nn.ReLU(inplace=True),                                            # Layer 5
+            
+            # Segmentation Head: Refinement & Channel Projection (64 -> num_classes)
+            # Layer 6 (Conv2d 3x3, p=1): [B, 64, 384, 384] -> [B, 1, 384, 384]
+            # Params: 1 * 64 * 3 * 3 + 1 = 577
+            nn.Conv2d(64, num_classes, kernel_size=3, padding=1)              # Layer 6
+        )
+        
+        # Spatial MC Dropout layers placed after ReLU activations (Layers 2 and 5)
+        # Randomly zeroes entire 2D feature channels with probability p=0.5
+        self.dropout1 = nn.Dropout2d(p=0.5)
+        self.dropout2 = nn.Dropout2d(p=0.5)
+
+    def enable_mc_dropout(self):
+        """
+        Enable Dropout layers during evaluation for Monte Carlo epistemic uncertainty sampling.
+        Crucial Architecture Invariant:
+        - Sets all Dropout and DropPath modules to train() mode.
+        - Keeps BatchNorm2d layers in eval() mode to freeze running mean & variance,
+          preventing stochastic batch statistics drift during 16 sampling passes.
+        """
+        for m in self.modules():
+            if isinstance(m, (nn.Dropout, nn.Dropout2d, nn.Dropout3d)):
+                m.train()
+            # Catch timm's DropPath, DropBlock, etc.
+            elif 'Drop' in m.__class__.__name__:
+                m.train()
+                
+        # Explicitly enforce manual decoder dropout layers
+        self.dropout1.train()
+        self.dropout2.train()
+
+    def forward(self, x, bbox=None):
+        """
+        Forward Pass for ChakraTransformerSegmenter.
+        
+        Args:
+            x: Input endoscopic frame tensor of shape [B, 3, 384, 384]
+            bbox: Optional list of bounding boxes B x [x1, y1, x2, y2] in pixel coords [0, 384]
+            
+        Returns:
+            logits: Output segmentation mask logits of shape [B, 1, 384, 384]
+        """
+        # Tensor shape: Input x [B, C, H, W] -> standard [B, 3, 384, 384]
+        B, C, H, W = x.shape
+        
+        # =====================================================================
+        # 1. [BODY] ViT-Large Feature Extraction & Multi-Head Self-Attention
+        # =====================================================================
+        # Internal Tensor Transformations:
+        # 1. Patch Embedding: Conv2d(3, 1024, k=16, s=16)
+        #    # Tensor shape: [B, 3, 384, 384] -> [B, 1024, 24, 24]
+        #    Flatten & Permute:
+        #    # Tensor shape: [B, 1024, 24, 24] -> [B, 576, 1024]
+        # 2. Prepend CLS Token:
+        #    # Tensor shape: [B, 576, 1024] -> [B, 577, 1024]
+        # 3. Add Learned 1D Positional Embedding:
+        #    # Tensor shape: [B, 577, 1024] + [1, 577, 1024] -> [B, 577, 1024]
+        # 4. 24x Transformer Encoder Blocks:
+        #    For each block:
+        #      a. Pre-LayerNorm 1: [B, 577, 1024] -> [B, 577, 1024]
+        #      b. QKV Projection: Linear(1024, 3072) -> [B, 577, 3072]
+        #         Unbind into Q, K, V each [B, 16, 577, 64]
+        #      c. Scaled Dot-Product Attention:
+        #         A_logits = (Q * 0.125) @ K^T -> [B, 16, 577, 577]
+        #         A_weights = softmax(A_logits, dim=-1) -> [B, 16, 577, 577]
+        #         Context = A_weights @ V -> [B, 16, 577, 64]
+        #         Concat heads & Proj Linear(1024, 1024) -> [B, 577, 1024]
+        #      d. Residual Connection 1: X + Context -> [B, 577, 1024]
+        #      e. Pre-LayerNorm 2: [B, 577, 1024] -> [B, 577, 1024]
+        #      f. MLP Expansion: Linear(1024, 4096) + GELU -> [B, 577, 4096]
+        #         MLP Contraction: Linear(4096, 1024) -> [B, 577, 1024]
+        #      g. Residual Connection 2: X + MLP -> [B, 577, 1024]
+        # 5. Post-Transformer LayerNorm:
+        #    # Tensor shape: [B, 577, 1024] -> [B, 577, 1024]
+        features = self.backbone.forward_features(x)
+        
+        # =====================================================================
+        # 2. Sequence-to-Spatial Conversion (Stripping CLS Token)
+        # =====================================================================
+        if features.dim() == 3:
+            # Drop the CLS token (token 0) to retain only the 576 spatial patch vectors
+            # Condition: 577 == (384 // 16) * (384 // 16) + 1 = 24 * 24 + 1 = 577 (True)
+            # Tensor shape: [B, 577, 1024] -> [B, 576, 1024]
+            if features.shape[1] == (H // 16) * (W // 16) + 1:
+                features = features[:, 1:]
+            
+            grid_h = H // 16  # 24
+            grid_w = W // 16  # 24
+            
+            # Transpose sequence to channel-first representation:
+            # Tensor shape: [B, 576, 1024] -> [B, 1024, 576]
+            # Reshape into 2D spatial feature map:
+            # Tensor shape: [B, 1024, 576] -> [B, 1024, 24, 24]
+            features = features.transpose(1, 2).contiguous().view(B, self.embed_dim, grid_h, grid_w)
+            
+        # =====================================================================
+        # 3. [NECK / PROMPT ENCODER] Bounding Box Prompt Embedding Injection
+        # =====================================================================
+        if bbox is not None:
+            # Initialize binary mask on the 24x24 bottleneck spatial grid
+            # Tensor shape: prompt_mask [B, 24, 24] (values in {0, 1})
+            prompt_mask = torch.zeros((B, grid_h, grid_w), dtype=torch.long, device=x.device)
+            for b in range(B):
+                x1, y1, x2, y2 = bbox[b]
+                # Scale pixel coordinates [0, 384] to feature grid coordinates [0, 24]
+                px1 = max(0, int(x1 * grid_w / W))
+                py1 = max(0, int(y1 * grid_h / H))
+                px2 = min(grid_w, int(x2 * grid_w / W))
+                py2 = min(grid_h, int(y2 * grid_h / H))
+                prompt_mask[b, py1:py2, px1:px2] = 1
+                
+            # Embedding lookup: maps binary indicators to 1024-dim prompt features
+            # Tensor shape: [B, 24, 24] -> [B, 24, 24, 1024]
+            # Permute to channels-first format:
+            # Tensor shape: [B, 24, 24, 1024] -> [B, 1024, 24, 24]
+            prompt_feats = self.prompt_embedding(prompt_mask).permute(0, 3, 1, 2)
+            
+            # Elementwise feature fusion: injects localization prior without spatial cropping
+            # Tensor shape: [B, 1024, 24, 24] + [B, 1024, 24, 24] -> [B, 1024, 24, 24]
+            features = features + prompt_feats
+            
+        # =====================================================================
+        # 4. [DECODER / HEAD] Progressive 2-Stage Upsampling with MC Dropout
+        # =====================================================================
+        x_dec = features  # Tensor shape: [B, 1024, 24, 24]
+        for i, layer in enumerate(self.decode_head):
+            x_dec = layer(x_dec)
+            
+            # --- STAGE 1 PROGRESSION (24x24 -> 96x96, channels: 1024 -> 256) ---
+            # Layer 0 (ConvTranspose2d): # Tensor shape: [B, 1024, 24, 24] -> [B, 256, 96, 96]
+            # Layer 1 (BatchNorm2d):     # Tensor shape: [B, 256, 96, 96]  -> [B, 256, 96, 96]
+            # Layer 2 (ReLU):            # Tensor shape: [B, 256, 96, 96]  -> [B, 256, 96, 96]
+            if i == 2:
+                # Dropout1 (Dropout2d p=0.5): # Tensor shape: [B, 256, 96, 96] -> [B, 256, 96, 96]
+                x_dec = self.dropout1(x_dec)
+                
+            # --- STAGE 2 PROGRESSION (96x96 -> 384x384, channels: 256 -> 64) ---
+            # Layer 3 (ConvTranspose2d): # Tensor shape: [B, 256, 96, 96]  -> [B, 64, 384, 384]
+            # Layer 4 (BatchNorm2d):     # Tensor shape: [B, 64, 384, 384] -> [B, 64, 384, 384]
+            # Layer 5 (ReLU):            # Tensor shape: [B, 64, 384, 384] -> [B, 64, 384, 384]
+            elif i == 5:
+                # Dropout2 (Dropout2d p=0.5): # Tensor shape: [B, 64, 384, 384] -> [B, 64, 384, 384]
+                x_dec = self.dropout2(x_dec)
+                
+            # --- FINAL SEGMENTATION HEAD (channels: 64 -> num_classes=1) ---
+            # Layer 6 (Conv2d 3x3, p=1): # Tensor shape: [B, 64, 384, 384] -> [B, 1, 384, 384]
+                
+        logits = x_dec  # Tensor shape: [B, 1, 384, 384]
+        
+        # Fallback Bilinear Interpolation for arbitrary input dimensions
+        if logits.shape[2:] != (H, W):
+            # Tensor shape: [B, 1, 384, 384] -> [B, 1, H, W]
+            logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=False)
+            
+        # Tensor shape: Final Logits [B, 1, 384, 384]
+        return logits
+
+if __name__ == "__main__":
+    # Test the model with dummy data
+    model = ChakraTransformerSegmenter(pretrained=False)
+    dummy_input = torch.randn(2, 3, 384, 384)
+    # Test with dummy bounding boxes
+    dummy_bboxes = [[50, 50, 150, 150], [10, 20, 300, 350]]
+    output = model(dummy_input, bbox=dummy_bboxes)
+    print(f"Model output shape: {output.shape} (Expected: [2, 1, 384, 384])")

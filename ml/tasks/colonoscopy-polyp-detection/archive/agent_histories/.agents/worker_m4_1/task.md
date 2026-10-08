@@ -1,0 +1,16 @@
+# Task: Milestone 4 - True Documentation Suite Synthesis
+- **Role**: teamwork_preview_worker (Documentation Author & Systems Engineer)
+- **Working Directory**: m:\chakramodel\.agents\worker_m4_1
+- **Scope**: Create the complete, deeply honest, code-verified documentation suite in `m:\chakramodel\true_docs/`:
+  - `true_docs/index.md`
+  - `true_docs/history_and_timeline.md`
+  - `true_docs/architecture_evolution.md`
+  - `true_docs/theoretical_claims_vs_code.md`
+  - `true_docs/verified_benchmarks_and_metrics.md`
+- **Inputs**:
+  - Explorer 1 handoff & analysis: `m:\chakramodel\.agents\teamwork_preview_explorer_m1_1\handoff.md` and `analysis.md`
+  - Explorer 2 handoff & analysis: `m:\chakramodel\.agents\teamwork_preview_explorer_m2_1\handoff.md` and `analysis.md`
+  - Explorer 3 handoff & analysis: `m:\chakramodel\.agents\teamwork_preview_explorer_m3_1\handoff.md` and `analysis.md`
+- **Output**:
+  - `m:\chakramodel\true_docs/*.md`
+  - Self-contained `m:\chakramodel\.agents\worker_m4_1\handoff.md`

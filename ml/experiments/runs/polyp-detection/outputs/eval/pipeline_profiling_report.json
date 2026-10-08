@@ -1,0 +1,80 @@
+{
+  "metadata": {
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+    "total_vram_mb": 4095.5625,
+    "yolo_weights": "weights/yolo/best.pt",
+    "vit_weights": "weights/checkpoints/chakra_transformer_best.pth",
+    "n_frames_profiled": 15,
+    "input_resolution": "768x576"
+  },
+  "components": {
+    "yolo_detection": {
+      "mean_ms": 19.669613333341356,
+      "std_ms": 2.610523503794527,
+      "min_ms": 17.697100000077626,
+      "max_ms": 28.781499997421633,
+      "standalone_fps": 50.83984026797979
+    },
+    "crop_and_coordinate_transform": {
+      "mean_ms": 0.040100000478560105,
+      "std_ms": 0.007780745291144008
+    },
+    "roi_prep_and_host_transfer": {
+      "mean_ms": 1.8063599995609063,
+      "std_ms": 0.27159765506750577
+    },
+    "vit_large_fp32_single_pass": {
+      "mean_ms": 167.26178000050518,
+      "std_ms": 52.28402921186117,
+      "fps": 5.978652146335999
+    },
+    "vit_large_amp_fp16_single_pass": {
+      "mean_ms": 87.27348666652688,
+      "std_ms": 76.37266295930716,
+      "fps": 11.458233630804886
+    },
+    "vit_large_backbone_only_amp": {
+      "mean_ms": 62.606179999905486,
+      "std_ms": 0.579725379861226
+    },
+    "vit_large_decoder_only_amp": {
+      "mean_ms": 3.655100000226715,
+      "std_ms": 0.24421061455521917
+    },
+    "vit_large_3pass_tta": {
+      "mean_ms": 175.15383333375212,
+      "std_ms": 3.379903144722162,
+      "fps": 5.709266996712085
+    },
+    "gpu_cpu_transfer_and_postprocessing": {
+      "mean_ms": 1.1506333331150624,
+      "std_ms": 0.18061924083109587
+    }
+  },
+  "scenarios": {
+    "zero_polyps_yolo_only": {
+      "latency_ms": 19.669613333341356,
+      "fps": 50.83984026797979
+    },
+    "one_polyp_single_pass_amp": {
+      "latency_ms": 109.94019333302278,
+      "fps": 9.095854479452054
+    },
+    "one_polyp_default_tta_status_quo": {
+      "latency_ms": 197.820540000248,
+      "fps": 5.0550867973505
+    },
+    "two_polyps_default_tta_sequential": {
+      "latency_ms": 375.97146666715463,
+      "fps": 2.65977630926257
+    }
+  },
+  "vram_memory_mb": {
+    "baseline_allocated": 0.0,
+    "yolo_weights": 0.0,
+    "vit_large_weights": 1180.40966796875,
+    "peak_allocated": 1868.775390625,
+    "peak_reserved": 1972.0
+  }
+}

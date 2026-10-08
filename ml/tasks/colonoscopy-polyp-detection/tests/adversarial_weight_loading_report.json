@@ -1,0 +1,182 @@
+{
+  "raw_keys": 312,
+  "stripped_keys": 312,
+  "missing_keys": 0,
+  "unexpected_keys": 0,
+  "total_patterns": 15,
+  "min_mean_prob": 0.06235448643565178,
+  "max_mean_prob": 0.9705395102500916,
+  "probability_range": 0.9081850238144398,
+  "probability_range_gt_0_05": true,
+  "patterns_in_collapse_zone": [],
+  "all_outputs_collapsed": false,
+  "buggy_spread": 0.0010914206504821777,
+  "buggy_std": 0.00032703184328115387,
+  "patterns": [
+    {
+      "name": "zeros",
+      "mean_prob": 0.5440628528594971,
+      "min_prob": 0.0041681756265461445,
+      "max_prob": 0.9991748929023743,
+      "spatial_std": 0.34753334522247314,
+      "logit_mean": 0.5473794937133789,
+      "logit_std": 2.4906158447265625,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "ones",
+      "mean_prob": 0.56640625,
+      "min_prob": 0.003082275390625,
+      "max_prob": 1.0,
+      "spatial_std": 0.34765625,
+      "logit_mean": 0.64453125,
+      "logit_std": 2.453125,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "noise_standard_gaussian",
+      "mean_prob": 0.43528905510902405,
+      "min_prob": 9.070269879885018e-05,
+      "max_prob": 0.9999823570251465,
+      "spatial_std": 0.4196943938732147,
+      "logit_mean": -0.5887501239776611,
+      "logit_std": 3.8229634761810303,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "noise_low_amplitude",
+      "mean_prob": 0.3746477961540222,
+      "min_prob": 0.00017673501861281693,
+      "max_prob": 0.9999569654464722,
+      "spatial_std": 0.45369791984558105,
+      "logit_mean": -1.3248296976089478,
+      "logit_std": 5.431071758270264,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "noise_high_amplitude",
+      "mean_prob": 0.5508062243461609,
+      "min_prob": 0.014052120968699455,
+      "max_prob": 0.9916684627532959,
+      "spatial_std": 0.23828835785388947,
+      "logit_mean": 0.251660019159317,
+      "logit_std": 1.2094981670379639,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "uniform_unit_0_1",
+      "mean_prob": 0.4888697862625122,
+      "min_prob": 0.0003151537093799561,
+      "max_prob": 0.9997448325157166,
+      "spatial_std": 0.443791925907135,
+      "logit_mean": -0.030674729496240616,
+      "logit_std": 4.379795074462891,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "uniform_wide_neg3_pos3",
+      "mean_prob": 0.48081859946250916,
+      "min_prob": 0.0001731028751237318,
+      "max_prob": 0.9994056224822998,
+      "spatial_std": 0.41485485434532166,
+      "logit_mean": -0.24754418432712555,
+      "logit_std": 3.5178725719451904,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "uniform_negative",
+      "mean_prob": 0.37448766827583313,
+      "min_prob": 8.502181299263611e-05,
+      "max_prob": 0.9998229146003723,
+      "spatial_std": 0.41625553369522095,
+      "logit_mean": -1.3533935546875,
+      "logit_std": 3.8661346435546875,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "gradient_horizontal",
+      "mean_prob": 0.6080501675605774,
+      "min_prob": 0.006853844970464706,
+      "max_prob": 0.9988887906074524,
+      "spatial_std": 0.2998177111148834,
+      "logit_mean": 0.8638063073158264,
+      "logit_std": 2.0467753410339355,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "gradient_vertical",
+      "mean_prob": 0.5346370935440063,
+      "min_prob": 0.0008422622340731323,
+      "max_prob": 0.9991210103034973,
+      "spatial_std": 0.35378298163414,
+      "logit_mean": 0.526147723197937,
+      "logit_std": 2.6421406269073486,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "checkerboard_pattern",
+      "mean_prob": 0.6158517003059387,
+      "min_prob": 0.0018120910972356796,
+      "max_prob": 0.999721109867096,
+      "spatial_std": 0.3461035192012787,
+      "logit_mean": 1.1274806261062622,
+      "logit_std": 2.6778345108032227,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "synthetic_polyp_blob",
+      "mean_prob": 0.19937756657600403,
+      "min_prob": 1.4032426609578152e-10,
+      "max_prob": 1.0,
+      "spatial_std": 0.39722055196762085,
+      "logit_mean": -6.27234411239624,
+      "logit_std": 7.91644287109375,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "simulated_mucosa_pink",
+      "mean_prob": 0.5138773918151855,
+      "min_prob": 0.0024368229787796736,
+      "max_prob": 0.9988608360290527,
+      "spatial_std": 0.36805135011672974,
+      "logit_mean": 0.33312422037124634,
+      "logit_std": 2.6711814403533936,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "extreme_positive_20",
+      "mean_prob": 0.9705395102500916,
+      "min_prob": 0.7497768402099609,
+      "max_prob": 0.9991907477378845,
+      "spatial_std": 0.023159842938184738,
+      "logit_mean": 3.808037757873535,
+      "logit_std": 0.8661786317825317,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    },
+    {
+      "name": "extreme_negative_20",
+      "mean_prob": 0.06235448643565178,
+      "min_prob": 0.0037984554655849934,
+      "max_prob": 0.43793824315071106,
+      "spatial_std": 0.043852683156728745,
+      "logit_mean": -2.93009614944458,
+      "logit_std": 0.7323443293571472,
+      "in_collapse_zone": false,
+      "spatially_flat": false
+    }
+  ]
+}

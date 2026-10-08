@@ -1,0 +1,1336 @@
+{
+  "pg_root_exists": true,
+  "root_items": [
+    "data_C1",
+    "data_C6",
+    ".DS_Store",
+    "fileStructure_all.txt",
+    "dataDetails_PolypGen_SingleFrames",
+    "fileStructure_directories.txt",
+    "readme.html",
+    "readme.md",
+    "data_C5",
+    "data_C2",
+    "data_C3",
+    "data_C4",
+    "PolypGen2021_MultiCenterData_Concatenated.zip",
+    "codes",
+    "license.txt",
+    "sequenceData",
+    "imagesAll_positive",
+    "folderStructure"
+  ],
+  "centers_info": {
+    "C1": {
+      "exists": true,
+      "subdirs": [
+        "bbox_C1",
+        "bbox_image_C1",
+        "masks_C1",
+        "images_C1"
+      ],
+      "images_count": 256,
+      "masks_count": 256,
+      "bbox_count": 256,
+      "bbox_img_dir_name": "bbox_image_C1",
+      "bbox_images_count": 257,
+      "sample_img": "100H0050.jpg",
+      "mask_naming": "_mask.jpg",
+      "bbox_naming": "_mask.txt"
+    },
+    "C2": {
+      "exists": true,
+      "subdirs": [
+        "bbox_C2",
+        "bbox_image_C2",
+        "masks_C2",
+        "images_C2"
+      ],
+      "images_count": 301,
+      "masks_count": 301,
+      "bbox_count": 301,
+      "bbox_img_dir_name": "bbox_image_C2",
+      "bbox_images_count": 301,
+      "sample_img": "EndoCV2021_001000.jpg",
+      "mask_naming": "_mask.jpg",
+      "bbox_naming": ".txt"
+    },
+    "C3": {
+      "exists": true,
+      "subdirs": [
+        "bbox_C3",
+        "bbox_image_C3",
+        "images_C3",
+        "masks_C3"
+      ],
+      "images_count": 457,
+      "masks_count": 457,
+      "bbox_count": 393,
+      "bbox_img_dir_name": "bbox_image_C3",
+      "bbox_images_count": 393,
+      "sample_img": "C3_EndoCV2021_001.jpg",
+      "mask_naming": "_mask.jpg",
+      "bbox_naming": ".txt"
+    },
+    "C4": {
+      "exists": true,
+      "subdirs": [
+        "bbox_C4",
+        "bbox_image_C4",
+        "images_C4",
+        "masks_C4"
+      ],
+      "images_count": 227,
+      "masks_count": 227,
+      "bbox_count": 227,
+      "bbox_img_dir_name": "bbox_image_C4",
+      "bbox_images_count": 227,
+      "sample_img": "10_endocv2021_positive_1006.jpg",
+      "mask_naming": "_mask.jpg",
+      "bbox_naming": "_mask.txt"
+    },
+    "C5": {
+      "exists": true,
+      "subdirs": [
+        "bbox_C5",
+        "bbox_image_C5",
+        "masks_C5",
+        "images_C5"
+      ],
+      "images_count": 208,
+      "masks_count": 208,
+      "bbox_count": 208,
+      "bbox_img_dir_name": "bbox_image_C5",
+      "bbox_images_count": 208,
+      "sample_img": "EndoCV2021_C5_50000003.jpg",
+      "mask_naming": "_mask.jpg",
+      "bbox_naming": "_mask.txt"
+    },
+    "C6": {
+      "exists": true,
+      "subdirs": [
+        "bbox_C6",
+        "masks_C6",
+        "images_C6",
+        "bbox_images_C6"
+      ],
+      "images_count": 88,
+      "masks_count": 88,
+      "bbox_count": 88,
+      "bbox_img_dir_name": "bbox_images_C6",
+      "bbox_images_count": 88,
+      "sample_img": "EndoCV2021_C6_0100001.jpg",
+      "mask_naming": "_mask.jpg",
+      "bbox_naming": "_mask.txt"
+    }
+  },
+  "bbox_stats_single_frames": {
+    "total_bbox_files": 1473,
+    "empty_bbox_files": 126,
+    "non_empty_bbox_files": 1347,
+    "total_boxes": 1533,
+    "boxes_per_file_dist": {
+      "1": 1224,
+      "0": 126,
+      "3": 21,
+      "4": 7,
+      "8": 1,
+      "2": 89,
+      "5": 2,
+      "9": 1,
+      "6": 1,
+      "7": 1
+    },
+    "classes_found": [
+      "polyp"
+    ],
+    "coord_min": [
+      0.0,
+      0.0,
+      152.0,
+      3.0
+    ],
+    "coord_max": [
+      1776.0,
+      1077.0,
+      1912.0,
+      1080.0
+    ],
+    "invalid_boxes": 0,
+    "out_of_bounds_boxes": 0,
+    "sample_lines": [
+      "100H0050_mask.txt: polyp 624 544 872 704",
+      "100S0003_mask.txt: polyp 56 112 520 376",
+      "102OLCV1_100H0006_mask.txt: polyp 392 480 576 824",
+      "104OLCV1_100H0002_mask.txt: polyp 360 680 776 864",
+      "106OLCV1_100H0012_mask.txt: polyp 824 32 1350 597",
+      "106OLCV1_100H0014_mask.txt: polyp 936 248 1232 664",
+      "117OLCV1_100H0010_mask.txt: polyp 728 416 896 608",
+      "123OLCV1_100H0004_mask.txt: polyp 184 424 536 840",
+      "124OLCV1_100H0004_mask.txt: polyp 408 305 694 816",
+      "125OLCV1_100H0003_mask.txt: polyp 656 400 792 520"
+    ]
+  },
+  "sample_mask_iou_checks": [
+    {
+      "center": "C1",
+      "txt": "100H0050_mask.txt",
+      "img_wh": [
+        1350,
+        1080
+      ],
+      "mask_wh": [
+        1350,
+        1080
+      ],
+      "bbox_txt": [
+        624.0,
+        544.0,
+        872.0,
+        704.0
+      ],
+      "mask_extent": [
+        628,
+        549,
+        870,
+        698
+      ]
+    },
+    {
+      "center": "C1",
+      "txt": "100S0003_mask.txt",
+      "img_wh": [
+        628,
+        513
+      ],
+      "mask_wh": [
+        628,
+        513
+      ],
+      "bbox_txt": [
+        56.0,
+        112.0,
+        520.0,
+        376.0
+      ],
+      "mask_extent": [
+        63,
+        118,
+        517,
+        373
+      ]
+    },
+    {
+      "center": "C1",
+      "txt": "102OLCV1_100H0006_mask.txt",
+      "img_wh": [
+        1350,
+        1080
+      ],
+      "mask_wh": [
+        1350,
+        1080
+      ],
+      "bbox_txt": [
+        392.0,
+        480.0,
+        576.0,
+        824.0
+      ],
+      "mask_extent": [
+        393,
+        480,
+        570,
+        818
+      ]
+    },
+    {
+      "center": "C1",
+      "txt": "104OLCV1_100H0002_mask.txt",
+      "img_wh": [
+        1350,
+        1080
+      ],
+      "mask_wh": [
+        1350,
+        1080
+      ],
+      "bbox_txt": [
+        360.0,
+        680.0,
+        776.0,
+        864.0
+      ],
+      "mask_extent": [
+        363,
+        680,
+        773,
+        862
+      ]
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001000.txt",
+      "img_wh": [
+        1720,
+        1064
+      ],
+      "mask_wh": [
+        1720,
+        1064
+      ],
+      "bbox_txt": [
+        1235.0,
+        568.0,
+        1432.0,
+        701.0
+      ],
+      "mask_extent": [
+        1239,
+        569,
+        1428,
+        696
+      ]
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001001.txt",
+      "img_wh": [
+        1720,
+        1064
+      ],
+      "mask_wh": [
+        1720,
+        1064
+      ],
+      "bbox_txt": [
+        864.0,
+        384.0,
+        1247.0,
+        704.0
+      ],
+      "mask_extent": [
+        866,
+        387,
+        1241,
+        700
+      ]
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001003.txt",
+      "img_wh": [
+        1440,
+        1064
+      ],
+      "mask_wh": [
+        1440,
+        1064
+      ],
+      "bbox_txt": [
+        736.0,
+        392.0,
+        1176.0,
+        837.0
+      ],
+      "mask_extent": [
+        741,
+        398,
+        1174,
+        832
+      ]
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001004.txt",
+      "img_wh": [
+        1440,
+        1064
+      ],
+      "mask_wh": [
+        1440,
+        1064
+      ],
+      "bbox_txt": [
+        496.0,
+        400.0,
+        960.0,
+        744.0
+      ],
+      "mask_extent": [
+        499,
+        406,
+        959,
+        737
+      ]
+    },
+    {
+      "center": "C3",
+      "txt": "C3_EndoCV2021_001.txt",
+      "img_wh": [
+        1240,
+        1040
+      ],
+      "mask_wh": [
+        1240,
+        1040
+      ],
+      "bbox_txt": [
+        320.0,
+        24.0,
+        1064.0,
+        752.0
+      ],
+      "mask_extent": [
+        322,
+        29,
+        1060,
+        750
+      ]
+    },
+    {
+      "center": "C3",
+      "txt": "C3_EndoCV2021_0010.txt",
+      "img_wh": [
+        1440,
+        1080
+      ],
+      "mask_wh": [
+        1440,
+        1080
+      ],
+      "bbox_txt": [
+        416.0,
+        520.0,
+        656.0,
+        712.0
+      ],
+      "mask_extent": [
+        416,
+        521,
+        654,
+        709
+      ]
+    },
+    {
+      "center": "C3",
+      "txt": "C3_EndoCV2021_00100.txt",
+      "img_wh": [
+        1440,
+        1080
+      ],
+      "mask_wh": [
+        1440,
+        1080
+      ],
+      "bbox_txt": [
+        432.0,
+        488.0,
+        984.0,
+        1024.0
+      ],
+      "mask_extent": [
+        437,
+        495,
+        983,
+        1022
+      ]
+    },
+    {
+      "center": "C3",
+      "txt": "C3_EndoCV2021_00101.txt",
+      "img_wh": [
+        1440,
+        1080
+      ],
+      "mask_wh": [
+        1440,
+        1080
+      ],
+      "bbox_txt": [
+        680.0,
+        456.0,
+        1080.0,
+        1080.0
+      ],
+      "mask_extent": [
+        680,
+        457,
+        1074,
+        1074
+      ]
+    },
+    {
+      "center": "C3",
+      "txt": "C3_EndoCV2021_00102.txt",
+      "img_wh": [
+        1440,
+        1080
+      ],
+      "mask_wh": [
+        1440,
+        1080
+      ],
+      "bbox_txt": [
+        400.0,
+        456.0,
+        1200.0,
+        1080.0
+      ],
+      "mask_extent": [
+        403,
+        456,
+        1199,
+        1079
+      ]
+    },
+    {
+      "center": "C4",
+      "txt": "10_endocv2021_positive_1006_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        1272.0,
+        283.0,
+        1744.0,
+        696.0
+      ],
+      "mask_extent": [
+        1277,
+        287,
+        1736,
+        691
+      ]
+    },
+    {
+      "center": "C4",
+      "txt": "10_endocv2021_positive_1087_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        1296.0,
+        456.0,
+        1504.0,
+        664.0
+      ],
+      "mask_extent": [
+        1296,
+        456,
+        1496,
+        658
+      ]
+    },
+    {
+      "center": "C4",
+      "txt": "10_endocv2021_positive_895_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        1184.0,
+        656.0,
+        1320.0,
+        728.0
+      ],
+      "mask_extent": [
+        1184,
+        661,
+        1315,
+        725
+      ]
+    },
+    {
+      "center": "C5",
+      "txt": "EndoCV2021_C5_50000003_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        1312.0,
+        600.0,
+        1520.0,
+        800.0
+      ],
+      "mask_extent": [
+        1316,
+        606,
+        1518,
+        798
+      ]
+    },
+    {
+      "center": "C5",
+      "txt": "EndoCV2021_C5_50000006_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        984.0,
+        560.0,
+        1280.0,
+        768.0
+      ],
+      "mask_extent": [
+        991,
+        565,
+        1276,
+        762
+      ]
+    },
+    {
+      "center": "C5",
+      "txt": "EndoCV2021_C5_50000007_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        1178.0,
+        496.0,
+        1424.0,
+        640.0
+      ],
+      "mask_extent": [
+        1180,
+        500,
+        1420,
+        636
+      ]
+    },
+    {
+      "center": "C5",
+      "txt": "EndoCV2021_C5_50000008_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        760.0,
+        175.0,
+        1048.0,
+        760.0
+      ],
+      "mask_extent": [
+        765,
+        175,
+        1907,
+        977
+      ]
+    },
+    {
+      "center": "C6",
+      "txt": "EndoCV2021_C6_0100001_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        776.0,
+        776.0,
+        1360.0,
+        1064.0
+      ],
+      "mask_extent": [
+        783,
+        779,
+        1356,
+        1063
+      ]
+    },
+    {
+      "center": "C6",
+      "txt": "EndoCV2021_C6_0100003_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        944.0,
+        472.0,
+        1320.0,
+        720.0
+      ],
+      "mask_extent": [
+        949,
+        476,
+        1318,
+        717
+      ]
+    },
+    {
+      "center": "C6",
+      "txt": "EndoCV2021_C6_0100004_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        1104.0,
+        144.0,
+        1496.0,
+        520.0
+      ],
+      "mask_extent": [
+        1104,
+        150,
+        1495,
+        514
+      ]
+    },
+    {
+      "center": "C6",
+      "txt": "EndoCV2021_C6_0100005_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        643.0,
+        168.0,
+        1888.0,
+        1080.0
+      ],
+      "mask_extent": [
+        645,
+        175,
+        1881,
+        1076
+      ]
+    },
+    {
+      "center": "C6",
+      "txt": "EndoCV2021_C6_0100006_mask.txt",
+      "img_wh": [
+        1920,
+        1080
+      ],
+      "mask_wh": [
+        1920,
+        1080
+      ],
+      "bbox_txt": [
+        160.0,
+        8.0,
+        1888.0,
+        1080.0
+      ],
+      "mask_extent": [
+        167,
+        9,
+        1882,
+        1079
+      ]
+    }
+  ],
+  "sequence_data_exists": true,
+  "seq_info": {
+    "negative_sequences": {
+      "seq10_neg": {
+        "images": 292,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq11_neg": {
+        "images": 190,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq12_neg": {
+        "images": 261,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq13_neg": {
+        "images": 280,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq14_neg": {
+        "images": 301,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq15_neg": {
+        "images": 278,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq16_neg": {
+        "images": 141,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq17_neg": {
+        "images": 130,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq18_neg": {
+        "images": 121,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq19_neg": {
+        "images": 210,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq1_neg": {
+        "images": 315,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq20_neg": {
+        "images": 191,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq21_neg": {
+        "images": 151,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq22_neg": {
+        "images": 82,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq23_neg": {
+        "images": 150,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq2_neg": {
+        "images": 302,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq3_neg": {
+        "images": 40,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq4_neg": {
+        "images": 72,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq5_neg": {
+        "images": 61,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq6_neg": {
+        "images": 90,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq7_neg": {
+        "images": 207,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq8_neg": {
+        "images": 311,
+        "txts": 0,
+        "csvs": 0
+      },
+      "seq9_neg": {
+        "images": 99,
+        "txts": 0,
+        "csvs": 0
+      }
+    },
+    "positive_sequences": {
+      "seq1": {
+        "subdirs": [
+          "masks_seq1",
+          "bbox_seq1",
+          "images_seq1",
+          "bbox_image_seq1"
+        ],
+        "images": 36,
+        "masks": 36,
+        "bboxes": 36,
+        "bbox_images": 36
+      },
+      "seq10": {
+        "subdirs": [
+          "bbox_image_seq10",
+          "images_seq10",
+          "bbox_seq10",
+          "masks_seq10"
+        ],
+        "images": 25,
+        "masks": 25,
+        "bboxes": 25,
+        "bbox_images": 25
+      },
+      "seq11": {
+        "subdirs": [
+          "bbox_image_seq11",
+          "images_seq11",
+          "bbox_seq11",
+          "masks_seq11"
+        ],
+        "images": 228,
+        "masks": 228,
+        "bboxes": 228,
+        "bbox_images": 228
+      },
+      "seq12": {
+        "subdirs": [
+          "images_seq12",
+          "bbox_seq12",
+          "masks_seq12",
+          "bbox_image_seq12"
+        ],
+        "images": 250,
+        "masks": 250,
+        "bboxes": 250,
+        "bbox_images": 250
+      },
+      "seq13": {
+        "subdirs": [
+          "images_seq13",
+          "bbox_seq13",
+          "masks_seq13",
+          "bbox_image_seq13"
+        ],
+        "images": 250,
+        "masks": 250,
+        "bboxes": 250,
+        "bbox_images": 250
+      },
+      "seq14": {
+        "subdirs": [
+          "images_seq14",
+          "bbox_seq14",
+          "masks_seq14",
+          "bbox_image_seq14"
+        ],
+        "images": 249,
+        "masks": 249,
+        "bboxes": 249,
+        "bbox_images": 249
+      },
+      "seq15": {
+        "subdirs": [
+          "images_seq15",
+          "bbox_seq15",
+          "masks_seq15",
+          "bbox_image_seq15"
+        ],
+        "images": 116,
+        "masks": 116,
+        "bboxes": 116,
+        "bbox_images": 116
+      },
+      "seq16": {
+        "subdirs": [
+          "bbox_image_seq16",
+          "images_seq16",
+          "bbox_seq16",
+          "masks_seq16"
+        ],
+        "images": 40,
+        "masks": 40,
+        "bboxes": 40,
+        "bbox_images": 40
+      },
+      "seq17": {
+        "subdirs": [
+          "bbox_image_seq17",
+          "images_seq17",
+          "bbox_seq17",
+          "masks_seq17"
+        ],
+        "images": 63,
+        "masks": 63,
+        "bboxes": 63,
+        "bbox_images": 63
+      },
+      "seq18": {
+        "subdirs": [
+          "bbox_image_seq18",
+          "images_seq18",
+          "bbox_seq18",
+          "masks_seq18"
+        ],
+        "images": 63,
+        "masks": 63,
+        "bboxes": 63,
+        "bbox_images": 63
+      },
+      "seq19": {
+        "subdirs": [
+          "bbox_image_seq19",
+          "images_seq19",
+          "bbox_seq19",
+          "masks_seq19"
+        ],
+        "images": 56,
+        "masks": 56,
+        "bboxes": 56,
+        "bbox_images": 56
+      },
+      "seq2": {
+        "subdirs": [
+          "images_seq2",
+          "bbox_image_seq2",
+          "masks_seq2",
+          "bbox_seq2"
+        ],
+        "images": 63,
+        "masks": 63,
+        "bboxes": 63,
+        "bbox_images": 63
+      },
+      "seq20": {
+        "subdirs": [
+          "bbox_image_seq20",
+          "images_seq20",
+          "bbox_seq20",
+          "masks_seq20"
+        ],
+        "images": 52,
+        "masks": 52,
+        "bboxes": 52,
+        "bbox_images": 52
+      },
+      "seq21": {
+        "subdirs": [
+          "bbox_image_seq21",
+          "images_seq21",
+          "bbox_seq21",
+          "masks_seq21"
+        ],
+        "images": 56,
+        "masks": 56,
+        "bboxes": 56,
+        "bbox_images": 56
+      },
+      "seq22": {
+        "subdirs": [
+          "images_seq22",
+          "bbox_seq22",
+          "masks_seq22",
+          "bbox_image_seq22"
+        ],
+        "images": 46,
+        "masks": 46,
+        "bboxes": 46,
+        "bbox_images": 46
+      },
+      "seq23": {
+        "subdirs": [
+          "images_seq23",
+          "bbox_seq23",
+          "masks_seq23",
+          "bbox_image_seq23"
+        ],
+        "images": 56,
+        "masks": 56,
+        "bboxes": 56,
+        "bbox_images": 56
+      },
+      "seq3": {
+        "subdirs": [
+          "images_seq3",
+          "bbox_image_seq3",
+          "bbox_seq3",
+          "masks_seq3"
+        ],
+        "images": 15,
+        "masks": 15,
+        "bboxes": 15,
+        "bbox_images": 15
+      },
+      "seq4": {
+        "subdirs": [
+          "images_seq4",
+          "bbox_image_seq4",
+          "bbox_seq4",
+          "masks_seq4"
+        ],
+        "images": 48,
+        "masks": 48,
+        "bboxes": 48,
+        "bbox_images": 48
+      },
+      "seq5": {
+        "subdirs": [
+          "images_seq5",
+          "bbox_image_seq5",
+          "masks_seq5",
+          "bbox_seq5"
+        ],
+        "images": 250,
+        "masks": 250,
+        "bboxes": 250,
+        "bbox_images": 250
+      },
+      "seq6": {
+        "subdirs": [
+          "masks_seq6",
+          "bbox_seq6",
+          "images_seq6",
+          "bbox_image_seq6"
+        ],
+        "images": 91,
+        "masks": 91,
+        "bboxes": 91,
+        "bbox_images": 91
+      },
+      "seq7": {
+        "subdirs": [
+          "bbox_seq7",
+          "masks_seq7",
+          "images_seq7",
+          "bbox_image_seq7"
+        ],
+        "images": 48,
+        "masks": 48,
+        "bboxes": 48,
+        "bbox_images": 48
+      },
+      "seq8": {
+        "subdirs": [
+          "masks_seq8",
+          "bbox_seq8",
+          "images_seq8",
+          "bbox_image_seq8"
+        ],
+        "images": 73,
+        "masks": 73,
+        "bboxes": 73,
+        "bbox_images": 73
+      },
+      "seq9": {
+        "subdirs": [
+          "bbox_seq9",
+          "masks_seq9",
+          "images_seq9",
+          "bbox_image_seq9"
+        ],
+        "images": 51,
+        "masks": 51,
+        "bboxes": 51,
+        "bbox_images": 51
+      }
+    },
+    "total_negative_images": 4275,
+    "total_positive_images": 2225,
+    "total_positive_masks": 2225,
+    "total_positive_bboxes": 2225,
+    "negative_bboxes_found": 0,
+    "sample_seq_boxes": [
+      "seq1/0_endocv2021_positive_167.txt: ",
+      "seq1/0_endocv2021_positive_199.txt: ",
+      "seq10/2_endocv2021_positive_1059.txt: polyp 568 0 1592 944",
+      "seq10/2_endocv2021_positive_1049.txt: polyp 544 0 1616 1008",
+      "seq11/EndoCV2021_seq11_Image_2198961.txt: polyp 200 8 296 48",
+      "seq11/EndoCV2021_seq11_Image_2201450.txt: "
+    ]
+  },
+  "imagesAll_positive": {
+    "exists": true,
+    "count": 3762,
+    "has_masks": 0,
+    "has_txt": 0
+  },
+  "dataDetails_SingleFrames": {
+    "dataDetails_C1.csv": {
+      "rows": 256,
+      "columns": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "head": [
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C1/images_C1/100H0050.jpg",
+          "sizeType": "[0, 0, 1, 0]",
+          "sizeVal": "[0, 0, 31143, 0]",
+          "annotations": 1
+        },
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C1/images_C1/100S0001.jpg",
+          "sizeType": "[0, 0, 0, 0]",
+          "sizeVal": "[0, 0, 0, 0]",
+          "annotations": 0
+        }
+      ]
+    },
+    "dataDetails_C2.csv": {
+      "rows": 301,
+      "columns": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "head": [
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C2/images_C2/EndoCV2021_001000.jpg",
+          "sizeType": "[0, 0, 1, 0]",
+          "sizeVal": "[0, 0, 17127, 0]",
+          "annotations": 1
+        },
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C2/images_C2/EndoCV2021_001001.jpg",
+          "sizeType": "[0, 0, 0, 1]",
+          "sizeVal": "[0, 0, 0, 90327]",
+          "annotations": 1
+        }
+      ]
+    },
+    "dataDetails_C3.csv": {
+      "rows": 457,
+      "columns": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "head": [
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C3/images_C3/C3_EndoCV2021_001.jpg",
+          "sizeType": "[0, 0, 0, 1]",
+          "sizeVal": "[0, 0, 0, 186784]",
+          "annotations": 1
+        },
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C3/images_C3/C3_EndoCV2021_0010.jpg",
+          "sizeType": "[0, 0, 0, 1]",
+          "sizeVal": "[0, 0, 0, 188436]",
+          "annotations": 1
+        }
+      ]
+    },
+    "dataDetails_C4.csv": {
+      "rows": 227,
+      "columns": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "head": [
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C4/images_C4/10_endocv2021_positive_1006.jpg",
+          "sizeType": "[0, 0, 0, 1]",
+          "sizeVal": "[0, 0, 0, 126769]",
+          "annotations": 1
+        },
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C4/images_C4/10_endocv2021_positive_1087.jpg",
+          "sizeType": "[0, 0, 1, 0]",
+          "sizeVal": "[0, 0, 30031, 0]",
+          "annotations": 1
+        }
+      ]
+    },
+    "dataDetails_C5.csv": {
+      "rows": 208,
+      "columns": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "head": [
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C5/images_C5/EndoCV2021_C5_50000003.jpg",
+          "sizeType": "[0, 0, 1, 0]",
+          "sizeVal": "[0, 0, 30464, 0]",
+          "annotations": 1
+        },
+        {
+          "fileList": "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C5/images_C5/EndoCV2021_C5_50000005.jpg",
+          "sizeType": "[0, 0, 0, 0]",
+          "sizeVal": "[0, 0, 0, 0]",
+          "annotations": 0
+        }
+      ]
+    }
+  },
+  "root_files_info": {
+    "fileStructure_all.txt": {
+      "size_bytes": 1309500,
+      "lines_count": 23328
+    },
+    "fileStructure_directories.txt": {
+      "size_bytes": 5752,
+      "lines_count": 175
+    },
+    "folderStructure": {
+      "size_bytes": 5462,
+      "lines_count": 166
+    },
+    "license.txt": {
+      "size_bytes": 20851,
+      "lines_count": 439
+    },
+    "readme.html": {
+      "size_bytes": 15957,
+      "lines_count": 576
+    },
+    "readme.md": {
+      "size_bytes": 8773,
+      "lines_count": 218
+    }
+  }
+}

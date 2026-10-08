@@ -1,0 +1,191 @@
+﻿D: DRIVE AUDIT - DIRECTORY ANALYSIS
+
+Directory: 
+D:\donot delete gokul\chakramodel\.agents
+Generated: 
+2026-10-07T05:53:03
+Direct files: 
+2
+ | Size: 
+0.04
+ MB | Zero-byte: 
+0
+Immediate subdirectories: 
+165
+
+DIRECT FILE INVENTORY
+- ORIGINAL_REQUEST.md | 39,045 bytes | DATA/TEXT | modified 2026-09-16T04:36:22
+- README_AUDIT.txt | 4,255 bytes | DATA/TEXT | modified 2026-10-06T17:46:42
+
+IMMEDIATE SUBDIRECTORIES
+- auditor_1
+- auditor_2
+- auditor_m1_g13
+- auditor_m1_g15
+- auditor_m2_g12
+- auditor_m2_re_audit_g12
+- auditor_m3_g10
+- auditor_m3_g11
+- auditor_m3_g12
+- auditor_m3_g7
+- auditor_m3_g9
+- auditor_m4_1_g4
+- auditor_m4_g14
+- auditor_m4_g6
+- challenger_1
+- challenger_2
+- challenger_m1_1_g13
+- challenger_m1_1_g15
+- challenger_m1_2_g13
+- challenger_m1_2_g15
+- challenger_m2_1_g12
+- challenger_m2_2_g12
+- challenger_m3_1_g10
+- challenger_m3_1_g11
+- challenger_m3_1_g7
+- challenger_m3_1_g9
+- challenger_m3_2_g10
+- challenger_m3_2_g11
+- challenger_m3_2_g7
+- challenger_m3_2_g9
+- challenger_m3_g12
+- challenger_m3_g14
+- challenger_m4_1
+- challenger_m4_1_g4
+- challenger_m4_1_g5
+- challenger_m4_1_g6
+- challenger_m4_1_gen2
+- challenger_m4_2
+- challenger_m4_2_g4
+- challenger_m4_2_g5
+- challenger_m4_2_g5_r2
+- challenger_m4_2_g6
+- challenger_m4_2_gen2
+- challenger_pg_1
+- challenger_pg_2
+- explorer_m1_1_g10
+- explorer_m1_1_g12
+- explorer_m1_1_g13
+- explorer_m1_1_g15
+- explorer_m1_1_g4
+- explorer_m1_1_g7
+- explorer_m1_1_g9
+- explorer_m1_2_g10
+- explorer_m1_2_g12
+- explorer_m1_2_g13
+- explorer_m1_2_g15
+- explorer_m1_2_g4
+- explorer_m1_2_g7
+- explorer_m1_2_g9
+- explorer_m1_3_g10
+- explorer_m1_3_g12
+- explorer_m1_3_g13
+- explorer_m1_3_g15
+- explorer_m1_3_g4
+- explorer_m1_3_g7
+- explorer_m1_3_g9
+- explorer_m3_1_g14
+- explorer_m3_2_g14
+- explorer_m3_3_g14
+- orchestrator
+- orchestrator_gen10
+- orchestrator_gen11
+- orchestrator_gen12
+- orchestrator_gen13
+- orchestrator_gen14
+- orchestrator_gen15
+- orchestrator_gen2
+- orchestrator_gen3
+- orchestrator_gen4
+- orchestrator_gen5
+- orchestrator_gen6
+- orchestrator_gen7
+- orchestrator_gen8
+- orchestrator_gen9
+- reviewer_1
+- reviewer_2
+- reviewer_m1_1_g13
+- reviewer_m1_1_g15
+- reviewer_m1_2_g13
+- reviewer_m1_2_g15
+- reviewer_m2_1_g12
+- reviewer_m2_2_g12
+- reviewer_m3_1_g10
+- reviewer_m3_1_g11
+- reviewer_m3_1_g7
+- reviewer_m3_1_g9
+- reviewer_m3_2_g10
+- reviewer_m3_2_g11
+- reviewer_m3_2_g7
+- reviewer_m3_2_g9
+- reviewer_m3_g12
+- reviewer_m3_g14
+- reviewer_m4_1
+- reviewer_m4_1_g4
+- reviewer_m4_1_g5
+- reviewer_m4_1_g5_r2
+- reviewer_m4_1_g6
+- reviewer_m4_1_gen2
+- reviewer_m4_2
+- reviewer_m4_2_g4
+- reviewer_m4_2_g5
+- reviewer_m4_2_g5_r2
+- reviewer_m4_2_g6
+- reviewer_m4_2_gen2
+- reviewer_pg_1
+- reviewer_pg_2
+- rules
+- sentinel
+- teamwork_preview_auditor_m4_1
+- teamwork_preview_auditor_m4_1_gen2
+- teamwork_preview_auditor_m4_g5
+- teamwork_preview_auditor_m4_g5_r2
+- teamwork_preview_auditor_pg_1
+- teamwork_preview_explorer_m1_1
+- teamwork_preview_explorer_m1_1_gen2
+- teamwork_preview_explorer_m1_2_gen2
+- teamwork_preview_explorer_m1_3_gen2
+- teamwork_preview_explorer_m2_1
+- teamwork_preview_explorer_m3_1
+- teamwork_preview_explorer_pg_1
+- teamwork_preview_explorer_pg_2
+- teamwork_preview_explorer_pg_3
+- verification
+- victory_auditor_1
+- victory_auditor_2
+- victory_auditor_3
+- victory_auditor_4
+- victory_auditor_5
+- victory_auditor_6
+- victory_auditor_7
+- victory_auditor_8
+- victory_auditor_9
+- worker_arch
+- worker_dev
+- worker_m1_g13
+- worker_m1_m2_g4
+- worker_m1_m2_g4_r2
+- worker_m1_m2_g5
+- worker_m2_adversarial
+- worker_m2_g10
+- worker_m2_g15
+- worker_m2_g9
+- worker_m2_m3_gen2
+- worker_m2_remediation_g15
+- worker_m2_remediation_r2
+- worker_m2_report_g7
+- worker_m3_audit_docs
+- worker_m3_docs_g4
+- worker_m3_g5
+- worker_m3_revise_g7
+- worker_m4_1
+- worker_m4_touchup
+- worker_patch13_touchup
+- worker_pg_m2_m3
+- worker_remediation
+
+GLOBAL REPORTS
+- D:\Dataset_Scripts_and_Logs\drive_organization_report_2026-10-06.md
+- D:\Dataset_Scripts_and_Logs\drive_inventory_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\duplicate_hash_groups_2026-10-06.csv
+- D:\Dataset_Scripts_and_Logs\zero_byte_files_2026-10-06.csv

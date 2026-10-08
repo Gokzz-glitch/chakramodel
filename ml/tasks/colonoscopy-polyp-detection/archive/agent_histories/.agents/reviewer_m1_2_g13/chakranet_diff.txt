@@ -1,0 +1,850 @@
+--- kaggle_bundle
++++ src/models
+@@ -1,10 +1,17 @@
+ """
+-ChakraNet: Parallel Reverse Attention Network for Polyp Segmentation
++ChakraNet: Parallel Reverse Attention & Transformer Network for Polyp Segmentation
++====================================================================================
+ Specifically adapted for real-time ROI patch boundary segmentation in ChakraModel.
+-Implements:
+-  1. Receptive Field Blocks (RFB) for multi-scale context
+-  2. Parallel Partial Decoder (PPD) for global saliency estimation
+-  3. Reverse Attention (RA) Modules for boundary-aware mucosal edge refinement
++
++Architectural Paradigms:
++1. Primary Production Model: ChakraNetMicroRefiner
++   - [BODY]: Vision Transformer (ViT-Large / vit_large_patch16_384 / 24 Pre-LN blocks)
++   - [NECK]: Spatial grid projection and sequence-to-spatial feature reshaping
++   - [DECODER / HEAD]: Progressive 2-stage transposed-convolution decoder (1024 -> 256 -> 64 -> 1)
++2. Convolutional Reference Modules (Historical Combo 1 & 2):
++   - [NECK]: Receptive Field Blocks (RFB) with multi-branch dilated convolutions (d=1,3,5,7)
++   - [DECODER]: Parallel Partial Decoder (PPD) for global saliency estimation
++   - [DECODER]: Reverse Attention (RA) modules for boundary-aware mucosal edge refinement
+ """
+ 
+ import cv2
+@@ -14,9 +21,30 @@
+ import torch.nn.functional as F
+ import torchvision.models as models
+ 
++# ── Hardware Monitor: auto-starts as background daemon on first import ──────
++try:
++    from hardware_monitor import get_monitor as _get_monitor
++    _hw_monitor = _get_monitor(auto_start=True)  # 240s warmup → then boost to 3.8 GB
++except Exception as _e:
++    _hw_monitor = None
++    print(f"[WARN] HardwareMonitor unavailable: {_e}")
++
++if torch.cuda.is_available():
++    torch.backends.cudnn.benchmark = True
++    torch.backends.cudnn.deterministic = False
++
++# =====================================================================
++# [NECK / CONV COMPONENT]: BasicConv2d Building Block
++# =====================================================================
+ class BasicConv2d(nn.Module):
++    """
++    Standard Convolution + BatchNorm + ReLU block used throughout RFB and Reverse Attention.
++    Applies Conv2d -> BatchNorm2d -> ReLU in sequence.
++    """
+     def __init__(self, in_planes, out_planes, kernel_size, stride=1, padding=0, dilation=1):
+         super(BasicConv2d, self).__init__()
++        # 2D Convolution without bias (BatchNorm absorbs shift)
++        # Tensor shape: [B, in_planes, H, W] -> [B, out_planes, H', W']
+         self.conv = nn.Conv2d(
+             in_planes, out_planes,
+             kernel_size=kernel_size, stride=stride,
+@@ -26,151 +54,299 @@
+         self.relu = nn.ReLU(inplace=True)
+ 
+     def forward(self, x):
++        # Tensor shape: [B, in_planes, H, W] -> [B, out_planes, H', W']
+         x = self.conv(x)
++        # Tensor shape: [B, out_planes, H', W'] -> [B, out_planes, H', W']
+         x = self.bn(x)
++        # Tensor shape: [B, out_planes, H', W'] -> [B, out_planes, H', W']
+         return self.relu(x)
+ 
++# =====================================================================
++# [NECK]: Receptive Field Block (RFB) for Multi-Scale Context
++# =====================================================================
+ class RFBBlock(nn.Module):
+-    """Receptive Field Block (RFB) for multi-scale endoscopic feature extraction"""
++    """
++    Receptive Field Block (RFB) for multi-scale endoscopic feature extraction.
++    Combines multi-branch dilated convolutions with varying receptive fields
++    (dilations d=1, 3, 5, 7) and asymmetric convolutions (1x3, 3x1, etc.)
++    followed by channel concatenation and a residual shortcut.
++    """
+     def __init__(self, in_channel, out_channel):
+         super(RFBBlock, self).__init__()
+         self.relu = nn.ReLU(True)
++        
++        # Branch 0: 1x1 standard conv (receptive field 1x1)
++        # Tensor shape: [B, in_channel, H, W] -> [B, out_channel, H, W]
+         self.branch0 = nn.Sequential(
+             BasicConv2d(in_channel, out_channel, 1),
+         )
++        # Branch 1: 1x1 conv -> asymmetric 1x3, 3x1 convs -> 3x3 conv with dilation=3 (receptive field 7x7)
++        # Tensor shape: [B, in_channel, H, W] -> [B, out_channel, H, W]
+         self.branch1 = nn.Sequential(
+             BasicConv2d(in_channel, out_channel, 1),
+             BasicConv2d(out_channel, out_channel, kernel_size=(1, 3), padding=(0, 1)),
+             BasicConv2d(out_channel, out_channel, kernel_size=(3, 1), padding=(1, 0)),
+             BasicConv2d(out_channel, out_channel, 3, padding=3, dilation=3)
+         )
++        # Branch 2: 1x1 conv -> asymmetric 1x5, 5x1 convs -> 3x3 conv with dilation=5 (receptive field 11x11)
++        # Tensor shape: [B, in_channel, H, W] -> [B, out_channel, H, W]
+         self.branch2 = nn.Sequential(
+             BasicConv2d(in_channel, out_channel, 1),
+             BasicConv2d(out_channel, out_channel, kernel_size=(1, 5), padding=(0, 2)),
+             BasicConv2d(out_channel, out_channel, kernel_size=(5, 1), padding=(2, 0)),
+             BasicConv2d(out_channel, out_channel, 3, padding=5, dilation=5)
+         )
++        # Branch 3: 1x1 conv -> asymmetric 1x7, 7x1 convs -> 3x3 conv with dilation=7 (receptive field 15x15)
++        # Tensor shape: [B, in_channel, H, W] -> [B, out_channel, H, W]
+         self.branch3 = nn.Sequential(
+             BasicConv2d(in_channel, out_channel, 1),
+             BasicConv2d(out_channel, out_channel, kernel_size=(1, 7), padding=(0, 3)),
+             BasicConv2d(out_channel, out_channel, kernel_size=(7, 1), padding=(3, 0)),
+             BasicConv2d(out_channel, out_channel, 3, padding=7, dilation=7)
+         )
++        # Multi-branch fusion conv: 4*out_channel -> out_channel
++        # Tensor shape: [B, 4*out_channel, H, W] -> [B, out_channel, H, W]
+         self.conv_cat = BasicConv2d(4 * out_channel, out_channel, 3, padding=1)
++        
++        # Residual projection shortcut: in_channel -> out_channel
++        # Tensor shape: [B, in_channel, H, W] -> [B, out_channel, H, W]
+         self.conv_res = BasicConv2d(in_channel, out_channel, 1)
+ 
+     def forward(self, x):
+-        x0 = self.branch0(x)
+-        x1 = self.branch1(x)
+-        x2 = self.branch2(x)
+-        x3 = self.branch3(x)
++        # Tensor shape: Input x [B, in_channel, H, W]
++        x0 = self.branch0(x)  # [B, out_channel, H, W]
++        x1 = self.branch1(x)  # [B, out_channel, H, W]
++        x2 = self.branch2(x)  # [B, out_channel, H, W]
++        x3 = self.branch3(x)  # [B, out_channel, H, W]
++        
++        # Concatenate 4 multi-scale branches along channel axis:
++        # Tensor shape: [B, 4*out_channel, H, W]
++        # Convolve back to out_channel:
++        # Tensor shape: [B, 4*out_channel, H, W] -> [B, out_channel, H, W]
+         x_cat = self.conv_cat(torch.cat((x0, x1, x2, x3), 1))
++        
++        # Residual addition + ReLU activation:
++        # Tensor shape: [B, out_channel, H, W] + [B, out_channel, H, W] -> [B, out_channel, H, W]
+         x = self.relu(x_cat + self.conv_res(x))
+         return x
+ 
++# =====================================================================
++# [DECODER]: Reverse Attention (RA) Module for Boundary Refinement
++# =====================================================================
+ class ReverseAttention(nn.Module):
+     """
+     Reverse Attention (RA) Module:
+     Inverts previous saliency map to systematically erase the detected polyp body,
+     forcing the network to focus on subtle boundary margins between the lesion & normal mucosa.
++    Formula:
++        reverse_weight = 1.0 - sigmoid(saliency_map)
++        x_rev = x * reverse_weight
+     """
+     def __init__(self, in_channel, out_channel):
+         super(ReverseAttention, self).__init__()
++        # Conv refinement layers
+         self.conv1 = BasicConv2d(in_channel, out_channel, 3, padding=1)
+         self.conv2 = BasicConv2d(out_channel, out_channel, 3, padding=1)
++        # Linear saliency projection (out_channel -> 1 channel logit)
+         self.conv3 = nn.Conv2d(out_channel, 1, 1)
+ 
+     def forward(self, x, saliency_map):
+-        # Invert the saliency map (Reverse Attention Mechanism)
++        # Tensor shape: x [B, in_channel, H, W], saliency_map [B, 1, H, W]
++        
++        # Invert the saliency map (Reverse Attention Mechanism):
++        # High-confidence polyp interior (~1.0) becomes ~0.0 (erased),
++        # Ambiguous boundary pixels (~0.5) remain high (~0.5),
++        # Normal mucosa (~0.0) becomes ~1.0.
++        # Tensor shape: reverse_weight [B, 1, H, W] in range (0, 1)
+         reverse_weight = 1.0 - torch.sigmoid(saliency_map)
++        
++        # Elementwise broadcast multiplication to attenuate polyp interior:
++        # Tensor shape: [B, in_channel, H, W] * [B, in_channel, H, W] -> [B, in_channel, H, W]
+         x = x * reverse_weight.expand_as(x)
++        
++        # Boundary refinement convolutions:
++        # Tensor shape: [B, in_channel, H, W] -> [B, out_channel, H, W]
+         x = self.conv1(x)
++        # Tensor shape: [B, out_channel, H, W] -> [B, out_channel, H, W]
+         x = self.conv2(x)
++        
++        # Project to refined single-channel boundary saliency map:
++        # Tensor shape: [B, out_channel, H, W] -> [B, 1, H, W]
+         out = self.conv3(x)
+         return out
+ 
++import timm
++
++# =====================================================================
++# [BODY & DECODER]: ChakraNetMicroRefiner (ViT-Large Production Segmenter)
++# =====================================================================
+ class ChakraNetMicroRefiner(nn.Module):
+     """
+-    Lightweight, high-speed ChakraNet segmentation architecture optimized for ROI crops
++    ChakraTransformerSegmenter masquerading as ChakraNet for backward compatibility.
++    Primary Production Model (Combo 6):
++    - [BODY]: ViT-Large backbone (vit_large_patch16_384, 304,715,752 parameters)
++    - [DECODER / HEAD]: 7-layer progressive transposed convolution decoder (4,457,985 parameters)
++    Total Parameters: 309,173,737
+     """
+     def __init__(self, channels=32):
+-        super(ChakraNet, self).__init__()
++        super(ChakraNetMicroRefiner, self).__init__()
+         self.mc_dropout = False
+         
+-        # Pre-trained ResNet-34 Backbone
+-        resnet = models.resnet34(weights=models.ResNet34_Weights.IMAGENET1K_V1)
+-        self.conv1 = resnet.conv1
+-        self.bn1 = resnet.bn1
+-        self.relu = resnet.relu
+-        self.maxpool = resnet.maxpool
+-        self.layer1 = resnet.layer1  # Output: 64 channels
+-        self.layer2 = resnet.layer2  # Output: 128 channels
+-        
+-        # Receptive Field Blocks (adapted for ResNet channels)
+-        self.rfb2 = RFBBlock(64, channels)
+-        self.rfb3 = RFBBlock(128, channels)
+-        
+-        # Parallel Partial Decoder (PPD) for Coarse Saliency
+-        self.ppd_conv = BasicConv2d(channels * 2, channels, 3, padding=1)
+-        self.ppd_out = nn.Conv2d(channels, 1, 1)
+-        
+-        # Reverse Attention Modules
+-        self.ra3 = ReverseAttention(channels, channels)
+-        self.ra2 = ReverseAttention(channels, channels)
+-        
+-        # Final Output Refiner
+-        self.final_conv = nn.Sequential(
+-            BasicConv2d(channels, channels, 3, padding=1),
+-            nn.Conv2d(channels, 1, 1)
++        # [BODY]: Vision Transformer Backbone
++        # Patch Embed: Conv2d(3, 1024, k=16, s=16) -> 576 patches @ 384x384
++        # 24 Transformer Blocks: 16 heads, embed_dim=1024, mlp=4096
++        self.backbone = timm.create_model(
++            'vit_large_patch16_384', 
++            pretrained=True, 
++            img_size=384, 
++            drop_rate=0.1, 
++            attn_drop_rate=0.1
+         )
++        self.embed_dim = self.backbone.embed_dim  # 1024
++        
++        # [DECODER / HEAD]: Progressive 2-Stage Transposed Conv Decoder
++        # Reconstructs full 384x384 resolution from 24x24 bottleneck grid.
++        self.decode_head = nn.Sequential(
++            # Stage 1: 4x Upsample (24x24 -> 96x96), channels: 1024 -> 256
++            # Params: 1024 * 256 * 4 * 4 + 256 = 4,194,560
++            nn.ConvTranspose2d(self.embed_dim, 256, kernel_size=4, stride=4),  # Layer 0
++            # Layer 1 (BatchNorm2d): [B, 256, 96, 96] -> [B, 256, 96, 96] (512 params)
++            nn.BatchNorm2d(256),                                               # Layer 1
++            # Layer 2 (ReLU): [B, 256, 96, 96] -> [B, 256, 96, 96] (0 params)
++            nn.ReLU(inplace=True),                                             # Layer 2
++            
++            # Stage 2: 4x Upsample (96x96 -> 384x384), channels: 256 -> 64
++            # Params: 256 * 64 * 4 * 4 + 64 = 262,208
++            nn.ConvTranspose2d(256, 64, kernel_size=4, stride=4),              # Layer 3
++            # Layer 4 (BatchNorm2d): [B, 64, 384, 384] -> [B, 64, 384, 384] (128 params)
++            nn.BatchNorm2d(64),                                                # Layer 4
++            # Layer 5 (ReLU): [B, 64, 384, 384] -> [B, 64, 384, 384] (0 params)
++            nn.ReLU(inplace=True),                                             # Layer 5
++            
++            # Final Segmentation Head: Conv2d(64, 1, k=3, p=1)
++            # Params: 1 * 64 * 3 * 3 + 1 = 577
++            nn.Conv2d(64, 1, kernel_size=3, padding=1)                         # Layer 6
++        )
++        # MC Dropout is correctly enabled using model.apply(apply_dropout)
++        # which sets all Dropout modules (including timm backbone) to train().
++        self.drop = nn.Dropout2d(p=0.1)
+ 
+     def enable_mc_dropout(self):
++        """
++        Activates Monte Carlo dropout across the model during evaluation.
++        Ensures stochastic predictive sampling for epistemic uncertainty quantification.
++        """
+         self.mc_dropout = True
++        def apply_dropout(m):
++            if isinstance(m, (nn.Dropout, nn.Dropout2d, nn.Dropout3d)):
++                m.train()
++            elif hasattr(m, '__class__') and 'Drop' in m.__class__.__name__:
++                m.train()
++        self.apply(apply_dropout)
+ 
+     def forward(self, x):
+-        h, w = x.shape[2], x.shape[3]
++        """
++        Forward pass for ChakraNetMicroRefiner.
++        
++        Args:
++            x: Input RoI tensor of shape [B, 3, 384, 384]
++            
++        Returns:
++            logits: Output lesion mask logits of shape [B, 1, 384, 384]
++        """
++        # Tensor shape: Input x [B, C, H, W] -> standard [B, 3, 384, 384]
++        B, C, H, W = x.shape
+         dropout_active = self.training or self.mc_dropout
+-        
+-        # ResNet-34 forward pass
+-        x_init = self.maxpool(self.relu(self.bn1(self.conv1(x))))
+-        f2 = self.layer1(x_init) # [B, 64, H/4, W/4]
+-        f3 = self.layer2(f2)     # [B, 128, H/8, W/8]
+-        
+-        f2 = F.dropout2d(f2, p=0.1, training=dropout_active)
+-        f3 = F.dropout2d(f3, p=0.1, training=dropout_active)
+-        
+-        # Multi-scale RFBs
+-        rfb2 = self.rfb2(f2)     # [B, 32, H/2, W/2]
+-        rfb3 = self.rfb3(f3)     # [B, 32, H/4, W/4]
+-        
+-        rfb2 = F.dropout2d(rfb2, p=0.1, training=dropout_active)
+-        rfb3 = F.dropout2d(rfb3, p=0.1, training=dropout_active)
+-        
+-        # Parallel Partial Decoder (PPD) -> Global Saliency
+-        rfb3_up = F.interpolate(rfb3, size=rfb2.shape[2:], mode='bilinear', align_corners=False)
+-        ppd_feat = self.ppd_conv(torch.cat([rfb2, rfb3_up], dim=1))
+-        global_saliency = self.ppd_out(ppd_feat)
+-        
+-        # Reverse Attention Stage 3
+-        ra3_out = self.ra3(rfb3, F.interpolate(global_saliency, size=rfb3.shape[2:], mode='bilinear', align_corners=False))
+-        
+-        # Reverse Attention Stage 2
+-        ra3_up = F.interpolate(ra3_out, size=rfb2.shape[2:], mode='bilinear', align_corners=False)
+-        ra2_out = self.ra2(rfb2, ra3_up)
+-        
+-        # Final Full-Resolution Mask Refinement
+-        final_feat = F.interpolate(ra2_out, size=(h, w), mode='bilinear', align_corners=False)
+-        mask_logits = self.final_conv(F.interpolate(ppd_feat, size=(h, w), mode='bilinear', align_corners=False) + final_feat)
+-        
+-        return mask_logits
+-
+-
++
++        try:
++            with torch.amp.autocast('cuda' if x.is_cuda else 'cpu'):
++                # =====================================================================
++                # 1. [BODY] ViT-Large Feature Extraction
++                # =====================================================================
++                # Patch Embedding: [B, 3, 384, 384] -> [B, 576, 1024]
++                # Prepend CLS + Pos Embed: [B, 576, 1024] -> [B, 577, 1024]
++                # 24x Transformer Blocks: [B, 577, 1024] -> [B, 577, 1024]
++                # Tensor shape: features [B, 577, 1024]
++                features = self.backbone.forward_features(x)
++                
++                # =====================================================================
++                # 2. Sequence-to-Spatial Conversion
++                # =====================================================================
++                if features.dim() == 3:
++                    # Strip CLS token if present:
++                    # Tensor shape: [B, 577, 1024] -> [B, 576, 1024]
++                    if features.shape[1] == (H // 16) * (W // 16) + 1:
++                        features = features[:, 1:]
++                    grid_h = H // 16  # 24
++                    grid_w = W // 16  # 24
++                    
++                    # Transpose & Reshape to 2D spatial feature map:
++                    # Tensor shape: [B, 576, 1024] -> [B, 1024, 24, 24]
++                    features = features.transpose(1, 2).contiguous().view(B, self.embed_dim, grid_h, grid_w)
++
++                # Optional spatial dropout during training or MC sampling:
++                if dropout_active:
++                    # Tensor shape: [B, 1024, 24, 24] -> [B, 1024, 24, 24]
++                    features = F.dropout2d(features, p=0.1, training=True)
++
++                # =====================================================================
++                # 3. [DECODER / HEAD] Progressive 2-Stage Upsampling
++                # =====================================================================
++                # Stage 1: ConvTranspose2d(1024->256, k4, s4) + BN + ReLU:
++                # # Tensor shape: [B, 1024, 24, 24] -> [B, 256, 96, 96]
++                # Stage 2: ConvTranspose2d(256->64, k4, s4) + BN + ReLU:
++                # # Tensor shape: [B, 256, 96, 96]  -> [B, 64, 384, 384]
++                # Segmentation Projection: Conv2d(64->1, k3, p1):
++                # # Tensor shape: [B, 64, 384, 384] -> [B, 1, 384, 384]
++                logits = self.decode_head(features)
++
++                # Interpolation fallback for arbitrary input dimensions:
++                if logits.shape[2:] != (H, W):
++                    # Tensor shape: [B, 1, 384, 384] -> [B, 1, H, W]
++                    logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=False)
++
++            # Tensor shape: Output logits [B, 1, 384, 384]
++            return logits
++
++        except RuntimeError as e:
++            # Automatic graceful CPU fallback if CUDA VRAM spikes
++            if "out of memory" in str(e).lower():
++                # Notify monitor to back off GPU fraction by 5%
++                global _hw_monitor
++                if _hw_monitor is not None:
++                    _hw_monitor.handle_oom()
++                else:
++                    torch.cuda.empty_cache()
++                # Retry once on CPU fallback to avoid crashing the clinical streaming pipeline
++                x_cpu = x.cpu().float()
++                self_cpu = self.to('cpu')
++                features = self_cpu.backbone.forward_features(x_cpu)
++                if features.dim() == 3:
++                    features = features[:, 1:] if features.shape[1] == (H // 16) * (W // 16) + 1 else features
++                    features = features.transpose(1, 2).contiguous().view(B, self.embed_dim, H // 16, W // 16)
++                logits = self_cpu.decode_head(features)
++                if logits.shape[2:] != (H, W):
++                    logits = F.interpolate(logits, size=(H, W), mode='bilinear', align_corners=False)
++                try:
++                    self.to(x.device)  # Move back to GPU for subsequent calls
++                except Exception:
++                    pass
++                try:
++                    return logits.to(x.device)
++                except Exception:
++                    return logits
++            raise
++
++# =====================================================================
++# [INFERENCE ENGINE]: ChakraNet Wrapper for Streaming & Conformal Bounds
++# =====================================================================
+ class ChakraNet:
+     """
+     ChakraNet Endoscopic Polyp Mask Inference Engine.
+-    Processes cropped polyp bounding boxes to generate sub-pixel resection boundary masks.
+-    """
+-    def __init__(self, device=None, img_size=(128, 128), weights_path=None):
++    Processes cropped polyp bounding boxes to generate sub-pixel resection boundary masks,
++    Test-Time Augmentation (TTA), and split-conformal uncertainty intervals.
++    """
++    def __init__(self, device=None, img_size=(384, 384), weights_path=None):
+         if device is None:
+             assert torch.cuda.is_available(), "CUDA is required for ChakraNet!"
+             self.device = torch.device('cuda')
+@@ -182,27 +358,40 @@
+         
+         # Load weights if available
+         from pathlib import Path
+-        if weights_path is None:
+-            default_weights = Path(__file__).parent.parent / "weights" / "chakranet_kvasir_best.pth"
+-            if default_weights.exists():
+-                weights_path = default_weights
+-                
+-        if weights_path is not None:
+-            weights_path = Path(weights_path)
+-            if weights_path.exists():
+-                try:
+-                    self.model.load_state_dict(torch.load(weights_path, map_location=self.device))
+-                    print(f"[INFO] ChakraNet: Loaded weights from {weights_path}")
+-                except Exception as e:
+-                    print(f"[WARN] ChakraNet: Failed to load weights from {weights_path}: {e}")
++        if weights_path is False or weights_path == 'skip':
++            pass # Explicitly skip auto-loading without warning
++        else:
++            if weights_path is None:
++                candidate_weights = [
++                    Path(__file__).resolve().parents[2] / "weights" / "checkpoints" / "chakra_transformer_best.pth",
++                    Path(__file__).resolve().parents[2] / "weights" / "chakra_transformer_best.pth",
++                ]
++                default_weights = next((p for p in candidate_weights if p.exists()), candidate_weights[0])
++                if default_weights.exists():
++                    weights_path = default_weights
++                    
++            if weights_path is not None:
++                weights_path = Path(weights_path)
++                if weights_path.exists():
++                    # Load to CPU first to prevent VRAM spikes on GPU
++                    sd = torch.load(weights_path, map_location="cpu", weights_only=True)
++                    # Strip both DDP 'module.' prefix and torch.compile '_orig_mod.' prefix
++                    sd = {k.replace("module.", "").replace("_orig_mod.", ""): v for k, v in sd.items()}
++                    missing, unexpected = self.model.load_state_dict(sd, strict=False)
++                    if missing:
++                        print(f"[WARN] ChakraNet: Missing keys in checkpoint ({len(missing)}): {missing[:3]}...")
++                    if unexpected:
++                        print(f"[WARN] ChakraNet: Unexpected keys in checkpoint ({len(unexpected)}): {unexpected[:3]}...")
++                    if not missing and not unexpected:
++                        print(f"[INFO] ChakraNet: Weights loaded cleanly (strict=True equivalent) from {weights_path}")
++                else:
++                    print(f"[WARN] ChakraNet: Weights path {weights_path} not found")
+             else:
+-                print(f"[WARN] ChakraNet: Weights path {weights_path} not found")
+-        else:
+-            print("[WARN] ChakraNet: No weights found. Running with random initialization.")
++                print("[WARN] ChakraNet: No weights found. Running with random initialization.")
+             
+         self.model.eval()
+ 
+-    def segment_roi(self, roi_bgr, threshold=0.45, mc_passes=1):
++    def segment_roi(self, roi_bgr, threshold=0.45, mc_passes=1, conformal=False, q_hat_pos=None, q_hat_neg=None):
+         """
+         Segments a single cropped polyp ROI.
+         
+@@ -210,6 +399,9 @@
+             roi_bgr: numpy.ndarray of shape (H, W, 3) representing the cropped polyp
+             threshold: Confidence threshold for binarization (default 0.45)
+             mc_passes: Number of stochastic forward passes for uncertainty estimation
++            conformal: Whether to compute split-conformal prediction intervals
++            q_hat_pos: Pre-calibrated positive nonconformity quantile threshold
++            q_hat_neg: Pre-calibrated negative nonconformity quantile threshold
+             
+         Returns:
+             binary_mask: numpy.ndarray of shape (H, W) [0 or 255]
+@@ -222,86 +414,116 @@
+             
+         orig_h, orig_w = roi_bgr.shape[:2]
+         
+-        # Preprocessing: BGR -> RGB -> Normalize -> Tensor
++        # Preprocessing: BGR -> RGB -> Letterbox Pad -> Standardize -> Tensor
++        import sys
++        from pathlib import Path
++        sys.path.insert(0, str(Path(__file__).parent.parent))
++        from utils.transforms import letterbox_pad, unletterbox
++        
+         rgb = cv2.cvtColor(roi_bgr, cv2.COLOR_BGR2RGB)
+-        resized = cv2.resize(rgb, self.img_size, interpolation=cv2.INTER_LINEAR)
++        # letterbox_pad embeds crop into square canvas without aspect ratio distortion
++        # Shape: [384, 384, 3] RGB uint8
++        resized, meta = letterbox_pad(rgb, target_size=self.img_size)
++        # Tensor shape: [384, 384, 3] -> [1, 3, 384, 384] float32 in range [0, 1]
+         img_tensor = torch.from_numpy(resized).permute(2, 0, 1).unsqueeze(0).float() / 255.0
+         
+-        # Standard ImageNet normalization
++        # Standard ImageNet normalization:
++        # Tensor shape: [1, 3, 384, 384] -> [1, 3, 384, 384] standardized
+         mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1)
+         std = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1)
+         img_tensor = (img_tensor - mean) / std
+         img_tensor = img_tensor.to(self.device)
+         
+         uncertainty_resized = None
++        tta_active = getattr(self, 'use_tta', True)
+         
+         if mc_passes > 1:
++            # Enable MC dropout across ViT and decode head
+             self.model.enable_mc_dropout()
+             probs = []
+             with torch.no_grad():
+-                for _ in range(mc_passes):
+-                    logits = self.model(img_tensor)
+-                    probs.append(torch.sigmoid(logits).squeeze().cpu().numpy())
+-            
+-            probs = np.stack(probs, axis=0)
+-            prob_map = np.mean(probs, axis=0)
+-            variance_map = np.var(probs, axis=0)
+-            
+-            uncertainty_resized = cv2.resize(variance_map, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+-            
+-            # Reset model dropout flag for safety
++                with torch.amp.autocast('cuda' if 'cuda' in str(self.device) else 'cpu'):
++                    for _ in range(mc_passes):
++                        logits = self.model(img_tensor)
++                        prob = torch.sigmoid(logits)
++                        
++                        # 3-Way Test-Time Augmentation (TTA)
++                        if tta_active:
++                            # Horizontal Flip:
++                            logits_hf = self.model(torch.flip(img_tensor, dims=[3]))
++                            prob_hf = torch.flip(torch.sigmoid(logits_hf), dims=[3])
++                            # Brightness Scaling (x1.1):
++                            logits_br = self.model(img_tensor * 1.1)
++                            prob_br = torch.sigmoid(logits_br)
++                            prob = (prob + prob_hf + prob_br) / 3.0
++                            
++                        probs.append(prob.squeeze().cpu().numpy())
++            
++            probs = np.stack(probs, axis=0).astype(np.float32)  # [mc_passes, 384, 384]
++            prob_map = np.mean(probs, axis=0).astype(np.float32)  # Mean predictive probability
++            variance_map = np.var(probs, axis=0).astype(np.float32)  # Epistemic variance
++            
++            # Map variance back to native ROI crop coordinates:
++            uncertainty_resized = unletterbox(variance_map, meta)
++            
++            # Reset model dropout flag for subsequent evaluation
+             self.model.mc_dropout = False
+         else:
+             with torch.no_grad():
+-                logits = self.model(img_tensor)
+-                prob = torch.sigmoid(logits)
+-                prob_map = prob.squeeze().cpu().numpy()
+-            
+-        # Resize probability map back to original crop resolution
+-        prob_resized = cv2.resize(prob_map, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+-        
+-        # Adaptive contrast boundary enhancement for colon mucosal blending
+-        lab = cv2.cvtColor(roi_bgr, cv2.COLOR_BGR2LAB)
+-        l_chan, a_chan, b_chan = cv2.split(lab)
+-        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4))
+-        l_enhanced = clahe.apply(l_chan)
+-        _, otsu_cue = cv2.threshold(l_enhanced, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+-        
+-        # Combine Reverse-Attention Saliency with Mucosal Gradient Cues
+-        combined_prob = 0.75 * prob_resized + 0.25 * (otsu_cue.astype(np.float32) / 255.0)
+-        binary_mask = (combined_prob >= threshold).astype(np.uint8) * 255
+-        
+-        # Morphological clean-up (remove tiny noise, close holes)
+-        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+-        binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_OPEN, kernel)
+-        binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel)
+-        
+-        # Extract contours
++                with torch.amp.autocast('cuda' if 'cuda' in str(self.device) else 'cpu'):
++                    logits = self.model(img_tensor)
++                    prob = torch.sigmoid(logits)
++                    if tta_active:
++                        logits_hf = self.model(torch.flip(img_tensor, dims=[3]))
++                        prob_hf = torch.flip(torch.sigmoid(logits_hf), dims=[3])
++                        logits_br = self.model(img_tensor * 1.1)
++                        prob_br = torch.sigmoid(logits_br)
++                        prob = (prob + prob_hf + prob_br) / 3.0
++                    prob_map = prob.squeeze().float().cpu().numpy().astype(np.float32)
++            
++        # Resize probability map back to original crop resolution using unletterbox
++        # Tensor shape: [384, 384] -> [orig_h, orig_w] float32 probabilities
++        prob_resized = unletterbox(prob_map, meta)
++        
++        # Binarize probability map at clinical decision threshold (tau = 0.45)
++        # Array shape: [orig_h, orig_w] uint8 in {0, 255}
++        binary_mask = (prob_resized >= threshold).astype(np.uint8) * 255
++        
++        # Extract external mucosal boundary contours via OpenCV
+         contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+         
+-        # Filter largest contour representing the central polyp mass
+         if contours:
+-            largest_cnt = max(contours, key=cv2.contourArea)
+-            filtered_mask = np.zeros_like(binary_mask)
+-            cv2.drawContours(filtered_mask, [largest_cnt], -1, 255, thickness=cv2.FILLED)
+-            binary_mask = filtered_mask
+-            contours = [largest_cnt]
+             mean_conf = float(np.mean(prob_resized[binary_mask > 0])) if np.any(binary_mask > 0) else float(np.mean(prob_resized))
+         else:
+             mean_conf = 0.0
+             
++        # Optional Split-Conformal Prediction Sets
++        if conformal and q_hat_pos is not None and q_hat_neg is not None:
++            variance = uncertainty_resized if uncertainty_resized is not None else 0.0
++            # Non-conformity scoring:
++            score_pos = 1.0 - (prob_resized + variance)
++            score_neg = prob_resized - variance
++            include_pos = (score_pos <= q_hat_pos)
++            include_neg = (score_neg <= q_hat_neg)
++            outer_mask = include_pos.astype(np.uint8) * 255
++            inner_mask = (include_pos & (~include_neg)).astype(np.uint8) * 255
++            return binary_mask, contours, mean_conf, {"unc": uncertainty_resized, "inner": inner_mask, "outer": outer_mask}
++            
+         return binary_mask, contours, mean_conf, uncertainty_resized
+ 
+-    def segment_batch_roi(self, roi_bgr_list, threshold=0.45):
++    def segment_batch_roi(self, roi_bgr_list, threshold=0.45, conformal=False, q_hat_pos=None, q_hat_neg=None):
+         """
+         Segments a batch of cropped polyp ROIs in parallel on the GPU to maximize VRAM utilization.
+         
+         Args:
+             roi_bgr_list: List of numpy.ndarray of shape (H, W, 3).
+             threshold: Confidence threshold for binarization.
++            conformal: Whether to compute conformal prediction intervals.
++            q_hat_pos: Positive quantile nonconformity threshold.
++            q_hat_neg: Negative quantile nonconformity threshold.
+             
+         Returns:
+-            List of tuples (binary_mask, contours, mean_conf) matching input order.
++            List of tuples (binary_mask, contours, mean_conf, extras) matching input order.
+         """
+         if not roi_bgr_list:
+             return []
+@@ -310,76 +532,110 @@
+         tensor_list = []
+         orig_shapes = []
+         
+-        # 1. Preprocess and accumulate valid crops
++        # 1. Preprocess and accumulate valid crops into a batch tensor
+         for i, roi_bgr in enumerate(roi_bgr_list):
+             if roi_bgr is None or roi_bgr.size == 0 or roi_bgr.shape[0] < 4 or roi_bgr.shape[1] < 4:
+                 continue
+                 
+-            orig_shapes.append(roi_bgr.shape[:2])
++            from utils.transforms import letterbox_pad, unletterbox
+             valid_indices.append(i)
+-            
+             rgb = cv2.cvtColor(roi_bgr, cv2.COLOR_BGR2RGB)
+-            resized = cv2.resize(rgb, self.img_size, interpolation=cv2.INTER_LINEAR)
++            resized, meta = letterbox_pad(rgb, target_size=self.img_size)
++            orig_shapes.append((roi_bgr.shape[:2], meta))
+             img_tensor = torch.from_numpy(resized).permute(2, 0, 1).float() / 255.0
+             
+-            # Standard ImageNet normalization
++            # Standard ImageNet normalization:
++            # Tensor shape: [3, 384, 384]
+             mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+             std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+             img_tensor = (img_tensor - mean) / std
+             tensor_list.append(img_tensor)
+             
+-        results = [(None, [], 0.0)] * len(roi_bgr_list)
++        results = [(None, [], 0.0, None)] * len(roi_bgr_list)
+         
+         if not tensor_list:
+             return results
+             
+         # 2. Batch inference on GPU with FP16 Autocast for TensorCore acceleration
++        # Tensor shape: batch_tensor [B_valid, 3, 384, 384]
+         batch_tensor = torch.stack(tensor_list).to(self.device)
+         
++        # Test-Time Augmentation (TTA)
++        tta_active = getattr(self, 'use_tta', True)
++        
++        # Determine mc_passes from kwargs (default 1)
++        mc_passes = getattr(self, 'mc_passes_batch', 1)
++        if mc_passes > 1:
++            self.model.enable_mc_dropout()
++            
+         with torch.no_grad():
+             with torch.amp.autocast('cuda' if 'cuda' in str(self.device) else 'cpu'):
+-                logits = self.model(batch_tensor)
+-                probs = torch.sigmoid(logits)
+-        
+-        prob_maps = probs.squeeze(1).cpu().numpy()
++                probs_list = []
++                for _ in range(max(1, mc_passes)):
++                    # Tensor shape: logits [B_valid, 1, 384, 384]
++                    logits = self.model(batch_tensor)
++                    probs = torch.sigmoid(logits)
++                    
++                    if tta_active:
++                        # Horizontal flip
++                        logits_hf = self.model(torch.flip(batch_tensor, dims=[3]))
++                        probs_hf = torch.flip(torch.sigmoid(logits_hf), dims=[3])
++                        # Brightness adjustment (x1.1)
++                        logits_br = self.model(batch_tensor * 1.1)
++                        probs_br = torch.sigmoid(logits_br)
++                        probs = (probs + probs_hf + probs_br) / 3.0
++                        
++                    probs_list.append(probs)
++                    
++                probs_stack = torch.stack(probs_list, dim=0) # [mc_passes, B_valid, 1, 384, 384]
++                mean_probs = torch.mean(probs_stack, dim=0) # [B_valid, 1, 384, 384]
++                var_probs = torch.var(probs_stack, dim=0) if mc_passes > 1 else None
++        
++        if mc_passes > 1:
++            self.model.mc_dropout = False
++        
++        prob_maps = mean_probs.squeeze(1).float().cpu().numpy() # [B_valid, 384, 384]
++        var_maps = var_probs.squeeze(1).float().cpu().numpy() if var_probs is not None else None
++        
+         if len(prob_maps.shape) == 2:
+             prob_maps = np.expand_dims(prob_maps, 0)
+-            
+-        # 3. Post-process each mask
++            if var_maps is not None:
++                var_maps = np.expand_dims(var_maps, 0)
++            
++        # 3. Post-process each mask individually
++        from utils.transforms import unletterbox
+         for idx, list_idx in enumerate(valid_indices):
+-            orig_h, orig_w = orig_shapes[idx]
++            (orig_h, orig_w), meta = orig_shapes[idx]
+             prob_map = prob_maps[idx]
+             roi_bgr = roi_bgr_list[list_idx]
+             
+-            prob_resized = cv2.resize(prob_map, (orig_w, orig_h), interpolation=cv2.INTER_LINEAR)
+-            
+-            # Adaptive contrast boundary enhancement
+-            lab = cv2.cvtColor(roi_bgr, cv2.COLOR_BGR2LAB)
+-            l_chan, a_chan, b_chan = cv2.split(lab)
+-            clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(4, 4))
+-            l_enhanced = clahe.apply(l_chan)
+-            _, otsu_cue = cv2.threshold(l_enhanced, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+-            
+-            combined_prob = 0.75 * prob_resized + 0.25 * (otsu_cue.astype(np.float32) / 255.0)
+-            binary_mask = (combined_prob >= threshold).astype(np.uint8) * 255
+-            
+-            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
+-            binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_OPEN, kernel)
+-            binary_mask = cv2.morphologyEx(binary_mask, cv2.MORPH_CLOSE, kernel)
++            # Map back to unletterbox native coordinates:
++            # Array shape: [384, 384] -> [orig_h, orig_w]
++            prob_resized = unletterbox(prob_map, meta)
++            
++            # Binarize at decision threshold:
++            binary_mask = (prob_resized >= threshold).astype(np.uint8) * 255
+             
+             contours, _ = cv2.findContours(binary_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+             
+             if contours:
+-                largest_cnt = max(contours, key=cv2.contourArea)
+-                filtered_mask = np.zeros_like(binary_mask)
+-                cv2.drawContours(filtered_mask, [largest_cnt], -1, 255, thickness=cv2.FILLED)
+-                binary_mask = filtered_mask
+-                contours = [largest_cnt]
+                 mean_conf = float(np.mean(prob_resized[binary_mask > 0])) if np.any(binary_mask > 0) else float(np.mean(prob_resized))
+             else:
+                 mean_conf = 0.0
+                 
+-            results[list_idx] = (binary_mask, contours, mean_conf)
++            if conformal and q_hat_pos is not None and q_hat_neg is not None:
++                variance = unletterbox(var_maps[idx], meta) if var_maps is not None else 0.0
++                score_pos = 1.0 - (prob_resized + variance)
++                score_neg = prob_resized - variance
++                include_pos = (score_pos <= q_hat_pos)
++                include_neg = (score_neg <= q_hat_neg)
++                outer_mask = include_pos.astype(np.uint8) * 255
++                inner_mask = (include_pos & (~include_neg)).astype(np.uint8) * 255
++                extras = {"inner": inner_mask, "outer": outer_mask, "unc": unletterbox(var_maps[idx], meta) if var_maps is not None else None}
++            else:
++                extras = None
++                
++            results[list_idx] = (binary_mask, contours, mean_conf, extras)
+             
+         return results
+ 
+@@ -388,15 +644,19 @@
+         Overlays the semi-transparent segmentation mask and boundary contour onto the full video frame.
+         
+         Args:
+-            frame_bgr: Full video frame (H, W, 3)
+-            bbox: (x1, y1, x2, y2)
+-            mask: Binary mask for the ROI (h_roi, w_roi)
+-            color: BGR tuple for mask overlay
+-            alpha: Transparency factor (0.0 to 1.0)
++            frame_bgr: Full video frame numpy array of shape (H, W, 3)
++            bbox: Bounding box tuple (x1, y1, x2, y2)
++            mask: Binary mask for the ROI of shape (h_roi, w_roi)
++            color: BGR tuple for mask overlay tint (default cyan/green)
++            alpha: Transparency factor (0.0 to 1.0, default 0.45)
++            
++        Returns:
++            frame_bgr: Blended full video frame (H, W, 3)
+         """
+         x1, y1, x2, y2 = [int(v) for v in bbox]
+         h_frame, w_frame = frame_bgr.shape[:2]
+         
++        # Clamp coordinates to frame boundaries
+         x1, y1 = max(0, x1), max(0, y1)
+         x2, y2 = min(w_frame, x2), min(h_frame, y2)
+         
+@@ -406,17 +666,18 @@
+         roi = frame_bgr[y1:y2, x1:x2]
+         h_roi, w_roi = roi.shape[:2]
+         
++        # Ensure mask matches exact ROI spatial resolution:
+         if mask.shape[:2] != (h_roi, w_roi):
+             mask = cv2.resize(mask, (w_roi, h_roi), interpolation=cv2.INTER_NEAREST)
+             
+         colored_mask = np.zeros_like(roi, dtype=np.uint8)
+         colored_mask[mask > 0] = color
+         
+-        # Alpha blend only inside the segmented polyp boundary
++        # Alpha blend only inside the segmented polyp boundary:
+         idx = mask > 0
+         roi[idx] = (roi[idx].astype(np.float32) * (1.0 - alpha) + colored_mask[idx].astype(np.float32) * alpha).astype(np.uint8)
+         
+-        # Draw precise sub-pixel boundary contour line
++        # Draw precise anti-aliased sub-pixel boundary contour line:
+         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+         for cnt in contours:
+             cnt_shifted = cnt + np.array([[[x1, y1]]])

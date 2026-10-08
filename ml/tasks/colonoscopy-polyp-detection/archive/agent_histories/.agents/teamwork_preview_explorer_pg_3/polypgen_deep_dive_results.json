@@ -1,0 +1,276 @@
+{
+  "c3_missing_bbox_count": 64,
+  "c3_missing_bbox_stems": [
+    "C3_EndoCV2021_00489_",
+    "C3_EndoCV2021_0049",
+    "C3_EndoCV2021_00490",
+    "C3_EndoCV2021_00491",
+    "C3_EndoCV2021_00492",
+    "C3_EndoCV2021_00493",
+    "C3_EndoCV2021_00494",
+    "C3_EndoCV2021_00495",
+    "C3_EndoCV2021_00496",
+    "C3_EndoCV2021_00497",
+    "C3_EndoCV2021_00498",
+    "C3_EndoCV2021_00499",
+    "C3_EndoCV2021_005",
+    "C3_EndoCV2021_0050",
+    "C3_EndoCV2021_00500"
+  ],
+  "c3_missing_mask_analysis": {
+    "total_missing": 64,
+    "all_masks_exist": true,
+    "empty_masks_count": 0,
+    "positive_masks_count": 64
+  },
+  "c1_orphan_bbox_image": "957OLCV1_100H0002_mask_bbox.jpg",
+  "seq_bbox_stats": {
+    "total_files": 2225,
+    "empty_files": 515,
+    "non_empty_files": 1710,
+    "total_boxes": 1832,
+    "naming_patterns": [
+      "same_stem_as_img"
+    ],
+    "boxes_per_file_dist": {
+      "0": 515,
+      "1": 1597,
+      "2": 104,
+      "3": 9
+    },
+    "classes": [
+      "polyp"
+    ],
+    "coord_min": [
+      64.0,
+      0.0,
+      240.0,
+      6.0
+    ],
+    "coord_max": [
+      1901.0,
+      1024.0,
+      1904.0,
+      1080.0
+    ],
+    "invalid_boxes": 0,
+    "sample_files": []
+  },
+  "empty_bbox_mask_check": [
+    {
+      "center": "C1",
+      "txt": "564OLCV1_100H0002_mask.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C1",
+      "txt": "711OLCV1_100H0006_mask.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C1",
+      "txt": "100S0001_mask.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C1",
+      "txt": "442OLCV1_100H0002_mask.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C1",
+      "txt": "431OLCV1_100S0007_mask.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001365.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001010.txt",
+      "mask_nonzeros": 2
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001206.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001213.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001165.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001161.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001217.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001014.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001160.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001002.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001177.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001104.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001128.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001131.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "center": "C2",
+      "txt": "EndoCV2021_001253.txt",
+      "mask_nonzeros": 0
+    }
+  ],
+  "seq_empty_check": [
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_167.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_199.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_166.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_172.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_206.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_77.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_272.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_299.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_104.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_312.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_313.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_106.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_248.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_300.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_303.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_284.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_327.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_250.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_293.txt",
+      "mask_nonzeros": 0
+    },
+    {
+      "seq": "seq1",
+      "txt": "0_endocv2021_positive_324.txt",
+      "mask_nonzeros": 0
+    }
+  ],
+  "concatenated_zip": {
+    "exists": true,
+    "size_bytes": 748136035
+  },
+  "imagesAll_positive_verification": {
+    "total_in_imagesAll": 3762,
+    "total_in_C1_C6": 1537,
+    "total_in_seq_positive": 2225,
+    "sum_c_and_seq": 3762,
+    "c_overlap": 1537,
+    "seq_overlap": 2225,
+    "unaccounted": 0
+  }
+}

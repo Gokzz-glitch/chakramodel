@@ -1,0 +1,743 @@
+{
+  "ahaan2/cvc-clinicdb": {
+    "total_occurrences": 22,
+    "file_count": 5,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "generate_kaggle_eval.py",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation_Standalone.ipynb",
+      "september1to4afternnon_chat.json",
+      "update_kaggle_nb.py"
+    ],
+    "samples": [
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 14,
+        "content": "\"- `/kaggle/input/notebooks/ahaan2/cvc-clinicdb`\\n\""
+      },
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 354,
+        "content": "\"/kaggle/input/notebooks/ahaan2/cvc-clinicdb\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2072,
+        "content": "\"text\": \"<USER_REQUEST>\\n/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4, NEXT /kaggle/input/notebooks/ahaan2/cvc-clinicdb, NEXT /kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection NEXT /kaggle/input/notebooks/tamimm91437/etis-laribpolypdb\\n\\nNOW UPDATE THE NOTE BOOK \\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T10:50:22+05:30.\\n</ADDITIONAL_METADATA>\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2326,
+        "content": "\"text\": \"Here are your brand new, fully refined notebooks! You can download/upload them directly to Kaggle right now:\\n\\n### 1. The Core Training & Calibration Notebook\\n**[m:\\\\chakramodel\\\\notebooks\\\\Combo6_ChakraTransformer.ipynb](file:///m:/chakramodel/notebooks/Combo6_ChakraTransformer.ipynb)**\\n*Upload this to Kaggle and run it first to train your model and establish the conformal safety bounds.*\\n**What's inside:**\\n- **Math Bug Eliminated**: Fixed the `1e6` IoU denominator typo to the proper `1e-6` smoothing factor.\\n- **Conformal Safety Restored (RCPS)**: Replaced the failing flattened pixel logic with proper **Risk-Controlling Prediction Sets (RCPS)**. The model will now successfully pass the 90% and 95% Confidence Interval target tests mathematically.\\n- **Boosted Calibration Split**: Calibrated on 150 images (instead of 100) for significantly higher accuracy stability.\\n- **AMP Warning fixed**: Uses the modern `torch.amp.autocast`.\\n\\n### 2. The Multi-Dataset Evaluation Notebook\\n**[m:\\\\chakramodel\\\\notebooks\\\\Kaggle_ChakraTransformer_Evaluation.ipynb](file:///m:/chakramodel/notebooks/Kaggle_ChakraTransformer_Evaluation.ipynb)**\\n*Once training completes, use this notebook to evaluate your model's true cross-domain performance.*\\n**What's inside:**\\n- Fully updated to natively read from the exact Kaggle mounted paths you provided:\\n  - `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (Kvasir)\\n  - `/kaggle/input/notebooks/ahaan2/cvc-clinicdb` (CVC-ClinicDB)\\n  - `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb` (ETIS-Larib)\\n  - `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection` (Alternate Kvasir)\\n\\n**Next Steps for you:**\\nUpload `Combo6_ChakraTransformer.ipynb` to Kaggle, hit **Run All**, and once the final model weights (`chakra_transformer_best.pth`) are generated, we can plug them right into the Evaluation notebook to get the final benchmark scores for your paper!\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2481,
+        "content": "\"command\": \"\\\"python -c \\\\\\\"\\\\nimport nbformat\\\\nfrom nbformat.v4 import new_notebook, new_markdown_cell, new_code_cell\\\\n\\\\nnb = new_notebook()\\\\n\\\\n# --- CELL 0: Markdown Intro ---\\\\nnb.cells.append(new_markdown_cell('''# ChakraTransformer Kaggle Standalone Evaluation Notebook\\\\n**ChakraTransformer Combo #6 (ViT-Large 384)** \\u2014 100% Standalone, No `src/` required.\\\\n\\\\nEvaluates on Kvasir-SEG (held-out 15% test split), CVC-ClinicDB (zero-shot), and ETIS-Larib (zero-shot).\\\\n\\\\n### Dataset Mounts Required\\\\n- `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (weights + Kvasir alt)\\\\n- `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection`\\\\n- `/kaggle/input/notebooks/ahaan2/cvc-clinicdb`\\\\n- `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb`\\\\n'''))\\\\n\\\\n# --- CELL 1: Pip Install + Imports (no torchvision) ---\\\\nnb.cells.append(new_code_cell('''# CELL 1: ENVIRONMENT SETUP\\\\n# torchvision is intentionally NOT pip-installed to avoid Kaggle kernel version conflict.\\\\n# Kaggle base image already has torchvision pinned to the correct CUDA-compatible version.\\\\nimport subprocess\\\\nsubprocess.run([\\\\\\\\\\\\\\\"pip\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"install\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"-q\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"timm\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"opencv-python-headless\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"albumentations\\\\\\\\\\\\\\\"], check=True)\\\\n\\\\nimport os, sys, cv2, glob, torch\\\\nimport numpy as np\\\\nimport torch.nn as nn\\\\nimport torch.nn.functional as F\\\\nfrom pathlib import Path\\\\nfrom torch.utils.data import Dataset, DataLoader\\\\nfrom torch.amp import autocast\\\\n\\\\ndevice = torch.device(\\\\\\\\\\\\\\\"cuda\\\\\\\\\\\\\\\" if torch.cuda.is_available() else \\\\\\\\\\\\\\\"cpu\\\\\\\\\\\\\\\")\\\\nif torch.cuda.is_available():\\\\n    torch.backends.cudnn.benchmark = True\\\\n    torch.backends.cuda.matmul.allow_tf32 = True\\\\n    gpu_name = torch.cuda.get_device_name(0)\\\\n    vram_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3\\\\n    print(f\\\\\\\\\\\\\\\"GPU: {gpu_name} ({vram_gb:.1f} GB VRAM) | AMP FP16 Enabled\\\\\\\\\\\\\\\")\\\\nelse:\\\\n    print(\\\\\\\\\\\\\\\"WARNING: CUDA unavailable, running on CPU.\\\\\\\\\\\\\\\")\\\\nprint(f\\\\\\\\\\\\\\\"Using device: {device}\\\\\\\\\\\\\\\")\\\\n'''))\\\\n\\\\n# --- CELL 2: EXACT Model Architecture from src/chakra_transfor\\n<truncated 15288 bytes>\","
+      }
+    ]
+  },
+  "balraj98/cvcclinicdb": {
+    "total_occurrences": 6,
+    "file_count": 3,
+    "files": [
+      "ChakraModel_Research_Report CLAUDE 2.md",
+      "REPORT.txt",
+      "docs\\reports\\CLADUE nit.md"
+    ],
+    "samples": [
+      {
+        "file": "ChakraModel_Research_Report CLAUDE 2.md",
+        "line": 22,
+        "content": "2. **CVC-ClinicVideoDB (the actual name \u2014 \"CVC-VideoClinicDB\" is a common misspelling) is not casually downloadable.** It's a GIANA/MICCAI challenge dataset. To get it you must **contact the GIANA challenge organizers directly** \u2014 there is no self-serve Kaggle or GitHub mirror with the actual video files and ground truth. (The Kaggle link commonly cited for this \u2014 `balraj98/cvcclinicdb` \u2014 is the *static-image* CVC-ClinicDB, a different 612-image dataset from a different challenge track. Multiple papers and even the AVPDN repo itself conflate these two.) Budgeting \"~30 minutes via Kaggle\" for this dataset is wrong and will burn hours of your hackathon chasing a registration email that may not get answered in time."
+      },
+      {
+        "file": "ChakraModel_Research_Report CLAUDE 2.md",
+        "line": 74,
+        "content": "| **CVC-ClinicDB** | 612 static images + masks, 29 sequences | Freely downloadable in minutes via Kaggle (`balraj98/cvcclinicdb`) \u2014 Research/educational use only | **Use \u2014 combine with Kvasir-SEG for training** |"
+      },
+      {
+        "file": "REPORT.txt",
+        "line": 229,
+        "content": "| **CVC-ClinicDB** | ~50 MB | 612 | Kaggle: https://www.kaggle.com/datasets/balraj98/cvcclinicdb | < 5 min | BMP images + masks | Seg mask (convert to bbox with scikit-image) | Research only |"
+      },
+      {
+        "file": "REPORT.txt",
+        "line": 502,
+        "content": "2. **CVC-ClinicVideoDB (the actual name \u2014 \"CVC-VideoClinicDB\" is a common misspelling) is not casually downloadable.** It's a GIANA/MICCAI challenge dataset. To get it you must **contact the GIANA challenge organizers directly** \u2014 there is no self-serve Kaggle or GitHub mirror with the actual video files and ground truth. (The Kaggle link commonly cited for this \u2014 `balraj98/cvcclinicdb` \u2014 is the *static-image* CVC-ClinicDB, a different 612-image dataset from a different challenge track. Multiple papers and even the AVPDN repo itself conflate these two.) Budgeting \"~30 minutes via Kaggle\" for this dataset is wrong and will burn hours of your hackathon chasing a registration email that may not get answered in time."
+      },
+      {
+        "file": "REPORT.txt",
+        "line": 554,
+        "content": "| **CVC-ClinicDB** | 612 static images + masks, 29 sequences | Freely downloadable in minutes via Kaggle (`balraj98/cvcclinicdb`) \u2014 Research/educational use only | **Use \u2014 combine with Kvasir-SEG for training** |"
+      }
+    ]
+  },
+  "debeshjha1/kvasirseg": {
+    "total_occurrences": 8,
+    "file_count": 5,
+    "files": [
+      "ChakraModel_Research_Report CLAUDE 2.md",
+      "REPORT.txt",
+      "docs\\reports\\CLADUE nit.md",
+      "model_output_extracted\\.virtual_documents\\__notebook_source__.ipynb",
+      "output_extracted\\.virtual_documents\\__notebook_source__.ipynb"
+    ],
+    "samples": [
+      {
+        "file": "ChakraModel_Research_Report CLAUDE 2.md",
+        "line": 73,
+        "content": "| **Kvasir-SEG** | 1,000 static images + segmentation masks | Freely downloadable in minutes via Kaggle (`debeshjha1/kvasirseg`) or HuggingFace | **Use \u2014 primary training set** |"
+      },
+      {
+        "file": "REPORT.txt",
+        "line": 228,
+        "content": "| **Kvasir-SEG** | 46.2 MB | 1,000 | Direct: https://datasets.simula.no/kvasir-seg/ OR Kaggle: https://www.kaggle.com/datasets/debeshjha1/kvasirseg | < 5 min | JPG + PNG masks + JSON bbox | Seg mask + bounding box | CC-BY-4.0 |"
+      },
+      {
+        "file": "REPORT.txt",
+        "line": 553,
+        "content": "| **Kvasir-SEG** | 1,000 static images + segmentation masks | Freely downloadable in minutes via Kaggle (`debeshjha1/kvasirseg`) or HuggingFace | **Use \u2014 primary training set** |"
+      },
+      {
+        "file": "docs\\reports\\CLADUE nit.md",
+        "line": 227,
+        "content": "| **Kvasir-SEG** | 46.2 MB | 1,000 | Direct: https://datasets.simula.no/kvasir-seg/ OR Kaggle: https://www.kaggle.com/datasets/debeshjha1/kvasirseg | < 5 min | JPG + PNG masks + JSON bbox | Seg mask + bounding box | CC-BY-4.0 |"
+      },
+      {
+        "file": "model_output_extracted\\.virtual_documents\\__notebook_source__.ipynb",
+        "line": 126,
+        "content": "dataset_dir = Path(\"/kaggle/input/datasets/debeshjha1/kvasirseg/Kvasir-SEG/Kvasir-SEG\")"
+      }
+    ]
+  },
+  "gokulraj324/chakramodel-weights": {
+    "total_occurrences": 13,
+    "file_count": 13,
+    "files": [
+      "AutoDiscover_Evaluation.ipynb",
+      "Final_Evaluation_MultiCell.ipynb",
+      "generate_autodiscover_notebook.py",
+      "generate_final_multicell.py",
+      "kaggle_hardened_pipeline.ipynb",
+      "kaggle_hardened_pipeline.py",
+      "kaggle_hardened_pipeline_multi.ipynb",
+      "kaggle_hardened_pipeline_multi.py",
+      "kaggle_hardened_pipeline_multi_final.ipynb",
+      "kaggle_hardened_pipeline_multi_final.py",
+      "kaggle_yolo_retrain.py",
+      "run_kaggle_diagnostic.py",
+      "run_kaggle_diagnostic_generalized.py"
+    ],
+    "samples": [
+      {
+        "file": "AutoDiscover_Evaluation.ipynb",
+        "line": 97,
+        "content": "\"    \\\"/kaggle/input/datasets/gokulraj324/chakramodel-weights\\\",\\n\","
+      },
+      {
+        "file": "Final_Evaluation_MultiCell.ipynb",
+        "line": 61,
+        "content": "\"    '/kaggle/input/datasets/gokulraj324/chakramodel-weights',\\n\","
+      },
+      {
+        "file": "generate_autodiscover_notebook.py",
+        "line": 71,
+        "content": "\"/kaggle/input/datasets/gokulraj324/chakramodel-weights\","
+      },
+      {
+        "file": "generate_final_multicell.py",
+        "line": 33,
+        "content": "'/kaggle/input/datasets/gokulraj324/chakramodel-weights',"
+      },
+      {
+        "file": "kaggle_hardened_pipeline.ipynb",
+        "line": 47,
+        "content": "\"    \\\"/kaggle/input/datasets/gokulraj324/chakramodel-weights\\\",\\n\","
+      }
+    ]
+  },
+  "gokulraj324/chakramodel-weightsupdated4": {
+    "total_occurrences": 2,
+    "file_count": 2,
+    "files": [
+      "notebooks\\Kaggle_Final_Proof_Eval.ipynb",
+      "notebooks\\gen.py"
+    ],
+    "samples": [
+      {
+        "file": "notebooks\\gen.py",
+        "line": 56,
+        "content": "'WEIGHTS_SRC = \\'/kaggle/input/datasets/gokulraj324/chakramodel-weightsupdated4\\'\\n',"
+      },
+      {
+        "file": "notebooks\\Kaggle_Final_Proof_Eval.ipynb",
+        "line": 53,
+        "content": "\"WEIGHTS_SRC = '/kaggle/input/datasets/gokulraj324/chakramodel-weightsupdated4'\\n\","
+      }
+    ]
+  },
+  "gokulrocky/chakramodel": {
+    "total_occurrences": 36,
+    "file_count": 3,
+    "files": [
+      "kaggle_bundle\\notebooks\\ChakraModel_Kaggle_Evaluation.ipynb",
+      "notebooks\\ChakraModel_Kaggle_Evaluation.ipynb",
+      "september1to4afternnon_chat.json"
+    ],
+    "samples": [
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 790,
+        "content": "\"Working directory set to: /kaggle/input/datasets/gokulrocky/chakramodel/kaggle_bundle\\n\""
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 823,
+        "content": "\"Loading YOLO weights from: /kaggle/input/datasets/gokulrocky/chakramodel/kaggle_bundle/weights/best.pt\\nInitializing PraNet Segmenter...\\nDownloading: \\\"https://download.pytorch.org/models/resnet34-b627a593.pth\\\" to /root/.cache/torch/hub/checkpoints/resnet34-b627a593.pth\\n\","
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 825,
+        "content": "\"[INFO] PraNetSegmenter: Loaded weights from /kaggle/input/datasets/gokulrocky/chakramodel/kaggle_bundle/weights/pranet_kvasir_best.pth\\nInitializing Paris Classifier...\\nAll ChakraModel components loaded successfully!\\n\""
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 836,
+        "content": "\"\\u001b[0;31m---------------------------------------------------------------------------\\u001b[0m\\n\\u001b[0;31mOSError\\u001b[0m                                   Traceback (most recent call last)\\n\\u001b[0;32m/tmp/ipykernel_58/1866658076.py\\u001b[0m in \\u001b[0;36m<cell line: 0>\\u001b[0;34m()\\u001b[0m\\n\\u001b[1;32m      7\\u001b[0m \\u001b[0;31m# Fix the resolution bug for full-image evaluation\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[1;32m      8\\u001b[0m \\u001b[0mcode\\u001b[0m \\u001b[0;34m=\\u001b[0m \\u001b[0mcode\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mreplace\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0;34m\\\"segmenter = PraNetSegmenter()\\\"\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0;34m\\\"segmenter = PraNetSegmenter(img_size=(352, 352))\\\"\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[0;32m----> 9\\u001b[0;31m \\u001b[0mbmk_file\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mwrite_text\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mcode\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[0m\\u001b[1;32m     10\\u001b[0m \\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[1;32m     11\\u001b[0m \\u001b[0mprint\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0;34m\\\"\\u2705 Patched benchmark_kvasir.py for full-resolution (352x352) inference!\\\"\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\n\\u001b[0;32m/usr/lib/python3.12/pathlib.py\\u001b[0m in \\u001b[0;36mwrite_text\\u001b[0;34m(self, data, encoding, errors, newline)\\u001b[0m\\n\\u001b[1;32m   1045\\u001b[0m                             data.__class__.__name__)\\n\\u001b[1;32m   1046\\u001b[0m         \\u001b[0mencoding\\u001b[0m \\u001b[0;34m=\\u001b[0m \\u001b[0mio\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mtext_encoding\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mencoding\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[0;32m-> 1047\\u001b[0;31m         \\u001b[0;32mwith\\u001b[0m \\u001b[0mself\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mopen\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mmode\\u001b[0m\\u001b[0;34m=\\u001b[0m\\u001b[0;34m'w'\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0mencoding\\u001b[0m\\u001b[0;34m=\\u001b[0m\\u001b[0mencoding\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0merrors\\u001b[0m\\u001b[0;34m=\\u001b[0m\\u001b[0merrors\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0mnewline\\u001b[0m\\u001b[0;34m=\\u001b[0m\\u001b[0mnewline\\u001b[0m\\u001b[0;34m)\\u001b[0m \\u001b[0;32mas\\u001b[0m \\u001b[0mf\\u001b[0m\\u001b[0;34m:\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[0m\\u001b[1;32m   1048\\u001b[0m             \\u001b[0;32mreturn\\u001b[0m \\u001b[0mf\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mwrite\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mdata\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[1;32m   1049\\u001b[0m \\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\n\\u001b[0;32m/usr/lib/python3.12/pathlib.py\\u001b[0m in \\u001b[0;36mopen\\u001b[0;34m(self, mode, buffering, encoding, errors, newline)\\u001b[0m\\n\\u001b[1;32m   1011\\u001b[0m         \\u001b[0;32mif\\u001b[0m \\u001b[0;34m\\\"b\\\"\\u001b[0m \\u001b[0;32mnot\\u001b[0m \\u001b[0;32min\\u001b[0m \\u001b[0mmode\\u001b[0m\\u001b[0;34m:\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[1;32m   1012\\u001b[0m             \\u001b[0mencoding\\u001b[0m \\u001b[0;34m=\\u001b[0m \\u001b[0mio\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mtext_encoding\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mencoding\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[0;32m-> 1013\\u001b[0;31m         \\u001b[0;32mreturn\\u001b[0m \\u001b[0mio\\u001b[0m\\u001b[0;34m.\\u001b[0m\\u001b[0mopen\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mself\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0mmode\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0mbuffering\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0mencoding\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0merrors\\u001b[0m\\u001b[0;34m,\\u001b[0m \\u001b[0mnewline\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[0m\\u001b[1;32m   1014\\u001b[0m \\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\u001b[1;32m   1015\\u001b[0m     \\u001b[0;32mdef\\u001b[0m \\u001b[0mread_bytes\\u001b[0m\\u001b[0;34m(\\u001b[0m\\u001b[0mself\\u001b[0m\\u001b[0;34m)\\u001b[0m\\u001b[0;34m:\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0;34m\\u001b[0m\\u001b[0m\\n\\n\\u001b[0;31mOSError\\u001b[0m: [Errno 30] Read-only file system: '/kaggle/input/datasets/gokulrocky/chakramodel/kaggle_bundle/src/benchmark_kvasir.py'\""
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 952,
+        "content": "\"text\": \"Working directory set to: /kaggle/input/datasets/gokulrocky/chakramodel/kaggle_bundle\\n\","
+      }
+    ]
+  },
+  "gokulrocky/chakramodel-evaluation-datasets": {
+    "total_occurrences": 60,
+    "file_count": 17,
+    "files": [
+      "Final_Evaluation_MultiCell.ipynb",
+      "OM_rama_krish_all_data.json",
+      "build_crossval_v4.py",
+      "build_crossval_v5.py",
+      "build_master_eval_notebook.py",
+      "crossvali1_dump.txt",
+      "crossvali2_dump.txt",
+      "generate_final_multicell.py",
+      "kaggle_hardened_pipeline.ipynb",
+      "kaggle_hardened_pipeline.py",
+      "kaggle_package\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+      "kaggle_yolo_training_optimized.ipynb",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+      "notebooks\\Kaggle_CrossVal_v4_FIXED.ipynb",
+      "notebooks\\Kaggle_CrossVal_v5_PATHS_FIXED.ipynb",
+      "notebooks\\Kaggle_Master_CrossDataset_Eval_v3.ipynb",
+      "september1to4afternnon_chat.json"
+    ],
+    "samples": [
+      {
+        "file": "build_crossval_v4.py",
+        "line": 30,
+        "content": "| 2 | `gokulrocky/chakramodel-evaluation-datasets` | Kvasir-SEG test split |"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 14,
+        "content": "/kaggle/input/datasets/gokulrocky/chakramodel-evaluation-datasets/cvc-clinicdb/images  [495 images]"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 15,
+        "content": "/kaggle/input/datasets/gokulrocky/chakramodel-evaluation-datasets/etis-larib/images    [5 images]"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 16,
+        "content": "/kaggle/input/datasets/gokulrocky/chakramodel-evaluation-datasets/kvasir-seg/images    [1000 images]"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 19,
+        "content": "/kaggle/input/datasets/gokulrocky/chakramodel-evaluation-datasets/cvc-clinicdb/masks   [495 masks]"
+      }
+    ]
+  },
+  "gokulrocky/chakramodel-kaggle-code": {
+    "total_occurrences": 3,
+    "file_count": 3,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "kaggle_package\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation.ipynb"
+    ],
+    "samples": [
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 9466,
+        "content": "\"code\": \"\\\"{\\\\n \\\\\\\"metadata\\\\\\\": {\\\\n  \\\\\\\"kernelspec\\\\\\\": {\\\\n   \\\\\\\"language\\\\\\\": \\\\\\\"python\\\\\\\",\\\\n   \\\\\\\"display_name\\\\\\\": \\\\\\\"Python 3\\\\\\\",\\\\n   \\\\\\\"name\\\\\\\": \\\\\\\"python3\\\\\\\"\\\\n  },\\\\n  \\\\\\\"language_info\\\\\\\": {\\\\n   \\\\\\\"name\\\\\\\": \\\\\\\"python\\\\\\\",\\\\n   \\\\\\\"version\\\\\\\": \\\\\\\"3.12.13\\\\\\\",\\\\n   \\\\\\\"mimetype\\\\\\\": \\\\\\\"text/x-python\\\\\\\",\\\\n   \\\\\\\"codemirror_mode\\\\\\\": {\\\\\\\"name\\\\\\\": \\\\\\\"ipython\\\\\\\", \\\\\\\"version\\\\\\\": 3},\\\\n   \\\\\\\"pygments_lexer\\\\\\\": \\\\\\\"ipython3\\\\\\\",\\\\n   \\\\\\\"nbconvert_exporter\\\\\\\": \\\\\\\"python\\\\\\\",\\\\n   \\\\\\\"file_extension\\\\\\\": \\\\\\\".py\\\\\\\"\\\\n  },\\\\n  \\\\\\\"kaggle\\\\\\\": {\\\\n   \\\\\\\"accelerator\\\\\\\": \\\\\\\"nvidiaTeslaT4\\\\\\\",\\\\n   \\\\\\\"dataSources\\\\\\\": [\\\\n    {\\\\\\\"sourceId\\\\\\\": \\\\\\\"gokulrocky/chakramodel-kaggle-code\\\\\\\", \\\\\\\"sourceType\\\\\\\": \\\\\\\"datasetVersion\\\\\\\"},\\\\n    {\\\\\\\"sourceId\\\\\\\": \\\\\\\"gokulrocky/chakramodel-evaluation-datasets\\\\\\\", \\\\\\\"sourceType\\\\\\\": \\\\\\\"datasetVersion\\\\\\\"}\\\\n   ],\\\\n   \\\\\\\"dockerImageVersionId\\\\\\\": 28755,\\\\n   \\\\\\\"isInternetEnabled\\\\\\\": true,\\\\n   \\\\\\\"language\\\\\\\": \\\\\\\"python\\\\\\\",\\\\n   \\\\\\\"sourceType\\\\\\\": \\\\\\\"notebook\\\\\\\",\\\\n   \\\\\\\"isGpuEnabled\\\\\\\": true\\\\n  }\\\\n },\\\\n \\\\\\\"nbformat_minor\\\\\\\": 4,\\\\n \\\\\\\"nbformat\\\\\\\": 4,\\\\n \\\\\\\"cells\\\\\\\": [\\\\n  {\\\\n   \\\\\\\"cell_type\\\\\\\": \\\\\\\"markdown\\\\\\\",\\\\n   \\\\\\\"source\\\\\\\": \\\\\\\"## Cell 1: Setup \\u2014 Copy src & Install Requirements\\\\\\\",\\\\n   \\\\\\\"metadata\\\\\\\": {}\\\\n  },\\\\n  {\\\\n   \\\\\\\"cell_type\\\\\\\": \\\\\\\"code\\\\\\\",\\\\n   \\\\\\\"source\\\\\\\": [\\\\n    \\\\\\\"import os\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"import shutil\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"src_dir = None\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"req_file = None\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"for dirname, dirs, files in os.walk('/kaggle/input'):\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    if 'src' in dirs and 'chakramodel' in dirname.lower():\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"        src_dir = os.path.join(dirname, 'src')\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    if 'requirements.txt' in files:\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"        req_file = os.path.join(dirname, 'requirements.txt')\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"if src_dir and req_file:\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    print(f\\\\\\\\\\\\\\\"Found code at: {src_dir}\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    if os.path.exists('./src'):\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"        shutil.rmtree('./src')\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    shutil.copytree(src_dir, './src')\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    print(\\\\\\\\\\\\\\\"Copied 'src' to working directory!\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    print(\\\\\\\\\\\\\\\"Installing requirements...\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    os.system(f\\\\\\\\\\\\\\\"pip install -r {req_file} -q\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\",\\\\n\\n<truncated 8676 bytes>\""
+      },
+      {
+        "file": "kaggle_package\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+        "line": 30,
+        "content": "\"    '/kaggle/input/datasets/gokulrocky/chakramodel-kaggle-code'\\n\","
+      },
+      {
+        "file": "notebooks\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+        "line": 30,
+        "content": "\"    '/kaggle/input/datasets/gokulrocky/chakramodel-kaggle-code'\\n\","
+      }
+    ]
+  },
+  "gokulrocky/chakramodel-kaggle-codethen": {
+    "total_occurrences": 1,
+    "file_count": 1,
+    "files": [
+      "OM_rama_krish_all_data.json"
+    ],
+    "samples": [
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 5478,
+        "content": "\"text\": \"<USER_REQUEST>\\n/kaggle/input/datasets/gokulrocky/chakramodel-kaggle-codethen /kaggle/input/datasets/gokulrocky/chakramodel-evaluation-datasets\\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T18:48:53+05:30.\\n</ADDITIONAL_METADATA>\","
+      }
+    ]
+  },
+  "gokulrocky/chakramodel-weights": {
+    "total_occurrences": 11,
+    "file_count": 11,
+    "files": [
+      "AutoDiscover_Evaluation.ipynb",
+      "Final_Evaluation_MultiCell.ipynb",
+      "generate_autodiscover_notebook.py",
+      "generate_final_multicell.py",
+      "kaggle_hardened_pipeline.ipynb",
+      "kaggle_hardened_pipeline.py",
+      "kaggle_hardened_pipeline_multi.ipynb",
+      "kaggle_hardened_pipeline_multi.py",
+      "kaggle_hardened_pipeline_multi_final.ipynb",
+      "kaggle_hardened_pipeline_multi_final.py",
+      "kaggle_yolo_retrain.py"
+    ],
+    "samples": [
+      {
+        "file": "AutoDiscover_Evaluation.ipynb",
+        "line": 96,
+        "content": "\"    \\\"/kaggle/input/datasets/gokulrocky/chakramodel-weights\\\",\\n\","
+      },
+      {
+        "file": "Final_Evaluation_MultiCell.ipynb",
+        "line": 60,
+        "content": "\"    '/kaggle/input/datasets/gokulrocky/chakramodel-weights',\\n\","
+      },
+      {
+        "file": "generate_autodiscover_notebook.py",
+        "line": 70,
+        "content": "\"/kaggle/input/datasets/gokulrocky/chakramodel-weights\","
+      },
+      {
+        "file": "generate_final_multicell.py",
+        "line": 32,
+        "content": "'/kaggle/input/datasets/gokulrocky/chakramodel-weights',"
+      },
+      {
+        "file": "kaggle_hardened_pipeline.ipynb",
+        "line": 46,
+        "content": "\"    \\\"/kaggle/input/datasets/gokulrocky/chakramodel-weights\\\",\\n\","
+      }
+    ]
+  },
+  "gokulrocky/chakramodel-yolo-combo-dataset": {
+    "total_occurrences": 1,
+    "file_count": 1,
+    "files": [
+      "kaggle_yolo_retrain.py"
+    ],
+    "samples": [
+      {
+        "file": "kaggle_yolo_retrain.py",
+        "line": 25,
+        "content": "dataset_path = \"/kaggle/input/datasets/gokulrocky/chakramodel-yolo-combo-dataset\""
+      }
+    ]
+  },
+  "gokulrocky/chakratransformer-weights": {
+    "total_occurrences": 16,
+    "file_count": 9,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "build_crossval_v4.py",
+      "build_master_eval_notebook.py",
+      "crossvali1_dump.txt",
+      "crossvali2_dump.txt",
+      "notebooks\\Kaggle_CrossVal_v4_FIXED.ipynb",
+      "notebooks\\Kaggle_Master_CrossDataset_Eval_v3.ipynb",
+      "output_dump.txt",
+      "september1to4afternnon_chat.json"
+    ],
+    "samples": [
+      {
+        "file": "build_crossval_v4.py",
+        "line": 29,
+        "content": "| 1 | `gokulrocky/chakratransformer-weights` | Model weights (REQUIRED) |"
+      },
+      {
+        "file": "build_crossval_v4.py",
+        "line": 199,
+        "content": "print(\"   Attach 'gokulrocky/chakratransformer-weights' dataset.\")"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 47,
+        "content": "| ChakraTransformer Weights | `gokulrocky/chakratransformer-weights` | \ud83d\udd34 Required |"
+      },
+      {
+        "file": "crossvali1_dump.txt",
+        "line": 13,
+        "content": "| ChakraTransformer Weights | `gokulrocky/chakratransformer-weights` | \ud83d\udd34 Required |"
+      },
+      {
+        "file": "crossvali1_dump.txt",
+        "line": 116,
+        "content": "Loading: /kaggle/input/datasets/gokulrocky/chakratransformer-weights/chakra_transformer_best.pth"
+      }
+    ]
+  },
+  "gokulrocky/endoscene-cvc300-polyp-raw-dataset": {
+    "total_occurrences": 27,
+    "file_count": 9,
+    "files": [
+      "build_crossval_v4.py",
+      "build_crossval_v5.py",
+      "build_master_eval_notebook.py",
+      "crossvali1_dump.txt",
+      "crossvali2_dump.txt",
+      "notebooks\\Kaggle_CrossVal_v4_FIXED.ipynb",
+      "notebooks\\Kaggle_CrossVal_v5_PATHS_FIXED.ipynb",
+      "notebooks\\Kaggle_Master_CrossDataset_Eval_v3.ipynb",
+      "run_kaggle_diagnostic.py"
+    ],
+    "samples": [
+      {
+        "file": "build_crossval_v4.py",
+        "line": 31,
+        "content": "| 3 | `gokulrocky/endoscene-cvc300-polyp-raw-dataset` | CVC-300 (60 images) |"
+      },
+      {
+        "file": "build_crossval_v4.py",
+        "line": 412,
+        "content": "# Dataset: gokulrocky/endoscene-cvc300-polyp-raw-dataset"
+      },
+      {
+        "file": "build_crossval_v4.py",
+        "line": 437,
+        "content": "print(\"   You MUST attach 'gokulrocky/endoscene-cvc300-polyp-raw-dataset'\")"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 17,
+        "content": "/kaggle/input/datasets/gokulrocky/endoscene-cvc300-polyp-raw-dataset/CVC-300/images    [60 images]"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 22,
+        "content": "/kaggle/input/datasets/gokulrocky/endoscene-cvc300-polyp-raw-dataset/CVC-300/masks     [60 masks]"
+      }
+    ]
+  },
+  "gokulrocky/hyperkvasir-dataset-first-half-and-and-ld-dataset": {
+    "total_occurrences": 11,
+    "file_count": 6,
+    "files": [
+      "build_crossval_v4.py",
+      "build_master_eval_notebook.py",
+      "crossvali1_dump.txt",
+      "crossvali2_dump.txt",
+      "notebooks\\Kaggle_CrossVal_v4_FIXED.ipynb",
+      "notebooks\\Kaggle_Master_CrossDataset_Eval_v3.ipynb"
+    ],
+    "samples": [
+      {
+        "file": "build_crossval_v4.py",
+        "line": 32,
+        "content": "| 4 | `gokulrocky/hyperkvasir-dataset-first-half-and-and-ld-dataset` | HyperKvasir + LDPolyp |"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 11,
+        "content": "- HyperKvasir Segmented     (1000 images subset, gokulrocky/hyperkvasir-dataset-first-half-and-and-ld-dataset)"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 49,
+        "content": "| HyperKvasir + LD (has segmented subset) | `gokulrocky/hyperkvasir-dataset-first-half-and-and-ld-dataset` | \ud83d\udfe1 Optional |"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 338,
+        "content": "\"Dataset: `gokulrocky/hyperkvasir-dataset-first-half-and-and-ld-dataset`  \\n\""
+      },
+      {
+        "file": "crossvali1_dump.txt",
+        "line": 15,
+        "content": "| HyperKvasir + LD (has segmented subset) | `gokulrocky/hyperkvasir-dataset-first-half-and-and-ld-dataset` | \ud83d\udfe1 Optional |"
+      }
+    ]
+  },
+  "gokulrocky/kaggle-upload-zip4": {
+    "total_occurrences": 30,
+    "file_count": 6,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "generate_kaggle_eval.py",
+      "notebook_diff.txt",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation_Standalone.ipynb",
+      "september1to4afternnon_chat.json",
+      "update_kaggle_nb.py"
+    ],
+    "samples": [
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 12,
+        "content": "\"- `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4`\\n\""
+      },
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 341,
+        "content": "\"/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4\","
+      },
+      {
+        "file": "notebook_diff.txt",
+        "line": 34,
+        "content": "- `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (weights)"
+      },
+      {
+        "file": "notebook_diff.txt",
+        "line": 287,
+        "content": "'/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4',"
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2072,
+        "content": "\"text\": \"<USER_REQUEST>\\n/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4, NEXT /kaggle/input/notebooks/ahaan2/cvc-clinicdb, NEXT /kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection NEXT /kaggle/input/notebooks/tamimm91437/etis-laribpolypdb\\n\\nNOW UPDATE THE NOTE BOOK \\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T10:50:22+05:30.\\n</ADDITIONAL_METADATA>\","
+      }
+    ]
+  },
+  "gokulrocky/om-finalkaggle-upload": {
+    "total_occurrences": 2,
+    "file_count": 2,
+    "files": [
+      "kaggle_package\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation.ipynb"
+    ],
+    "samples": [
+      {
+        "file": "kaggle_package\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+        "line": 29,
+        "content": "\"    '/kaggle/input/datasets/gokulrocky/om-finalkaggle-upload',\\n\","
+      },
+      {
+        "file": "notebooks\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+        "line": 29,
+        "content": "\"    '/kaggle/input/datasets/gokulrocky/om-finalkaggle-upload',\\n\","
+      }
+    ]
+  },
+  "gokulrocky/polypdataset-gokul": {
+    "total_occurrences": 4,
+    "file_count": 2,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "september1to4afternnon_chat.json"
+    ],
+    "samples": [
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 936,
+        "content": "\"text\": \"<USER_REQUEST>\\nhttps://www.kaggle.com/datasets/gokulrocky/polypdataset-gokul this is the file location in kaggle where videos for testing are there videos are in both mp4 &avi format update the notebook to be ready to run\\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T00:41:38+05:30.\\n</ADDITIONAL_METADATA>\","
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 1110,
+        "content": "\"source\": \"import os\\nimport glob\\nimport shutil\\nfrom pathlib import Path\\nfrom app import process_video\\n\\n# Primary path and alternative paths to check automatically\\npossible_paths = [\\n    Path(\\\"/kaggle/input/datasets/gokulrocky/polypdataset-gokul\\\"),\\n    Path(\\\"/kaggle/input/polypdataset-gokul\\\"),\\n    Path(\\\"/kaggle/input\\\")\\n]\\n\\n# Find the first path that actually exists on disk\\nrepo_path = next((p for p in possible_paths if p.exists()), Path(\\\"/kaggle/input\\\"))\\n\\n# 1. Search for video files across all common extensions (.mp4, .avi, .mov, .mkv)\\nvalid_extensions = (\\\"*.mp4\\\", \\\"*.avi\\\", \\\"*.mov\\\", \\\"*.mkv\\\")\\nvideo_files = []\\n\\nfor ext in valid_extensions:\\n    video_files.extend(list(repo_path.rglob(ext)))\\n\\nif not video_files:\\n    print(f\\\"No video files found in {repo_path}. Please check your dataset path.\\\")\\nelse:\\n    video_file = video_files[0]\\n    print(f\\\"Found video: {video_file}\\\")\\n    print(f\\\"Processing video (this may take a moment)...\\\")\\n    \\n    # Run the ChakraModel tracker\\n    out_video_path, df_timeline = process_video(\\n        str(video_file), \\n        use_persistence=True, \\n        window_size=10, \\n        persistence_threshold=0.6, \\n        doubt_policy=\\\"Warn Only\\\", \\n        imgsz_val=\\\"1024\\\"\\n    )\\n    \\n    # 2. Save output to Kaggle working directory\\n    working_dir = Path(\\\"/kaggle/working\\\") if os.path.exists(\\\"/kaggle/working\\\") else Path(\\\".\\\")\\n    final_vid = working_dir / f\\\"output_{video_file.name}\\\"\\n    \\n    try:\\n        shutil.copy2(out_video_path, final_vid)\\n        print(f\\\"Processed video saved to output: {final_vid}\\\")\\n        print(\\\"\\\\nTimeline of Detections:\\\")\\n        display(df_timeline)\\n    except Exception as e:\\n        print(f\\\"Error copying to output: {e}\\\")\","
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 1561,
+        "content": "\"source\": \"import sys\\nsys.path.append('/kaggle/input/datasets/gokulrocky/polypdataset-gokul')\","
+      },
+      {
+        "file": "september1to4afternnon_chat.json",
+        "line": 2053,
+        "content": "\"source\": \"import sys\\nsys.path.append('/kaggle/input/datasets/gokulrocky/polypdataset-gokul')\","
+      }
+    ]
+  },
+  "gokulrocky/polypdb-polyp-raw-stress-testdataset": {
+    "total_occurrences": 14,
+    "file_count": 8,
+    "files": [
+      "build_crossval_v4.py",
+      "build_crossval_v5.py",
+      "build_master_eval_notebook.py",
+      "crossvali1_dump.txt",
+      "crossvali2_dump.txt",
+      "notebooks\\Kaggle_CrossVal_v4_FIXED.ipynb",
+      "notebooks\\Kaggle_CrossVal_v5_PATHS_FIXED.ipynb",
+      "notebooks\\Kaggle_Master_CrossDataset_Eval_v3.ipynb"
+    ],
+    "samples": [
+      {
+        "file": "build_crossval_v4.py",
+        "line": 33,
+        "content": "| 5 | `gokulrocky/polypdb-polyp-raw-stress-testdataset` | PolypDB 5 modalities |"
+      },
+      {
+        "file": "build_crossval_v5.py",
+        "line": 344,
+        "content": "direct = Path(\"/kaggle/input/datasets/gokulrocky/polypdb-polyp-raw-stress-testdataset\")"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 9,
+        "content": "- PolypDB                   (gokulrocky/polypdb-polyp-raw-stress-testdataset)"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 21,
+        "content": "4. PolypDB (all 5 modalities) (gokulrocky/polypdb-polyp-raw-stress-testdataset)"
+      },
+      {
+        "file": "build_master_eval_notebook.py",
+        "line": 50,
+        "content": "| PolypDB Stress Test | `gokulrocky/polypdb-polyp-raw-stress-testdataset` | \ud83d\udfe1 Optional |"
+      }
+    ]
+  },
+  "gokulrocky/updated-kaggle": {
+    "total_occurrences": 10,
+    "file_count": 3,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "fix_notebook.py",
+      "september1to4afternnon_chat.json"
+    ],
+    "samples": [
+      {
+        "file": "fix_notebook.py",
+        "line": 15,
+        "content": "\"2. The uploaded zip dataset containing the model code and weights (mounted at `/kaggle/input/datasets/gokulrocky/updated-kaggle` or similar).\""
+      },
+      {
+        "file": "fix_notebook.py",
+        "line": 30,
+        "content": "\"BASE_DIR = '/kaggle/input/datasets/gokulrocky/updated-kaggle'\\n\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 1076,
+        "content": "\"text\": \"<USER_REQUEST>\\n\\\"C:\\\\Users\\\\imgk3\\\\Downloads\\\\notebookebd2f4d761.ipynb\\\"\\n\\n/kaggle/input/datasets/gokulrocky/updated-kaggle\\n\\n\\nHere are the key code errors and execution issues identified across the notebook blocks:\\r\\n\\r\\n**Missing Input Datasets**\\r\\n\\r\\n* **Cell 3 (Dataset Setup):** References `/kaggle/input/kvasir-seg/Kvasir-SEG/images` and `masks`. The `kvasir-seg` dataset is missing from your **DATASETS** sidebar and must be added via **+ Add Input**.\\r\\n* **Cell 7 (Video Inference):** References `/kaggle/input/polypdataset-gokul`. This dataset is also missing from your sidebar inputs.\\r\\n\\r\\n**Code Incompleteness & Syntax Errors**\\r\\n\\r\\n* **Cell 7 (Video Loop Incomplete):** The loop cuts off abruptly at `if not ret:` without a `break` statement, frame processing logic, or `cap.release()` / `out.release()` calls. Running this cell as-is will result in an incomplete script or loop error.\\r\\n\\r\\n**Code Execution & Redundancies**\\r\\n\\r\\n* **Cell 1 (Commented Out):** Contains commented-out legacy code pointing to `/kaggle/input/chakramodel-data/src`. Consider deleting this cell to keep the workspace clean.\\r\\n* **Cell 5 (Commented Out):** Contains commented-out model loading code using the old `chakramodel-data` path, which is superseded by Cell 6.\\r\\n\\r\\n**Model Weight Compatibility Note**\\r\\n\\r\\n* **Cell 6 (Model Weight File):** Loads `chakra_transformer_best.pth`. Note that your sidebar also contains a `best.pt` file\\u2014ensure `chakra_transformer_best.pth` contains the complete `state_dict` structure expected by `ChakraTransformerSegmenter`.\\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T01:04:30+05:30.\\n</ADDITIONAL_METADATA>\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 1090,
+        "content": "\"code\": \"\\\"import json\\\\n\\\\nnotebook = {\\\\n \\\\\\\"cells\\\\\\\": [\\\\n  {\\\\n   \\\\\\\"cell_type\\\\\\\": \\\\\\\"markdown\\\\\\\",\\\\n   \\\\\\\"metadata\\\\\\\": {},\\\\n   \\\\\\\"source\\\\\\\": [\\\\n    \\\\\\\"# ChakraTransformer Kaggle Evaluation & Video Inference\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"This notebook evaluates the pre-trained ChakraTransformer (Combo 6) on the Kvasir-SEG test set and runs video inference.\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"**IMPORTANT:** Make sure you have added the following datasets to your Kaggle environment via the **+ Add Input** button in the sidebar:\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"1. `kvasir-seg` (The Kvasir-SEG dataset)\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"2. The uploaded zip dataset containing the model code and weights (mounted at `/kaggle/input/datasets/gokulrocky/updated-kaggle` or similar).\\\\\\\"\\\\n   ]\\\\n  },\\\\n  {\\\\n   \\\\\\\"cell_type\\\\\\\": \\\\\\\"code\\\\\\\",\\\\n   \\\\\\\"execution_count\\\\\\\": None,\\\\n   \\\\\\\"metadata\\\\\\\": {},\\\\n   \\\\\\\"outputs\\\\\\\": [],\\\\n   \\\\\\\"source\\\\\\\": [\\\\n    \\\\\\\"!pip install -q timm opencv-python torchvision\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"import sys\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"import os\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"# Set the path to where you uploaded the kaggle_upload.zip dataset\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"BASE_DIR = '/kaggle/input/datasets/gokulrocky/updated-kaggle'\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"if not os.path.exists(BASE_DIR):\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    print(f\\\\\\\\\\\\\\\"WARNING: BASE_DIR '{BASE_DIR}' not found.\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    print(\\\\\\\\\\\\\\\"Please update BASE_DIR to match your uploaded dataset path.\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"else:\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    # Copy src to working directory to allow imports\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    !cp -r {BASE_DIR}/src /kaggle/working/\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    sys.path.append('/kaggle/working/src')\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"    print(\\\\\\\\\\\\\\\"Source code successfully mounted.\\\\\\\\\\\\\\\")\\\\\\\\n\\\\\\\"\\\\n   ]\\\\n  },\\\\n  {\\\\n   \\\\\\\"cell_type\\\\\\\": \\\\\\\"code\\\\\\\",\\\\n   \\\\\\\"execution_count\\\\\\\": None,\\\\n   \\\\\\\"metadata\\\\\\\": {},\\\\n   \\\\\\\"outputs\\\\\\\": [],\\\\n   \\\\\\\"source\\\\\\\": [\\\\n    \\\\\\\"import torch\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"from pathlib import Path\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"import cv2\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"import numpy as np\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"from torchvision import transforms\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"import time\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"from torch.utils.data import DataLoader\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"\\\\\\\\n\\\\\\\",\\\\n    \\\\\\\"from chakra_transf\\n<truncated 7252 bytes>\""
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 1130,
+        "content": "\"code\": \"\\\"3. **Kaggle Deployment Package Generated & Paths Hardened**\\\\n   - We completely rebuilt the `Kaggle_ChakraTransformer_Evaluation.ipynb` to support dynamic loading from user-mounted dataset paths (like `/kaggle/input/datasets/gokulrocky/updated-kaggle`).\\\\n   - Cleaned up all legacy commented-out code to keep the workspace clean.\\\\n   - Fixed a parser syntax bug in the video inference loop that was causing Kaggle to abruptly cut off the cell.\\\\n   - The 1.1GB ZIP file (`kaggle_upload.zip`) has been successfully recompiled.\\\\n\\\\n## Validation Results\\\\n- The background task successfully compiled `m:\\\\\\\\chakramodel\\\\\\\\kaggle_upload.zip` (1101 MB) containing the ViT weights, the cleaned source code, and the direct evaluation notebook.\\\\n\\\\n## Next Step for You (Manual Verification)\\\\n1. **Upload the fresh ZIP**: Replace your dataset with the new `kaggle_upload.zip`.\\\\n2. **Open Notebook**: Open the `Kaggle_ChakraTransformer_Evaluation.ipynb` from inside the dataset on Kaggle.\\\\n3. **Verify `BASE_DIR`**: In Cell 2, ensure `BASE_DIR` points to exactly where your dataset is mounted (e.g. `'/kaggle/input/datasets/gokulrocky/updated-kaggle'`).\\\\n4. **Hit Run All**. If `kvasir-seg` is attached, it will run image evaluation. It will seamlessly transition into processing all `.mp4` and `.avi` files it finds in the `BASE_DIR`.\\\"\""
+      }
+    ]
+  },
+  "ivannikov2002/kvasir-seg-data-polyp-segmentation-detection": {
+    "total_occurrences": 22,
+    "file_count": 5,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "generate_kaggle_eval.py",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation_Standalone.ipynb",
+      "september1to4afternnon_chat.json",
+      "update_kaggle_nb.py"
+    ],
+    "samples": [
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 13,
+        "content": "\"- `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection`\\n\""
+      },
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 332,
+        "content": "\"/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2072,
+        "content": "\"text\": \"<USER_REQUEST>\\n/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4, NEXT /kaggle/input/notebooks/ahaan2/cvc-clinicdb, NEXT /kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection NEXT /kaggle/input/notebooks/tamimm91437/etis-laribpolypdb\\n\\nNOW UPDATE THE NOTE BOOK \\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T10:50:22+05:30.\\n</ADDITIONAL_METADATA>\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2326,
+        "content": "\"text\": \"Here are your brand new, fully refined notebooks! You can download/upload them directly to Kaggle right now:\\n\\n### 1. The Core Training & Calibration Notebook\\n**[m:\\\\chakramodel\\\\notebooks\\\\Combo6_ChakraTransformer.ipynb](file:///m:/chakramodel/notebooks/Combo6_ChakraTransformer.ipynb)**\\n*Upload this to Kaggle and run it first to train your model and establish the conformal safety bounds.*\\n**What's inside:**\\n- **Math Bug Eliminated**: Fixed the `1e6` IoU denominator typo to the proper `1e-6` smoothing factor.\\n- **Conformal Safety Restored (RCPS)**: Replaced the failing flattened pixel logic with proper **Risk-Controlling Prediction Sets (RCPS)**. The model will now successfully pass the 90% and 95% Confidence Interval target tests mathematically.\\n- **Boosted Calibration Split**: Calibrated on 150 images (instead of 100) for significantly higher accuracy stability.\\n- **AMP Warning fixed**: Uses the modern `torch.amp.autocast`.\\n\\n### 2. The Multi-Dataset Evaluation Notebook\\n**[m:\\\\chakramodel\\\\notebooks\\\\Kaggle_ChakraTransformer_Evaluation.ipynb](file:///m:/chakramodel/notebooks/Kaggle_ChakraTransformer_Evaluation.ipynb)**\\n*Once training completes, use this notebook to evaluate your model's true cross-domain performance.*\\n**What's inside:**\\n- Fully updated to natively read from the exact Kaggle mounted paths you provided:\\n  - `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (Kvasir)\\n  - `/kaggle/input/notebooks/ahaan2/cvc-clinicdb` (CVC-ClinicDB)\\n  - `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb` (ETIS-Larib)\\n  - `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection` (Alternate Kvasir)\\n\\n**Next Steps for you:**\\nUpload `Combo6_ChakraTransformer.ipynb` to Kaggle, hit **Run All**, and once the final model weights (`chakra_transformer_best.pth`) are generated, we can plug them right into the Evaluation notebook to get the final benchmark scores for your paper!\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2481,
+        "content": "\"command\": \"\\\"python -c \\\\\\\"\\\\nimport nbformat\\\\nfrom nbformat.v4 import new_notebook, new_markdown_cell, new_code_cell\\\\n\\\\nnb = new_notebook()\\\\n\\\\n# --- CELL 0: Markdown Intro ---\\\\nnb.cells.append(new_markdown_cell('''# ChakraTransformer Kaggle Standalone Evaluation Notebook\\\\n**ChakraTransformer Combo #6 (ViT-Large 384)** \\u2014 100% Standalone, No `src/` required.\\\\n\\\\nEvaluates on Kvasir-SEG (held-out 15% test split), CVC-ClinicDB (zero-shot), and ETIS-Larib (zero-shot).\\\\n\\\\n### Dataset Mounts Required\\\\n- `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (weights + Kvasir alt)\\\\n- `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection`\\\\n- `/kaggle/input/notebooks/ahaan2/cvc-clinicdb`\\\\n- `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb`\\\\n'''))\\\\n\\\\n# --- CELL 1: Pip Install + Imports (no torchvision) ---\\\\nnb.cells.append(new_code_cell('''# CELL 1: ENVIRONMENT SETUP\\\\n# torchvision is intentionally NOT pip-installed to avoid Kaggle kernel version conflict.\\\\n# Kaggle base image already has torchvision pinned to the correct CUDA-compatible version.\\\\nimport subprocess\\\\nsubprocess.run([\\\\\\\\\\\\\\\"pip\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"install\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"-q\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"timm\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"opencv-python-headless\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"albumentations\\\\\\\\\\\\\\\"], check=True)\\\\n\\\\nimport os, sys, cv2, glob, torch\\\\nimport numpy as np\\\\nimport torch.nn as nn\\\\nimport torch.nn.functional as F\\\\nfrom pathlib import Path\\\\nfrom torch.utils.data import Dataset, DataLoader\\\\nfrom torch.amp import autocast\\\\n\\\\ndevice = torch.device(\\\\\\\\\\\\\\\"cuda\\\\\\\\\\\\\\\" if torch.cuda.is_available() else \\\\\\\\\\\\\\\"cpu\\\\\\\\\\\\\\\")\\\\nif torch.cuda.is_available():\\\\n    torch.backends.cudnn.benchmark = True\\\\n    torch.backends.cuda.matmul.allow_tf32 = True\\\\n    gpu_name = torch.cuda.get_device_name(0)\\\\n    vram_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3\\\\n    print(f\\\\\\\\\\\\\\\"GPU: {gpu_name} ({vram_gb:.1f} GB VRAM) | AMP FP16 Enabled\\\\\\\\\\\\\\\")\\\\nelse:\\\\n    print(\\\\\\\\\\\\\\\"WARNING: CUDA unavailable, running on CPU.\\\\\\\\\\\\\\\")\\\\nprint(f\\\\\\\\\\\\\\\"Using device: {device}\\\\\\\\\\\\\\\")\\\\n'''))\\\\n\\\\n# --- CELL 2: EXACT Model Architecture from src/chakra_transfor\\n<truncated 15288 bytes>\","
+      }
+    ]
+  },
+  "nguyenvoquocduong/etis-laribpolypdb": {
+    "total_occurrences": 1,
+    "file_count": 1,
+    "files": [
+      "run_kaggle_diagnostic_generalized.py"
+    ],
+    "samples": [
+      {
+        "file": "run_kaggle_diagnostic_generalized.py",
+        "line": 9,
+        "content": "dataset_slug = sys.argv[2] # e.g. \"nguyenvoquocduong/etis-laribpolypdb\""
+      }
+    ]
+  },
+  "tamimm91437/etis-laribpolypdb": {
+    "total_occurrences": 21,
+    "file_count": 5,
+    "files": [
+      "OM_rama_krish_all_data.json",
+      "generate_kaggle_eval.py",
+      "notebooks\\Kaggle_ChakraTransformer_Evaluation_Standalone.ipynb",
+      "september1to4afternnon_chat.json",
+      "update_kaggle_nb.py"
+    ],
+    "samples": [
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 15,
+        "content": "\"- `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb`\\n\""
+      },
+      {
+        "file": "generate_kaggle_eval.py",
+        "line": 367,
+        "content": "\"/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2072,
+        "content": "\"text\": \"<USER_REQUEST>\\n/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4, NEXT /kaggle/input/notebooks/ahaan2/cvc-clinicdb, NEXT /kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection NEXT /kaggle/input/notebooks/tamimm91437/etis-laribpolypdb\\n\\nNOW UPDATE THE NOTE BOOK \\n</USER_REQUEST>\\n<ADDITIONAL_METADATA>\\nThe current local time is: 2026-09-04T10:50:22+05:30.\\n</ADDITIONAL_METADATA>\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2326,
+        "content": "\"text\": \"Here are your brand new, fully refined notebooks! You can download/upload them directly to Kaggle right now:\\n\\n### 1. The Core Training & Calibration Notebook\\n**[m:\\\\chakramodel\\\\notebooks\\\\Combo6_ChakraTransformer.ipynb](file:///m:/chakramodel/notebooks/Combo6_ChakraTransformer.ipynb)**\\n*Upload this to Kaggle and run it first to train your model and establish the conformal safety bounds.*\\n**What's inside:**\\n- **Math Bug Eliminated**: Fixed the `1e6` IoU denominator typo to the proper `1e-6` smoothing factor.\\n- **Conformal Safety Restored (RCPS)**: Replaced the failing flattened pixel logic with proper **Risk-Controlling Prediction Sets (RCPS)**. The model will now successfully pass the 90% and 95% Confidence Interval target tests mathematically.\\n- **Boosted Calibration Split**: Calibrated on 150 images (instead of 100) for significantly higher accuracy stability.\\n- **AMP Warning fixed**: Uses the modern `torch.amp.autocast`.\\n\\n### 2. The Multi-Dataset Evaluation Notebook\\n**[m:\\\\chakramodel\\\\notebooks\\\\Kaggle_ChakraTransformer_Evaluation.ipynb](file:///m:/chakramodel/notebooks/Kaggle_ChakraTransformer_Evaluation.ipynb)**\\n*Once training completes, use this notebook to evaluate your model's true cross-domain performance.*\\n**What's inside:**\\n- Fully updated to natively read from the exact Kaggle mounted paths you provided:\\n  - `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (Kvasir)\\n  - `/kaggle/input/notebooks/ahaan2/cvc-clinicdb` (CVC-ClinicDB)\\n  - `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb` (ETIS-Larib)\\n  - `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection` (Alternate Kvasir)\\n\\n**Next Steps for you:**\\nUpload `Combo6_ChakraTransformer.ipynb` to Kaggle, hit **Run All**, and once the final model weights (`chakra_transformer_best.pth`) are generated, we can plug them right into the Evaluation notebook to get the final benchmark scores for your paper!\","
+      },
+      {
+        "file": "OM_rama_krish_all_data.json",
+        "line": 2481,
+        "content": "\"command\": \"\\\"python -c \\\\\\\"\\\\nimport nbformat\\\\nfrom nbformat.v4 import new_notebook, new_markdown_cell, new_code_cell\\\\n\\\\nnb = new_notebook()\\\\n\\\\n# --- CELL 0: Markdown Intro ---\\\\nnb.cells.append(new_markdown_cell('''# ChakraTransformer Kaggle Standalone Evaluation Notebook\\\\n**ChakraTransformer Combo #6 (ViT-Large 384)** \\u2014 100% Standalone, No `src/` required.\\\\n\\\\nEvaluates on Kvasir-SEG (held-out 15% test split), CVC-ClinicDB (zero-shot), and ETIS-Larib (zero-shot).\\\\n\\\\n### Dataset Mounts Required\\\\n- `/kaggle/input/datasets/gokulrocky/kaggle-upload-zip4` (weights + Kvasir alt)\\\\n- `/kaggle/input/notebooks/ivannikov2002/kvasir-seg-data-polyp-segmentation-detection`\\\\n- `/kaggle/input/notebooks/ahaan2/cvc-clinicdb`\\\\n- `/kaggle/input/notebooks/tamimm91437/etis-laribpolypdb`\\\\n'''))\\\\n\\\\n# --- CELL 1: Pip Install + Imports (no torchvision) ---\\\\nnb.cells.append(new_code_cell('''# CELL 1: ENVIRONMENT SETUP\\\\n# torchvision is intentionally NOT pip-installed to avoid Kaggle kernel version conflict.\\\\n# Kaggle base image already has torchvision pinned to the correct CUDA-compatible version.\\\\nimport subprocess\\\\nsubprocess.run([\\\\\\\\\\\\\\\"pip\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"install\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"-q\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"timm\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"opencv-python-headless\\\\\\\\\\\\\\\", \\\\\\\\\\\\\\\"albumentations\\\\\\\\\\\\\\\"], check=True)\\\\n\\\\nimport os, sys, cv2, glob, torch\\\\nimport numpy as np\\\\nimport torch.nn as nn\\\\nimport torch.nn.functional as F\\\\nfrom pathlib import Path\\\\nfrom torch.utils.data import Dataset, DataLoader\\\\nfrom torch.amp import autocast\\\\n\\\\ndevice = torch.device(\\\\\\\\\\\\\\\"cuda\\\\\\\\\\\\\\\" if torch.cuda.is_available() else \\\\\\\\\\\\\\\"cpu\\\\\\\\\\\\\\\")\\\\nif torch.cuda.is_available():\\\\n    torch.backends.cudnn.benchmark = True\\\\n    torch.backends.cuda.matmul.allow_tf32 = True\\\\n    gpu_name = torch.cuda.get_device_name(0)\\\\n    vram_gb = torch.cuda.get_device_properties(0).total_memory / 1024**3\\\\n    print(f\\\\\\\\\\\\\\\"GPU: {gpu_name} ({vram_gb:.1f} GB VRAM) | AMP FP16 Enabled\\\\\\\\\\\\\\\")\\\\nelse:\\\\n    print(\\\\\\\\\\\\\\\"WARNING: CUDA unavailable, running on CPU.\\\\\\\\\\\\\\\")\\\\nprint(f\\\\\\\\\\\\\\\"Using device: {device}\\\\\\\\\\\\\\\")\\\\n'''))\\\\n\\\\n# --- CELL 2: EXACT Model Architecture from src/chakra_transfor\\n<truncated 15288 bytes>\","
+      }
+    ]
+  }
+}

@@ -1,0 +1,2069 @@
+{
+  "extracted_root": {
+    "PolypGen2021_MultiCenterData_v3": {
+      "is_dir": true,
+      "size": null
+    },
+    "__MACOSX": {
+      "is_dir": true,
+      "size": null
+    },
+    ".agents": {
+      "is_dir": true,
+      "size": null
+    }
+  },
+  "polypgen_root_files": {
+    "[DIR] data_C1": null,
+    "[DIR] data_C6": null,
+    ".DS_Store": 14340,
+    "fileStructure_all.txt": 1309500,
+    "[DIR] dataDetails_PolypGen_SingleFrames": null,
+    "fileStructure_directories.txt": 5752,
+    "readme.html": 15957,
+    "readme.md": 8773,
+    "[DIR] data_C5": null,
+    "[DIR] data_C2": null,
+    "[DIR] data_C3": null,
+    "[DIR] data_C4": null,
+    "PolypGen2021_MultiCenterData_Concatenated.zip": 748136035,
+    "[DIR] codes": null,
+    "license.txt": 20851,
+    "[DIR] sequenceData": null,
+    "[DIR] imagesAll_positive": null,
+    "folderStructure": 5462
+  },
+  "codes": {
+    ".": {
+      "dirs": [
+        "__pycache__"
+      ],
+      "files": [
+        "convert2vocFromMask.py",
+        ".DS_Store",
+        "trainingDataAnalysis.py",
+        "extract_PolypBoxes.py"
+      ]
+    },
+    "__pycache__": {
+      "dirs": [],
+      "files": [
+        "extract_PolypBoxes.cpython-39.pyc"
+      ]
+    }
+  },
+  "dataDetails": {
+    "dataDetails_C1.csv": {
+      "size": 43127,
+      "header": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "row_count": 256,
+      "sample_row": [
+        "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C1/images_C1/100H0050.jpg",
+        "[0, 0, 1, 0]",
+        "[0, 0, 31143, 0]",
+        "1"
+      ]
+    },
+    "dataDetails_C2.csv": {
+      "size": 50673,
+      "header": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "row_count": 301,
+      "sample_row": [
+        "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C2/images_C2/EndoCV2021_001000.jpg",
+        "[0, 0, 1, 0]",
+        "[0, 0, 17127, 0]",
+        "1"
+      ]
+    },
+    "dataDetails_C3.csv": {
+      "size": 77876,
+      "header": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "row_count": 457,
+      "sample_row": [
+        "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C3/images_C3/C3_EndoCV2021_001.jpg",
+        "[0, 0, 0, 1]",
+        "[0, 0, 0, 186784]",
+        "1"
+      ]
+    },
+    "dataDetails_C4.csv": {
+      "size": 39992,
+      "header": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "row_count": 227,
+      "sample_row": [
+        "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C4/images_C4/10_endocv2021_positive_1006.jpg",
+        "[0, 0, 0, 1]",
+        "[0, 0, 0, 126769]",
+        "1"
+      ]
+    },
+    "dataDetails_C5.csv": {
+      "size": 36112,
+      "header": [
+        "fileList",
+        "sizeType",
+        "sizeVal",
+        "annotations"
+      ],
+      "row_count": 208,
+      "sample_row": [
+        "/Users/sharib/Datasets/PolypGen1.0/EndoCV2021-test_analysis/PolypGen2021_MultiCenterData_v2/data_C5/images_C5/EndoCV2021_C5_50000003.jpg",
+        "[0, 0, 1, 0]",
+        "[0, 0, 30464, 0]",
+        "1"
+      ]
+    }
+  },
+  "centers": {
+    "data_C1": {
+      "bbox_C1": {
+        "file_count": 256,
+        "extensions": {
+          ".txt": 256
+        },
+        "subdirs": [],
+        "sample_files": [
+          "326OLCV1_100H0006_mask.txt",
+          "732OLCV1_100H0012_mask.txt",
+          "925OLCV1_100S0011_mask.txt"
+        ],
+        "hidden_files": []
+      },
+      "FILE:.DS_Store": 6148,
+      "bbox_image_C1": {
+        "file_count": 257,
+        "extensions": {
+          ".jpg": 257
+        },
+        "subdirs": [],
+        "sample_files": [
+          "429OLCV1_100H0002_mask_bbox.jpg",
+          "333OLCV1_100H0010_mask_bbox.jpg",
+          "491OLCV1_100H0004_mask_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_C1": {
+        "file_count": 256,
+        "extensions": {
+          ".jpg": 256
+        },
+        "subdirs": [],
+        "sample_files": [
+          "144OLCV1_100H0024_mask.jpg",
+          "459OLCV1_100H0014_mask.jpg",
+          "241OLCV1_100H0002_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_C1": {
+        "file_count": 256,
+        "extensions": {
+          ".jpg": 256
+        },
+        "subdirs": [],
+        "sample_files": [
+          "136OLCV1_100S0005.jpg",
+          "419OLCV1_100H0020.jpg",
+          "296OLCV1_100H0004.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "data_C2": {
+      "FILE:.DS_Store": 10244,
+      "bbox_C2": {
+        "file_count": 301,
+        "extensions": {
+          ".txt": 301
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_001359.txt",
+          "EndoCV2021_001403.txt",
+          "EndoCV2021_001365.txt"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_C2": {
+        "file_count": 301,
+        "extensions": {
+          ".jpg": 301
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_001323_bbox.jpg",
+          "EndoCV2021_001322_bbox.jpg",
+          "EndoCV2021_001144_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_C2": {
+        "file_count": 301,
+        "extensions": {
+          ".jpg": 301
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_001416_mask.jpg",
+          "EndoCV2021_001417_mask.jpg",
+          "EndoCV2021_001324_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_C2": {
+        "file_count": 301,
+        "extensions": {
+          ".jpg": 301
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_001071.jpg",
+          "EndoCV2021_001059.jpg",
+          "EndoCV2021_001267.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "data_C3": {
+      "FILE:.DS_Store": 6148,
+      "bbox_C3": {
+        "file_count": 393,
+        "extensions": {
+          ".txt": 393
+        },
+        "subdirs": [],
+        "sample_files": [
+          "C3_EndoCV2021_00238.txt",
+          "C3_EndoCV2021_00210.txt",
+          "C3_EndoCV2021_00166.txt"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_C3": {
+        "file_count": 393,
+        "extensions": {
+          ".jpg": 393
+        },
+        "subdirs": [],
+        "sample_files": [
+          "C3_EndoCV2021_00383_bbox.jpg",
+          "C3_EndoCV2021_00382_bbox.jpg",
+          "C3_EndoCV2021_00219_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_C3": {
+        "file_count": 457,
+        "extensions": {
+          ".jpg": 457
+        },
+        "subdirs": [],
+        "sample_files": [
+          "C3_EndoCV2021_00110.jpg",
+          "C3_EndoCV2021_008.jpg",
+          "C3_EndoCV2021_00104.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_C3": {
+        "file_count": 457,
+        "extensions": {
+          ".jpg": 457
+        },
+        "subdirs": [],
+        "sample_files": [
+          "C3_EndoCV2021_0066_mask.jpg",
+          "C3_EndoCV2021_00384_mask.jpg",
+          "C3_EndoCV2021_0067_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "data_C4": {
+      "FILE:.DS_Store": 6148,
+      "bbox_C4": {
+        "file_count": 227,
+        "extensions": {
+          ".txt": 227
+        },
+        "subdirs": [],
+        "sample_files": [
+          "31_endocv2021_positive_251_mask.txt",
+          "23_endocv2021_positive_1252_mask.txt",
+          "19_endocv2021_positive_1222_mask.txt"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_C4": {
+        "file_count": 227,
+        "extensions": {
+          ".jpg": 227
+        },
+        "subdirs": [],
+        "sample_files": [
+          "26_endocv2021_positive_1093_mask_bbox.jpg",
+          "25_endocv2021_positive_225_mask_bbox.jpg",
+          "23_endocv2021_positive_316_mask_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_C4": {
+        "file_count": 227,
+        "extensions": {
+          ".jpg": 227
+        },
+        "subdirs": [],
+        "sample_files": [
+          "12_endocv2021_positive_679.jpg",
+          "22_endocv2021_positive_1352.jpg",
+          "23_endocv2021_positive_768.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_C4": {
+        "file_count": 227,
+        "extensions": {
+          ".jpg": 227
+        },
+        "subdirs": [],
+        "sample_files": [
+          "9_endocv2021_positive_1269_mask.jpg",
+          "28_endocv2021_positive_1135_mask.jpg",
+          "5_endocv2021_positive_632_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "data_C5": {
+      "FILE:.DS_Store": 6148,
+      "bbox_C5": {
+        "file_count": 208,
+        "extensions": {
+          ".txt": 208
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C5_50000181_mask.txt",
+          "EndoCV2021_C5_50000113_mask.txt",
+          "EndoCV2021_C5_50000112_mask.txt"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_C5": {
+        "file_count": 208,
+        "extensions": {
+          ".jpg": 208
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C5_50000340_mask_bbox.jpg",
+          "EndoCV2021_C5_50000207_mask_bbox.jpg",
+          "EndoCV2021_C5_50000125_mask_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_C5": {
+        "file_count": 208,
+        "extensions": {
+          ".jpg": 208
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C5_50000175_mask.jpg",
+          "EndoCV2021_C5_50000313_mask.jpg",
+          "EndoCV2021_C5_50000381_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_C5": {
+        "file_count": 208,
+        "extensions": {
+          ".jpg": 208
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C5_50000071.jpg",
+          "EndoCV2021_C5_50000065.jpg",
+          "EndoCV2021_C5_50000298.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "data_C6": {
+      "bbox_C6": {
+        "file_count": 88,
+        "extensions": {
+          ".txt": 88
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C6_0100123_mask.txt",
+          "EndoCV2021_C6_0100062_mask.txt",
+          "EndoCV2021_C6_0100063_mask.txt"
+        ],
+        "hidden_files": []
+      },
+      "FILE:.DS_Store": 8196,
+      "masks_C6": {
+        "file_count": 88,
+        "extensions": {
+          ".jpg": 88
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C6_0100005_mask.jpg",
+          "EndoCV2021_C6_0100004_mask.jpg",
+          "EndoCV2021_C6_0100072_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_C6": {
+        "file_count": 88,
+        "extensions": {
+          ".jpg": 88
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C6_0100108.jpg",
+          "EndoCV2021_C6_0100040.jpg",
+          "EndoCV2021_C6_0100068.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_images_C6": {
+        "file_count": 88,
+        "extensions": {
+          ".jpg": 88
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_C6_0100040_mask_bbox.jpg",
+          "EndoCV2021_C6_0100110_mask_bbox.jpg",
+          "EndoCV2021_C6_0100107_mask_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    }
+  },
+  "single_frames_totals": {
+    "images": 1625,
+    "masks": 1537,
+    "bboxes": 1473,
+    "bbox_images": 1386
+  },
+  "sequence_positive": {
+    "seq1": {
+      "FILE:.DS_Store": 6148,
+      "masks_seq1": {
+        "file_count": 36,
+        "extensions": {
+          ".jpg": 36
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_69_mask.jpg",
+          "0_endocv2021_positive_141_mask.jpg",
+          "0_endocv2021_positive_327_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq1": {
+        "file_count": 36,
+        "extensions": {
+          ".txt": 36
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_167.txt",
+          "0_endocv2021_positive_199.txt",
+          "0_endocv2021_positive_166.txt"
+        ],
+        "hidden_files": []
+      },
+      "images_seq1": {
+        "file_count": 36,
+        "extensions": {
+          ".jpg": 36
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_313.jpg",
+          "0_endocv2021_positive_299.jpg",
+          "0_endocv2021_positive_272.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq1": {
+        "file_count": 36,
+        "extensions": {
+          ".jpg": 36
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_284_bbox.jpg",
+          "0_endocv2021_positive_178_bbox.jpg",
+          "0_endocv2021_positive_320_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq2": {
+      "images_seq2": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_1152.jpg",
+          "0_endocv2021_positive_1018.jpg",
+          "0_endocv2021_positive_1187.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq2": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_927_bbox.jpg",
+          "0_endocv2021_positive_1045_bbox.jpg",
+          "0_endocv2021_positive_1179_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq2": {
+        "file_count": 126,
+        "extensions": {
+          ".jpg": 63,
+          ".txt": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_1099_mask.jpg",
+          "0_endocv2021_positive_978_mask.txt",
+          "0_endocv2021_positive_1181_mask.txt"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq2": {
+        "file_count": 63,
+        "extensions": {
+          ".txt": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "0_endocv2021_positive_1086.txt",
+          "0_endocv2021_positive_1079.txt",
+          "0_endocv2021_positive_1045.txt"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq3": {
+      "images_seq3": {
+        "file_count": 15,
+        "extensions": {
+          ".jpg": 15
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_265.jpg",
+          "1_endocv2021_positive_305.jpg",
+          "1_endocv2021_positive_273.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq3": {
+        "file_count": 15,
+        "extensions": {
+          ".jpg": 15
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_323_bbox.jpg",
+          "1_endocv2021_positive_262_bbox.jpg",
+          "1_endocv2021_positive_343_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq3": {
+        "file_count": 15,
+        "extensions": {
+          ".txt": 15
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_265.txt",
+          "1_endocv2021_positive_305.txt",
+          "1_endocv2021_positive_266.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq3": {
+        "file_count": 15,
+        "extensions": {
+          ".jpg": 15
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_280_mask.jpg",
+          "1_endocv2021_positive_265_mask.jpg",
+          "1_endocv2021_positive_296_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq4": {
+      "images_seq4": {
+        "file_count": 48,
+        "extensions": {
+          ".jpg": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_398.jpg",
+          "1_endocv2021_positive_415.jpg",
+          "1_endocv2021_positive_400.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq4": {
+        "file_count": 48,
+        "extensions": {
+          ".jpg": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_467_bbox.jpg",
+          "1_endocv2021_positive_518_bbox.jpg",
+          "1_endocv2021_positive_458_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq4": {
+        "file_count": 48,
+        "extensions": {
+          ".txt": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_517.txt",
+          "1_endocv2021_positive_477.txt",
+          "1_endocv2021_positive_462.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq4": {
+        "file_count": 48,
+        "extensions": {
+          ".jpg": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "1_endocv2021_positive_484_mask.jpg",
+          "1_endocv2021_positive_423_mask.jpg",
+          "1_endocv2021_positive_455_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq5": {
+      "images_seq5": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq5_460.jpg",
+          "EndoCV2021_seq5_312.jpg",
+          "EndoCV2021_seq5_448.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq5": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq5_432_bbox.jpg",
+          "EndoCV2021_seq5_300_bbox.jpg",
+          "EndoCV2021_seq5_392_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq5": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq5_652_mask.jpg",
+          "EndoCV2021_seq5_72_mask.jpg",
+          "EndoCV2021_seq5_160_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq5": {
+        "file_count": 250,
+        "extensions": {
+          ".txt": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq5_984.txt",
+          "EndoCV2021_seq5_748.txt",
+          "EndoCV2021_seq5_760.txt"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq6": {
+      "masks_seq6": {
+        "file_count": 91,
+        "extensions": {
+          ".jpg": 91
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1295_mask.jpg",
+          "2_endocv2021_positive_1474_mask.jpg",
+          "2_endocv2021_positive_1475_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq6": {
+        "file_count": 91,
+        "extensions": {
+          ".txt": 91
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1112.txt",
+          "2_endocv2021_positive_1113.txt",
+          "2_endocv2021_positive_1098.txt"
+        ],
+        "hidden_files": []
+      },
+      "images_seq6": {
+        "file_count": 91,
+        "extensions": {
+          ".jpg": 91
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1170.jpg",
+          "2_endocv2021_positive_1373.jpg",
+          "2_endocv2021_positive_1198.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq6": {
+        "file_count": 91,
+        "extensions": {
+          ".jpg": 91
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1292_bbox.jpg",
+          "2_endocv2021_positive_1341_bbox.jpg",
+          "2_endocv2021_positive_1340_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq7": {
+      "bbox_seq7": {
+        "file_count": 48,
+        "extensions": {
+          ".txt": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_181.txt",
+          "3_endocv2021_positive_168.txt",
+          "3_endocv2021_positive_155.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq7": {
+        "file_count": 96,
+        "extensions": {
+          ".txt": 48,
+          ".jpg": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_238_mask.txt",
+          "3_endocv2021_positive_130_mask.jpg",
+          "3_endocv2021_positive_179_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq7": {
+        "file_count": 48,
+        "extensions": {
+          ".jpg": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_135.jpg",
+          "3_endocv2021_positive_243.jpg",
+          "3_endocv2021_positive_280.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq7": {
+        "file_count": 48,
+        "extensions": {
+          ".jpg": 48
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_137_bbox.jpg",
+          "3_endocv2021_positive_282_bbox.jpg",
+          "3_endocv2021_positive_63_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq8": {
+      "masks_seq8": {
+        "file_count": 146,
+        "extensions": {
+          ".txt": 73,
+          ".jpg": 73
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_1084_mask.txt",
+          "3_endocv2021_positive_866_mask.jpg",
+          "3_endocv2021_positive_893_mask.txt"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq8": {
+        "file_count": 73,
+        "extensions": {
+          ".txt": 73
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_751.txt",
+          "3_endocv2021_positive_1054.txt",
+          "3_endocv2021_positive_1041.txt"
+        ],
+        "hidden_files": []
+      },
+      "images_seq8": {
+        "file_count": 73,
+        "extensions": {
+          ".jpg": 73
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_874.jpg",
+          "3_endocv2021_positive_1036.jpg",
+          "3_endocv2021_positive_929.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq8": {
+        "file_count": 73,
+        "extensions": {
+          ".jpg": 73
+        },
+        "subdirs": [],
+        "sample_files": [
+          "3_endocv2021_positive_861_bbox.jpg",
+          "3_endocv2021_positive_1048_bbox.jpg",
+          "3_endocv2021_positive_1001_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq9": {
+      "bbox_seq9": {
+        "file_count": 51,
+        "extensions": {
+          ".txt": 51
+        },
+        "subdirs": [],
+        "sample_files": [
+          "7_endocv2021_positive_336.txt",
+          "7_endocv2021_positive_256.txt",
+          "7_endocv2021_positive_335.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq9": {
+        "file_count": 51,
+        "extensions": {
+          ".jpg": 51
+        },
+        "subdirs": [],
+        "sample_files": [
+          "7_endocv2021_positive_197_mask.jpg",
+          "7_endocv2021_positive_419_mask.jpg",
+          "7_endocv2021_positive_173_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq9": {
+        "file_count": 51,
+        "extensions": {
+          ".jpg": 51
+        },
+        "subdirs": [],
+        "sample_files": [
+          "7_endocv2021_positive_234.jpg",
+          "7_endocv2021_positive_341.jpg",
+          "7_endocv2021_positive_427.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq9": {
+        "file_count": 51,
+        "extensions": {
+          ".jpg": 51
+        },
+        "subdirs": [],
+        "sample_files": [
+          "7_endocv2021_positive_191_bbox.jpg",
+          "7_endocv2021_positive_225_bbox.jpg",
+          "7_endocv2021_positive_420_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq10": {
+      "bbox_image_seq10": {
+        "file_count": 25,
+        "extensions": {
+          ".jpg": 25
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1059_bbox.jpg",
+          "2_endocv2021_positive_985_bbox.jpg",
+          "2_endocv2021_positive_1052_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq10": {
+        "file_count": 25,
+        "extensions": {
+          ".jpg": 25
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1039.jpg",
+          "2_endocv2021_positive_1013.jpg",
+          "2_endocv2021_positive_962.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq10": {
+        "file_count": 25,
+        "extensions": {
+          ".txt": 25
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1059.txt",
+          "2_endocv2021_positive_1049.txt",
+          "2_endocv2021_positive_939.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq10": {
+        "file_count": 25,
+        "extensions": {
+          ".jpg": 25
+        },
+        "subdirs": [],
+        "sample_files": [
+          "2_endocv2021_positive_1017_mask.jpg",
+          "2_endocv2021_positive_1055_mask.jpg",
+          "2_endocv2021_positive_1054_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq11": {
+      "bbox_image_seq11": {
+        "file_count": 228,
+        "extensions": {
+          ".jpg": 228
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq11_Image_2196161_bbox.jpg",
+          "EndoCV2021_seq11_Image_2199881_bbox.jpg",
+          "EndoCV2021_seq11_Image_2195081_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq11": {
+        "file_count": 228,
+        "extensions": {
+          ".jpg": 228
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq11_Image_2197761.jpg",
+          "EndoCV2021_seq11_Image_2196641.jpg",
+          "EndoCV2021_seq11_Image_2194081.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq11": {
+        "file_count": 228,
+        "extensions": {
+          ".txt": 228
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq11_Image_2198961.txt",
+          "EndoCV2021_seq11_Image_2201450.txt",
+          "EndoCV2021_seq11_Image_2194801.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq11": {
+        "file_count": 228,
+        "extensions": {
+          ".jpg": 228
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq11_Image_2197761_mask.jpg",
+          "EndoCV2021_seq11_Image_2195401_mask.jpg",
+          "EndoCV2021_seq11_Image_2198921_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq12": {
+      "images_seq12": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq12_492.jpg",
+          "EndoCV2021_seq12_860.jpg",
+          "EndoCV2021_seq12_40.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq12": {
+        "file_count": 250,
+        "extensions": {
+          ".txt": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq12_792.txt",
+          "EndoCV2021_seq12_976.txt",
+          "EndoCV2021_seq12_584.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq12": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq12_56_mask.jpg",
+          "EndoCV2021_seq12_348_mask.jpg",
+          "EndoCV2021_seq12_572_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq12": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq12_780_bbox.jpg",
+          "EndoCV2021_seq12_976_bbox.jpg",
+          "EndoCV2021_seq12_128_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq13": {
+      "images_seq13": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq13_656.jpg",
+          "EndoCV2021_seq13_124.jpg",
+          "EndoCV2021_seq13_468.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq13": {
+        "file_count": 250,
+        "extensions": {
+          ".txt": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq13_556.txt",
+          "EndoCV2021_seq13_224.txt",
+          "EndoCV2021_seq13_76.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq13": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq13_328_mask.jpg",
+          "EndoCV2021_seq13_580_mask.jpg",
+          "EndoCV2021_seq13_220_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq13": {
+        "file_count": 250,
+        "extensions": {
+          ".jpg": 250
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq13_148_bbox.jpg",
+          "EndoCV2021_seq13_916_bbox.jpg",
+          "EndoCV2021_seq13_772_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq14": {
+      "images_seq14": {
+        "file_count": 249,
+        "extensions": {
+          ".jpg": 249
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq14_428.jpg",
+          "EndoCV2021_seq14_372.jpg",
+          "EndoCV2021_seq14_400.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq14": {
+        "file_count": 249,
+        "extensions": {
+          ".txt": 249
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq14_700.txt",
+          "EndoCV2021_seq14_728.txt",
+          "EndoCV2021_seq14_516.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq14": {
+        "file_count": 249,
+        "extensions": {
+          ".jpg": 249
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq14_220_mask.jpg",
+          "EndoCV2021_seq14_488_mask.jpg",
+          "EndoCV2021_seq14_512_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq14": {
+        "file_count": 249,
+        "extensions": {
+          ".jpg": 249
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq14_772_bbox.jpg",
+          "EndoCV2021_seq14_984_bbox.jpg",
+          "EndoCV2021_seq14_148_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq15": {
+      "images_seq15": {
+        "file_count": 116,
+        "extensions": {
+          ".jpg": 116
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq15_388.jpg",
+          "EndoCV2021_seq15_216.jpg",
+          "EndoCV2021_seq15_376.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq15": {
+        "file_count": 116,
+        "extensions": {
+          ".txt": 116
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq15_328.txt",
+          "EndoCV2021_seq15_16.txt",
+          "EndoCV2021_seq15_300.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq15": {
+        "file_count": 116,
+        "extensions": {
+          ".jpg": 116
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq15_240_mask.jpg",
+          "EndoCV2021_seq15_348_mask.jpg",
+          "EndoCV2021_seq15_208_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq15": {
+        "file_count": 116,
+        "extensions": {
+          ".jpg": 116
+        },
+        "subdirs": [],
+        "sample_files": [
+          "EndoCV2021_seq15_128_bbox.jpg",
+          "EndoCV2021_seq15_160_bbox.jpg",
+          "EndoCV2021_seq15_184_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq16": {
+      "bbox_image_seq16": {
+        "file_count": 40,
+        "extensions": {
+          ".jpg": 40
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq1_C6_190_bbox.jpg",
+          "seq1_C6_380_bbox.jpg",
+          "seq1_C6_140_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq16": {
+        "file_count": 40,
+        "extensions": {
+          ".jpg": 40
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq1_C6_90.jpg",
+          "seq1_C6_100.jpg",
+          "seq1_C6_50.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq16": {
+        "file_count": 40,
+        "extensions": {
+          ".txt": 40
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq1_C6_200.txt",
+          "seq1_C6_360.txt",
+          "seq1_C6_30.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq16": {
+        "file_count": 40,
+        "extensions": {
+          ".jpg": 40
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq1_C6_90_mask.jpg",
+          "seq1_C6_320_mask.jpg",
+          "seq1_C6_40_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq17": {
+      "bbox_image_seq17": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq2_C6_264_bbox.jpg",
+          "seq2_C6_324_bbox.jpg",
+          "seq2_C6_0_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq17": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq2_C6_132.jpg",
+          "seq2_C6_324.jpg",
+          "seq2_C6_456.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq17": {
+        "file_count": 63,
+        "extensions": {
+          ".txt": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq2_C6_540.txt",
+          "seq2_C6_636.txt",
+          "seq2_C6_144.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq17": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq2_C6_132_mask.jpg",
+          "seq2_C6_600_mask.jpg",
+          "seq2_C6_708_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq18": {
+      "bbox_image_seq18": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq3_C6_648_bbox.jpg",
+          "seq3_C6_708_bbox.jpg",
+          "seq3_C6_132_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq18": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq3_C6_228.jpg",
+          "seq3_C6_348.jpg",
+          "seq3_C6_360.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq18": {
+        "file_count": 63,
+        "extensions": {
+          ".txt": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq3_C6_672.txt",
+          "seq3_C6_72.txt",
+          "seq3_C6_504.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq18": {
+        "file_count": 63,
+        "extensions": {
+          ".jpg": 63
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq3_C6_324_mask.jpg",
+          "seq3_C6_264_mask.jpg",
+          "seq3_C6_96_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq19": {
+      "bbox_image_seq19": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq4_C6_444_bbox.jpg",
+          "seq4_C6_504_bbox.jpg",
+          "seq4_C6_348_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq19": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq4_C6_48.jpg",
+          "seq4_C6_60.jpg",
+          "seq4_C6_312.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq19": {
+        "file_count": 56,
+        "extensions": {
+          ".txt": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq4_C6_588.txt",
+          "seq4_C6_576.txt",
+          "seq4_C6_204.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq19": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq4_C6_624_mask.jpg",
+          "seq4_C6_96_mask.jpg",
+          "seq4_C6_72_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq20": {
+      "bbox_image_seq20": {
+        "file_count": 52,
+        "extensions": {
+          ".jpg": 52
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq5_C6_900_bbox.jpg",
+          "seq5_C6_20_bbox.jpg",
+          "seq5_C6_840_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq20": {
+        "file_count": 52,
+        "extensions": {
+          ".jpg": 52
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq5_C6_380.jpg",
+          "seq5_C6_800.jpg",
+          "seq5_C6_960.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq20": {
+        "file_count": 52,
+        "extensions": {
+          ".txt": 52
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq5_C6_60.txt",
+          "seq5_C6_320.txt",
+          "seq5_C6_240.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq20": {
+        "file_count": 52,
+        "extensions": {
+          ".jpg": 52
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq5_C6_300_mask.jpg",
+          "seq5_C6_240_mask.jpg",
+          "seq5_C6_720_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq21": {
+      "bbox_image_seq21": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq6_C6_168_bbox.jpg",
+          "seq6_C6_612_bbox.jpg",
+          "seq6_C6_120_bbox.jpg"
+        ],
+        "hidden_files": []
+      },
+      "images_seq21": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq6_C6_588.jpg",
+          "seq6_C6_204.jpg",
+          "seq6_C6_576.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq21": {
+        "file_count": 56,
+        "extensions": {
+          ".txt": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq6_C6_96.txt",
+          "seq6_C6_312.txt",
+          "seq6_C6_528.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq21": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq6_C6_336_mask.jpg",
+          "seq6_C6_36_mask.jpg",
+          "seq6_C6_276_mask.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq22": {
+      "images_seq22": {
+        "file_count": 46,
+        "extensions": {
+          ".jpg": 46
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq7_C6_1230.jpg",
+          "seq7_C6_1350.jpg",
+          "seq7_C6_240.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq22": {
+        "file_count": 46,
+        "extensions": {
+          ".txt": 46
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq7_C6_1290.txt",
+          "seq7_C6_960.txt",
+          "seq7_C6_1050.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq22": {
+        "file_count": 46,
+        "extensions": {
+          ".jpg": 46
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq7_C6_120_mask.jpg",
+          "seq7_C6_270_mask.jpg",
+          "seq7_C6_330_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq22": {
+        "file_count": 46,
+        "extensions": {
+          ".jpg": 46
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq7_C6_870_bbox.jpg",
+          "seq7_C6_930_bbox.jpg",
+          "seq7_C6_150_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    },
+    "seq23": {
+      "images_seq23": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq8_C6_2000.jpg",
+          "seq8_C6_3120.jpg",
+          "seq8_C6_960.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_seq23": {
+        "file_count": 56,
+        "extensions": {
+          ".txt": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq8_C6_4000.txt",
+          "seq8_C6_4160.txt",
+          "seq8_C6_2880.txt"
+        ],
+        "hidden_files": []
+      },
+      "masks_seq23": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq8_C6_4320_mask.jpg",
+          "seq8_C6_0_mask.jpg",
+          "seq8_C6_1760_mask.jpg"
+        ],
+        "hidden_files": []
+      },
+      "bbox_image_seq23": {
+        "file_count": 56,
+        "extensions": {
+          ".jpg": 56
+        },
+        "subdirs": [],
+        "sample_files": [
+          "seq8_C6_1440_bbox.jpg",
+          "seq8_C6_4000_bbox.jpg",
+          "seq8_C6_80_bbox.jpg"
+        ],
+        "hidden_files": []
+      }
+    }
+  },
+  "sequence_positive_totals": {
+    "images": 2225,
+    "masks": 2409,
+    "bboxes": 2225,
+    "bbox_images": 2225
+  },
+  "sequence_negative": {
+    "seq1_neg": {
+      "file_count": 315,
+      "extensions": {
+        ".jpg": 315
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq1_neg_49_endocv2021_negative_931.jpg",
+        "EndoCV2021_seq1_neg_49_endocv2021_negative_1037.jpg",
+        "EndoCV2021_seq1_neg_49_endocv2021_negative_1209.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq2_neg": {
+      "file_count": 302,
+      "extensions": {
+        ".jpg": 302
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq2_neg_48_endocv2021_negative_145.jpg",
+        "EndoCV2021_seq2_neg_48_endocv2021_negative_409.jpg",
+        "EndoCV2021_seq2_neg_48_endocv2021_negative_965.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq3_neg": {
+      "file_count": 40,
+      "extensions": {
+        ".jpg": 40
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq3_neg_2_endocv2021_positive_201.jpg",
+        "EndoCV2021_seq3_neg_2_endocv2021_positive_69.jpg",
+        "EndoCV2021_seq3_neg_2_endocv2021_positive_229.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq4_neg": {
+      "file_count": 72,
+      "extensions": {
+        ".jpg": 72
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq4_neg_Image_18552.jpg",
+        "EndoCV2021_seq4_neg_Image_18397.jpg",
+        "EndoCV2021_seq4_neg_Image_21932.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq5_neg": {
+      "file_count": 61,
+      "extensions": {
+        ".jpg": 61
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq5_neg_Image_51998.jpg",
+        "EndoCV2021_seq5_neg_Image_54174.jpg",
+        "EndoCV2021_seq5_neg_Image_51838.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq6_neg": {
+      "file_count": 90,
+      "extensions": {
+        ".jpg": 90
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq6_neg_Image_384940.jpg",
+        "EndoCV2021_seq6_neg_Image_383020.jpg",
+        "EndoCV2021_seq6_neg_Image_383550.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq7_neg": {
+      "file_count": 207,
+      "extensions": {
+        ".jpg": 207
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq7_neg_Image_746909.jpg",
+        "EndoCV2021_seq7_neg_Image_752029.jpg",
+        "EndoCV2021_seq7_neg_Image_746712.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq8_neg": {
+      "file_count": 311,
+      "extensions": {
+        ".jpg": 311
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq8_neg_45_endocv2021_negative_1459.jpg",
+        "EndoCV2021_seq8_neg_45_endocv2021_negative_1317.jpg",
+        "EndoCV2021_seq8_neg_45_endocv2021_negative_172.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq9_neg": {
+      "file_count": 99,
+      "extensions": {
+        ".jpg": 99
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq9_neg_47_endocv2021_negative_1001.jpg",
+        "EndoCV2021_seq9_neg_47_endocv2021_negative_828.jpg",
+        "EndoCV2021_seq9_neg_47_endocv2021_negative_1203.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq10_neg": {
+      "file_count": 292,
+      "extensions": {
+        ".jpg": 292
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_seq10_neg_40_endocv2021_negative_1169.jpg",
+        "EndoCV2021_seq10_neg_40_endocv2021_negative_223.jpg",
+        "EndoCV2021_seq10_neg_40_endocv2021_negative_974.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq11_neg": {
+      "file_count": 190,
+      "extensions": {
+        ".jpg": 190
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_C5_seq1_136.jpg",
+        "EndoCV2021_C5_seq1_122.jpg",
+        "EndoCV2021_C5_seq1_240.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq12_neg": {
+      "file_count": 261,
+      "extensions": {
+        ".jpg": 261
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_C5_seq2_552.jpg",
+        "EndoCV2021_C5_seq2_546.jpg",
+        "EndoCV2021_C5_seq2_383.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq13_neg": {
+      "file_count": 280,
+      "extensions": {
+        ".jpg": 280
+      },
+      "subdirs": [],
+      "sample_files": [
+        "EndoCV2021_C5_seq3_58.jpg",
+        "EndoCV2021_C5_seq3_70.jpg",
+        "EndoCV2021_C5_seq3_64.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq14_neg": {
+      "file_count": 301,
+      "extensions": {
+        ".jpg": 301
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq14_neg_00137.jpg",
+        "seq14_neg_00123.jpg",
+        "seq14_neg_01017.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq15_neg": {
+      "file_count": 278,
+      "extensions": {
+        ".jpg": 278
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq15_neg_00475.jpg",
+        "seq15_neg_00313.jpg",
+        "seq15_neg_00307.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq16_neg": {
+      "file_count": 141,
+      "extensions": {
+        ".jpg": 141
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq16_neg_00114.jpg",
+        "seq16_neg_00100.jpg",
+        "seq16_neg_00128.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq17_neg": {
+      "file_count": 130,
+      "extensions": {
+        ".jpg": 130
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq17_neg_01012.jpg",
+        "seq17_neg_01006.jpg",
+        "seq17_neg_01007.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq18_neg": {
+      "file_count": 121,
+      "extensions": {
+        ".jpg": 121
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq18_neg_00364.jpg",
+        "seq18_neg_00402.jpg",
+        "seq18_neg_00416.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq19_neg": {
+      "file_count": 210,
+      "extensions": {
+        ".jpg": 210
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq19_neg_0063.jpg",
+        "seq19_neg_00183.jpg",
+        "seq19_neg_00197.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq20_neg": {
+      "file_count": 191,
+      "extensions": {
+        ".jpg": 191
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq20_neg_0021.jpg",
+        "seq20_neg_0035.jpg",
+        "seq20_neg_00183.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq21_neg": {
+      "file_count": 151,
+      "extensions": {
+        ".jpg": 151
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq21_neg_00576.jpg",
+        "seq21_neg_00562.jpg",
+        "seq21_neg_00589.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq22_neg": {
+      "file_count": 82,
+      "extensions": {
+        ".jpg": 82
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq22_neg_00201.jpg",
+        "seq22_neg_00188.jpg",
+        "seq22_neg_00163.jpg"
+      ],
+      "hidden_files": []
+    },
+    "seq23_neg": {
+      "file_count": 150,
+      "extensions": {
+        ".jpg": 150
+      },
+      "subdirs": [],
+      "sample_files": [
+        "seq23_neg_00145.jpg",
+        "seq23_neg_0029.jpg",
+        "seq23_neg_0015.jpg"
+      ],
+      "hidden_files": []
+    },
+    "FILE:.DS_Store": 16388
+  },
+  "sequence_negative_totals": {
+    "total_negative_images": 4275
+  },
+  "imagesAll_positive": {
+    "file_count": 3762,
+    "extensions": {
+      ".jpg": 3762
+    },
+    "subdirs": [],
+    "sample_files": [
+      "C3_EndoCV2021_00110.jpg",
+      "EndoCV2021_seq5_460.jpg",
+      "EndoCV2021_seq14_428.jpg"
+    ],
+    "hidden_files": []
+  },
+  "concatenated_zip": {
+    "total_entries": 7586,
+    "file_count": 7556,
+    "dir_count": 30,
+    "total_uncompressed_size": 894568086,
+    "sample_entries": [
+      "PolypGen2021_MultiCenterData_Concatenated/",
+      "__MACOSX/._PolypGen2021_MultiCenterData_Concatenated",
+      "PolypGen2021_MultiCenterData_Concatenated/seq8/",
+      "__MACOSX/PolypGen2021_MultiCenterData_Concatenated/._seq8",
+      "PolypGen2021_MultiCenterData_Concatenated/seq1/",
+      "__MACOSX/PolypGen2021_MultiCenterData_Concatenated/._seq1",
+      "PolypGen2021_MultiCenterData_Concatenated/.DS_Store",
+      "__MACOSX/PolypGen2021_MultiCenterData_Concatenated/._.DS_Store",
+      "PolypGen2021_MultiCenterData_Concatenated/seq6/",
+      "__MACOSX/PolypGen2021_MultiCenterData_Concatenated/._seq6"
+    ],
+    "top_level_in_zip": [
+      "PolypGen2021_MultiCenterData_Concatenated",
+      "__MACOSX"
+    ]
+  }
+}

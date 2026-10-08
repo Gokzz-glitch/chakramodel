@@ -1,0 +1,44 @@
+{
+  "chakra_transformer_best.pth": {
+    "file_size_bytes": 1236836719,
+    "is_pure_state_dict": true,
+    "top_keys_count": 312,
+    "total_tensor_keys": 312,
+    "module_prefix_count": 312,
+    "orig_mod_prefix_count": 0,
+    "plain_keys_count": 0,
+    "total_parameter_count": 309174379,
+    "total_tensor_bytes": 1236697524,
+    "total_tensor_mb": 1179.41,
+    "dtypes": {
+      "torch.float32": 309174377,
+      "torch.int64": 2
+    },
+    "first_5_keys": [
+      "module.backbone.cls_token",
+      "module.backbone.pos_embed",
+      "module.backbone.patch_embed.proj.weight",
+      "module.backbone.patch_embed.proj.bias",
+      "module.backbone.blocks.0.norm1.weight"
+    ],
+    "last_5_keys": [
+      "module.decode_head.4.running_mean",
+      "module.decode_head.4.running_var",
+      "module.decode_head.4.num_batches_tracked",
+      "module.decode_head.6.weight",
+      "module.decode_head.6.bias"
+    ],
+    "chakranet_load_test": {
+      "raw_missing": 310,
+      "raw_unexpected": 312,
+      "stripped_missing": 0,
+      "stripped_missing_keys": [],
+      "stripped_unexpected": 0,
+      "stripped_unexpected_keys": [],
+      "strict_error": null
+    }
+  },
+  "best.pt": {
+    "error": "Weights only load failed. This file can still be loaded, to do so you have two options, \u001b[1mdo those steps only if you trust the source of the checkpoint\u001b[0m. \n\t(1) In PyTorch 2.6, we changed the default value of the `weights_only` argument in `torch.load` from `False` to `True`. Re-running `torch.load` with `weights_only` set to `False` will likely succeed, but it can result in arbitrary code execution. Do it only if you got the file from a trusted source.\n\t(2) Alternatively, to load with `weights_only=True` please check the recommended steps in the following error message.\n\tWeightsUnpickler error: Unsupported global: GLOBAL ultralytics.nn.tasks.DetectionModel was not an allowed global by default. Please use `torch.serialization.add_safe_globals([ultralytics.nn.tasks.DetectionModel])` or the `torch.serialization.safe_globals([ultralytics.nn.tasks.DetectionModel])` context manager to allowlist this global if you trust this class/function.\n\nCheck the documentation of torch.load to learn more about types accepted by default with weights_only https://pytorch.org/docs/stable/generated/torch.load.html."
+  }
+}

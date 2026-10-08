@@ -1,0 +1,126 @@
+Total root .py files: 125
+ablation_engine.py ::: Script utility / root execution script
+app.py ::: FR-4.4: Robust weight resolution with fallback chain
+append_notebook.py ::: Script utility / root execution script
+append_notebook_gdown.py ::: Script utility / root execution script
+auto_starter.py ::: If it's before 6 AM, wait until 6 AM
+build_crossval_v4.py ::: Script utility / root execution script
+build_crossval_v5.py ::: Script utility / root execution script
+build_final_matrix.py ::: Known subheaders that should NOT be treated as paper titles
+build_fixed_pipeline_notebook.py ::: Script utility / root execution script
+build_kaggle_zerotrust_nb.py ::: 1. Create the Kaggle_ZeroTrust_Code.zip
+build_master_eval_notebook.py ::: Script utility / root execution script
+build_matrix.py ::: Parse extracted_PMC files
+build_matrix_v2.py ::: Simple parsing heuristic
+build_new_eval_notebooks.py ::: -------------------------------------------------------------------------
+bypass_upload.py ::: Find cell 21 (where the video processing occurs)
+cloud_gpu_guide.py ::: 🌐 ChakraNet: Online GPU Setup Guide
+compare_all_notebooks.py ::: Script utility / root execution script
+compile_papers.py ::: Script utility / root execution script
+conformal_evaluator.py ::: Script utility / root execution script
+cost_profiler.py ::: Script utility / root execution script
+count_params.py ::: Script utility / root execution script
+create_conformal_notebook.py ::: 🔧 What was fixed for this run:
+create_json.py ::: Script utility / root execution script
+create_kaggle_zip.py ::: Script utility / root execution script
+create_new_nb.py ::: Reconstruct the train_transformer.py to guarantee perfect indentation
+create_pdf.py ::: Custom style for code/logs
+data_extraction_agent.py ::: Extracts markdown code blocks from text.
+dataset_downloader.py ::: Script utility / root execution script
+diagnostic_oracle_decomposition.py ::: Script utility / root execution script
+evaluate_cross_dataset.py ::: Script utility / root execution script
+export_engine.py ::: Export to TensorRT Engine
+extract.py ::: Script utility / root execution script
+extract_data_batch.py ::: Ensure the output directory exists
+extract_history.py ::: Script utility / root execution script
+extract_notebook.py ::: Script utility / root execution script
+extract_pdf.py ::: Script utility / root execution script
+extract_pptx.py ::: Script utility / root execution script
+extract_sota.py ::: Script utility / root execution script
+extract_timestamps.py ::: Script utility / root execution script
+fetch_pdfs.py ::: Actually let's search arxiv for all 6 and download if found
+fix.py ::: Script utility / root execution script
+fix_1e6.py ::: Script utility / root execution script
+fix_architecture.py ::: The correct class definition based on the user's source code
+fix_notebook.py ::: Script utility / root execution script
+fix_notebook_bugs.py ::: 1. Update the ViT weight loading cell
+fix_notebook_indent.py ::: Script utility / root execution script
+fix_notebook_kaggle.py ::: Patch BASE_DIR logic
+fix_paper.py ::: Script utility / root execution script
+fix_video_name.py ::: Find cell 21 (where the video processing occurs)
+fix_yolo.py ::: Import mask_to_yolo from src.utils
+fl_non_iid_partitioner.py ::: Script utility / root execution script
+gen_snippets.py ::: Skip hidden directories
+generate_autodiscover_notebook.py ::: Cell 1: Intro Markdown
+generate_bulletproof_multicell.py ::: Script utility / root execution script
+generate_final_multicell.py ::: Script utility / root execution script
+generate_guide.py ::: Custom styles
+generate_intern_guide_pdf.py ::: Add nodes
+generate_kaggle_eval.py ::: ─── CELL 0: Intro ──────────────────────────────────────────────────────────
+generate_kaggle_notebook_v2.py ::: Script utility / root execution script
+generate_multi.py ::: We will sweep across multiple thresholds to find the optimum!
+generate_paper_comparison.py ::: 1. Parse PMC extractions
+hybrid_crop_validation.py ::: Script utility / root execution script
+inference_profiler.py ::: Script utility / root execution script
+inspect_checkpoints.py ::: The two main checkpoint files
+investigate_max_probs.py ::: Script utility / root execution script
+kaggle_hardened_pipeline.py ::: 1. Install dependencies if missing BEFORE importing them
+kaggle_hardened_pipeline_multi.py ::: 1. Install dependencies if missing BEFORE importing them
+kaggle_hardened_pipeline_multi_final.py ::: 1. Install dependencies if missing BEFORE importing them
+kaggle_yolo_retrain.py ::: 1. Install dependencies if missing BEFORE importing
+local_eval.py ::: Script utility / root execution script
+local_realtime_check.py ::: Add src to python path so we can import modules
+master_campaign.py ::: Script utility / root execution script
+mega_verification_agent.py ::: Skill 1: Diff-Analyzer - maps every text chunk from source to target.
+metrics_engine.py ::: Script utility / root execution script
+metrics_engine_v2.py ::: Script utility / root execution script
+monitor.py ::: Script utility / root execution script
+package_kaggle.py ::: Script utility / root execution script
+parse_all_lit.py ::: Script utility / root execution script
+parse_oa.py ::: Script utility / root execution script
+parse_openalex.py ::: Try different encodings
+parse_pr_results.py ::: Script utility / root execution script
+parse_results.py ::: Script utility / root execution script
+patch_c6.py ::: 1. Update Tri-split to 700/150/150
+patch_c6_option_b.py ::: Script utility / root execution script
+pysod.py ::: Script utility / root execution script
+revert_synthetic.py ::: Find cell 21 (where the video processing occurs)
+review_orchestrator.py ::: Script utility / root execution script
+rigorous_hybrid_validation.py ::: Script utility / root execution script
+run_4_and_6.py ::: Script utility / root execution script
+run_kaggle.py ::: 1. Get Sessions to find the kernel ID
+run_kaggle_diagnostic.py ::: Code to run on Kaggle
+run_kaggle_diagnostic_generalized.py ::: Script utility / root execution script
+script.py ::: Script utility / root execution script
+setup_colab.py ::: Default destination fallback if not provided
+sod.py ::: Script utility / root execution script
+sod2.py ::: Script utility / root execution script
+sod_metrics.py ::: Script utility / root execution script
+statistical_significance.py ::: =============================================================================
+summarize_alex.py ::: Script utility / root execution script
+summarize_history.py ::: Remove XML tags like <USER_REQUEST>, <ADDITIONAL_METADATA>, etc.
+temporal_persistence.py ::: Script utility / root execution script
+test_dynamic.py ::: Create a dummy video
+test_load.py ::: Script utility / root execution script
+test_monitor.py ::: Script utility / root execution script
+test_wf.py ::: Script utility / root execution script
+test_wf2.py ::: Script utility / root execution script
+today_campaign.py ::: Script utility / root execution script
+train.py ::: Global seed for reproducibility (seed=42 as documented in paper)
+update_kaggle_nb.py ::: Clear existing cells
+update_nb.py ::: The notebook has cells.
+update_nb2.py ::: The notebook has the %%writefile cell. Let's find it and update it.
+update_nb3.py ::: Script utility / root execution script
+update_notebook_gdown_5.py ::: Remove the old Section 6 (last two cells)
+upload_to_kaggle.py ::: Script utility / root execution script
+verify_best_pt.py ::: Script utility / root execution script
+verify_extraction.py ::: Script utility / root execution script
+verify_kaggle.py ::: Script utility / root execution script
+verify_kaggle_datasets.py ::: Force UTF-8 stdout on Windows
+verify_notebook.py ::: Script utility / root execution script
+verify_option_b.py ::: Extract code from the patched notebook cells
+verify_overfitting.py ::: Script utility / root execution script
+verify_polypgen_integrity.py ::: !/usr/bin/env python3
+verify_vacuous.py ::: Script utility / root execution script
+write_notebook.py ::: Script utility / root execution script
+zero_shot_evaluator.py ::: Script utility / root execution script

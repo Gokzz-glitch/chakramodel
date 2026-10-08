@@ -1,0 +1,376 @@
+{
+  "paper/main.tex": {
+    "file": "paper\\main.tex",
+    "line_count": 73,
+    "char_count": 8660,
+    "forbidden_matches": {
+      "SOTA": {
+        "count": 0,
+        "matches": []
+      },
+      "State of the Art": {
+        "count": 0,
+        "matches": []
+      },
+      "State-of-the-Art": {
+        "count": 0,
+        "matches": []
+      },
+      "0.9852": {
+        "count": 0,
+        "matches": []
+      },
+      "0.9412": {
+        "count": 0,
+        "matches": []
+      },
+      "0.8650": {
+        "count": 0,
+        "matches": []
+      }
+    },
+    "historical_matches": {
+      "0.9225": {
+        "count": 0,
+        "matches": []
+      },
+      "0.9081": {
+        "count": 0,
+        "matches": []
+      },
+      "0.8215": {
+        "count": 0,
+        "matches": []
+      },
+      "0.7949": {
+        "count": 0,
+        "matches": []
+      },
+      "0.7304": {
+        "count": 0,
+        "matches": []
+      }
+    },
+    "honest_matches": {
+      "0.8131": {
+        "count": 5,
+        "matches": [
+          {
+            "line": 16,
+            "span": [
+              701,
+              707
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "Early detection and accurate segmentation of precancerous polyps during colonoscopy is vital for colorectal cancer prevention. In this work, we present ChakraModel, a two-stage framework combining YOLO candidate detection with Vision Transformer (ViT-Large) segmentation, supplemented by conformal uncertainty calibration. Rather than claiming performance superior to leading benchmark models in the literature---which routinely achieve $\\sim$0.90+ Dice---ChakraModel is designed and evaluated as a \\textbf{competent baseline} for colonoscopic image analysis. Evaluated under strict test-set isolation on verified splits from Kaggle run v5, ChakraModel achieves a Dice Similarity Coefficient (DSC) of 0.8131 ($\\pm$0.1747) and a mean Intersection over Union (mIoU) of 0.7141 on the held-out Kvasir-SEG test split ($N=150$). Across external cohorts, the model achieves cross-center generalization on HyperKvasir (0.8360 $\\pm$ 0.1610 Dice) and zero-shot transfer on CVC-ClinicDB (0.7561 $\\pm$ 0.2131 Dice), EndoScene CVC-300 (0.7402 $\\pm$ 0.1590 Dice), and PolypDB (0.7283 $\\pm$ 0.2544 Dice), while transparently disclosing catastrophic zero-shot failure on ETIS-Larib (0.0000 DSC). We analyze trade-offs showing that while standalone YOLOv8 detection operates at 94.7 FPS, the full hybrid pipeline operates at 3.7 FPS, highlighting the engineering gap required before real-time edge translation."
+          },
+          {
+            "line": 27,
+            "span": [
+              215,
+              221
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "\\item \\textbf{Rigorous Baseline Benchmarking:} Honest evaluation across verified multi-center splits from the Kaggle v5 evaluation suite, demonstrating that ChakraModel provides a \\textbf{competent baseline} of 0.8131 DSC on Kvasir-SEG, alongside cross-dataset evaluations spanning 0.7283 to 0.8360 Dice across HyperKvasir, CVC-ClinicDB, CVC-300, and PolypDB."
+          },
+          {
+            "line": 50,
+            "span": [
+              42,
+              48
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "Kvasir-SEG & Held-Out Test (15\\%) & 150 & 0.8131 $\\pm$ 0.1747 & 0.7141 & 0.8330 \\\\"
+          },
+          {
+            "line": 64,
+            "span": [
+              88,
+              94
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "As documented in Table~\\ref{tab:results}, ChakraModel achieves a verified Dice score of 0.8131 $\\pm$ 0.1747 and mIoU of 0.7141 on the held-out Kvasir-SEG test split ($N=150$, seed=42). Cross-center generalization is confirmed on HyperKvasir (0.8360 $\\pm$ 0.1610 Dice, 0.7439 mIoU). Zero-shot transfer to external cohorts yields 0.7561 $\\pm$ 0.2131 on CVC-ClinicDB ($N=495$) and 0.7402 $\\pm$ 0.1590 on EndoScene CVC-300 ($N=60$), while multi-modal evaluation on PolypDB ($N=7868$) achieves 0.7283 $\\pm$ 0.2544."
+          },
+          {
+            "line": 69,
+            "span": [
+              327,
+              333
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "In this paper, we presented ChakraModel, an edge-oriented polyp segmentation framework combining YOLO candidate detection with a ViT-Large transformer segmentation core. Through rigorous evaluation on verified benchmark splits, we established that ChakraModel serves as a \\textbf{competent baseline}, achieving a Dice score of 0.8131 on the Kvasir-SEG test split and generalizing between 0.7283 and 0.8360 Dice across multi-center cohorts including HyperKvasir, CVC-ClinicDB, CVC-300, and PolypDB."
+          }
+        ]
+      }
+    },
+    "edge_cases": {
+      "state_of_the_art_flexible": {
+        "count": 0,
+        "matches": []
+      },
+      "sota_acronym_variations": {
+        "count": 0,
+        "matches": []
+      },
+      "sota_arbitrary_substring": {
+        "count": 0,
+        "spans": []
+      },
+      "percentage_variations": {
+        "count": 0,
+        "matches": []
+      },
+      "stripped_decimal_variations": {
+        "count": 0,
+        "matches": []
+      },
+      "unicode_hidden_matches": {
+        "count": 0,
+        "matches": []
+      }
+    },
+    "comments_analysis": {
+      "type": "latex",
+      "matches_found": 0,
+      "details": []
+    },
+    "state_words": {
+      "count": 0,
+      "occurrences": []
+    },
+    "competent_baseline_count": 6
+  },
+  "docs/paper/ChakraModel_Final_Paper.md": {
+    "file": "docs\\paper\\ChakraModel_Final_Paper.md",
+    "line_count": 250,
+    "char_count": 32574,
+    "forbidden_matches": {
+      "SOTA": {
+        "count": 0,
+        "matches": []
+      },
+      "State of the Art": {
+        "count": 0,
+        "matches": []
+      },
+      "State-of-the-Art": {
+        "count": 0,
+        "matches": []
+      },
+      "0.9852": {
+        "count": 0,
+        "matches": []
+      },
+      "0.9412": {
+        "count": 0,
+        "matches": []
+      },
+      "0.8650": {
+        "count": 0,
+        "matches": []
+      }
+    },
+    "historical_matches": {
+      "0.9225": {
+        "count": 0,
+        "matches": []
+      },
+      "0.9081": {
+        "count": 0,
+        "matches": []
+      },
+      "0.8215": {
+        "count": 0,
+        "matches": []
+      },
+      "0.7949": {
+        "count": 0,
+        "matches": []
+      },
+      "0.7304": {
+        "count": 0,
+        "matches": []
+      }
+    },
+    "honest_matches": {
+      "0.8131": {
+        "count": 14,
+        "matches": [
+          {
+            "line": 17,
+            "span": [
+              171,
+              177
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "- **v5.0 (2026-09-09 14:00 UTC+5:30):** Metric Replacement and Narrative Tone Adjustment (R1 & R2). Integrated verified Kaggle v5 metrics (Kvasir-SEG test split N=150 DSC 0.8131 ± 0.1747, HyperKvasir Segmented DSC 0.8360 ± 0.1610, CVC-ClinicDB zero-shot DSC 0.7561 ± 0.2131, EndoScene CVC-300 zero-shot DSC 0.7402 ± 0.1590, PolypDB DSC 0.7283 ± 0.2544). Purged all obsolete and unverified metric claims. Re-anchored paper narrative to present ChakraModel as a competent baseline relative to leading literature models (~0.90+ Dice) and formally documented catastrophic zero-shot domain degradation on ETIS-Larib (0.0000 DSC)."
+          },
+          {
+            "line": 21,
+            "span": [
+              53,
+              59
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "> The verified in-distribution test performance is **0.8131 ± 0.1747 DSC** (mIoU 0.7141) on Kvasir-SEG ($N=150$, seed=42), with zero-shot transfer of **0.7561 ± 0.2131 DSC** on CVC-ClinicDB ($N=495$) and transparent disclosure of catastrophic failure on ETIS-Larib (0.0000 DSC, $N=196$)."
+          },
+          {
+            "line": 27,
+            "span": [
+              447,
+              453
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "Rather than claiming performance competitive with leading published methods in the literature—which routinely reach **~0.90+ Dice** on standard benchmarks—ChakraModel is designed and evaluated as a **competent baseline implementation combining YOLO detection with ViT-Large segmentation**. Evaluated rigorously under an anti-fabrication harness on verified Kaggle v5 splits, ChakraModel achieves a true mean Dice Similarity Coefficient (DSC) of **0.8131 ± 0.1747** (mIoU 0.7141) on the Kvasir-SEG test cohort (N=150), with cross-dataset performance spanning **0.7283 to 0.8360 Dice** across diverse multi-center benchmarks (HyperKvasir: 0.8360, CVC-ClinicDB: 0.7561, CVC-300: 0.7402, PolypDB: 0.7283). We also transparently document critical failure modes, including catastrophic domain degradation on out-of-distribution sets (ETIS-Larib: 0.0000 DSC), and provide a forensic post-mortem of a silent DistributedDataParallel (DDP) checkpoint serialization defect that initially caused mode collapse. By replacing unverified claims with reproducible data, ChakraModel establishes a dependable, honest **competent baseline** for clinical computer vision research."
+          },
+          {
+            "line": 31,
+            "span": [
+              172,
+              178
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "2. **Competent Baseline with Transparent Benchmarking**: Defensible, verifiable empirical evaluation across multi-center cohorts, demonstrating a **competent baseline** of 0.8131 DSC on Kvasir-SEG and ~0.73–0.84 Dice across standard test benchmarks, explicitly acknowledging the ~0.90+ Dice performance of leading literature methods."
+          },
+          {
+            "line": 43,
+            "span": [
+              552,
+              558
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "ChakraModel addresses these challenges not by claiming to establish new benchmark records, but by presenting a **competent baseline implementation combining YOLO detection with ViT-Large segmentation**. Rather than treating object tracking, transformer refinement, topological regularizers, and conformal calibration as disconnected proposals, this paper investigates their practical integration and establishes an honest, defensible baseline for the community. On the verified Kvasir-SEG test split, ChakraModel delivers a **competent baseline** of **0.8131 DSC** (mIoU 0.7141), while maintaining stable cross-dataset performance across diverse multi-center cohorts (~0.73–0.84 Dice across HyperKvasir, CVC-ClinicDB, CVC-300, and PolypDB)."
+          },
+          {
+            "line": 49,
+            "span": [
+              263,
+              269
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "2. **Competent Baseline Positioning & Honest Benchmarks**: We position ChakraModel accurately within the literature as a **competent baseline**, explicitly noting that while leading benchmark architectures achieve **~0.90+ Dice**, ChakraModel achieves a verified 0.8131 DSC on Kvasir-SEG and ~0.73–0.84 Dice across multi-center test splits."
+          },
+          {
+            "line": 151,
+            "span": [
+              55,
+              61
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "| **Kvasir-SEG** | Held-Out Test Split (15%) | 150 | **0.8131 ± 0.1747** | 0.7141 | 0.8330 | 0.8500 |"
+          },
+          {
+            "line": 168,
+            "span": [
+              78,
+              84
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "| **ChakraModel / ChakraTransformer** | **Competent Baseline (Verified)** | **0.8131 ± 0.1747** | **0.7561 ± 0.2131** | **0.7402 ± 0.1590** |"
+          },
+          {
+            "line": 181,
+            "span": [
+              98,
+              104
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "- Evaluation on the true held-out Kvasir-SEG test split ($N=150$, `seed=42`) yielded a verified **0.8131 ± 0.1747 Mean DSC** and **0.7141 Mean IoU** (Precision: 0.8330, Recall: 0.8500)."
+          },
+          {
+            "line": 183,
+            "span": [
+              6,
+              12
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "While 0.8131 DSC is lower than top-ranking published models that achieve ~0.90+ Dice, it confirms the Edge-Native Hybrid architecture fundamentally functions as a **competent baseline** and successfully learns semantic representations on held-out patient data, providing a legitimate reference for future topological and data-augmentation enhancements."
+          },
+          {
+            "line": 189,
+            "span": [
+              14,
+              20
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "The genuine **0.8131 ± 0.1747 DSC** on Kvasir-SEG ($N=150$) demonstrates that the model generalizes to held-out test data. Previous concerns of \"zero generalizability\" were false positives caused entirely by the silent weight loading failure. Cross-dataset evaluation on external cohorts confirms genuine zero-shot transfer capabilities: CVC-ClinicDB achieves **0.7561 ± 0.2131 DSC** ($N=495$), EndoScene CVC-300 achieves **0.7402 ± 0.1590 DSC** ($N=60$), HyperKvasir Segmented achieves **0.8360 ± 0.1610 DSC** ($N=1,000$), and PolypDB achieves **0.7283 ± 0.2544 DSC** ($N=7,868$). Simultaneously, the evaluation rigorously exposes domain transfer limits: the model suffers catastrophic failure on ETIS-Larib (**0.0000 DSC**, $N=196$), demonstrating that zero-shot generalizability does not extend to extreme domain shifts without test-time adaptation."
+          },
+          {
+            "line": 203,
+            "span": [
+              369,
+              375
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "In this work, we presented ChakraModel as a **competent baseline implementation combining YOLO detection with ViT-Large segmentation** for computer-aided colonoscopy. Rather than asserting superiority over leading published methods—which achieve **~0.90+ Dice** on standard benchmarks—ChakraModel provides an open, reproducible, and verifiable baseline that achieves **0.8131 DSC** on Kvasir-SEG and demonstrates realistic generalization across multi-center datasets (~0.73–0.84 Dice across HyperKvasir, CVC-ClinicDB, CVC-300, and PolypDB)."
+          },
+          {
+            "line": 207,
+            "span": [
+              139,
+              145
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "- **Competent Segmentation Performance:** The ViT-Large ChakraTransformer core functions as a **competent baseline**, attaining a verified 0.8131 ± 0.1747 DSC (mIoU 0.7141) on Kvasir-SEG and generalizing to external cohorts (0.8360 DSC on HyperKvasir, 0.7561 DSC on CVC-ClinicDB, 0.7402 DSC on CVC-300, 0.7283 DSC on PolypDB) once the DDP serialization defect was resolved."
+          },
+          {
+            "line": 212,
+            "span": [
+              145,
+              151
+            ],
+            "matched_text": "0.8131",
+            "line_snippet": "- **Performance Gap Relative to Literature:** Top-performing benchmark architectures in the literature reach ~0.90+ Dice. ChakraModel's verified 0.8131 DSC on Kvasir-SEG establishes it firmly as a **competent baseline** rather than a top-ranking model."
+          }
+        ]
+      }
+    },
+    "edge_cases": {
+      "state_of_the_art_flexible": {
+        "count": 0,
+        "matches": []
+      },
+      "sota_acronym_variations": {
+        "count": 0,
+        "matches": []
+      },
+      "sota_arbitrary_substring": {
+        "count": 0,
+        "spans": []
+      },
+      "percentage_variations": {
+        "count": 0,
+        "matches": []
+      },
+      "stripped_decimal_variations": {
+        "count": 0,
+        "matches": []
+      },
+      "unicode_hidden_matches": {
+        "count": 0,
+        "matches": []
+      }
+    },
+    "comments_analysis": {
+      "type": "markdown",
+      "matches_found": 0,
+      "details": []
+    },
+    "state_words": {
+      "count": 2,
+      "occurrences": [
+        {
+          "line": 120,
+          "word": "stated",
+          "snippet": "**⚠ Correction:** The paper previously stated a \"70/10/10/10 Train/Validation/Calibration/Test split.\" The Combo 6 notebook implements only a three-way split. The 70/10/10/10 protocol is the target design but was not fully enforced in the current implementation. This will be standardized across all combos in the next revision."
+        },
+        {
+          "line": 167,
+          "word": "State",
+          "snippet": "| **ChakraTransformer (DDP Serialization Bug)** | Defect State (Mode Collapse) | ~0.1835 | ~0.1835 | ~0.1835 |"
+        }
+      ]
+    },
+    "competent_baseline_count": 16
+  }
+}

@@ -1,0 +1,4148 @@
+{
+  "chakra_pdf": [
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Complete_Audit (1).pdf",
+      "size": 386974
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\polyp_datastructure.pdf",
+      "size": 188369
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\yolov1 paper.pdf",
+      "size": 5296750
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel Teaching Guide.pdf",
+      "size": 310653
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Colonoscopy Polyp Detection_ Landscape and 36h Strategy.pdf",
+      "size": 95348
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Endorsement_Letter_HOD_PolypNet3D (NIT).pdf",
+      "size": 117055
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Endorsement_Letter_HOD_PolypNet3D.pdf",
+      "size": 105908
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Proof_of_Testing_Watermarked.pdf",
+      "size": 854439
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\COLLABRUNTESTING.pdf",
+      "size": 490773
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\01_PraNet_Parallel_Reverse_Attention_Network_MICCAI2020.pdf",
+      "size": 582841
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\02_Polyp_PVT_Pyramid_Vision_Transformers.pdf",
+      "size": 1555644
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\03_ColonFormer_Efficient_Transformer_Polyp_Segmentation.pdf",
+      "size": 578639
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\04_ByteTrack_Multi_Object_Tracking_Kalman.pdf",
+      "size": 8638055
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\05_Med_Flamingo_Multimodal_Medical_Foundation_Model.pdf",
+      "size": 2133745
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\06_SegFormer_Efficient_Design_Transformers.pdf",
+      "size": 5780677
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\07_TransUNet_Medical_Image_Segmentation.pdf",
+      "size": 645002
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\08_Endoscopic_Artefact_Detection_EAD_Review.pdf",
+      "size": 1589536
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\09_Polyp_SAM_Segment_Anything_in_Colonoscopy.pdf",
+      "size": 786415
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\10_HardNet_MSEG_Real_Time_Polyp_Segmentation.pdf",
+      "size": 2207699
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\11_FCBFormer_Pyramid_Transformer_Polyp_Segmentation.pdf",
+      "size": 738272
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\12_Swin_Unet_Pure_Transformer_Medical_Segmentation.pdf",
+      "size": 2896119
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\13_UNetPlusPlus_Nested_UNet_Architecture.pdf",
+      "size": 417278
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\14_YOLO_Endoscopic_Polyp_Detection_Review.pdf",
+      "size": 424879
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\15_BioMedCLIP_Biomedical_Vision_Language_Foundation.pdf",
+      "size": 13326661
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\16_EndoSLAM_Dataset_Benchmark_Endoscopy.pdf",
+      "size": 26227196
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakratransformer_COMBO 6 ISSUES.pdf",
+      "size": 3524726
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakranet_merged.pdf",
+      "size": 15005668
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Completed_Audit_Report.pdf",
+      "size": 336630
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Complete_Audit (1).pdf",
+      "size": 386974
+    }
+  ],
+  "chakra_notebooks": [
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_EvalHarness_Kaggle.ipynb",
+      "size": 4607
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_EvalHarness_Kaggle_v4.ipynb",
+      "size": 6253
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_EvalHarness_Kaggle_v5.ipynb",
+      "size": 6146
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Full_Universal_Evaluation_v9.ipynb",
+      "size": 67824
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\chakramodel_v8_corrected.ipynb",
+      "size": 47516
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\chakramodel_v9_eval.ipynb",
+      "size": 42233
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Verified_Eval.ipynb",
+      "size": 40699
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Verified_Eval_v3.ipynb",
+      "size": 43075
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Verified_Eval_v4.ipynb",
+      "size": 43249
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Verified_Eval_v6.ipynb",
+      "size": 47907
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Verified_Eval_v7.ipynb",
+      "size": 50848
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChakraModel_Verify_v7.ipynb",
+      "size": 5853
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\yolo-4-6rerun.ipynb",
+      "size": 27673
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\yolo-updation-thirumala-6.ipynb",
+      "size": 43059
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4-6 (2).ipynb",
+      "size": 45879
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4-6 (1).ipynb",
+      "size": 42174
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4-6.ipynb",
+      "size": 10920
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraFinal_UPLOAD_THIS.ipynb",
+      "size": 9657
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4 (6).ipynb",
+      "size": 35737
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4 (5).ipynb",
+      "size": 10076
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraTransformer_MultiGPU_Final.ipynb",
+      "size": 46817
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4 (4).ipynb",
+      "size": 38208
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4 (3).ipynb",
+      "size": 34114
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (3).ipynb",
+      "size": 28763
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (4).ipynb",
+      "size": 34698
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (2).ipynb",
+      "size": 9102
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (1).ipynb",
+      "size": 9102
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing.ipynb",
+      "size": 9102
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4 (2).ipynb",
+      "size": 37331
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4 (1).ipynb",
+      "size": 35885
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-krish-4.ipynb",
+      "size": 37314
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Video_Evaluation_Kaggle.ipynb",
+      "size": 11550
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\Colab_GPU_Fast_Verify.ipynb",
+      "size": 3926
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\anti_fabrication_toolkit\\Kaggle_Colab_AntiFabrication_V3.ipynb",
+      "size": 5220
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_package\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+      "size": 4711
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\ChakraModel_Kaggle_Evaluation.ipynb",
+      "size": 63839
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\Colab_ChakraTransformer_Evaluation.ipynb",
+      "size": 7278
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\colab_train.ipynb",
+      "size": 119
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\Combo1_ChakraNet_Focal.ipynb",
+      "size": 61472
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\Combo6_ChakraTransformer.ipynb",
+      "size": 59207
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\Kaggle_ChakraTransformer_Evaluation.ipynb",
+      "size": 4711
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\Kaggle_ChakraTransformer_Evaluation_Standalone.ipynb",
+      "size": 18037
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Kaggle_ChakraTransformer_Conformal_FIXED.ipynb",
+      "size": 20800
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om (3).ipynb",
+      "size": 1652352
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om (2).ipynb",
+      "size": 94385
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om (1).ipynb",
+      "size": 23618
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om.ipynb",
+      "size": 2079555
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Kaggle_ChakraTransformer_Evaluation_Standalone_FIXED.ipynb",
+      "size": 26665
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-evaluation-4.ipynb",
+      "size": 6733
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (6).ipynb",
+      "size": 43164
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (5).ipynb",
+      "size": 43164
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\crossvali.ipynb",
+      "size": 50815
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\crossvali (1).ipynb",
+      "size": 51988
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\crossvali (2).ipynb",
+      "size": 30298
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\crossvali finalrun notebbok downloaded.ipynb",
+      "size": 59424
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakra_v8_full_eval.ipynb",
+      "size": 38520
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\claudev7.ipynb",
+      "size": 1877323
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-claudev7.ipynb",
+      "size": 48501
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-claudev7.ipynb",
+      "size": 55018
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-claudev7 (1).ipynb",
+      "size": 60411
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-claudev7 (2).ipynb",
+      "size": 60411
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-claudev7 (3).ipynb",
+      "size": 59027
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-claudev7_final.ipynb",
+      "size": 73712
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-eval-v9-fixed.ipynb",
+      "size": 61499
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel_v8_corrected.ipynb",
+      "size": 47516
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel_v10_eval.ipynb",
+      "size": 46890
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_v11_patch.ipynb",
+      "size": 78781
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel_vit_vs_pranet_comparison.ipynb",
+      "size": 27400
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-chakramodel-last-four-chat-deleted only 1st cell run shows dir.ipynb",
+      "size": 311056
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\dir-included-chakramodel-last-four-chat-deleted.ipynb",
+      "size": 333947
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\dir-included-chakramodel-last-four-chat-deleted (1).ipynb",
+      "size": 302721
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\dir-included-chakramodel-last-four-chat-deleted NO ERROR BUS SUS.ipynb",
+      "size": 13850
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-last-four-chat-de.ipynb",
+      "size": 298839
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-last-four-chat-de (1).ipynb",
+      "size": 298840
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v7verifiactiob-12-9-26-12-52fternnon.ipynb",
+      "size": 9041
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v7verifiactiob-12-9-26-12-52fternnon (1).ipynb",
+      "size": 10084
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v7verifiactiob-12-9-26-12-52fternnon (2).ipynb",
+      "size": 12524
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v7verifiactiob-12-9-26-12-52fternnon (3).ipynb",
+      "size": 10088
+    }
+  ],
+  "unrelated_or_personal": [
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChatGPT Installer.exe",
+      "size": 1462848
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\ChromeSetup.exe",
+      "size": 11785144
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\desktop.ini",
+      "size": 282
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\invite (1).ics",
+      "size": 1560
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\invite.ics",
+      "size": 1560
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\Online Application Receipt.pdf",
+      "size": 2770048
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\opus_keyword_research_batches.txt",
+      "size": 4270
+    },
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\Screenshot 2026-09-07 200438.pdf",
+      "size": 1074181
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\new resume ------anti.pdf",
+      "size": 462977
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\eclipse-inst-jre-win64.zip",
+      "size": 117359047
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Profile.pdf",
+      "size": 39863
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume.pdf",
+      "size": 164514
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_Final1.docx",
+      "size": 13663
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume.docx",
+      "size": 11365
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\resume_econ_systems.md",
+      "size": 3612
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_Final.docx",
+      "size": 12736
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_eCon_Systems.docx",
+      "size": 12530
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_v4.pdf",
+      "size": 4151409
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_Econ_Tailored.docx",
+      "size": 12094
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_ (1).pdf",
+      "size": 311226
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_.pdf",
+      "size": 311226
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_v4.docx",
+      "size": 12269
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Acer Care Center_Acer_4.00.3060_W11x64_A.zip",
+      "size": 79771182
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Resume-GOKUL-R-Yubi.pdf",
+      "size": 91733
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume (1).docx",
+      "size": 11733
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Gokul_R_Resume_AWS.pdf",
+      "size": 87122
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Room Booking Bill Cum Receipt_3889.pdf",
+      "size": 6667
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Payment_Receipt_114548833681.pdf",
+      "size": 2232
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\mess fees.pdf",
+      "size": 2225
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\room booking.pdf",
+      "size": 2232
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\priya passport report.pdf",
+      "size": 2666021
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\RAJASEKAR PASSPORT RECIPT.pdf",
+      "size": 2733665
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\GOKUL PASSPORT REPORT.pdf",
+      "size": 2664427
+    }
+  ],
+  "chakra_csv": [
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\feature-bytetrack-5.csv",
+      "size": 835
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\_bmad\\module-help.csv",
+      "size": 591
+    }
+  ],
+  "chakra_other": [
+    {
+      "src": "C",
+      "path": "C:\\Users\\imgk3\\Downloads\\om-finalkaggle-upload",
+      "size": 1155167936
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Final_Pitch.pptx",
+      "size": 25545
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Pitch_Deck (1).pptx",
+      "size": 131437
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\polyp_output.mp4",
+      "size": 91720214
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_presentataion.pptx",
+      "size": 71791894
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Full_Pitch.pptx",
+      "size": 71791690
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_SaaS_Pitch.pptx",
+      "size": 67406
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_16Slide_Pitch.pptx",
+      "size": 67470
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\.env",
+      "size": 351
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\.gitattributes",
+      "size": 85
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\.gitignore",
+      "size": 878
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\architecture_diagram.png",
+      "size": 38700
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\combo4.log",
+      "size": 2572
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\anti_fabrication_toolkit\\verifyai.bat",
+      "size": 177
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\configs\\data.yaml",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\dataset_yolo\\dataset.yaml",
+      "size": 107
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\dataset_yolo_fixed\\dataset.yaml",
+      "size": 101
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\diagnostic_output\\synth_0_dice_0.9223.jpg",
+      "size": 65739
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\diagnostic_output\\synth_1_dice_0.9125.jpg",
+      "size": 66141
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\diagnostic_output\\synth_2_dice_0.9175.jpg",
+      "size": 66094
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\diagnostic_output\\synth_3_dice_0.9228.jpg",
+      "size": 65711
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\diagnostic_output\\synth_4_dice_0.9213.jpg",
+      "size": 65916
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289.jpg",
+      "size": 22084
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_2.jpg",
+      "size": 6054
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_3.jpg",
+      "size": 8849
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_4.png",
+      "size": 1993
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_5.jpg",
+      "size": 9829
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_6.jpg",
+      "size": 11164
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_7.jpg",
+      "size": 31687
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju77t0razbvm080106o56289_8.jpg",
+      "size": 12853
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be.jpg",
+      "size": 19124
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_2.jpg",
+      "size": 6051
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_3.jpg",
+      "size": 8249
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_4.png",
+      "size": 1684
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_5.jpg",
+      "size": 11032
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_6.jpg",
+      "size": 8100
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_7.jpg",
+      "size": 22655
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju7druhp2gp308715i6km7be_8.jpg",
+      "size": 9733
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q.jpg",
+      "size": 20779
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_2.jpg",
+      "size": 5833
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_3.jpg",
+      "size": 9879
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_4.png",
+      "size": 2051
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_5.jpg",
+      "size": 34696
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_6.jpg",
+      "size": 5850
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_7.jpg",
+      "size": 17951
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\cju8doa16u5gh0818w1ywda3q_8.jpg",
+      "size": 23408
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\FCBformer.png",
+      "size": 1431226
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\FCB_feats27.png",
+      "size": 56745
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\FCB_feats45.png",
+      "size": 49070
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\FCB_feats77.png",
+      "size": 59218
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\gt27.jpg",
+      "size": 5754
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\gt45.jpg",
+      "size": 5441
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\gt77.jpg",
+      "size": 6139
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\in27.jpg",
+      "size": 19028
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\in45.jpg",
+      "size": 16103
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\in77.jpg",
+      "size": 20998
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\llncs.cls",
+      "size": 42294
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\main.bbl",
+      "size": 9481
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\main.tex",
+      "size": 42903
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\map27.png",
+      "size": 1902
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\map45.png",
+      "size": 1809
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\map77.png",
+      "size": 2009
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\map_woutFCB27.png",
+      "size": 2081
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\map_woutFCB45.png",
+      "size": 1834
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\map_woutFCB77.png",
+      "size": 1972
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\Paper.bib",
+      "size": 14410
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\splncs04.bst",
+      "size": 32146
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\SSFormer.png",
+      "size": 520755
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\TB_feats27.png",
+      "size": 38765
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\TB_feats45.png",
+      "size": 36129
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\fcbformer\\TB_feats77.png",
+      "size": 40016
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\frontend\\.gitignore",
+      "size": 253
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\frontend\\index.html",
+      "size": 360
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\frontend\\vite.config.js",
+      "size": 161
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_bundle\\test_input.mp4",
+      "size": 26347
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\07c1fa15a20a4398_analyzed.mp4",
+      "size": 589079859
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_10_analyzed.mp4",
+      "size": 336081846
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_11_analyzed.mp4",
+      "size": 158401797
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_12_analyzed.mp4",
+      "size": 260146477
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_13_analyzed.mp4",
+      "size": 221682949
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_14_analyzed.mp4",
+      "size": 269770501
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_15_analyzed.mp4",
+      "size": 188650468
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_16_analyzed.mp4",
+      "size": 288233121
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_17_analyzed.mp4",
+      "size": 201358785
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_18_analyzed.mp4",
+      "size": 438740503
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_19_analyzed.mp4",
+      "size": 316068716
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_1_analyzed.mp4",
+      "size": 142069008
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_20_analyzed.mp4",
+      "size": 435795423
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_21_analyzed.mp4",
+      "size": 143259388
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_22_analyzed.mp4",
+      "size": 283618605
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_23_analyzed.mp4",
+      "size": 152051107
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_24_analyzed.mp4",
+      "size": 201293028
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_25_analyzed.mp4",
+      "size": 217870066
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_26_analyzed.mp4",
+      "size": 248513714
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_27_analyzed.mp4",
+      "size": 266737727
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_28_analyzed.mp4",
+      "size": 345401683
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_29_analyzed.mp4",
+      "size": 153651656
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_2_analyzed.mp4",
+      "size": 297736265
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_results\\1_30_analyzed.mp4",
+      "size": 8765440
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\logs\\hardware_monitor.log",
+      "size": 58400
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\outputs\\.gitkeep",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\outputs\\local_demo.mp4",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\paper\\main.tex",
+      "size": 2515
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\paper_figures\\chakramodel_arch.jpg",
+      "size": 525144
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\paper_figures\\fig2_qualitative_results.png",
+      "size": 9643478
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\paper_figures\\fig3_cross_dataset_comparison.png",
+      "size": 137294
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\paper_figures\\fig4_conformal_coverage.png",
+      "size": 135529
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_1.avi",
+      "size": 131870708
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_1.mp4",
+      "size": 34817214
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_10.avi",
+      "size": 406894892
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_10.mp4",
+      "size": 84425075
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_11.avi",
+      "size": 162336944
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_11.mp4",
+      "size": 38358928
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_12.avi",
+      "size": 267396700
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_12.mp4",
+      "size": 64047742
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_13.avi",
+      "size": 233539138
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_13.mp4",
+      "size": 51305505
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_14.avi",
+      "size": 292016086
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_14.mp4",
+      "size": 68245250
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_15.avi",
+      "size": 186514902
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_15.mp4",
+      "size": 46383711
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_16.avi",
+      "size": 271464528
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_16.mp4",
+      "size": 65221514
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_17.avi",
+      "size": 187699314
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_17.mp4",
+      "size": 55863536
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_18.avi",
+      "size": 387860348
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_18.mp4",
+      "size": 116549505
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_19.avi",
+      "size": 325398626
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_19.mp4",
+      "size": 78092541
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_1_analyzed.mp4",
+      "size": 91720214
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_2.avi",
+      "size": 323308746
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_2.mp4",
+      "size": 72388019
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_20.avi",
+      "size": 532805578
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_20.mp4",
+      "size": 104189937
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_21.avi",
+      "size": 136580034
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_21.mp4",
+      "size": 35650249
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_22.avi",
+      "size": 293350920
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_22.mp4",
+      "size": 70912347
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_23.avi",
+      "size": 242313544
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_23.mp4",
+      "size": 52644636
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_24.avi",
+      "size": 207213310
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_24.mp4",
+      "size": 47279503
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_25.avi",
+      "size": 265043484
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_25.mp4",
+      "size": 51545690
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_26.avi",
+      "size": 311911310
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_26.mp4",
+      "size": 62858928
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_27.avi",
+      "size": 269223060
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_27.mp4",
+      "size": 59221190
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_28.avi",
+      "size": 374047758
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_28.mp4",
+      "size": 86823487
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_29.avi",
+      "size": 170021812
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_29.mp4",
+      "size": 35886549
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_3.avi",
+      "size": 190696382
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_3.mp4",
+      "size": 49297059
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_30.avi",
+      "size": 430441880
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_30.mp4",
+      "size": 94949353
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_31.avi",
+      "size": 372452592
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_31.mp4",
+      "size": 86496704
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_32.avi",
+      "size": 163971810
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_32.mp4",
+      "size": 35063512
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_33.avi",
+      "size": 159411102
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_33.mp4",
+      "size": 32744230
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_34.avi",
+      "size": 106556060
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_34.mp4",
+      "size": 24644869
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_35.avi",
+      "size": 34839050
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_35.mp4",
+      "size": 7992922
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_36.avi",
+      "size": 268913678
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_36.mp4",
+      "size": 60135096
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_37.avi",
+      "size": 270900692
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_37.mp4",
+      "size": 57656372
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_38.avi",
+      "size": 159678008
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_38.mp4",
+      "size": 38496701
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_39.avi",
+      "size": 212067478
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_39.mp4",
+      "size": 43896960
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_4.avi",
+      "size": 294791256
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_4.mp4",
+      "size": 71076239
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_40.avi",
+      "size": 300489570
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_40.mp4",
+      "size": 95178855
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_41.avi",
+      "size": 121656104
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_41.mp4",
+      "size": 48696396
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_42.avi",
+      "size": 300455130
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_42.mp4",
+      "size": 98272778
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_5.avi",
+      "size": 154262056
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_5.mp4",
+      "size": 31214808
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_6.avi",
+      "size": 107463172
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_6.mp4",
+      "size": 30150221
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_7.avi",
+      "size": 135551730
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_7.mp4",
+      "size": 30244861
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_8.avi",
+      "size": 291539782
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_8.mp4",
+      "size": 66007016
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_9.avi",
+      "size": 152596640
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\video_testing\\1_9.mp4",
+      "size": 27556395
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\chakra_transformer_best.pth.bak",
+      "size": 1236830575
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\_bmad\\config.user.yaml",
+      "size": 50
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\_bmad\\config.yaml",
+      "size": 458
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\extracted_output\\chakramodel_yolo_combo_dataset\\dataset.yaml",
+      "size": 107
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Complete_Audit (1).docx",
+      "size": 19924
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Completed_Audit_Report.docx",
+      "size": 13401
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-full-universal-evaluation-v9 result",
+      "size": 78833
+    }
+  ],
+  "chakra_zips": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4.zip",
+      "size": 67947380354
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\anti_fabrication_toolkit_v3_hardened.zip",
+      "size": 15468
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakra_transformer_best.zip",
+      "size": 1236836719
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\anti_fabrication_toolkit.zip",
+      "size": 11037
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\anti_fabrication_toolkit_cloud_ready.zip",
+      "size": 34251
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\chakramodel_data_scripts.zip",
+      "size": 240662934
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Evaluation_Datasets.zip",
+      "size": 99339812
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Kaggle_Code.zip",
+      "size": 114482
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Kaggle_Verification.zip",
+      "size": 127032400
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\chakramodel_weights_PRIVATE.zip",
+      "size": 2516940586
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\CVC_ClinicVideoDB_Kaggle.zip",
+      "size": 13648757889
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\chakranet_results\\chakranet_results.zip",
+      "size": 49
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\model_output_extracted\\model_output.zip",
+      "size": 49
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\output_extracted\\output.zip",
+      "size": 49
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\crossvali (1)result.zip",
+      "size": 989
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\anti_fabrication_toolkit_v6_hardened.zip",
+      "size": 33347
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combocldoutput7-8.zip",
+      "size": 1312743534
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\finalmuruga-harae.zip",
+      "size": 1155170464
+    }
+  ],
+  "other_zips": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fullrun_result.zip",
+      "size": 329125306
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\results (1).zip",
+      "size": 11268370212
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\results.zip",
+      "size": 1306269332
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\output.zip",
+      "size": 369487407
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\resultscomaprision successful.zip",
+      "size": 1414562515
+    }
+  ],
+  "other_notebooks": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (7).ipynb",
+      "size": 134331
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Run_Complete.ipynb",
+      "size": 124833
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (6).ipynb",
+      "size": 121867
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (5).ipynb",
+      "size": 121569
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (4).ipynb",
+      "size": 118007
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal_fixed_v3.ipynb",
+      "size": 122826
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (3).ipynb",
+      "size": 119808
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal_fixed_v2.ipynb",
+      "size": 123031
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (2).ipynb",
+      "size": 131089
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal (1).ipynb",
+      "size": 130232
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal_fixed.ipynb",
+      "size": 134800
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\muruga-perumal.ipynb",
+      "size": 130962
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0_v5_diagnostic_fixed.ipynb",
+      "size": 135258
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0 (4).ipynb",
+      "size": 135997
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0_v4_fully_fixed.ipynb",
+      "size": 65732
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0 (3).ipynb",
+      "size": 101580
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0 (2).ipynb",
+      "size": 101766
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0_fixed.ipynb",
+      "size": 50736
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0 (1).ipynb",
+      "size": 46549
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook75ecf07fa0.ipynb",
+      "size": 43342
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\verification4.ipynb",
+      "size": 97188
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\verification.ipynb",
+      "size": 22225
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\om-nama-shivaya-4.ipynb",
+      "size": 13630
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\video-testing-omnamashivaya.ipynb",
+      "size": 13630
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\videotestinssuccess1.ipynb",
+      "size": 45398
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Colab_GPU_Fast_Verify.ipynb",
+      "size": 8042
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\finalrun.ipynb",
+      "size": 27908
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\TESTING,COLLAB.ipynb",
+      "size": 7688
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingwith-videodataset (1).ipynb",
+      "size": 26373
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingwith-videodataset.ipynb",
+      "size": 23940
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka0aa0402d8 (5).ipynb",
+      "size": 37172
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka0aa0402d8 (4).ipynb",
+      "size": 34740
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka0aa0402d8 (3).ipynb",
+      "size": 81308
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka0aa0402d8 (2).ipynb",
+      "size": 24360
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka0aa0402d8 (1).ipynb",
+      "size": 17478
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka0aa0402d8.ipynb",
+      "size": 18504
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingnamashivaya (2).ipynb",
+      "size": 20525
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingnamashivaya (1)11.ipynb",
+      "size": 19220
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingnamashivaya (1).ipynb",
+      "size": 22955
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingnamashivaya.ipynb",
+      "size": 4198
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingproof1 (1).ipynb",
+      "size": 46688
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingproof1.ipynb",
+      "size": 96616
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\testingprrof1.ipynb",
+      "size": 97719
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookfd25f4979c (3).ipynb",
+      "size": 7451
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookfd25f4979c (2).ipynb",
+      "size": 7384
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookfd25f4979c (1).ipynb",
+      "size": 6022
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookfd25f4979c.ipynb",
+      "size": 4511
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook369b284972 (1).ipynb",
+      "size": 6462
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebook369b284972.ipynb",
+      "size": 4711
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookdb35b5b3e0 (1).ipynb",
+      "size": 35720
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookdb35b5b3e0.ipynb",
+      "size": 14952
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb",
+      "size": 98687
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooks_colab_train.ipynb",
+      "size": 783
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1 (5).ipynb",
+      "size": 32422
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1 (6).ipynb",
+      "size": 35402
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1 (4).ipynb",
+      "size": 9665
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1 (3).ipynb",
+      "size": 10214
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1 (2).ipynb",
+      "size": 39736
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1 (1).ipynb",
+      "size": 28430
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb7c036bec1.ipynb",
+      "size": 2855
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\altered-om.ipynb",
+      "size": 1578655
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\KRISHNA_OM_$.ipynb",
+      "size": 29458
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka59636e6bb.ipynb",
+      "size": 23405
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb6c3100a14 (2).ipynb",
+      "size": 29074
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb6c3100a14 (1).ipynb",
+      "size": 25571
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb6c3100a14.ipynb",
+      "size": 26933
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookebd2f4d761.ipynb",
+      "size": 6498
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookc9786661c0.ipynb",
+      "size": 16463
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookc9786661c0 (1).ipynb",
+      "size": 25578
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookc9786661c0 (2).ipynb",
+      "size": 41146
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookc9786661c0 (3).ipynb",
+      "size": 81517
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\whatsinside.ipynb",
+      "size": 25529
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookaa941ac027.ipynb",
+      "size": 25529
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookc9786661c0 (4).ipynb",
+      "size": 18808
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-notebookc9786661c0.ipynb",
+      "size": 12378
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-notebookc9786661c0 (1).ipynb",
+      "size": 17416
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\finalrun-om-4-6.ipynb",
+      "size": 15578
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\finalrun-om-4-6 (1).ipynb",
+      "size": 16428
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\prrof-4.ipynb",
+      "size": 25528
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-prrof-4.ipynb",
+      "size": 32242
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-prrof-4 (1).ipynb",
+      "size": 35978
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\prrof-4 (1).ipynb",
+      "size": 10744
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\prrof-4 (2).ipynb",
+      "size": 10741
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-prrof-4-265394.ipynb",
+      "size": 13921
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-prrof-4-265394 (1).ipynb",
+      "size": 13921
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\final-by-claude.ipynb",
+      "size": 51164
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\gemini-5video-hardcode.ipynb",
+      "size": 7243
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-fork-of-fork-of-prrof-4-265394.ipynb",
+      "size": 36924
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\final-by-claude resultu but sus.ipynb",
+      "size": 1940311
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\final-by-claude resultu but sus (2).ipynb",
+      "size": 1940311
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Copy_of_Colab_GPU_Fast_Verify.ipynb",
+      "size": 7997
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\final-by-claude-om-4.ipynb",
+      "size": 42004
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Colab_GPU_Fast_Verify (1).ipynb",
+      "size": 15898
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\diagonise-dataset.ipynb",
+      "size": 4631802
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v9cllaude-380.ipynb",
+      "size": 46375
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\dirofcurrentdatset10-9.ipynb",
+      "size": 18798592
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\10-09-10pm.ipynb",
+      "size": 8316
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\diagonise-dataset-version2.ipynb",
+      "size": 16791
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\10-09-10pm (1).ipynb",
+      "size": 14403
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\10-09-10pm-6f87e6.ipynb",
+      "size": 20605
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\10-09-10pm (2).ipynb",
+      "size": 8316
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fork-of-10-09-10pm.ipynb",
+      "size": 21773
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\claude final  notebook 11-33-11-09.ipynb",
+      "size": 39002
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\11-41-12-09-2026.ipynb",
+      "size": 41585
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\successfulverification.ipynb",
+      "size": 20421
+    }
+  ],
+  "other_py": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\diagnostic_script_fixed.py",
+      "size": 13290
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\patch_notebook_v6.py",
+      "size": 11538
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\supervised_verification_harness.py",
+      "size": 13384
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\generate_pitch.py",
+      "size": 9900
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\extract.py",
+      "size": 1920
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\extract_data.py",
+      "size": 2682
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\universalkagglaedataset reader.py",
+      "size": 9121
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\fix_notebook.py",
+      "size": 16204
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\extract_outputs.py",
+      "size": 1371
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\autodiscover_evaluation_fixed.py",
+      "size": 14273
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\dump_v8.py",
+      "size": 503
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\build_v10.py",
+      "size": 46476
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\validate_v10.py",
+      "size": 294
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\check_v10.py",
+      "size": 1721
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\transformer_segmenter.py",
+      "size": 4846
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\literature_review.py",
+      "size": 12578
+    }
+  ],
+  "other_docs": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\diagnostic_script.md",
+      "size": 7665
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\universal_prompt.md",
+      "size": 11639
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\6_novel_combinations.md",
+      "size": 9686
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\professor_responses_list.md",
+      "size": 4119
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\whtermarkSKILL.md",
+      "size": 15399
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\study_roadmap.md",
+      "size": 5199
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Placement training notes.txt",
+      "size": 10229
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\bmad_model_guide.md",
+      "size": 27051
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\implementation_plan rajapalayam.md",
+      "size": 4496
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\implementation_plan.md",
+      "size": 2657
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\slides_structure.txt",
+      "size": 19091
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\KAGGLE_SETUP_GUIDE.md",
+      "size": 3666
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\implementation_plan based on cross valisdation.md",
+      "size": 3799
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\implementation_plan based on cross valisdation(revised).md",
+      "size": 7857
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\mentor_documentation_report.md",
+      "size": 6171
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\mentor_documentation_report(2).md",
+      "size": 6171
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\KAGGLE_DATASET_DECODING_REPORT.md",
+      "size": 58961
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\kaggle_dataset_descriptions.md",
+      "size": 3022
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\dataset_map_dump.txt",
+      "size": 8253
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\recentrun_peek.txt",
+      "size": 2025
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\run_outputs.txt",
+      "size": 18820
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\autodiscover_dump.txt",
+      "size": 14606
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v8_sources.txt",
+      "size": 26712
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\directory_tree.txt",
+      "size": 6901628
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ARCHITECTURE_DEEP_DIVE.md",
+      "size": 48360
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\parameter_mapping.txt",
+      "size": 25903
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\download.txt",
+      "size": 2551
+    }
+  ],
+  "other_pdf": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\AI Agent Tool Restriction Research.pdf",
+      "size": 231386
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Mitigating LLM Rule-Drift & Hallucinations via Least Privilege.pdf",
+      "size": 43390
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Kaggle_Dataset_Upload_Guide.pdf",
+      "size": 6975
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\hackathon_pitch_deck_template.pdf",
+      "size": 222600
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\rajapalayam hackathon.pdf",
+      "size": 259143
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Antigravity Generic Prompt Structure.pdf",
+      "size": 227599
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Master_Video_Learning_Series.pdf",
+      "size": 12694
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\BME_to_Medical_ML_Roadmap.pdf",
+      "size": 14102
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Edge_AI_Vision_Study_Roadmap (1).pdf",
+      "size": 15880
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Edge_AI_Vision_Study_Roadmap.pdf",
+      "size": 15880
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Advanced DSA for Competitive Coding.pdf",
+      "size": 261378
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Academic schedule UG - 5th sem.pdf",
+      "size": 818001
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\AWS Authorization Letter India.pdf",
+      "size": 139631
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\FINAL.pdf",
+      "size": 2117805
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\AWS CERTIFIED PRACTISIONER.pdf",
+      "size": 94317
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Download Colonoscopy Research Papers.pdf",
+      "size": 369162
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\finalevelauation summary.pdf",
+      "size": 6724176
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\mid.pdf",
+      "size": 52629486
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Opus.pdf",
+      "size": 355966639
+    }
+  ],
+  "other": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\doublegpufullutilization",
+      "size": 10920
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab.html",
+      "size": 459972
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\analytics.js.download",
+      "size": 52310
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\anchor.html",
+      "size": 55529
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\api(1).js.download",
+      "size": 1824
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\api(2).js.download",
+      "size": 1792
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\api.js.download",
+      "size": 14576
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\bscframe.html",
+      "size": 197
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\bundle.css",
+      "size": 266627
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\cb=gapi(1).loaded_0",
+      "size": 80168
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\cb=gapi.loaded_0",
+      "size": 326543
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\css",
+      "size": 103372
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\css2",
+      "size": 727
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\editor.main.css",
+      "size": 131858
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\editor.main.js.download",
+      "size": 3766663
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\external_binary_es6.js.download",
+      "size": 6099532
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\gapi_loader.js.download",
+      "size": 17405
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\googleapis.proxy.js.download",
+      "size": 14598
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\js_monaco_editor_vs_loader.js.download",
+      "size": 30060
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\lazy.min.js.download",
+      "size": 129194
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\logo_googleg_gradient_color_1x_web_24dp.png",
+      "size": 924
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\m=accountmenuview,_b,_tp",
+      "size": 114126
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\m=hfcr",
+      "size": 10627
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\m=_b,_tp",
+      "size": 224601
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\markdown.js.download",
+      "size": 4628
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\MathJax.js.download",
+      "size": 63566
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\outputframe(1).html",
+      "size": 927
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\outputframe(2).html",
+      "size": 928
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\outputframe.html",
+      "size": 87850
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(1).jpg",
+      "size": 1579
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(2).jpg",
+      "size": 690
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(3).jpg",
+      "size": 687
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(4).jpg",
+      "size": 452
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(5).jpg",
+      "size": 862
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(6).jpg",
+      "size": 1842
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(7).jpg",
+      "size": 687
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo(8).jpg",
+      "size": 1704
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\photo.jpg",
+      "size": 698
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\proxy.html",
+      "size": 813
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\pr_24px_1x_asknjuyerc.png",
+      "size": 700
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\pr_32px_1x_asknjuyerc.png",
+      "size": 1026
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\pr_32px_asknjuyerc.png",
+      "size": 4764
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\pr_56px_1x_asknjuyerc.png",
+      "size": 1529
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\recaptcha__en.js.download",
+      "size": 844493
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\RotateCookiesPage.html",
+      "size": 398
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\rs=AA2YrTuJWwymoLzabh5d8DnMJYz1k9It3Q",
+      "size": 247644
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\rs=AA2YrTvWGogfe9gNdtCZFN4PB5nWDEkvlA",
+      "size": 31044
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\saved_resource(1).html",
+      "size": 149
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\saved_resource(2).html",
+      "size": 149
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\saved_resource.html",
+      "size": 73338
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\socketio_binary.js.download",
+      "size": 67051
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\styles__ltr.css",
+      "size": 82980
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\tier_wave_4d15c88d26ad039061707f8af71fc76d.svg",
+      "size": 1220
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\unnamed(1).jpg",
+      "size": 4589
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Data_Genesis_2026.ipynb - Colab_files\\unnamed.jpg",
+      "size": 1275
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\hackathon_pitch_deck_template.pptx",
+      "size": 69751
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\1st success.mp4",
+      "size": 71095977
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\calude analysis.html",
+      "size": 21435
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\data_genesis_ps_ranking.html",
+      "size": 20600
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\WhatsApp Image 2026-08-20 at 12.42.45 PM.jpeg",
+      "size": 583947
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\jones PS.jpeg",
+      "size": 95739
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\wallpaper.jpg",
+      "size": 86437
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\-full-hd-iron-man-background-photo.webp",
+      "size": 14686
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\yt-dlp.exe",
+      "size": 17840399
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\BABYSHOWER.png",
+      "size": 1950162
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Microsoft.Services.Store.winmd",
+      "size": 5120
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Java Tutorial - Java Full course for Beginners in Tamil \uff5c Error Makes Clever [kGxSyqKbzsc].f399.mp4.part",
+      "size": 262220552
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\my enrosement letter.docx",
+      "size": 10795
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\brave",
+      "size": 60542
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\laptop serian number.jpeg",
+      "size": 117724
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\sample audio.mp3",
+      "size": 733645
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\python-manager-26.3.msix",
+      "size": 47047851
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\image_288b5391.png",
+      "size": 1806078
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\image_d411ee31.png",
+      "size": 1896312
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Claude Setup.exe",
+      "size": 7021216
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\6273 Gokul.jpg.jpeg",
+      "size": 126845
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\AMMA.jpeg",
+      "size": 10925
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\APPA.jpeg",
+      "size": 6614
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Telegram Desktop\\Blast.2026.1080p.10bit.DS4K.NF.WEBRip.Hindi-Tamil.DDP5.1.x26.mkv",
+      "size": 3965451397
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\colonoscopy_60_papers.jsx",
+      "size": 43803
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\proof.jpeg",
+      "size": 152644
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v9cllaude-380 to verify",
+      "size": 46375
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\v9claude-380finalrun",
+      "size": 129213
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\recentrrun 02-39pm 9-9-26",
+      "size": 140397
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\version10results 4-30am-10-9",
+      "size": 128228
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\jayserirun9-926even",
+      "size": 60457
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\varsha_v2_corrected",
+      "size": 22379
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\varsha_v3",
+      "size": 2046683
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\varshav11 patch",
+      "size": 78781
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\find the dir tree",
+      "size": 23834396
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\datasettree",
+      "size": 16791
+    }
+  ],
+  "other_json": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\final_5_datasets_eval comapraion 5 dataset.json",
+      "size": 1098
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\OM_rama_krish_all_data.json",
+      "size": 7092187
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\slides_structure.txt_extracted.json",
+      "size": 20323
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\calude analysis.html_extracted.json",
+      "size": 16703
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb6c3100a14 (1).ipynb_extracted.json",
+      "size": 28834
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\hackathon_pitch_deck_template.pdf_extracted.json",
+      "size": 6495
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\generate_pitch.py_extracted.json",
+      "size": 11053
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\hackathon_pitch_deck_template.pptx_extracted.json",
+      "size": 20396
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb6c3100a14.ipynb_extracted.json",
+      "size": 23265
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\proof.jpeg_extracted.json",
+      "size": 4816
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\implementation_plan rajapalayam.md_extracted.json",
+      "size": 5648
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookebd2f4d761.ipynb_extracted.json",
+      "size": 6383
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Download Colonoscopy Research Papers.pdf_extracted.json",
+      "size": 4924
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\colonoscopy_60_papers.jsx_extracted.json",
+      "size": 49728
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\implementation_plan_extracted.json",
+      "size": 3548
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\KAGGLE_SETUP_GUIDE.md_extracted.json",
+      "size": 4459
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\KRISHNA_OM_$_extracted.json",
+      "size": 4510
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebooka59636e6bb.ipynb_extracted.json",
+      "size": 23534
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\notebookb6c3100a14 (2).ipynb_extracted.json",
+      "size": 28110
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\altered-om.ipynb_extracted.json",
+      "size": 20319
+    }
+  ],
+  "weights": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\best_of_yolo_newapproach3.pt",
+      "size": 6241834
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\best_of_yolo_newapproach2.pt",
+      "size": 6241834
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\best_of_yolo_newapproach.pt",
+      "size": 6241834
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\yolov8x.pt",
+      "size": 136890692
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\best.pt",
+      "size": 6241834
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\chakra_transformer_best.pth",
+      "size": 1236836719
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\combo1_best.pth",
+      "size": 102677499
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\combo2_best.pth",
+      "size": 102677499
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\pranet_kvasir_best.pth",
+      "size": 6191937
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\yolo26n.pt",
+      "size": 5544453
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\yolov8n.pt",
+      "size": 6549796
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\yolo_custom_best.pt",
+      "size": 6241834
+    }
+  ],
+  "other_csv": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\csv for aws.csv",
+      "size": 17261
+    }
+  ],
+  "chakra_json": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\mon_jul_27_2026_previous_research_papers_on_polyp_detection.json",
+      "size": 420016
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakranet_merged.pdf_extracted.json",
+      "size": 391996
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (6).ipynb_extracted.json",
+      "size": 40891
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_presentataion.pptx_extracted.json",
+      "size": 32580
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_16Slide_Pitch.pptx_extracted.json",
+      "size": 12051
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\1st success.mp4_extracted.json",
+      "size": 1871
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_cp_polyp.json",
+      "size": 50604
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_fcbformer.json",
+      "size": 4312
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_1.json",
+      "size": 26258
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_1_utf8.json",
+      "size": 13131
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_2.json",
+      "size": 56408
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_2_utf8.json",
+      "size": 28206
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_3.json",
+      "size": 65276
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_3_utf8.json",
+      "size": 32640
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_4.json",
+      "size": 66844
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_search_4_utf8.json",
+      "size": 33424
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_sota.json",
+      "size": 653180
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\arxiv_test.json",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ar_q1.json",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ar_q2.json",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\cascade_epmc.json",
+      "size": 101241
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Final_Pitch.pptx_extracted.json",
+      "size": 6199
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Pitch_Deck (1).pptx_extracted.json",
+      "size": 3893
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\chakranet_merged.pdf_extracted.json",
+      "size": 11916
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\conversation_summaries.json",
+      "size": 241800
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\conversation_history\\HISTORY.JSON",
+      "size": 12827504
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\frontend\\.oxlintrc.json",
+      "size": 231
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\frontend\\package.json",
+      "size": 459
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_outputs\\__huggingface_repos__.json",
+      "size": 189
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\New folder\\hooks.json",
+      "size": 222
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\outputs\\cycle1_generator_audit.json",
+      "size": 8298
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\results\\combo1_metrics.json",
+      "size": 2451
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\results\\final_5_datasets_eval.json",
+      "size": 1145
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\adversarial_results.json",
+      "size": 15883
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\deep_audit_results.json",
+      "size": 11783
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\verification_verdicts\\cvc-300_Dice_1788673927.json",
+      "size": 1084
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\verification_verdicts\\cvc-300_Dice_1788674012.json",
+      "size": 758
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\verification_verdicts\\cvc-colondb_Dice_1788674602.json",
+      "size": 905
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\weights\\conformal_calibration.json",
+      "size": 130
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\_bmad\\temp-answers.json",
+      "size": 196
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Full_Pitch.pptx_extracted.json",
+      "size": 32522
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_SaaS_Pitch_extracted.json",
+      "size": 11769
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing.ipynb_extracted.json",
+      "size": 7648
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (2).ipynb_extracted.json",
+      "size": 7338
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakra_analysis_and_prompt.md_extracted.json",
+      "size": 4596
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (1).ipynb_extracted.json",
+      "size": 7021
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (3).ipynb_extracted.json",
+      "size": 24735
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Kaggle_ChakraTransformer_Conformal_FIXED.ipynb_extracted.json",
+      "size": 17713
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (5).ipynb_extracted.json",
+      "size": 45634
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-evaluation-4.ipynb_extracted.json",
+      "size": 6904
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakramodel-testing (4).ipynb_extracted.json",
+      "size": 41909
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om (1).ipynb_extracted.json",
+      "size": 7441
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om.ipynb_extracted.json",
+      "size": 19303
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\Kaggle_ChakraTransformer_Evaluation_Standalone_FIXED.ipynb_extracted.json",
+      "size": 24234
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakratransformer_COMBO 6 ISSUES.pdf_extracted.json",
+      "size": 402
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om (3).ipynb_extracted.json",
+      "size": 102412
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\combo-6-om (2).ipynb_extracted.json",
+      "size": 101073
+    }
+  ],
+  "chakra_docs": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakra_analysis_and_prompt.md",
+      "size": 4879
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\60_landmark_papers_extracted.md",
+      "size": 19170
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ablation_results.md",
+      "size": 655
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ARCHITECTURE-SPINE.md",
+      "size": 4590
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Final_Paper.md",
+      "size": 25211
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Project_Journey.md",
+      "size": 9838
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\chakramodel_research_gap_analysis.md",
+      "size": 6302
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ChakraModel_Research_Report CLAUDE 2.md",
+      "size": 17802
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\checkpoint_analysis.txt",
+      "size": 3940
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ci-pipeline-progress.md",
+      "size": 1612
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\clinical_translation_discussion.md",
+      "size": 1870
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\colonoscopy_research_papers.md",
+      "size": 2945
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\compare_result.txt",
+      "size": 2993
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\conformal_prediction_report.md",
+      "size": 689
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\cross_dataset_report.md",
+      "size": 457
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\anti_fabrication_toolkit\\SETUP_GUIDE.md",
+      "size": 4232
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\conversation_history\\analysis_summary.md",
+      "size": 32406
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\data\\README.md",
+      "size": 0
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\docs\\sota_models_research.md",
+      "size": 6304
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\docs\\sota_pm_analysis.md",
+      "size": 3948
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\docs\\sota_tech_comparison.md",
+      "size": 7064
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\docs\\vulnerability_audit_report.md",
+      "size": 1147
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\frontend\\README.md",
+      "size": 1009
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_bundle\\cross_dataset_report.md",
+      "size": 457
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_bundle\\README.md",
+      "size": 5689
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\kaggle_bundle\\requirements.txt",
+      "size": 225
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\New folder\\ORIGINAL_REQUEST.md",
+      "size": 1700
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research\\domain-colonoscopy-ai-datasets-samd-research-2026-08-30.md",
+      "size": 15154
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research\\market-colonoscopy-ai-research-2026-08-30.md",
+      "size": 17160
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research\\technical-colonoscopy-ai-architectures-research-2026-08-30.md",
+      "size": 13719
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\research_papers\\README_PAPERS_INDEX.md",
+      "size": 5504
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\benchmark_proof.txt",
+      "size": 9348
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_LAYER_BY_LAYER_GUIDE.md",
+      "size": 71519
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\ChakraModel_Architecture_Explained.md",
+      "size": 33564
+    }
+  ],
+  "chakra_py": [
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\extract_chakramodel_6.py",
+      "size": 1679
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\ablation_engine.py",
+      "size": 1864
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\app.py",
+      "size": 16442
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\append_notebook.py",
+      "size": 3878
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\append_notebook_gdown.py",
+      "size": 2051
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\auto_starter.py",
+      "size": 3072
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\build_final_matrix.py",
+      "size": 11873
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\build_kaggle_zerotrust_nb.py",
+      "size": 6044
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\build_matrix.py",
+      "size": 3564
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\build_matrix_v2.py",
+      "size": 2960
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\bypass_upload.py",
+      "size": 2448
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\cloud_gpu_guide.py",
+      "size": 2022
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\compare_all_notebooks.py",
+      "size": 3707
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\compile_papers.py",
+      "size": 4843
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\conformal_evaluator.py",
+      "size": 4634
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\cost_profiler.py",
+      "size": 2756
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\count_params.py",
+      "size": 1724
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\create_conformal_notebook.py",
+      "size": 16634
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\create_json.py",
+      "size": 5515
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\create_kaggle_zip.py",
+      "size": 9985
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\create_new_nb.py",
+      "size": 2043
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\create_pdf.py",
+      "size": 2021
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\anti_fabrication_toolkit\\verifyai.py",
+      "size": 6453
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\notebooks\\Combo6_ChakraTransformer.py",
+      "size": 39810
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\scratch\\patch_downloaded_nb.py",
+      "size": 3912
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\scratch\\update_nb.py",
+      "size": 2757
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\scripts\\export_to_onnx.py",
+      "size": 4424
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\scripts\\generate_proof_pdf.py",
+      "size": 3488
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\ablation_study.py",
+      "size": 7344
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\app.py",
+      "size": 8846
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\benchmark_cross_dataset.py",
+      "size": 5249
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\benchmark_fps.py",
+      "size": 6368
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\benchmark_kvasir.py",
+      "size": 8412
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\chakranet_segmenter.py",
+      "size": 19770
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\clinical_report.py",
+      "size": 7178
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\conformal_calibration.py",
+      "size": 15941
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\diagnostic_cross_dataset.py",
+      "size": 3250
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\download_cvc.py",
+      "size": 2356
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\download_cvc_colondb.py",
+      "size": 6604
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\download_kvasir.py",
+      "size": 5745
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\download_papers.py",
+      "size": 9266
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\evaluate_all.py",
+      "size": 10255
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\eval_pipeline.py",
+      "size": 6428
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\eval_test.py",
+      "size": 1133
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\export_tensorrt.py",
+      "size": 3493
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\generate_judge_proof.py",
+      "size": 4703
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\generate_paper.py",
+      "size": 4091
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\generate_paper_figures.py",
+      "size": 11948
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\generate_sota_table.py",
+      "size": 7432
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\hardware_monitor.py",
+      "size": 16262
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\hybrid_refine.py",
+      "size": 4302
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\infer_stream.py",
+      "size": 18358
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\kaggle_video_inference.py",
+      "size": 7960
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\monitor_goal.py",
+      "size": 1203
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\paris_classifier.py",
+      "size": 6588
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\pranet_resnet101.py",
+      "size": 6193
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\robustness_study.py",
+      "size": 5937
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\run_all_combos.py",
+      "size": 39900
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\run_infer_eval_profile.py",
+      "size": 1914
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\run_profile.py",
+      "size": 762
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\run_topo_ablation.py",
+      "size": 2858
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\test_videos_batch.py",
+      "size": 2771
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\topo_loss.py",
+      "size": 5432
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\train_pranet.py",
+      "size": 11184
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\train_yolo.py",
+      "size": 1293
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\verify_eval.py",
+      "size": 4648
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\src\\verify_strict.py",
+      "size": 6240
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\check_ast_nodes.py",
+      "size": 2977
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\check_metadata.py",
+      "size": 1761
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\inspect_cells.py",
+      "size": 1238
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\test_deep_adversarial_notebooks.py",
+      "size": 7916
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\test_notebooks_adversarial.py",
+      "size": 13985
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\test_notebook_cell_flow.py",
+      "size": 5639
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\test_statistical_significance.py",
+      "size": 1689
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\CHAKRAMODEL_OM_4\\tests\\test_tracker.py",
+      "size": 7703
+    },
+    {
+      "src": "J",
+      "path": "J:\\My Drive\\downloads\\chakranet_segmenter.py",
+      "size": 23607
+    }
+  ]
+}

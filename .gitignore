@@ -1,0 +1,51 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Model weights (track via DVC or Git LFS instead)
+*.pth
+*.pt
+*.onnx
+*.engine
+*.pkl
+
+# Large data files
+*.mp4
+*.avi
+*.h5
+*.hdf5
+
+# Secrets
+.env
+*.key
+secrets.json
+credentials.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+migration_progress.log
+
+# Archive junk
+*.pyc
+*.bak
+ZZZ_DISCARD*/

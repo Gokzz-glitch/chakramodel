@@ -1,0 +1,146 @@
+{
+  "criterion_1": {
+    "verdict": "PASS",
+    "details": {
+      "exists": true,
+      "size_bytes": 48360,
+      "lines": 621,
+      "mermaid_blocks_count": 3,
+      "mermaid_blocks": [
+        {
+          "start_line": 32,
+          "end_line": 91,
+          "header": "flowchart TD",
+          "subgraphs": 7,
+          "edges": 37,
+          "length_lines": 58
+        },
+        {
+          "start_line": 99,
+          "end_line": 155,
+          "header": "flowchart TD",
+          "subgraphs": 5,
+          "edges": 33,
+          "length_lines": 55
+        },
+        {
+          "start_line": 163,
+          "end_line": 212,
+          "header": "flowchart TD",
+          "subgraphs": 5,
+          "edges": 25,
+          "length_lines": 48
+        }
+      ],
+      "tensor_shapes_count": 112
+    }
+  },
+  "criterion_2": {
+    "verdict": "PASS",
+    "details": {
+      "path": "M:\\chakramodel\\docs\\parameter_mapping.txt",
+      "size_bytes": 25903,
+      "lines": 239,
+      "tensor_shapes_count": 231,
+      "modules_found": {
+        "MODULE 1 (YOLOv8n)": true,
+        "MODULE 2 (ViT-Large)": true,
+        "MODULE 3A (PraNet ResNet-50)": true,
+        "MODULE 3B (PraNet ResNet-101)": true,
+        "Global Summary": true
+      },
+      "param_checks": {
+        "YOLOv8n (3,011,043)": true,
+        "ViT-Large (309,173,737)": true,
+        "PraNet ResNet-50 (25,545,117)": true,
+        "PraNet ResNet-101 (45,671,821)": true
+      }
+    }
+  },
+  "criterion_3": {
+    "verdict": "FAIL",
+    "details": {
+      "git_diff_active": false,
+      "git_diff_output": "",
+      "git_status_output": "",
+      "files_analysis": {
+        "chakranet_segmenter.py": {
+          "exists": true,
+          "path": "M:\\chakramodel\\src\\models\\chakranet_segmenter.py",
+          "total_lines": 514,
+          "comment_lines_count": 30,
+          "code_lines_count": 403,
+          "comment_ratio": 0.07444168734491315,
+          "tag_counts": {
+            "[BODY]": 0,
+            "[NECK]": 0,
+            "[HEAD]": 0,
+            "[DECODER]": 0
+          },
+          "tensor_arrow_comments": 0,
+          "sample_comments": [
+            "# \u2500\u2500 Hardware Monitor: auto-starts as background daemon on first import \u2500\u2500\u2500\u2500\u2500\u2500",
+            "# 240s warmup \u2192 then boost to 3.8 GB",
+            "# Invert the saliency map (Reverse Attention Mechanism)",
+            "# MC Dropout is correctly enabled using model.apply(apply_dropout)",
+            "# which sets all Dropout modules (including timm backbone) to train().",
+            "# Notify monitor to back off GPU fraction by 5%",
+            "# Retry once on CPU fallback to avoid crashing the pipeline",
+            "# Move back to GPU for next call",
+            "# Load weights if available",
+            "# Explicitly skip auto-loading without warning"
+          ]
+        },
+        "transformer_segmenter.py": {
+          "exists": true,
+          "path": "M:\\chakramodel\\src\\chakra_transformer\\transformer_segmenter.py",
+          "total_lines": 112,
+          "comment_lines_count": 26,
+          "code_lines_count": 77,
+          "comment_ratio": 0.33766233766233766,
+          "tag_counts": {
+            "[BODY]": 0,
+            "[NECK]": 0,
+            "[HEAD]": 0,
+            "[DECODER]": 0
+          },
+          "tensor_arrow_comments": 1,
+          "sample_comments": [
+            "# We use timm to fetch a powerful pretrained Vision Transformer backbone",
+            "# In a standard ViT Large, the feature dimension is usually 1024",
+            "# SAM-style Prompt Encoder for YOLO Bounding Boxes",
+            "# Maps a binary spatial mask (1 for inside bbox, 0 outside) into the ViT feature space",
+            "# Simple segmentation head (Progressive upsampling)",
+            "# 384/16 = 24x24 grid.",
+            "# 0",
+            "# 1",
+            "# 2",
+            "# 3"
+          ]
+        },
+        "pranet_resnet101.py": {
+          "exists": true,
+          "path": "M:\\chakramodel\\src\\models\\pranet_resnet101.py",
+          "total_lines": 136,
+          "comment_lines_count": 3,
+          "code_lines_count": 118,
+          "comment_ratio": 0.025423728813559324,
+          "tag_counts": {
+            "[BODY]": 0,
+            "[NECK]": 0,
+            "[HEAD]": 0,
+            "[DECODER]": 0
+          },
+          "tensor_arrow_comments": 0,
+          "sample_comments": [
+            "# All channels are 48 in the checkpoint",
+            "# ppd_conv takes 192 channels -> 48 * 4. This means it concatenated 4 features!",
+            "# Reverse attention operates on 48 channels"
+          ]
+        }
+      },
+      "total_structural_tags_in_src": 0,
+      "unapplied_diff_artifacts_exist": true
+    }
+  }
+}

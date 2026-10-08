@@ -1,0 +1,1115 @@
+{
+  "ChakraModel_Evaluation_Datasets_zip": {
+    "cvc-clinicdb/images": {
+      "images": 495,
+      "masks": 0,
+      "others": 0,
+      "files": [
+        "0000.png",
+        "0001.png",
+        "0002.png",
+        "0003.png",
+        "0004.png"
+      ]
+    },
+    "cvc-clinicdb/masks": {
+      "images": 0,
+      "masks": 495,
+      "others": 0,
+      "files": [
+        "0000.png",
+        "0001.png",
+        "0002.png",
+        "0003.png",
+        "0004.png"
+      ]
+    },
+    "etis-larib/images": {
+      "images": 5,
+      "masks": 0,
+      "others": 0,
+      "files": [
+        "synth_0.png",
+        "synth_1.png",
+        "synth_2.png",
+        "synth_3.png",
+        "synth_4.png"
+      ]
+    },
+    "etis-larib/masks": {
+      "images": 0,
+      "masks": 5,
+      "others": 0,
+      "files": [
+        "synth_0.png",
+        "synth_1.png",
+        "synth_2.png",
+        "synth_3.png",
+        "synth_4.png"
+      ]
+    },
+    "kvasir-seg/images": {
+      "images": 1000,
+      "masks": 0,
+      "others": 0,
+      "files": [
+        "cju0qkwl35piu0993l0dewei2.jpg",
+        "cju0qoxqj9q6s0835b43399p4.jpg",
+        "cju0qx73cjw570799j4n5cjze.jpg",
+        "cju0roawvklrq0799vmjorwfv.jpg",
+        "cju0rx1idathl0835detmsp84.jpg"
+      ]
+    },
+    "kvasir-seg/masks": {
+      "images": 0,
+      "masks": 1000,
+      "others": 0,
+      "files": [
+        "cju0qkwl35piu0993l0dewei2.jpg",
+        "cju0qoxqj9q6s0835b43399p4.jpg",
+        "cju0qx73cjw570799j4n5cjze.jpg",
+        "cju0roawvklrq0799vmjorwfv.jpg",
+        "cju0rx1idathl0835detmsp84.jpg"
+      ]
+    }
+  },
+  "Kaggle_Datasets_Upload_dir": {
+    "cvc-clinicdb/images": {
+      "images": 495,
+      "masks": 0,
+      "others": 0,
+      "files": [
+        "0000.png",
+        "0001.png",
+        "0002.png",
+        "0003.png",
+        "0004.png"
+      ]
+    },
+    "cvc-clinicdb/masks": {
+      "images": 0,
+      "masks": 495,
+      "others": 0,
+      "files": [
+        "0000.png",
+        "0001.png",
+        "0002.png",
+        "0003.png",
+        "0004.png"
+      ]
+    },
+    "etis-larib/images": {
+      "images": 5,
+      "masks": 0,
+      "others": 0,
+      "files": [
+        "synth_0.png",
+        "synth_1.png",
+        "synth_2.png",
+        "synth_3.png",
+        "synth_4.png"
+      ]
+    },
+    "etis-larib/masks": {
+      "images": 0,
+      "masks": 5,
+      "others": 0,
+      "files": [
+        "synth_0.png",
+        "synth_1.png",
+        "synth_2.png",
+        "synth_3.png",
+        "synth_4.png"
+      ]
+    },
+    "kvasir-seg/images": {
+      "images": 1000,
+      "masks": 0,
+      "others": 0,
+      "files": [
+        "cju0qkwl35piu0993l0dewei2.jpg",
+        "cju0qoxqj9q6s0835b43399p4.jpg",
+        "cju0qx73cjw570799j4n5cjze.jpg",
+        "cju0roawvklrq0799vmjorwfv.jpg",
+        "cju0rx1idathl0835detmsp84.jpg"
+      ]
+    },
+    "kvasir-seg/masks": {
+      "images": 0,
+      "masks": 1000,
+      "others": 0,
+      "files": [
+        "cju0qkwl35piu0993l0dewei2.jpg",
+        "cju0qoxqj9q6s0835b43399p4.jpg",
+        "cju0qx73cjw570799j4n5cjze.jpg",
+        "cju0roawvklrq0799vmjorwfv.jpg",
+        "cju0rx1idathl0835detmsp84.jpg"
+      ]
+    }
+  },
+  "weights_archives": {
+    "chakramodel-weights.zip": [
+      {
+        "filename": "best.pt",
+        "size_bytes": 6209450,
+        "size_mb": 5.92
+      },
+      {
+        "filename": "chakra_transformer_best.pth",
+        "size_bytes": 1236836719,
+        "size_mb": 1179.54
+      },
+      {
+        "filename": "conformal_calibration.json",
+        "size_bytes": 130,
+        "size_mb": 0.0
+      }
+    ],
+    "chakramodel_weights_PRIVATE.zip": [
+      {
+        "filename": "weights/best.pt",
+        "size_bytes": 6241834,
+        "size_mb": 5.95
+      },
+      {
+        "filename": "weights/chakra_transformer_best.pth",
+        "size_bytes": 1236836719,
+        "size_mb": 1179.54
+      },
+      {
+        "filename": "weights/chakra_transformer_best.pth.bak",
+        "size_bytes": 1236830575,
+        "size_mb": 1179.53
+      },
+      {
+        "filename": "weights/combo1_best.pth",
+        "size_bytes": 102677499,
+        "size_mb": 97.92
+      },
+      {
+        "filename": "weights/combo2_best.pth",
+        "size_bytes": 102677499,
+        "size_mb": 97.92
+      },
+      {
+        "filename": "weights/conformal_calibration.json",
+        "size_bytes": 130,
+        "size_mb": 0.0
+      },
+      {
+        "filename": "weights/pranet_kvasir_best.pth",
+        "size_bytes": 6191937,
+        "size_mb": 5.91
+      },
+      {
+        "filename": "weights/yolo26n.pt",
+        "size_bytes": 5544453,
+        "size_mb": 5.29
+      },
+      {
+        "filename": "weights/yolov8n.pt",
+        "size_bytes": 6549796,
+        "size_mb": 6.25
+      },
+      {
+        "filename": "weights/yolo_custom_best.pt",
+        "size_bytes": 6241834,
+        "size_mb": 5.95
+      }
+    ]
+  },
+  "chakramodel_data_scripts_zip": {
+    "data/cvc-300/images": {
+      "count": 60,
+      "files": [
+        "synthetic_0000.png",
+        "synthetic_0001.png",
+        "synthetic_0002.png",
+        "synthetic_0003.png",
+        "synthetic_0004.png",
+        "synthetic_0005.png"
+      ]
+    },
+    "data/cvc-300/masks": {
+      "count": 60,
+      "files": [
+        "synthetic_0000.png",
+        "synthetic_0001.png",
+        "synthetic_0002.png",
+        "synthetic_0003.png",
+        "synthetic_0004.png",
+        "synthetic_0005.png"
+      ]
+    },
+    "data/cvc-colondb/images": {
+      "count": 380,
+      "files": [
+        "synthetic_0000.png",
+        "synthetic_0001.png",
+        "synthetic_0002.png",
+        "synthetic_0003.png",
+        "synthetic_0004.png",
+        "synthetic_0005.png"
+      ]
+    },
+    "data/cvc-colondb/masks": {
+      "count": 380,
+      "files": [
+        "synthetic_0000.png",
+        "synthetic_0001.png",
+        "synthetic_0002.png",
+        "synthetic_0003.png",
+        "synthetic_0004.png",
+        "synthetic_0005.png"
+      ]
+    },
+    "src": {
+      "count": 42,
+      "files": [
+        "ablation_study.py",
+        "app.py",
+        "benchmark_cross_dataset.py",
+        "benchmark_fps.py",
+        "benchmark_kvasir.py",
+        "benchmark_proof.txt"
+      ]
+    },
+    "src/chakra_transformer": {
+      "count": 4,
+      "files": [
+        "README.md",
+        "train_transformer.py",
+        "transformer_segmenter.bak",
+        "transformer_segmenter.py"
+      ]
+    },
+    "src/chakra_transformer/__pycache__": {
+      "count": 2,
+      "files": [
+        "train_transformer.cpython-311.pyc",
+        "transformer_segmenter.cpython-311.pyc"
+      ]
+    },
+    "src/metrics": {
+      "count": 3,
+      "files": [
+        "ars.py",
+        "seg_metrics.py",
+        "tcs.py"
+      ]
+    },
+    "src/metrics/__pycache__": {
+      "count": 5,
+      "files": [
+        "ars.cpython-311.pyc",
+        "ars.cpython-314.pyc",
+        "seg_metrics.cpython-311.pyc",
+        "tcs.cpython-311.pyc",
+        "tcs.cpython-314.pyc"
+      ]
+    },
+    "src/temporal": {
+      "count": 3,
+      "files": [
+        "persistence.py",
+        "persistence_filter.py",
+        "tracker.py"
+      ]
+    },
+    "src/temporal/__pycache__": {
+      "count": 3,
+      "files": [
+        "persistence.cpython-311.pyc",
+        "persistence.cpython-314.pyc",
+        "tracker.cpython-311.pyc"
+      ]
+    },
+    "src/utils": {
+      "count": 3,
+      "files": [
+        "mask_to_bbox.py",
+        "prep_yolo.py",
+        "transforms.py"
+      ]
+    },
+    "src/utils/__pycache__": {
+      "count": 2,
+      "files": [
+        "mask_to_bbox.cpython-311.pyc",
+        "transforms.cpython-311.pyc"
+      ]
+    },
+    "src/vst_fp": {
+      "count": 6,
+      "files": [
+        "evidential_layer.py",
+        "pipeline.py",
+        "sam2_integration.py",
+        "temporal_proposer.py",
+        "topological_verifier.py",
+        "__init__.py"
+      ]
+    },
+    "src/vst_fp/__pycache__": {
+      "count": 6,
+      "files": [
+        "evidential_layer.cpython-311.pyc",
+        "pipeline.cpython-311.pyc",
+        "sam2_integration.cpython-311.pyc",
+        "temporal_proposer.cpython-311.pyc",
+        "topological_verifier.cpython-311.pyc",
+        "__init__.cpython-311.pyc"
+      ]
+    },
+    "src/__pycache__": {
+      "count": 20,
+      "files": [
+        "app.cpython-311.pyc",
+        "chakranet_segmenter.cpython-311.pyc",
+        "clinical_report.cpython-311.pyc",
+        "conformal_calibration.cpython-311.pyc",
+        "evaluate_all.cpython-311.pyc",
+        "eval_pipeline.cpython-314.pyc"
+      ]
+    }
+  },
+  "CVC_SampleVideo_zip": [
+    {
+      "filename": "1_1.mp4",
+      "size_bytes": 34817214,
+      "size_mb": 33.2
+    }
+  ],
+  "kaggle_bundles": {
+    "kaggle_bundle for testing.zip": {
+      "kaggle_bundle/notebooks": {
+        "count": 5,
+        "files": [
+          "ChakraModel_Kaggle_Evaluation.ipynb",
+          "colab_train.ipynb",
+          "Combo1_ChakraNet_Focal.ipynb",
+          "Combo6_ChakraTransformer.ipynb",
+          "Combo6_ChakraTransformer.py"
+        ]
+      },
+      "kaggle_bundle/notebooks/data/filtered_synthetic_polyps/images": {
+        "count": 300,
+        "files": [
+          "synth_0000.png",
+          "synth_0001.png",
+          "synth_0002.png",
+          "synth_0003.png",
+          "synth_0004.png"
+        ]
+      },
+      "kaggle_bundle/notebooks/data/filtered_synthetic_polyps/masks": {
+        "count": 300,
+        "files": [
+          "synth_0000.png",
+          "synth_0001.png",
+          "synth_0002.png",
+          "synth_0003.png",
+          "synth_0004.png"
+        ]
+      },
+      "kaggle_bundle/notebooks/data/kvasir-seg/images": {
+        "count": 1000,
+        "files": [
+          "cju0qkwl35piu0993l0dewei2.jpg",
+          "cju0qoxqj9q6s0835b43399p4.jpg",
+          "cju0qx73cjw570799j4n5cjze.jpg",
+          "cju0roawvklrq0799vmjorwfv.jpg",
+          "cju0rx1idathl0835detmsp84.jpg"
+        ]
+      },
+      "kaggle_bundle/notebooks/data/kvasir-seg/masks": {
+        "count": 1000,
+        "files": [
+          "cju0qkwl35piu0993l0dewei2.jpg",
+          "cju0qoxqj9q6s0835b43399p4.jpg",
+          "cju0qx73cjw570799j4n5cjze.jpg",
+          "cju0roawvklrq0799vmjorwfv.jpg",
+          "cju0rx1idathl0835detmsp84.jpg"
+        ]
+      },
+      "kaggle_bundle/notebooks/data/synthetic_polyps/images": {
+        "count": 300,
+        "files": [
+          "synth_0000.png",
+          "synth_0001.png",
+          "synth_0002.png",
+          "synth_0003.png",
+          "synth_0004.png"
+        ]
+      },
+      "kaggle_bundle/notebooks/data/synthetic_polyps/masks": {
+        "count": 300,
+        "files": [
+          "synth_0000.png",
+          "synth_0001.png",
+          "synth_0002.png",
+          "synth_0003.png",
+          "synth_0004.png"
+        ]
+      },
+      "kaggle_bundle/notebooks/deprecated": {
+        "count": 7,
+        "files": [
+          "Combo2_Topo_ChakraNet.ipynb",
+          "Combo3_AdaBN_ChakraNet.ipynb",
+          "Combo4_DiffusionAug_ChakraNet.ipynb",
+          "Combo4_DiffusionAug_ChakraNet.py",
+          "combo4_diffusion_aug_kaggle.py"
+        ]
+      },
+      "kaggle_bundle": {
+        "count": 3,
+        "files": [
+          "README.md",
+          "requirements.txt",
+          "test_input.mp4"
+        ]
+      },
+      "kaggle_bundle/src": {
+        "count": 28,
+        "files": [
+          "app.py",
+          "benchmark_cross_dataset.py",
+          "benchmark_fps.py",
+          "benchmark_kvasir.py",
+          "clinical_report.py"
+        ]
+      },
+      "kaggle_bundle/src/chakra_transformer": {
+        "count": 3,
+        "files": [
+          "README.md",
+          "train_transformer.py",
+          "transformer_segmenter.py"
+        ]
+      },
+      "kaggle_bundle/src/chakra_transformer/__pycache__": {
+        "count": 2,
+        "files": [
+          "train_transformer.cpython-311.pyc",
+          "transformer_segmenter.cpython-311.pyc"
+        ]
+      },
+      "kaggle_bundle/src/metrics": {
+        "count": 3,
+        "files": [
+          "ars.py",
+          "seg_metrics.py",
+          "tcs.py"
+        ]
+      },
+      "kaggle_bundle/src/metrics/__pycache__": {
+        "count": 5,
+        "files": [
+          "ars.cpython-311.pyc",
+          "ars.cpython-314.pyc",
+          "seg_metrics.cpython-311.pyc",
+          "tcs.cpython-311.pyc",
+          "tcs.cpython-314.pyc"
+        ]
+      },
+      "kaggle_bundle/src/temporal": {
+        "count": 3,
+        "files": [
+          "persistence.py",
+          "persistence_filter.py",
+          "tracker.py"
+        ]
+      },
+      "kaggle_bundle/src/temporal/__pycache__": {
+        "count": 3,
+        "files": [
+          "persistence.cpython-311.pyc",
+          "persistence.cpython-314.pyc",
+          "tracker.cpython-311.pyc"
+        ]
+      },
+      "kaggle_bundle/src/utils": {
+        "count": 2,
+        "files": [
+          "mask_to_bbox.py",
+          "prep_yolo.py"
+        ]
+      },
+      "kaggle_bundle/src/vst_fp": {
+        "count": 6,
+        "files": [
+          "evidential_layer.py",
+          "pipeline.py",
+          "sam2_integration.py",
+          "temporal_proposer.py",
+          "topological_verifier.py"
+        ]
+      },
+      "kaggle_bundle/src/vst_fp/__pycache__": {
+        "count": 6,
+        "files": [
+          "evidential_layer.cpython-311.pyc",
+          "pipeline.cpython-311.pyc",
+          "sam2_integration.cpython-311.pyc",
+          "temporal_proposer.cpython-311.pyc",
+          "topological_verifier.cpython-311.pyc"
+        ]
+      },
+      "kaggle_bundle/src/__pycache__": {
+        "count": 12,
+        "files": [
+          "app.cpython-311.pyc",
+          "clinical_report.cpython-311.pyc",
+          "eval_pipeline.cpython-314.pyc",
+          "hybrid_refine.cpython-311.pyc",
+          "hybrid_refine.cpython-314.pyc"
+        ]
+      },
+      "kaggle_bundle/weights": {
+        "count": 2,
+        "files": [
+          "best.pt",
+          "pranet_kvasir_best.pth"
+        ]
+      }
+    },
+    "kaggle_upload.zip": {
+      "root": {
+        "count": 1,
+        "files": [
+          "Kaggle_ChakraTransformer_Evaluation.ipynb"
+        ]
+      },
+      "src": {
+        "count": 35,
+        "files": [
+          "ablation_study.py",
+          "app.py",
+          "benchmark_cross_dataset.py",
+          "benchmark_fps.py",
+          "benchmark_kvasir.py"
+        ]
+      },
+      "src/chakra_transformer": {
+        "count": 3,
+        "files": [
+          "README.md",
+          "train_transformer.py",
+          "transformer_segmenter.py"
+        ]
+      },
+      "src/chakra_transformer/__pycache__": {
+        "count": 2,
+        "files": [
+          "train_transformer.cpython-311.pyc",
+          "transformer_segmenter.cpython-311.pyc"
+        ]
+      },
+      "src/metrics": {
+        "count": 3,
+        "files": [
+          "ars.py",
+          "seg_metrics.py",
+          "tcs.py"
+        ]
+      },
+      "src/metrics/__pycache__": {
+        "count": 5,
+        "files": [
+          "ars.cpython-311.pyc",
+          "ars.cpython-314.pyc",
+          "seg_metrics.cpython-311.pyc",
+          "tcs.cpython-311.pyc",
+          "tcs.cpython-314.pyc"
+        ]
+      },
+      "src/temporal": {
+        "count": 3,
+        "files": [
+          "persistence.py",
+          "persistence_filter.py",
+          "tracker.py"
+        ]
+      },
+      "src/temporal/__pycache__": {
+        "count": 3,
+        "files": [
+          "persistence.cpython-311.pyc",
+          "persistence.cpython-314.pyc",
+          "tracker.cpython-311.pyc"
+        ]
+      },
+      "src/utils": {
+        "count": 3,
+        "files": [
+          "mask_to_bbox.py",
+          "prep_yolo.py",
+          "transforms.py"
+        ]
+      },
+      "src/utils/__pycache__": {
+        "count": 2,
+        "files": [
+          "mask_to_bbox.cpython-311.pyc",
+          "transforms.cpython-311.pyc"
+        ]
+      },
+      "src/vst_fp": {
+        "count": 6,
+        "files": [
+          "evidential_layer.py",
+          "pipeline.py",
+          "sam2_integration.py",
+          "temporal_proposer.py",
+          "topological_verifier.py"
+        ]
+      },
+      "src/vst_fp/__pycache__": {
+        "count": 6,
+        "files": [
+          "evidential_layer.cpython-311.pyc",
+          "pipeline.cpython-311.pyc",
+          "sam2_integration.cpython-311.pyc",
+          "temporal_proposer.cpython-311.pyc",
+          "topological_verifier.cpython-311.pyc"
+        ]
+      },
+      "src/__pycache__": {
+        "count": 20,
+        "files": [
+          "app.cpython-311.pyc",
+          "chakranet_segmenter.cpython-311.pyc",
+          "clinical_report.cpython-311.pyc",
+          "conformal_calibration.cpython-311.pyc",
+          "evaluate_all.cpython-311.pyc"
+        ]
+      },
+      "weights": {
+        "count": 2,
+        "files": [
+          "best.pt",
+          "chakra_transformer_best.pth"
+        ]
+      }
+    }
+  },
+  "yolo_dirs": {
+    "dataset_yolo": {
+      "tree": {
+        ".": {
+          "count": 1,
+          "files": [
+            "dataset.yaml"
+          ]
+        },
+        "images/test": {
+          "count": 1442,
+          "files": [
+            "negative_seq23_seq23_neg_0046.jpg",
+            "negative_seq23_seq23_neg_0047.jpg",
+            "negative_seq23_seq23_neg_0048.jpg",
+            "negative_seq23_seq23_neg_0049.jpg",
+            "negative_seq23_seq23_neg_005.jpg"
+          ]
+        },
+        "images/train": {
+          "count": 5047,
+          "files": [
+            "bubbles-occlusion_000def01-69c7-4bab-a06c-8aee2b233b57.jpg",
+            "bubbles-occlusion_002b8801-99f5-4e6b-ac0a-84995cb76fd5.jpg",
+            "bubbles-occlusion_0051f048-7d3c-4e25-9f26-59ae0be54270.jpg",
+            "bubbles-occlusion_008e1662-b790-4eb9-b994-0c2563fe8d5a.jpg",
+            "bubbles-occlusion_00d37536-e0a0-4a19-ac89-d9658d7f821c.jpg"
+          ]
+        },
+        "images/val": {
+          "count": 721,
+          "files": [
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_623.jpg",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_625.jpg",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_626.jpg",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_633.jpg",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_634.jpg"
+          ]
+        },
+        "labels": {
+          "count": 2,
+          "files": [
+            "train.cache",
+            "val.cache"
+          ]
+        },
+        "labels/test": {
+          "count": 1442,
+          "files": [
+            "negative_seq23_seq23_neg_0046.txt",
+            "negative_seq23_seq23_neg_0047.txt",
+            "negative_seq23_seq23_neg_0048.txt",
+            "negative_seq23_seq23_neg_0049.txt",
+            "negative_seq23_seq23_neg_005.txt"
+          ]
+        },
+        "labels/train": {
+          "count": 5047,
+          "files": [
+            "bubbles-occlusion_000def01-69c7-4bab-a06c-8aee2b233b57.txt",
+            "bubbles-occlusion_002b8801-99f5-4e6b-ac0a-84995cb76fd5.txt",
+            "bubbles-occlusion_0051f048-7d3c-4e25-9f26-59ae0be54270.txt",
+            "bubbles-occlusion_008e1662-b790-4eb9-b994-0c2563fe8d5a.txt",
+            "bubbles-occlusion_00d37536-e0a0-4a19-ac89-d9658d7f821c.txt"
+          ]
+        },
+        "labels/val": {
+          "count": 721,
+          "files": [
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_623.txt",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_625.txt",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_626.txt",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_633.txt",
+            "negative_seq1_EndoCV2021_seq1_neg_49_endocv2021_negative_634.txt"
+          ]
+        }
+      },
+      "yaml": "path: M:\\chakramodel\\dataset_yolo\ntrain: images/train\nval: images/val\ntest: images/test\n\nnames:\n  0: polyp\n"
+    },
+    "dataset_yolo_fixed": {
+      "tree": {
+        ".": {
+          "count": 1,
+          "files": [
+            "dataset.yaml"
+          ]
+        },
+        "images/train": {
+          "count": 700,
+          "files": [
+            "cju0qkwl35piu0993l0dewei2.jpg",
+            "cju0qoxqj9q6s0835b43399p4.jpg",
+            "cju0qx73cjw570799j4n5cjze.jpg",
+            "cju0roawvklrq0799vmjorwfv.jpg",
+            "cju0rx1idathl0835detmsp84.jpg"
+          ]
+        },
+        "labels": {
+          "count": 1,
+          "files": [
+            "train.cache"
+          ]
+        },
+        "labels/train": {
+          "count": 700,
+          "files": [
+            "cju0qkwl35piu0993l0dewei2.txt",
+            "cju0qoxqj9q6s0835b43399p4.txt",
+            "cju0qx73cjw570799j4n5cjze.txt",
+            "cju0roawvklrq0799vmjorwfv.txt",
+            "cju0rx1idathl0835detmsp84.txt"
+          ]
+        }
+      },
+      "yaml": "path: M:\\chakramodel\\dataset_yolo_fixed\ntrain: images/train\nval: images/train\n\nnames:\n  0: polyp"
+    }
+  },
+  "datasets_and_data_subdirs": {
+    "datasets": {
+      "colon_cancer_dataset": {
+        "total_files": 10242,
+        "size_mb": 1429.34,
+        "exts": {
+          ".jpg": 10240,
+          ".json": 1,
+          ".docx": 1
+        },
+        "inner_subdirs_sample": [
+          "bubbles-occlusion",
+          "dyed-lifted-polyps",
+          "fecal",
+          "impacted-stool",
+          "negative",
+          "negative/images",
+          "polyps",
+          "segmented-images",
+          "segmented-images/images",
+          "segmented-images/masks"
+        ],
+        "sample_files": [
+          "bubbles-occlusion/000def01-69c7-4bab-a06c-8aee2b233b57.jpg",
+          "bubbles-occlusion/002b8801-99f5-4e6b-ac0a-84995cb76fd5.jpg",
+          "bubbles-occlusion/0051f048-7d3c-4e25-9f26-59ae0be54270.jpg",
+          "bubbles-occlusion/008e1662-b790-4eb9-b994-0c2563fe8d5a.jpg",
+          "bubbles-occlusion/00d37536-e0a0-4a19-ac89-d9658d7f821c.jpg"
+        ]
+      },
+      "yolo": {
+        "total_files": 2002,
+        "size_mb": 37.96,
+        "exts": {
+          ".yaml": 1,
+          ".jpg": 1000,
+          ".cache": 1,
+          ".txt": 1000
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "images/train",
+          "labels",
+          "labels/train"
+        ],
+        "sample_files": [
+          "./dataset.yaml",
+          "images/train/0004a718-546c-41c2-9c69-c4685093a039.jpg",
+          "images/train/0017b7c7-90f8-4de2-8723-1d87e5c58317.jpg",
+          "images/train/0048d8c5-b59d-461c-9834-f44a727e191d.jpg",
+          "images/train/00f98835-8fd8-43fe-960d-f4a1159c30f1.jpg"
+        ]
+      }
+    },
+    "data": {
+      "colon_cancer_dataset": {
+        "total_files": 17456,
+        "size_mb": 1430.31,
+        "exts": {
+          ".cache": 1,
+          ".yaml": 1,
+          ".txt": 7212,
+          ".jpg": 10240,
+          ".json": 1,
+          ".docx": 1
+        },
+        "inner_subdirs_sample": [
+          "bubbles-occlusion",
+          "dyed-lifted-polyps",
+          "fecal",
+          "impacted-stool",
+          "negative",
+          "negative/images",
+          "polyps",
+          "segmented-images",
+          "segmented-images/images",
+          "segmented-images/masks"
+        ],
+        "sample_files": [
+          "./bubbles-occlusion.cache",
+          "./dataset.yaml",
+          "./train.txt",
+          "./val.txt",
+          "bubbles-occlusion/000def01-69c7-4bab-a06c-8aee2b233b57.jpg"
+        ]
+      },
+      "cvc-300": {
+        "total_files": 16,
+        "size_mb": 4.62,
+        "exts": {
+          ".png": 16
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "images/images",
+          "images/masks",
+          "masks"
+        ],
+        "sample_files": [
+          "images/CANARY_100891e39afc.png",
+          "images/CANARY_1c83461414cf.png",
+          "images/CANARY_a7fbd47bfa04.png",
+          "images/CANARY_cf7ffa47a7d3.png",
+          "images/CANARY_f237a7b98d2d.png"
+        ]
+      },
+      "cvc-clinicdb": {
+        "total_files": 1004,
+        "size_mb": 57.83,
+        "exts": {
+          ".png": 1004
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "images/images",
+          "images/masks",
+          "masks"
+        ],
+        "sample_files": [
+          "images/0000.png",
+          "images/0001.png",
+          "images/0002.png",
+          "images/0003.png",
+          "images/0004.png"
+        ]
+      },
+      "cvc-colondb": {
+        "total_files": 760,
+        "size_mb": 0.1,
+        "exts": {
+          ".png": 760
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "masks"
+        ],
+        "sample_files": [
+          "images/1.png",
+          "images/10.png",
+          "images/100.png",
+          "images/101.png",
+          "images/102.png"
+        ]
+      },
+      "datasets_archive": {
+        "total_files": 2,
+        "size_mb": 1479.94,
+        "exts": {
+          ".zip": 2
+        },
+        "inner_subdirs_sample": [],
+        "sample_files": [
+          "./colon_cancer_dataset.zip",
+          "./CVC-ClinicDB.zip"
+        ]
+      },
+      "etis-larib": {
+        "total_files": 26,
+        "size_mb": 5.13,
+        "exts": {
+          ".png": 26
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "images/images",
+          "images/masks",
+          "masks"
+        ],
+        "sample_files": [
+          "images/synth_0.png",
+          "images/synth_1.png",
+          "images/synth_2.png",
+          "images/synth_3.png",
+          "images/synth_4.png"
+        ]
+      },
+      "filtered_synthetic_polyps": {
+        "total_files": 600,
+        "size_mb": 73.27,
+        "exts": {
+          ".png": 600
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "masks"
+        ],
+        "sample_files": [
+          "images/synth_0000.png",
+          "images/synth_0001.png",
+          "images/synth_0002.png",
+          "images/synth_0003.png",
+          "images/synth_0004.png"
+        ]
+      },
+      "kvasir-seg": {
+        "total_files": 2000,
+        "size_mb": 49.97,
+        "exts": {
+          ".jpg": 2000
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "masks"
+        ],
+        "sample_files": [
+          "images/cju0qkwl35piu0993l0dewei2.jpg",
+          "images/cju0qoxqj9q6s0835b43399p4.jpg",
+          "images/cju0qx73cjw570799j4n5cjze.jpg",
+          "images/cju0roawvklrq0799vmjorwfv.jpg",
+          "images/cju0rx1idathl0835detmsp84.jpg"
+        ]
+      },
+      "leads": {
+        "total_files": 10,
+        "size_mb": 0.43,
+        "exts": {
+          ".csv": 10
+        },
+        "inner_subdirs_sample": [],
+        "sample_files": [
+          "./corporate_leads.csv",
+          "./fully_funded_foreign.csv",
+          "./priority_1_colonoscopy_ai.csv",
+          "./priority_2_endoscopy_ai.csv",
+          "./priority_3_medical_video_ai.csv"
+        ]
+      },
+      "raw_kvasir": {
+        "total_files": 2001,
+        "size_mb": 50.11,
+        "exts": {
+          ".json": 1,
+          ".jpg": 2000
+        },
+        "inner_subdirs_sample": [
+          "Kvasir-SEG",
+          "Kvasir-SEG/images",
+          "Kvasir-SEG/masks"
+        ],
+        "sample_files": [
+          "Kvasir-SEG/kavsir_bboxes.json",
+          "Kvasir-SEG/images/cju0qkwl35piu0993l0dewei2.jpg",
+          "Kvasir-SEG/images/cju0qoxqj9q6s0835b43399p4.jpg",
+          "Kvasir-SEG/images/cju0qx73cjw570799j4n5cjze.jpg",
+          "Kvasir-SEG/images/cju0roawvklrq0799vmjorwfv.jpg"
+        ]
+      },
+      "README.md": {
+        "type": "file",
+        "size_bytes": 0
+      },
+      "research_texts": {
+        "total_files": 2,
+        "size_mb": 0.19,
+        "exts": {
+          ".txt": 2
+        },
+        "inner_subdirs_sample": [],
+        "sample_files": [
+          "./papers_cleaned.txt",
+          "./papers_extracted.txt"
+        ]
+      },
+      "scripts": {
+        "total_files": 12,
+        "size_mb": 0.03,
+        "exts": {
+          ".py": 9,
+          ".pyc": 3
+        },
+        "inner_subdirs_sample": [
+          "__pycache__"
+        ],
+        "sample_files": [
+          "./check_video.py",
+          "./convert_masks_to_yolo.py",
+          "./extract_dataset.py",
+          "./generate_yolo_labels.py",
+          "./prepare_kvasir_cvc.py"
+        ]
+      },
+      "synthetic_polyps": {
+        "total_files": 600,
+        "size_mb": 73.27,
+        "exts": {
+          ".png": 600
+        },
+        "inner_subdirs_sample": [
+          "images",
+          "masks"
+        ],
+        "sample_files": [
+          "images/synth_0000.png",
+          "images/synth_0001.png",
+          "images/synth_0002.png",
+          "images/synth_0003.png",
+          "images/synth_0004.png"
+        ]
+      }
+    }
+  }
+}

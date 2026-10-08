@@ -1,0 +1,310 @@
+{
+  "centers": {
+    "data_C1": {
+      "images_count": 256,
+      "masks_count": 256,
+      "bboxes_count": 256,
+      "bbox_imgs_count": 257,
+      "imgs_minus_masks": 0,
+      "masks_minus_imgs": 0,
+      "imgs_minus_bboxes": 0,
+      "bboxes_minus_imgs": 0,
+      "imgs_minus_bbox_imgs": 0,
+      "bbox_imgs_minus_imgs": 1,
+      "non_std_files": {
+        "data_C1": [
+          ".DS_Store"
+        ]
+      }
+    },
+    "data_C2": {
+      "images_count": 301,
+      "masks_count": 301,
+      "bboxes_count": 301,
+      "bbox_imgs_count": 301,
+      "imgs_minus_masks": 0,
+      "masks_minus_imgs": 0,
+      "imgs_minus_bboxes": 301,
+      "bboxes_minus_imgs": 301,
+      "imgs_minus_bbox_imgs": 301,
+      "bbox_imgs_minus_imgs": 301,
+      "non_std_files": {
+        "data_C2": [
+          ".DS_Store"
+        ]
+      }
+    },
+    "data_C3": {
+      "images_count": 457,
+      "masks_count": 457,
+      "bboxes_count": 393,
+      "bbox_imgs_count": 393,
+      "imgs_minus_masks": 1,
+      "masks_minus_imgs": 1,
+      "imgs_minus_bboxes": 64,
+      "bboxes_minus_imgs": 0,
+      "imgs_minus_bbox_imgs": 457,
+      "bbox_imgs_minus_imgs": 393,
+      "non_std_files": {
+        "data_C3": [
+          ".DS_Store"
+        ]
+      }
+    },
+    "data_C4": {
+      "images_count": 227,
+      "masks_count": 227,
+      "bboxes_count": 227,
+      "bbox_imgs_count": 227,
+      "imgs_minus_masks": 0,
+      "masks_minus_imgs": 0,
+      "imgs_minus_bboxes": 0,
+      "bboxes_minus_imgs": 0,
+      "imgs_minus_bbox_imgs": 0,
+      "bbox_imgs_minus_imgs": 0,
+      "non_std_files": {
+        "data_C4": [
+          ".DS_Store"
+        ]
+      }
+    },
+    "data_C5": {
+      "images_count": 208,
+      "masks_count": 208,
+      "bboxes_count": 208,
+      "bbox_imgs_count": 208,
+      "imgs_minus_masks": 0,
+      "masks_minus_imgs": 0,
+      "imgs_minus_bboxes": 0,
+      "bboxes_minus_imgs": 0,
+      "imgs_minus_bbox_imgs": 0,
+      "bbox_imgs_minus_imgs": 0,
+      "non_std_files": {
+        "data_C5": [
+          ".DS_Store"
+        ]
+      }
+    },
+    "data_C6": {
+      "images_count": 88,
+      "masks_count": 88,
+      "bboxes_count": 88,
+      "bbox_imgs_count": 88,
+      "imgs_minus_masks": 0,
+      "masks_minus_imgs": 0,
+      "imgs_minus_bboxes": 0,
+      "bboxes_minus_imgs": 0,
+      "imgs_minus_bbox_imgs": 0,
+      "bbox_imgs_minus_imgs": 0,
+      "non_std_files": {
+        "data_C6": [
+          ".DS_Store"
+        ]
+      }
+    }
+  },
+  "sequences_positive": {
+    "seq1": {
+      "imgs": 36,
+      "masks_jpg": 36,
+      "masks_txt": 0,
+      "bboxes": 36,
+      "bbox_imgs": 36
+    },
+    "seq2": {
+      "imgs": 63,
+      "masks_jpg": 63,
+      "masks_txt": 63,
+      "bboxes": 63,
+      "bbox_imgs": 63
+    },
+    "seq3": {
+      "imgs": 15,
+      "masks_jpg": 15,
+      "masks_txt": 0,
+      "bboxes": 15,
+      "bbox_imgs": 15
+    },
+    "seq4": {
+      "imgs": 48,
+      "masks_jpg": 48,
+      "masks_txt": 0,
+      "bboxes": 48,
+      "bbox_imgs": 48
+    },
+    "seq5": {
+      "imgs": 250,
+      "masks_jpg": 250,
+      "masks_txt": 0,
+      "bboxes": 250,
+      "bbox_imgs": 250
+    },
+    "seq6": {
+      "imgs": 91,
+      "masks_jpg": 91,
+      "masks_txt": 0,
+      "bboxes": 91,
+      "bbox_imgs": 91
+    },
+    "seq7": {
+      "imgs": 48,
+      "masks_jpg": 48,
+      "masks_txt": 48,
+      "bboxes": 48,
+      "bbox_imgs": 48
+    },
+    "seq8": {
+      "imgs": 73,
+      "masks_jpg": 73,
+      "masks_txt": 73,
+      "bboxes": 73,
+      "bbox_imgs": 73
+    },
+    "seq9": {
+      "imgs": 51,
+      "masks_jpg": 51,
+      "masks_txt": 0,
+      "bboxes": 51,
+      "bbox_imgs": 51
+    },
+    "seq10": {
+      "imgs": 25,
+      "masks_jpg": 25,
+      "masks_txt": 0,
+      "bboxes": 25,
+      "bbox_imgs": 25
+    },
+    "seq11": {
+      "imgs": 228,
+      "masks_jpg": 228,
+      "masks_txt": 0,
+      "bboxes": 228,
+      "bbox_imgs": 228
+    },
+    "seq12": {
+      "imgs": 250,
+      "masks_jpg": 250,
+      "masks_txt": 0,
+      "bboxes": 250,
+      "bbox_imgs": 250
+    },
+    "seq13": {
+      "imgs": 250,
+      "masks_jpg": 250,
+      "masks_txt": 0,
+      "bboxes": 250,
+      "bbox_imgs": 250
+    },
+    "seq14": {
+      "imgs": 249,
+      "masks_jpg": 249,
+      "masks_txt": 0,
+      "bboxes": 249,
+      "bbox_imgs": 249
+    },
+    "seq15": {
+      "imgs": 116,
+      "masks_jpg": 116,
+      "masks_txt": 0,
+      "bboxes": 116,
+      "bbox_imgs": 116
+    },
+    "seq16": {
+      "imgs": 40,
+      "masks_jpg": 40,
+      "masks_txt": 0,
+      "bboxes": 40,
+      "bbox_imgs": 40
+    },
+    "seq17": {
+      "imgs": 63,
+      "masks_jpg": 63,
+      "masks_txt": 0,
+      "bboxes": 63,
+      "bbox_imgs": 63
+    },
+    "seq18": {
+      "imgs": 63,
+      "masks_jpg": 63,
+      "masks_txt": 0,
+      "bboxes": 63,
+      "bbox_imgs": 63
+    },
+    "seq19": {
+      "imgs": 56,
+      "masks_jpg": 56,
+      "masks_txt": 0,
+      "bboxes": 56,
+      "bbox_imgs": 56
+    },
+    "seq20": {
+      "imgs": 52,
+      "masks_jpg": 52,
+      "masks_txt": 0,
+      "bboxes": 52,
+      "bbox_imgs": 52
+    },
+    "seq21": {
+      "imgs": 56,
+      "masks_jpg": 56,
+      "masks_txt": 0,
+      "bboxes": 56,
+      "bbox_imgs": 56
+    },
+    "seq22": {
+      "imgs": 46,
+      "masks_jpg": 46,
+      "masks_txt": 0,
+      "bboxes": 46,
+      "bbox_imgs": 46
+    },
+    "seq23": {
+      "imgs": 56,
+      "masks_jpg": 56,
+      "masks_txt": 0,
+      "bboxes": 56,
+      "bbox_imgs": 56
+    }
+  },
+  "sequences_negative": {
+    "seq1_neg": 315,
+    "seq2_neg": 302,
+    "seq3_neg": 40,
+    "seq4_neg": 72,
+    "seq5_neg": 61,
+    "seq6_neg": 90,
+    "seq7_neg": 207,
+    "seq8_neg": 311,
+    "seq9_neg": 99,
+    "seq10_neg": 292,
+    "seq11_neg": 190,
+    "seq12_neg": 261,
+    "seq13_neg": 280,
+    "seq14_neg": 301,
+    "seq15_neg": 278,
+    "seq16_neg": 141,
+    "seq17_neg": 130,
+    "seq18_neg": 121,
+    "seq19_neg": 210,
+    "seq20_neg": 191,
+    "seq21_neg": 151,
+    "seq22_neg": 82,
+    "seq23_neg": 150
+  },
+  "imagesAll_positive_count": 3762,
+  "expected_positive_count": 3762,
+  "ds_store_files": [
+    ".DS_Store",
+    "data_C1\\.DS_Store",
+    "data_C6\\.DS_Store",
+    "data_C5\\.DS_Store",
+    "data_C2\\.DS_Store",
+    "data_C3\\.DS_Store",
+    "data_C4\\.DS_Store",
+    "codes\\.DS_Store",
+    "sequenceData\\.DS_Store",
+    "sequenceData\\negativeOnly\\.DS_Store",
+    "sequenceData\\positive\\.DS_Store",
+    "sequenceData\\positive\\seq1\\.DS_Store"
+  ]
+}

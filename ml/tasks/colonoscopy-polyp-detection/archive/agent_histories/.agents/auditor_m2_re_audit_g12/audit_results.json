@@ -1,0 +1,441 @@
+{
+  "timestamp": "2026-09-10T05:01:31Z",
+  "auditor": "auditor_m2_re_audit_g12",
+  "working_directory": "M:\\chakramodel\\.agents\\auditor_m2_re_audit_g12",
+  "target": "M:\\chakramodel\\tests\\adversarial",
+  "binary_verdict": "CLEAN",
+  "checks": {
+    "check_1_hardcoding": {
+      "ast_analysis": {
+        "test_flaw_01_no_skip_connections.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 19,
+          "exit_calls": [
+            "sys.exit(check_flaw_01(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_02_dead_imagenet_head.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 10,
+          "exit_calls": [
+            "sys.exit(check_flaw_02(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_03_dead_code.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 19,
+          "exit_calls": [
+            "sys.exit(check_flaw_03(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_04_oom_fallback.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 14,
+          "exit_calls": [
+            "sys.exit(check_flaw_04(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_05_tta_enabled_by_default.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 17,
+          "exit_calls": [
+            "sys.exit(check_flaw_05(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_06_unguarded_torch_load.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 33,
+          "exit_calls": [
+            "sys.exit(check_flaw_06(args.target_file, target_dirs))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_07_strict_false_state_dict.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 27,
+          "exit_calls": [
+            "sys.exit(check_flaw_07(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_08_conformal_formula_sign.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 5,
+          "exit_calls": [
+            "sys.exit(check_flaw_08(args.target_file))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_09_mc_dropout_collapse.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 21,
+          "exit_calls": [
+            "sys.exit(check_flaw_09(metrics_path, source_path))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_10_contradictory_calibration_qhat.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 8,
+          "exit_calls": [
+            "sys.exit(check_flaw_10(calib_path, metrics_path))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_11_unpinned_dependencies.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 11,
+          "exit_calls": [
+            "sys.exit(check_flaw_11(req_files))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_12_ci_lacking_src_coverage.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 12,
+          "exit_calls": [
+            "sys.exit(check_flaw_12(target))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_13_unrecoverable_training_batches.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 11,
+          "exit_calls": [
+            "sys.exit(check_flaw_13(checkpoint_path, doc_path))"
+          ],
+          "is_genuine_logic": true
+        },
+        "test_flaw_14_headline_metric_artifact_absence.py": {
+          "module_level_unconditional_exits": [],
+          "branching_nodes_count": 10,
+          "exit_calls": [
+            "sys.exit(check_flaw_14(fixes_path, args.artifact_file, args.honest_metrics))"
+          ],
+          "is_genuine_logic": true
+        }
+      },
+      "baseline_runs": {
+        "test_flaw_01_no_skip_connections.py": {
+          "exit_code": 1,
+          "duration_s": 0.07,
+          "stdout_snippet": "       High-frequency mucosal boundaries and small polyps (<16px) vanish or are hallucinated.",
+          "detected": true
+        },
+        "test_flaw_02_dead_imagenet_head.py": {
+          "exit_code": 1,
+          "duration_s": 0.073,
+          "stdout_snippet": "       inflates the parameter count to 309M, and causes strict state_dict load mismatches.",
+          "detected": true
+        },
+        "test_flaw_03_dead_code.py": {
+          "exit_code": 1,
+          "duration_s": 0.083,
+          "stdout_snippet": "       when the system actually runs a pure Vision Transformer.",
+          "detected": true
+        },
+        "test_flaw_04_oom_fallback.py": {
+          "exit_code": 1,
+          "duration_s": 0.068,
+          "stdout_snippet": "       in FPS benchmarks by silently dropping from GPU to CPU.",
+          "detected": true
+        },
+        "test_flaw_05_tta_enabled_by_default.py": {
+          "exit_code": 1,
+          "duration_s": 0.069,
+          "stdout_snippet": "       with single-pass baseline model scores.",
+          "detected": true
+        },
+        "test_flaw_06_unguarded_torch_load.py": {
+          "exit_code": 1,
+          "duration_s": 0.378,
+          "stdout_snippet": "Security Impact: Remote / Arbitrary Code Execution (ACE) via unpickling vulnerability (CVE-2024 class).",
+          "detected": true
+        },
+        "test_flaw_07_strict_false_state_dict.py": {
+          "exit_code": 1,
+          "duration_s": 0.072,
+          "stdout_snippet": "       with completely uninitialized random weights (Dice collapses to 0.1835 blank masks).",
+          "detected": true
+        },
+        "test_flaw_08_conformal_formula_sign.py": {
+          "exit_code": 1,
+          "duration_s": 0.059,
+          "stdout_snippet": "       violating exchangeability and invalidating the theoretical 95% coverage guarantee.",
+          "detected": true
+        },
+        "test_flaw_09_mc_dropout_collapse.py": {
+          "exit_code": 1,
+          "duration_s": 0.078,
+          "stdout_snippet": "       All stochastic MC passes execute identical deterministic passes in eval mode.",
+          "detected": true
+        },
+        "test_flaw_10_contradictory_calibration_qhat.py": {
+          "exit_code": 1,
+          "duration_s": 0.065,
+          "stdout_snippet": "       variance, while deployed weights distribute File 1 (~0.5215). Dual conflicting SSOTs.",
+          "detected": true
+        },
+        "test_flaw_11_unpinned_dependencies.py": {
+          "exit_code": 1,
+          "duration_s": 0.062,
+          "stdout_snippet": "preventing deterministic environment reproduction and crashing inference decoders.",
+          "detected": true
+        },
+        "test_flaw_12_ci_lacking_src_coverage.py": {
+          "exit_code": 1,
+          "duration_s": 0.085,
+          "stdout_snippet": "or regressions while CI continues to pass green because only notebook JSON syntax is checked.",
+          "detected": true
+        },
+        "test_flaw_13_unrecoverable_training_batches.py": {
+          "exit_code": 1,
+          "duration_s": 2.377,
+          "stdout_snippet": "       unrecoverable, which invalidates zero-shot cross-dataset generalization claims.",
+          "detected": true
+        },
+        "test_flaw_14_headline_metric_artifact_absence.py": {
+          "exit_code": 1,
+          "duration_s": 0.064,
+          "stdout_snippet": "with fabricated per-image filenames, contradicting its own cited JSON artifact (0.80225).",
+          "detected": true
+        }
+      },
+      "patched_runs": {
+        "test_flaw_01_no_skip_connections.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_02_dead_imagenet_head.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_03_dead_code.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_04_oom_fallback.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_05_tta_enabled_by_default.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_06_unguarded_torch_load.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_07_strict_false_state_dict.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_08_conformal_formula_sign.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_09_mc_dropout_collapse.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_10_contradictory_calibration_qhat.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_11_unpinned_dependencies.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_12_ci_lacking_src_coverage.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_13_unrecoverable_training_batches.py": {
+          "exit_code": 0,
+          "pass": true
+        },
+        "test_flaw_14_headline_metric_artifact_absence.py": {
+          "exit_code": 0,
+          "pass": true
+        }
+      },
+      "all_ast_clean": true,
+      "all_baseline_exit_1": true,
+      "all_patched_exit_0": true,
+      "verdict": "PASS"
+    },
+    "check_2_facades_mocks": {
+      "files_checked": {
+        "checkpoint": {
+          "path": "M:\\chakramodel\\weights\\checkpoints\\chakra_transformer_best.pth",
+          "exists": true,
+          "size_bytes": 1236836719
+        },
+        "conformal_calibration": {
+          "path": "M:\\chakramodel\\weights\\calibration\\conformal_calibration.json",
+          "exists": true
+        },
+        "combo1_metrics": {
+          "path": "M:\\chakramodel\\results\\combo1_metrics.json",
+          "exists": true
+        },
+        "FIXES.md": {
+          "path": "M:\\chakramodel\\FIXES.md",
+          "exists": true
+        },
+        "corrected_eval_kvasir_seg": {
+          "path": "M:\\chakramodel\\results\\corrected_eval_kvasir_seg.json",
+          "exists": true
+        }
+      },
+      "empirical_values": {
+        "num_batches_tracked_1": 2376,
+        "num_batches_tracked_4": 2376,
+        "num_batches_tracked_match_expected_2376": true,
+        "unguarded_torch_load_count": 31,
+        "unguarded_torch_load_sample": [
+          "src\\generate_paper_figures.py:52",
+          "src\\conformal\\conformal_calibration.py:245",
+          "src\\evaluation\\evaluate_all.py:212",
+          "src\\evaluation\\eval_test.py:16",
+          "src\\evaluation\\run_all_combos.py:764"
+        ],
+        "q_hat_pos": 0.521484375,
+        "combo1_threshold": 7.3260068893521435e-06,
+        "qhat_discrepancy_ratio": 71182.62143022857,
+        "mean_uncertainty": 2.8514779038956057e-15,
+        "fixes_contains_0_7304": true,
+        "actual_mean_dsc_in_artifact": 0.80225
+      },
+      "verdict": "PASS"
+    },
+    "check_3_safety_isolation": {
+      "scripts_audited": {
+        "test_flaw_01_no_skip_connections.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_02_dead_imagenet_head.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_03_dead_code.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_04_oom_fallback.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_05_tta_enabled_by_default.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_06_unguarded_torch_load.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_07_strict_false_state_dict.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_08_conformal_formula_sign.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_09_mc_dropout_collapse.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_10_contradictory_calibration_qhat.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_11_unpinned_dependencies.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_12_ci_lacking_src_coverage.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_13_unrecoverable_training_batches.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_flaw_14_headline_metric_artifact_absence.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "run_all_adversarial_tests.py": {
+          "network_imports": [],
+          "write_calls": [],
+          "destructive_calls": [],
+          "safe": true
+        },
+        "test_adversarial_dim_param_audit.py": {
+          "network_imports": [],
+          "write_calls": [
+            "open(..., 'w') at line 441"
+          ],
+          "destructive_calls": [],
+          "safe": true
+        }
+      },
+      "network_violations": [],
+      "file_write_violations": [],
+      "destructive_violations": [],
+      "verdict": "PASS"
+    },
+    "check_4_codebase_immutability": {
+      "git_diff_cmd": "C:\\Users\\imgk3\\AppData\\Local\\GitHubDesktop\\app-3.6.3\\resources\\app\\git\\cmd\\git.exe diff HEAD -- src/",
+      "git_status_cmd": "C:\\Users\\imgk3\\AppData\\Local\\GitHubDesktop\\app-3.6.3\\resources\\app\\git\\cmd\\git.exe status --porcelain src/",
+      "diff_output": "",
+      "status_output": "",
+      "diff_bytes": 0,
+      "status_lines": 0,
+      "is_src_clean": true,
+      "verdict": "PASS"
+    }
+  },
+  "master_runner": {
+    "exit_code": 0,
+    "duration_s": 3.669,
+    "stdout": "==========================================================================================\nMASTER ADVERSARIAL TEST RUNNER: 14 FLAWS AUDIT\nRepository Root: M:\\chakramodel\nTest Directory:  M:\\chakramodel\\tests\\adversarial\n==========================================================================================\n\nRunning [Flaw 01] test_flaw_01_no_skip_connections.py ... DETECTED (Exit 1) [0.07s]\nRunning [Flaw 02] test_flaw_02_dead_imagenet_head.py ... DETECTED (Exit 1) [0.06s]\nRunning [Flaw 03] test_flaw_03_dead_code.py ... DETECTED (Exit 1) [0.08s]\nRunning [Flaw 04] test_flaw_04_oom_fallback.py ... DETECTED (Exit 1) [0.07s]\nRunning [Flaw 05] test_flaw_05_tta_enabled_by_default.py ... DETECTED (Exit 1) [0.07s]\nRunning [Flaw 06] test_flaw_06_unguarded_torch_load.py ... DETECTED (Exit 1) [0.37s]\nRunning [Flaw 07] test_flaw_07_strict_false_state_dict.py ... DETECTED (Exit 1) [0.08s]\nRunning [Flaw 08] test_flaw_08_conformal_formula_sign.py ... DETECTED (Exit 1) [0.07s]\nRunning [Flaw 09] test_flaw_09_mc_dropout_collapse.py ... DETECTED (Exit 1) [0.08s]\nRunning [Flaw 10] test_flaw_10_contradictory_calibration_qhat.py ... DETECTED (Exit 1) [0.06s]\nRunning [Flaw 11] test_flaw_11_unpinned_dependencies.py ... DETECTED (Exit 1) [0.06s]\nRunning [Flaw 12] test_flaw_12_ci_lacking_src_coverage.py ... DETECTED (Exit 1) [0.08s]\nRunning [Flaw 13] test_flaw_13_unrecoverable_training_batches.py ... DETECTED (Exit 1) [2.39s]\nRunning [Flaw 14] test_flaw_14_headline_metric_artifact_absence.py ... DETECTED (Exit 1) [0.07s]\n\n==========================================================================================\nADVERSARIAL DETECTION AUDIT SUMMARY\n==========================================================================================\n#         | Script Name                                | Exit  | Status       | Duration\n------------------------------------------------------------------------------------------\nFlaw 01   | test_flaw_01_no_skip_connections.py        | 1     | [DETECTED]   |  0.07s\nFlaw 02   | test_flaw_02_dead_imagenet_head.py         | 1     | [DETECTED]   |  0.06s\nFlaw 03   | test_flaw_03_dead_code.py                  | 1     | [DETECTED]   |  0.08s\nFlaw 04   | test_flaw_04_oom_fallback.py               | 1     | [DETECTED]   |  0.07s\nFlaw 05   | test_flaw_05_tta_enabled_by_default.py     | 1     | [DETECTED]   |  0.07s\nFlaw 06   | test_flaw_06_unguarded_torch_load.py       | 1     | [DETECTED]   |  0.37s\nFlaw 07   | test_flaw_07_strict_false_state_dict.py    | 1     | [DETECTED]   |  0.08s\nFlaw 08   | test_flaw_08_conformal_formula_sign.py     | 1     | [DETECTED]   |  0.07s\nFlaw 09   | test_flaw_09_mc_dropout_collapse.py        | 1     | [DETECTED]   |  0.08s\nFlaw 10   | test_flaw_10_contradictory_calibration_qhat.py | 1     | [DETECTED]   |  0.06s\nFlaw 11   | test_flaw_11_unpinned_dependencies.py      | 1     | [DETECTED]   |  0.06s\nFlaw 12   | test_flaw_12_ci_lacking_src_coverage.py    | 1     | [DETECTED]   |  0.08s\nFlaw 13   | test_flaw_13_unrecoverable_training_batches.py | 1     | [DETECTED]   |  2.39s\nFlaw 14   | test_flaw_14_headline_metric_artifact_absence.py | 1     | [DETECTED]   |  0.07s\n------------------------------------------------------------------------------------------\nTotal Flaws Tested:      14\nFlaws Detected (Exit 1): 14 / 14\nTotal Execution Time:    3.61s\n==========================================================================================\n\n>>> ALL 14 ADVERSARIAL FLAWS SUCCESSFULLY EXPOSED ON CURRENT CODEBASE (14/14 Exit 1)!\n    Baseline state confirmed: all targeted architectural, mathematical, security, and\n    provenance defects are deterministically identified.\n",
+    "stderr": "",
+    "pass": true
+  }
+}

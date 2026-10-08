@@ -1,0 +1,504 @@
+{
+  "timestamp": "2026-09-10T05:13:31.400142+00:00",
+  "auditor": "auditor_m3_g12",
+  "target": "M:\\chakramodel_audit",
+  "verdict": "CLEAN",
+  "checks": {
+    "codebase_immutability": {
+      "status": "PASS",
+      "evidence": {
+        "git_diff_head_src_bytes": 0,
+        "git_status_src_entries": [],
+        "latest_src_file": "M:\\chakramodel\\src\\chakra_transformer\\__pycache__\\transformer_segmenter.cpython-311.pyc",
+        "latest_src_mtime_utc": "2026-09-10T04:04:43.017658+00:00"
+      }
+    },
+    "baseline_adversarial_detection": {
+      "status": "PASS",
+      "results": {
+        "Flaw 01": {
+          "title": "No Decoder Skip Connections",
+          "script": "test_flaw_01_no_skip_connections.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       High-frequency mucosal boundaries and small polyps (<16px) vanish or are hallucinated."
+        },
+        "Flaw 02": {
+          "title": "Dead ImageNet Classifier Head",
+          "script": "test_flaw_02_dead_imagenet_head.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       inflates the parameter count to 309M, and causes strict state_dict load mismatches."
+        },
+        "Flaw 03": {
+          "title": "75 Lines Uninstantiated Dead Code",
+          "script": "test_flaw_03_dead_code.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       when the system actually runs a pure Vision Transformer."
+        },
+        "Flaw 04": {
+          "title": "Dangerous OOM Fallback self.to('cpu')",
+          "script": "test_flaw_04_oom_fallback.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       in FPS benchmarks by silently dropping from GPU to CPU."
+        },
+        "Flaw 05": {
+          "title": "TTA Enabled by Default",
+          "script": "test_flaw_05_tta_enabled_by_default.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       with single-pass baseline model scores."
+        },
+        "Flaw 06": {
+          "title": "31 Unguarded torch.load() Calls",
+          "script": "test_flaw_06_unguarded_torch_load.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "Security Impact: Remote / Arbitrary Code Execution (ACE) via unpickling vulnerability (CVE-2024 class)."
+        },
+        "Flaw 07": {
+          "title": "Unchecked strict=False in load_state_dict()",
+          "script": "test_flaw_07_strict_false_state_dict.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       with completely uninitialized random weights (Dice collapses to 0.1835 blank masks)."
+        },
+        "Flaw 08": {
+          "title": "Sign-Flipped Conformal Formula",
+          "script": "test_flaw_08_conformal_formula_sign.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       violating exchangeability and invalidating the theoretical 95% coverage guarantee."
+        },
+        "Flaw 09": {
+          "title": "MC-Dropout Variance Collapse",
+          "script": "test_flaw_09_mc_dropout_collapse.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       All stochastic MC passes execute identical deterministic passes in eval mode."
+        },
+        "Flaw 10": {
+          "title": "Contradictory Calibration q_hat Files",
+          "script": "test_flaw_10_contradictory_calibration_qhat.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       variance, while deployed weights distribute File 1 (~0.5215). Dual conflicting SSOTs."
+        },
+        "Flaw 11": {
+          "title": "Unpinned Floating '>=' Dependencies",
+          "script": "test_flaw_11_unpinned_dependencies.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "preventing deterministic environment reproduction and crashing inference decoders."
+        },
+        "Flaw 12": {
+          "title": "CI Never Lints or Tests src/",
+          "script": "test_flaw_12_ci_lacking_src_coverage.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "or regressions while CI continues to pass green because only notebook JSON syntax is checked."
+        },
+        "Flaw 13": {
+          "title": "Unrecoverable Training Data Composition",
+          "script": "test_flaw_13_unrecoverable_training_batches.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "       unrecoverable, which invalidates zero-shot cross-dataset generalization claims."
+        },
+        "Flaw 14": {
+          "title": "Headline Metric 0.7304 Artifact Absence",
+          "script": "test_flaw_14_headline_metric_artifact_absence.py",
+          "exit_code": 1,
+          "detected": true,
+          "stdout_snippet": "with fabricated per-image filenames, contradicting its own cited JSON artifact (0.80225)."
+        }
+      }
+    },
+    "non_fabrication_proof_logs": {
+      "status": "PASS",
+      "verifications": {
+        "Flaw 01": {
+          "patch_file": "PATCH_01_no_skip_connections.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Naive single-stream Sequential decode_head: False",
+            "- Dedicated skip connection modules:        True",
+            "- Intermediate backbone feature extraction:  True",
+            "[PASS] Flaw 01 Resolved: Multi-scale skip connections are present in the decoder."
+          ],
+          "key_embedded_markers": [
+            "- Naive single-stream Sequential decode_head: False",
+            "- Dedicated skip connection modules:        True",
+            "- Intermediate backbone feature extraction:  True",
+            "[PASS] Flaw 01 Resolved: Multi-scale skip connections are present in the decoder."
+          ]
+        },
+        "Flaw 02": {
+          "patch_file": "PATCH_02_dead_imagenet_head.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- timm.create_model call found at line: 115",
+            "- num_classes argument:                 0",
+            "[PASS] Flaw 02 Resolved: num_classes=0 specified. Dead ImageNet head is excised."
+          ],
+          "key_embedded_markers": [
+            "- timm.create_model call found at line: 115",
+            "- num_classes argument:                 0",
+            "[PASS] Flaw 02 Resolved: num_classes=0 specified. Dead ImageNet head is excised."
+          ]
+        },
+        "Flaw 03": {
+          "patch_file": "PATCH_03_dead_code.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Scanned dead classes:               ['BasicConv2d', 'RFBBlock', 'ReverseAttention']",
+            "- Dead classes detected:             []",
+            "- Instantiated by active model:       []",
+            "- Misleading docstring claiming RFB: False",
+            "[PASS] Flaw 03 Resolved: Dead classes excised and documentation accurately reflects architecture."
+          ],
+          "key_embedded_markers": [
+            "- Scanned dead classes:               ['BasicConv2d', 'RFBBlock', 'ReverseAttention']",
+            "- Dead classes detected:             []",
+            "- Instantiated by active model:       []",
+            "- Misleading docstring claiming RFB: False",
+            "[PASS] Flaw 03 Resolved: Dead classes excised and documentation accurately reflects architecture."
+          ]
+        },
+        "Flaw 04": {
+          "patch_file": "PATCH_04_oom_fallback.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Scanned forward() methods for self.to('cpu') calls: []",
+            "- Direct text match for self.to('cpu'):                False",
+            "[PASS] Flaw 04 Resolved: No in-place device mutation in forward(). Safe OOM handling verified."
+          ],
+          "key_embedded_markers": [
+            "- Scanned forward() methods for self.to('cpu') calls: []",
+            "- Direct text match for self.to('cpu'):                False",
+            "[PASS] Flaw 04 Resolved: No in-place device mutation in forward(). Safe OOM handling verified."
+          ]
+        },
+        "Flaw 05": {
+          "patch_file": "PATCH_05_tta_enabled_by_default.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Scanned getattr(self, 'use_tta', ...) calls: [(289, False), (399, False)]",
+            "- ChakraNet.__init__ has use_tta=False default:   True",
+            "[PASS] Flaw 05 Resolved: TTA defaults to False. Baseline single-pass evaluation is enforced."
+          ],
+          "key_embedded_markers": [
+            "- Scanned getattr(self, 'use_tta', ...) calls: [(289, False), (399, False)]",
+            "- ChakraNet.__init__ has use_tta=False default:   True",
+            "[PASS] Flaw 05 Resolved: TTA defaults to False. Baseline single-pass evaluation is enforced."
+          ]
+        },
+        "Flaw 06": {
+          "patch_file": "PATCH_06_unguarded_torch_load.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "[PASS] Flaw 06 Resolved: All torch.load() calls strictly specify weights_only=True."
+          ],
+          "key_embedded_markers": [
+            "[PASS] Flaw 06 Resolved: All torch.load() calls strictly specify weights_only=True."
+          ]
+        },
+        "Flaw 07": {
+          "patch_file": "PATCH_07_strict_false_state_dict.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Scanned load_state_dict() calls: [(236, False)]",
+            "- Unguarded strict=False calls:    []",
+            "[PASS] Flaw 07 Resolved: Strict key validation is enforced on checkpoint loading."
+          ],
+          "key_embedded_markers": [
+            "- Scanned load_state_dict() calls: [(236, False)]",
+            "- Unguarded strict=False calls:    []",
+            "[PASS] Flaw 07 Resolved: Strict key validation is enforced on checkpoint loading."
+          ]
+        },
+        "Flaw 08": {
+          "patch_file": "PATCH_08_conformal_formula_sign.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Detected buggy score_pos [1.0 - (prob + variance)]: False",
+            "- Detected buggy score_neg [prob - variance]:          False",
+            "- Detected canonical score_pos [(1 - prob) + var]:     True",
+            "- Detected canonical score_neg [prob + var]:           True",
+            "[PASS] Flaw 08 Resolved: Inference conformal scoring matches canonical calibration formula."
+          ],
+          "key_embedded_markers": [
+            "- Detected buggy score_pos [1.0 - (prob + variance)]: False",
+            "- Detected buggy score_neg [prob - variance]:          False",
+            "- Detected canonical score_pos [(1 - prob) + var]:     True",
+            "- Detected canonical score_neg [prob + var]:           True",
+            "[PASS] Flaw 08 Resolved: Inference conformal scoring matches canonical calibration formula."
+          ]
+        },
+        "Flaw 09": {
+          "patch_file": "PATCH_09_mc_dropout_collapse.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Metrics file: <TEMPDIR>/combo1_metrics.json",
+            "- Recorded mean_uncertainty in JSON:      0.0421894",
+            "- Source file:  <TEMPDIR>/run_all_combos.py",
+            "- enable_mc_dropout activates train():    True",
+            "[PASS] Flaw 09 Resolved: MC-Dropout produces genuine epistemic variance (> 1e-4)."
+          ],
+          "key_embedded_markers": [
+            "- Metrics file: <TEMPDIR>/combo1_metrics.json",
+            "- Recorded mean_uncertainty in JSON:      0.0421894",
+            "- Source file:  <TEMPDIR>/run_all_combos.py",
+            "- enable_mc_dropout activates train():    True",
+            "[PASS] Flaw 09 Resolved: MC-Dropout produces genuine epistemic variance (> 1e-4)."
+          ]
+        },
+        "Flaw 10": {
+          "patch_file": "PATCH_10_contradictory_calibration_qhat.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- File 1 (weights/calibration): q_hat_pos = 0.521484375",
+            "- File 2 (results/combo1):       threshold = 7.3260068893521435e-06",
+            "- Conformal reconciliation note in metrics: 'DEPRECATED_SUPERSEDED: Derived from collapsed variance. Canonical calibration is in weights/calibration/conformal_calibration.json'",
+            "- Calculated discrepancy ratio: 71182.62x (4.85 orders of magnitude)",
+            "[PASS] Flaw 10 Resolved: Calibration thresholds are harmonized and provenance is reconciled."
+          ],
+          "key_embedded_markers": [
+            "- File 1 (weights/calibration): q_hat_pos = 0.521484375",
+            "- File 2 (results/combo1):       threshold = 7.3260068893521435e-06",
+            "- Conformal reconciliation note in metrics: 'DEPRECATED_SUPERSEDED: Derived from collapsed variance. Canonical calibration is in weights/calibration/conformal_calibration.json'",
+            "- Calculated discrepancy ratio: 71182.62x (4.85 orders of magnitude)",
+            "[PASS] Flaw 10 Resolved: Calibration thresholds are harmonized and provenance is reconciled."
+          ]
+        },
+        "Flaw 11": {
+          "patch_file": "PATCH_11_unpinned_dependencies.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Total unpinned package specifications found: 0",
+            "[PASS] Flaw 11 Resolved: All dependencies are strictly pinned for deterministic reproduction."
+          ],
+          "key_embedded_markers": [
+            "- Total unpinned package specifications found: 0",
+            "[PASS] Flaw 11 Resolved: All dependencies are strictly pinned for deterministic reproduction."
+          ]
+        },
+        "Flaw 12": {
+          "patch_file": "PATCH_12_ci_lacking_src_coverage.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Linter covers src/:            True",
+            "- Unit test suite covers src/:    True",
+            "[PASS] Flaw 12 Resolved: CI workflow explicitly lints src/ and executes unit tests."
+          ],
+          "key_embedded_markers": [
+            "- Linter covers src/:            True",
+            "- Unit test suite covers src/:    True",
+            "[PASS] Flaw 12 Resolved: CI workflow explicitly lints src/ and executes unit tests."
+          ]
+        },
+        "Flaw 13": {
+          "patch_file": "PATCH_13_unrecoverable_training_batches.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- Checkpoint actual num_batches_tracked:   2376",
+            "- Committed notebook expected batch steps: 330",
+            "- Discrepancy ratio:                       7.2x",
+            "[PASS] Flaw 13 Resolved: Training data provenance and batch tracking discrepancy formally reconciled and documented."
+          ],
+          "key_embedded_markers": [
+            "- Checkpoint actual num_batches_tracked:   2376",
+            "- Committed notebook expected batch steps: 330",
+            "- Discrepancy ratio:                       7.2x",
+            "[PASS] Flaw 13 Resolved: Training data provenance and batch tracking discrepancy formally reconciled and documented."
+          ]
+        },
+        "Flaw 14": {
+          "patch_file": "PATCH_14_headline_metric_artifact_absence.md",
+          "embedded_return_code": 0,
+          "actual_return_code": 0,
+          "rc_match": true,
+          "has_pass_banner": true,
+          "markers_aligned": true,
+          "is_authentic": true,
+          "key_actual_markers": [
+            "- FIXES.md asserts 0.7304:                   False",
+            "- Cited artifact actual mean_dsc:            0.80225",
+            "- Cited artifact actual n_images:            60",
+            "- docs/HONEST_METRICS.md retracts 0.7304:     True",
+            "[PASS] Flaw 14 Resolved: Headline metrics match empirical artifacts and unbacked scores are retracted."
+          ],
+          "key_embedded_markers": [
+            "- FIXES.md asserts 0.7304:                   False",
+            "- Cited artifact actual mean_dsc:            0.80225",
+            "- Cited artifact actual n_images:            60",
+            "- docs/HONEST_METRICS.md retracts 0.7304:     True",
+            "[PASS] Flaw 14 Resolved: Headline metrics match empirical artifacts and unbacked scores are retracted."
+          ]
+        }
+      }
+    },
+    "anti_facade_anti_mock": {
+      "status": "PASS",
+      "evaluations": {
+        "Flaw 01": {
+          "title": "No Decoder Skip Connections",
+          "category": "Architectural Deep Learning",
+          "is_facade": false,
+          "rationale": "Implements multi-scale skip connections via nn.ModuleList (skip_convs), transposed convs (up1, up2), and final projection (final_conv) with bilinear feature interpolation and channel concatenation, replacing monolithic sequential decode_head."
+        },
+        "Flaw 02": {
+          "title": "Dead ImageNet Classifier Head",
+          "category": "Architectural / Memory",
+          "is_facade": false,
+          "rationale": "Specifies num_classes=0 in timm.create_model and filters out legacy backbone.head.* keys from state dict during loading, eliminating 1.025M dead weights."
+        },
+        "Flaw 03": {
+          "title": "75 Lines Uninstantiated Dead Code",
+          "category": "Code Hygiene & Architecture Alignment",
+          "is_facade": false,
+          "rationale": "Excises 75 lines of unused classes (BasicConv2d, RFBBlock, ReverseAttention) and cleanses module docstrings to accurately state the true ViT-Large architecture, removing misleading PraNet references."
+        },
+        "Flaw 04": {
+          "title": "Dangerous OOM Fallback self.to('cpu')",
+          "category": "Concurrency & Device Safety",
+          "is_facade": false,
+          "rationale": "Removes in-place self.to('cpu') module device mutation in forward(), replacing it with torch.cuda.empty_cache() and clean exception propagation, eliminating multi-threaded race conditions."
+        },
+        "Flaw 05": {
+          "title": "TTA Enabled by Default",
+          "category": "Benchmark Integrity / Latency",
+          "is_facade": false,
+          "rationale": "Enforces use_tta: bool = False in ChakraNet.__init__ and changes getattr fallbacks to False, ensuring baseline single-pass evaluation is strictly preserved."
+        },
+        "Flaw 06": {
+          "title": "31 Unguarded torch.load() Calls",
+          "category": "Cybersecurity (CWE-502)",
+          "is_facade": false,
+          "rationale": "Enforces weights_only=True on checkpoint deserialization across repository loading sites, preventing arbitrary Python unpickling code execution."
+        },
+        "Flaw 07": {
+          "title": "Unchecked strict=False in load_state_dict()",
+          "category": "Runtime Integrity",
+          "is_facade": false,
+          "rationale": "Raises RuntimeError on missing or unexpected state dict keys, preventing silent inference execution on uninitialized Gaussian random weights."
+        },
+        "Flaw 08": {
+          "title": "Sign-Flipped Conformal Formula",
+          "category": "Statistical & Conformal Prediction",
+          "is_facade": false,
+          "rationale": "Corrects sign flip from subtraction to addition (score_pos = (1 - p) + v, score_neg = p + v), restoring mathematical exchangeability and coverage theorem guarantees."
+        },
+        "Flaw 09": {
+          "title": "MC-Dropout Variance Collapse",
+          "category": "Bayesian Deep Learning / Uncertainty",
+          "is_facade": false,
+          "rationale": "Enforces training mode on dropout layers during eval mode via self.drop.train() and recursive module inspection, and updates metrics JSON to genuine measured variance (>1e-4)."
+        },
+        "Flaw 10": {
+          "title": "Contradictory Calibration q_hat Files",
+          "category": "Calibration Provenance",
+          "is_facade": false,
+          "rationale": "Formally reconciles 71,183x discrepancy by marking legacy combo1_metrics conformal thresholds as DEPRECATED_SUPERSEDED and designating weights/calibration/conformal_calibration.json as SSOT."
+        },
+        "Flaw 11": {
+          "title": "Unpinned Floating '>=' Dependencies",
+          "category": "Software Supply Chain / Reproducibility",
+          "is_facade": false,
+          "rationale": "Pins all 17 packages to exact reproducible versions (==) in requirements.txt (e.g. torch==2.1.2, timm==0.9.12, numpy==1.24.3), preventing upstream ViT tensor shape shifts and NumPy 2.x C-ABI breakage."
+        },
+        "Flaw 12": {
+          "title": "CI Never Lints or Tests src/",
+          "category": "CI/CD & Quality Assurance",
+          "is_facade": false,
+          "rationale": "Adds src/ to flake8 linting and integrates genuine unit test execution (pytest tests/test_tracker.py tests/adversarial/) into GitHub Actions workflow."
+        },
+        "Flaw 13": {
+          "title": "Unrecoverable Training Data Composition",
+          "category": "Scientific Provenance",
+          "is_facade": false,
+          "rationale": "Creates docs/TRAINING_PROVENANCE.md disclosing 2,376 batch tracking count vs 330 expected steps, reconciling multi-GPU DDP training, and formally caveating zero-shot generalization claims."
+        },
+        "Flaw 14": {
+          "title": "Headline Metric 0.7304 Artifact Absence",
+          "category": "Research Integrity",
+          "is_facade": false,
+          "rationale": "Replaces unbacked 0.7304 metric in FIXES.md with true empirical data (0.8023 mean DSC, N=60) from results/corrected_eval_kvasir_seg.json and explicitly retracts 0.7304 in docs/HONEST_METRICS.md."
+        }
+      }
+    },
+    "work_product_completeness": {
+      "status": "PASS",
+      "full_report_size_bytes": 31901,
+      "patch_files_count": 15
+    }
+  },
+  "failures": []
+}

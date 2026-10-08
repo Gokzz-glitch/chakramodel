@@ -1,0 +1,18 @@
+seed 42 n_seq 23 frames 4275
+ pooled PG FA by tau {0.5: np.float64(0.444), 0.6: np.float64(0.4173), 0.7: np.float64(0.378), 0.8: np.float64(0.3389), 0.9: np.float64(0.2543), 0.95: np.float64(0.185), 0.98: np.float64(0.1305), 0.99: np.float64(0.1067), 0.995: np.float64(0.0835), 0.999: np.float64(0.0536), 0.9995: np.float64(0.0454), 0.9999: np.float64(0.0311)}
+ 50/50 seq split x2000: test-half FA mean 0.0484  p5 0.0167 p95 0.0792  frac>0.05 0.437 | det_in 0.8538 det_ext 0.7707
+ tau chosen counts [(np.float64(0.999), 739), (np.float64(0.9999), 620), (np.float64(0.9995), 467), (np.float64(0.995), 80)]
+ LOSO: frame-weighted FA 0.0475; per-seq mean 0.0434; taus Counter({0.9995: 21, 0.999: 2})
+ default rule (0.5,1px): PG FA 0.4440; det_in 0.9398 det_ext 0.8992
+seed 43 n_seq 23 frames 4275
+ pooled PG FA by tau {0.5: np.float64(0.5305), 0.6: np.float64(0.4643), 0.7: np.float64(0.3974), 0.8: np.float64(0.3153), 0.9: np.float64(0.2101), 0.95: np.float64(0.1357), 0.98: np.float64(0.0793), 0.99: np.float64(0.0582), 0.995: np.float64(0.0421), 0.999: np.float64(0.0241), 0.9995: np.float64(0.0204), 0.9999: np.float64(0.0126)}
+ 50/50 seq split x2000: test-half FA mean 0.0424  p5 0.0104 p95 0.0771  frac>0.05 0.295 | det_in 0.8600 det_ext 0.7890
+ tau chosen counts [(np.float64(0.995), 879), (np.float64(0.999), 586), (np.float64(0.99), 484), (np.float64(0.98), 51)]
+ LOSO: frame-weighted FA 0.0421; per-seq mean 0.0386; taus Counter({0.995: 23})
+ default rule (0.5,1px): PG FA 0.5305; det_in 0.9361 det_ext 0.8988
+seed 44 n_seq 23 frames 4275
+ pooled PG FA by tau {0.5: np.float64(0.5018), 0.6: np.float64(0.4781), 0.7: np.float64(0.4529), 0.8: np.float64(0.4201), 0.9: np.float64(0.3588), 0.95: np.float64(0.2819), 0.98: np.float64(0.1822), 0.99: np.float64(0.1399), 0.995: np.float64(0.1036), 0.999: np.float64(0.0529), 0.9995: np.float64(0.0356), 0.9999: np.float64(0.0138)}
+ 50/50 seq split x2000: test-half FA mean 0.0444  p5 0.0045 p95 0.0749  frac>0.05 0.451 | det_in 0.8473 det_ext 0.7779
+ tau chosen counts [(np.float64(0.9995), 923), (np.float64(0.999), 882), (np.float64(0.9999), 176), (np.float64(0.995), 18)]
+ LOSO: frame-weighted FA 0.0468; per-seq mean 0.0386; taus Counter({0.9995: 18, 0.999: 5})
+ default rule (0.5,1px): PG FA 0.5018; det_in 0.9461 det_ext 0.9315
