@@ -1,52 +1,49 @@
-# Python
-__pycache__/
-*.py[cod]
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
-.eggs/
-
-# Virtual environments
-.venv/
-venv/
-env/
-
-# Model weights (track via DVC or Git LFS instead)
-*.pth
-*.pt
-*.onnx
-*.engine
-*.pkl
-
-# Large data files
+# --- Never commit patient data or derived imaging ---
+*.dcm
+*.dicom
+*.nii
+*.nii.gz
+*.svs
+*.ndpi
 *.mp4
 *.avi
+*.mov
+*.mkv
+data/stages/**/files/
+# --- Model artefacts (use the artefact store + ml/registry) ---
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.engine
+*.tflite
+*.safetensors
 *.h5
-*.hdf5
+*.pkl
+# --- Secrets ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# --- Tooling noise ---
+__pycache__/
+.venv/
+node_modules/
+dist/
+build/
+.ipynb_checkpoints/
+.DS_Store
+
+# --- Massive Datasets ---
 *.csv
 
-# Secrets
-.env
-*.key
-secrets.json
-credentials.json
-
-# IDE
+# --- IDEs ---
 .vscode/
 .idea/
 *.swp
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Logs
-*.log
-migration_progress.log
-
-# Archive junk
-*.pyc
+# --- Legacy Archives ---
 *.bak
 ZZZ_DISCARD*/
+*.pyc
