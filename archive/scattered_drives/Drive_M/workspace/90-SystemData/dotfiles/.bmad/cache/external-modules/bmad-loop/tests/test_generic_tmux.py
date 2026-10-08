@@ -1,0 +1,2716 @@
+"""GenericTmuxAdapter tests.
+
+Unit tests need no tmux. The integration tests drive a REAL tmux session but
+substitute a tiny shell script for the CLI binary: the script writes
+result.json and emits hook-style event files itself (canonical event names,
+exactly what each CLI's hook registration produces), exercising spawn / env
+propagation / hook-signal waiting / kill end-to-end for any profile.
+"""
+
+import dataclasses
+import json
+import shutil
+import subprocess
+import sys
+import time
+import uuid
+from pathlib import Path
+
+import pytest
+
+from bmad_loop.adapters import generic, tmux_base
+from bmad_loop.adapters.base import SessionHandle, SessionResult, SessionSpec
+from bmad_loop.adapters.generic import GenericDevAdapter, GenericTmuxAdapter
+from bmad_loop.adapters.multiplexer import MultiplexerError
+from bmad_loop.adapters.profile import get_profile
+from bmad_loop.bmadconfig import ProjectPaths
+from bmad_loop.model import TokenUsage
+from bmad_loop.policy import LimitsPolicy, NotifyPolicy, Policy
+from bmad_loop.signals import HookEvent
+
+HAVE_TMUX = sys.platform != "win32" and shutil.which("tmux") is not None
+
+# The read-back decodes artifacts as UTF-8. A spec truncated mid-write (the CLI was
+# killed) can end inside a multi-byte sequence; `read_text(encoding="utf-8")` then
+# raises UnicodeDecodeError — a ValueError, NOT an OSError.
+_BAD_UTF8 = b"\xff\xfe\x00\x01 not utf-8 \x80\x81"
+
+FAKE_CLI = """#!/bin/bash
+# fake CLI: last positional arg is the prompt; env comes from tmux -e
+prompt="${@: -1}"
+ts=$(date +%s%N)
+mkdir -p "$BMAD_LOOP_RUN_DIR/events" "$BMAD_LOOP_RUN_DIR/tasks/$BMAD_LOOP_TASK_ID"
+printf '{"ts": %s, "event": "SessionStart", "task_id": "%s", "session_id": "fake-1"}' \\
+    "$ts" "$BMAD_LOOP_TASK_ID" > "$BMAD_LOOP_RUN_DIR/events/$ts-$BMAD_LOOP_TASK_ID-SessionStart.json"
+echo "{\\"workflow\\": \\"auto-dev\\", \\"prompt\\": \\"$prompt\\"}" \\
+    > "$BMAD_LOOP_RUN_DIR/tasks/$BMAD_LOOP_TASK_ID/result.json"
+ts2=$(( ts + 1 ))
+printf '{"ts": %s, "event": "Stop", "task_id": "%s", "session_id": "fake-1"}' \\
+    "$ts2" "$BMAD_LOOP_TASK_ID" > "$BMAD_LOOP_RUN_DIR/events/$ts2-$BMAD_LOOP_TASK_ID-Stop.json"
+sleep 60  # stay alive like an idle interactive session
+"""
+
+
+def make_adapter(
+    tmp_path, profile_name="claude", binary=None, extra_args=None, mux=None, **policy_kw
+) -> GenericTmuxAdapter:
+    # session_name derives from run_dir.name, and the live tests all share one
+    # tmux server — a fixed "run" name races one test's kill-session teardown
+    # against another's new-window under pytest-xdist. Production run dirs are
+    # unique run ids, so unique-per-adapter matches reality.
+    run_dir = tmp_path / f"run-{uuid.uuid4().hex[:8]}"
+    policy = Policy(limits=LimitsPolicy(**policy_kw) if policy_kw else LimitsPolicy())
+    profile = get_profile(profile_name)
+    return GenericTmuxAdapter(
+        run_dir=run_dir,
+        policy=policy,
+        profile=profile,
+        binary=binary,
+        extra_args=extra_args,
+        mux=mux,
+    )
+
+
+def test_ensure_session_tags_project(tmp_path, monkeypatch, force_tmux_backend):
+    """A freshly created agent session is stamped with its project so a cleanup
+    in another project never prunes this run. The set-option now flows through
+    the tmux backend, so patch its subprocess seam. ``force_tmux_backend`` pins
+    tmux against any installed win32-matching external backend (a no-op on a
+    stock POSIX box) — the adapter's default ``mux`` is ``get_multiplexer()``."""
+    from bmad_loop import runs
+
+    project = tmp_path
+    run_dir = project / ".bmad-loop" / "runs" / "RID"  # parents[2] == project
+    adapter = GenericTmuxAdapter(
+        run_dir=run_dir, policy=Policy(limits=LimitsPolicy()), profile=get_profile("claude")
+    )
+
+    calls: list[list[str]] = []
+
+    def fake_run(argv, **kwargs):
+        calls.append(list(argv))
+        rc = 1 if argv[1] == "has-session" else 0  # session missing -> create it
+        return subprocess.CompletedProcess(argv, rc, stdout="", stderr="")
+
+    monkeypatch.setattr(tmux_base.subprocess, "run", fake_run)
+    adapter._ensure_session(project)
+
+    assert [c for c in calls if c[1] == "set-option"] == [
+        [
+            "tmux",
+            "set-option",
+            "-t",
+            adapter.session_name,
+            runs.PROJECT_OPTION,
+            runs.project_tag(project),
+        ]
+    ]
+
+
+def make_spec(tmp_path, task_id="1-1-a-dev-1", timeout_s=30.0, model="sonnet") -> SessionSpec:
+    return SessionSpec(
+        task_id=task_id,
+        role="dev",
+        prompt="/bmad-dev-auto 1-1-a",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_MODE": "1", "BMAD_LOOP_TASK_ID": task_id},
+        model=model,
+        timeout_s=timeout_s,
+    )
+
+
+def test_build_command_claude(tmp_path):
+    adapter = make_adapter(tmp_path)
+    cmd = adapter.build_command(make_spec(tmp_path))
+    assert cmd.startswith("claude '/bmad-dev-auto 1-1-a' --permission-mode bypassPermissions")
+    assert cmd.endswith("--model sonnet")
+
+
+def test_build_command_codex_renders_skill_mention(tmp_path):
+    adapter = make_adapter(tmp_path, profile_name="codex")
+    cmd = adapter.build_command(make_spec(tmp_path))
+    assert cmd.startswith(
+        "codex 'Use the $bmad-dev-auto skill now, and use subagents as needed: 1-1-a'"
+    )
+    assert "--dangerously-bypass-approvals-and-sandbox" in cmd
+    assert cmd.endswith("--model sonnet")
+
+
+def test_build_command_gemini_uses_interactive_flag(tmp_path):
+    adapter = make_adapter(tmp_path, profile_name="gemini")
+    cmd = adapter.build_command(make_spec(tmp_path))
+    assert cmd.startswith("gemini -i '/bmad-dev-auto 1-1-a' --approval-mode=yolo")
+    assert cmd.endswith("--model sonnet")
+
+
+def test_extra_args_replace_profile_bypass(tmp_path):
+    adapter = make_adapter(tmp_path, extra_args=("--custom-flag",))
+    cmd = adapter.build_command(make_spec(tmp_path))
+    assert "--custom-flag" in cmd
+    assert "bypassPermissions" not in cmd
+
+
+def test_read_result_variants(tmp_path):
+    adapter = make_adapter(tmp_path)
+    task_dir = adapter.tasks_dir / "t1"
+    task_dir.mkdir(parents=True)
+    assert adapter._read_result("t1") is None  # missing
+    (task_dir / "result.json").write_text("{broken")
+    assert adapter._read_result("t1") is None  # malformed
+    (task_dir / "result.json").write_text('["not a dict"]')
+    assert adapter._read_result("t1") is None  # wrong shape
+    (task_dir / "result.json").write_text('{"clean": true}')
+    assert adapter._read_result("t1") == {"clean": True}
+
+
+def test_await_result_grace_expires_fast(tmp_path):
+    adapter = make_adapter(tmp_path)
+    (adapter.tasks_dir / "t1").mkdir(parents=True)
+    start = time.monotonic()
+    assert adapter._await_result("t1", grace_s=0.2) is None
+    assert time.monotonic() - start < 5
+
+
+# ------------------------------------------- verified kill escalation (#157)
+#
+# GenericAdapter.kill was a single best-effort kill_window with no verification
+# the window died. These pin the new bounded escalation: verify within
+# teardown_grace_s, then force-kill the pane pids and re-kill — degrading
+# cleanly for a backend that doesn't offer window_pane_pids (herdr returns the
+# seam default []).
+
+
+class _TeardownMux:
+    """Only the ops kill() drives — kill_window, list_window_ids (liveness),
+    window_pane_pids — with scriptable survival: the window stays alive until
+    ``survives_kills`` kill_window calls have landed."""
+
+    def __init__(self, survives_kills=0, pids=()):
+        self.survives_kills = survives_kills
+        self.pids = list(pids)
+        self.kill_windows = 0
+        self.liveness_probes = 0
+        self.pane_pid_reads = 0
+
+    def kill_window(self, target):
+        self.kill_windows += 1
+
+    def list_window_ids(self, session):
+        self.liveness_probes += 1
+        return ["@w1"] if self.kill_windows <= self.survives_kills else []
+
+    def window_pane_pids(self, target):
+        self.pane_pid_reads += 1
+        return list(self.pids)
+
+
+class _RecordingHost:
+    """A tiny process-tree model for the reap path. ``alive`` is the set of live
+    pids; ``descendants_map`` gives each pid's transitive children (the pre-kill
+    harvest reads it); ``ignore_terminate`` pids survive SIGTERM so a force_kill is
+    required (the terminate-precedes-force-kill case); ``no_identity`` pids report
+    identity ``None`` (the unconfirmable case). terminate/force_kill record the call
+    and — unless ignored — drop the pid from ``alive``, so the reap's poll converges."""
+
+    def __init__(
+        self, alive=(), descendants_map=None, ignore_terminate=(), no_identity=(), reused=()
+    ):
+        self.alive = set(alive)
+        self.descendants_map = dict(descendants_map or {})
+        self.ignore_terminate = set(ignore_terminate)
+        self.no_identity = set(no_identity)
+        # pids recycled to a different process since harvest: still alive, but the
+        # recorded identity no longer matches — alive_and_ours must read them not-ours.
+        self.reused = set(reused)
+        self.force_killed: list[int] = []
+        self.terminated: list[int] = []
+
+    def descendants(self, pid):
+        # The real seam stamps identity during enumeration; the fake mirrors that,
+        # still emitting None for no_identity pids so the adapter's unconfirmable
+        # guard stays exercised (the contract allows None where no stamp exists).
+        return {child: self.identity(child) for child in self.descendants_map.get(pid, ())}
+
+    def identity(self, pid):
+        return None if pid in self.no_identity else float(pid)
+
+    def is_alive(self, pid):
+        # Bare existence — a recycled pid still reads alive here (that's the point:
+        # the reap must not treat this as licence to signal an unconfirmable pid).
+        return pid in self.alive
+
+    def alive_and_ours(self, pid, identity):
+        if pid in self.reused or pid not in self.alive:
+            return False  # recycled pid or gone → not ours
+        return identity is None or identity == self.identity(pid)  # None → bare-liveness degrade
+
+    def terminate(self, pid):
+        self.terminated.append(pid)
+        if pid not in self.ignore_terminate:
+            self.alive.discard(pid)
+
+    def force_kill(self, pid):
+        self.force_killed.append(pid)
+        self.alive.discard(pid)
+
+
+def _kill_handle() -> SessionHandle:
+    return SessionHandle(task_id="3-1-dev-1", native_id="@w1")
+
+
+def _lifecycle_lines(adapter, task_id="3-1-dev-1"):
+    path = adapter.tasks_dir / task_id / "session-lifecycle.jsonl"
+    if not path.is_file():
+        return []
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+
+
+def test_kill_returns_on_first_dead_probe_without_escalating(tmp_path, monkeypatch):
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    mux = _TeardownMux(survives_kills=0)
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert mux.kill_windows == 1
+    assert mux.liveness_probes == 1
+    # #183: the clean end now reads the pane pids exactly ONCE (the pre-harvest
+    # snapshot), yet — no straggler and the window dead on probe 1 — it still
+    # performs no window re-kill and no escalation, leaving no breadcrumb.
+    assert mux.pane_pid_reads == 1
+    assert _lifecycle_lines(adapter) == []
+
+
+def test_kill_reaps_clean_end_straggler(tmp_path, monkeypatch):
+    """Clean end (window dead on probe 1) with a detached straggler harvested
+    pre-kill: it is terminated, then force-killed (it ignored SIGTERM), all within
+    the grace. terminate must precede force_kill so a mid-write process can flush."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    # pane root 100 dies with the window; the setsid child 200 (a harvested child of
+    # 100, its own session at runtime) survives the pane-pgid kill and must be reaped.
+    host = _RecordingHost(alive={200}, descendants_map={100: [200]}, ignore_terminate={200})
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=0, pids=[100])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert mux.pane_pid_reads == 1  # harvested once, pre-kill
+    assert mux.kill_windows == 1  # window died on the first strike — no re-kill
+    assert host.terminated == [200]
+    assert host.force_killed == [200]  # ignored SIGTERM → force-killed within grace
+    events = _lifecycle_lines(adapter)
+    assert [e["event"] for e in events] == ["straggler-reap", "kill-outcome"]
+    assert events[0]["pids"] == [200]
+    assert events[1]["forced"] == [200]
+    assert events[1]["unreaped"] == []  # reaped clean (distinct key from the wedged `alive`)
+
+
+def test_kill_clean_end_no_stragglers_leaves_no_breadcrumb(tmp_path, monkeypatch):
+    """Clean end, harvested tree already dead: the pane pids are read once and the
+    window killed once, but the reap finds nothing — no terminate, no force_kill, no
+    breadcrumb (the #157 clean path, now with a one-time pre-harvest read)."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    host = _RecordingHost(alive=set(), descendants_map={100: [200]})
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=0, pids=[100])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert mux.pane_pid_reads == 1
+    assert mux.kill_windows == 1
+    assert host.terminated == []
+    assert host.force_killed == []
+    assert _lifecycle_lines(adapter) == []
+
+
+def test_kill_never_signals_identity_none_straggler(tmp_path, monkeypatch):
+    """A harvested straggler whose identity could not be read (None) is
+    unconfirmable — a possible pid reuse — so it is never signalled AT ALL: no
+    terminate, no force-kill, and no poll burning the grace deadline (even a
+    SIGTERM to a recycled pid kills an innocent process). It rides out the grace
+    untouched, recorded honestly as unreaped; with nothing actually signalled
+    there is no straggler-reap breadcrumb, only the kill-outcome."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    host = _RecordingHost(
+        alive={200}, descendants_map={100: [200]}, ignore_terminate={200}, no_identity={200}
+    )
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=0, pids=[100])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert host.terminated == []  # identity None → never signalled (possible reuse)
+    assert host.force_killed == []
+    events = _lifecycle_lines(adapter)
+    assert [e["event"] for e in events] == ["kill-outcome"]
+    assert events[0]["forced"] == []
+    assert events[0]["unreaped"] == [200]  # unconfirmable → left alive, recorded honestly
+
+
+def test_kill_reap_skips_reused_harvested_pid(tmp_path, monkeypatch):
+    """A harvested pid recycled to an unrelated process since the pre-kill snapshot
+    reads not-alive-and-ours at reap (identity mismatch) and is never signalled —
+    only the genuinely-ours straggler is reaped."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    # 200 is still ours (reaped); 300 was reused by the OS for an unrelated process.
+    host = _RecordingHost(
+        alive={200, 300}, descendants_map={100: [200, 300]}, ignore_terminate={200}, reused={300}
+    )
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=0, pids=[100])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert host.terminated == [200]  # 300 never touched — its identity no longer matches
+    assert host.force_killed == [200]
+    events = _lifecycle_lines(adapter)
+    assert events[0]["event"] == "straggler-reap"
+    assert events[0]["pids"] == [200]
+
+
+def test_kill_wedged_escalation_also_force_kills_harvested_descendants(tmp_path, monkeypatch):
+    """A wedged window (outlives grace) force-kills the re-read pane pids AND every
+    harvested descendant still alive-and-ours — the setsid child the pane-pid
+    escalation alone would miss. A descendant that no longer reads alive-and-ours (a
+    reused/gone pid) is skipped."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    # pane root 100 (re-read at escalation) + harvested descendants 200 (still
+    # alive-and-ours) and 300 (gone → not alive_and_ours, must be skipped).
+    host = _RecordingHost(alive={100, 200}, descendants_map={100: [200, 300]})
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=99, pids=[100])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert host.force_killed == [100, 200]  # 300 skipped: not alive_and_ours
+    assert mux.kill_windows == 2
+    events = _lifecycle_lines(adapter)
+    assert [e["event"] for e in events] == ["kill-escalated", "kill-outcome"]
+    assert events[0]["pids"] == [100]
+    assert events[1]["alive"] is True
+    assert events[1]["escalated"] is True
+
+
+def test_kill_wedged_escalation_never_force_kills_identity_none_descendant(tmp_path, monkeypatch):
+    """A wedged window must NOT force-kill a harvested descendant whose recorded
+    identity is None: alive_and_ours(pid, None) degrades to bare is_alive, so a
+    reused pid would pass — the ProcessHost contract forbids force-killing it. Only
+    the pane pid (pinned by the live window) and the identity-confirmed descendant
+    are struck."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    # 200 is identity-confirmed (force-killed); 400 is alive but unconfirmable
+    # (identity None) → must be left untouched even under the wedged escalation.
+    host = _RecordingHost(
+        alive={100, 200, 400}, descendants_map={100: [200, 400]}, no_identity={400}
+    )
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=99, pids=[100])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert host.force_killed == [100, 200]  # 400 refused: None identity
+    assert 400 not in host.force_killed
+
+
+def test_kill_strikes_window_before_reraising_bad_host_override(tmp_path, monkeypatch):
+    """The process-host lookup now precedes the first strike; an explicit-but-bogus
+    BMAD_LOOP_PROCESS_HOST must still raise loudly (never silently mis-signal), but
+    the window must not be left alive behind the raise — kill_window fires once, then
+    ProcessHostError propagates and the harvest is never reached."""
+    from bmad_loop.process_host import ProcessHostError, get_process_host
+
+    monkeypatch.setenv("BMAD_LOOP_PROCESS_HOST", "bogus-host-name")
+    get_process_host.cache_clear()
+    mux = _TeardownMux(survives_kills=0)
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    try:
+        with pytest.raises(ProcessHostError):
+            adapter.kill(_kill_handle())
+        assert mux.kill_windows == 1  # struck once before the raise
+        assert mux.pane_pid_reads == 0  # never reached the harvest
+    finally:
+        get_process_host.cache_clear()
+
+
+def test_kill_escalates_to_pane_pid_force_kill(tmp_path, monkeypatch):
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    host = _RecordingHost()
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=99, pids=[4242])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert host.force_killed == [4242]
+    assert mux.kill_windows == 2  # first strike + post-escalation re-kill
+    events = _lifecycle_lines(adapter)
+    assert [e["event"] for e in events] == ["kill-escalated", "kill-outcome"]
+    assert events[0]["pids"] == [4242]
+    assert events[1]["alive"] is True  # honest outcome: the window survived even the escalation
+    assert events[1]["escalated"] is True
+
+
+def test_kill_degrades_when_backend_offers_no_pids(tmp_path, monkeypatch):
+    """A herdr-shaped backend inherits the seam default [] — the escalation
+    degrades to the re-kill + breadcrumb, force-killing nothing."""
+    monkeypatch.setattr(generic, "KILL_POLL_S", 0)
+    host = _RecordingHost()
+    monkeypatch.setattr(generic, "get_process_host", lambda: host)
+    mux = _TeardownMux(survives_kills=99, pids=())
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0.05)
+    adapter.kill(_kill_handle())
+    assert host.force_killed == []
+    assert mux.kill_windows == 2
+    events = _lifecycle_lines(adapter)
+    assert [e["event"] for e in events] == ["kill-escalated", "kill-outcome"]
+    assert events[0]["pids"] == []
+
+
+def test_kill_grace_zero_is_the_legacy_single_strike(tmp_path):
+    mux = _TeardownMux(survives_kills=99, pids=[4242])
+    adapter = make_adapter(tmp_path, mux=mux, teardown_grace_s=0)
+    adapter.kill(_kill_handle())
+    assert mux.kill_windows == 1
+    assert mux.liveness_probes == 0
+    assert mux.pane_pid_reads == 0
+    assert _lifecycle_lines(adapter) == []
+
+
+# ----------------------------------------------- GenericDevAdapter (B1/B7)
+#
+# Alex's generic bmad-dev-auto skill writes no result.json; this adapter
+# synthesizes the legacy result dict from the spec it leaves on disk, on the
+# Stop event, via devcontract. These exercise that override in isolation.
+
+
+def make_dev_adapter(tmp_path, profile_name="claude"):
+    impl = tmp_path / "impl"
+    impl.mkdir()
+    # project root == tmp_path so rebased(spec.cwd=tmp_path) is a no-op: these
+    # unit tests exercise _result_json in place, where cwd == the project root.
+    paths = ProjectPaths(
+        project=tmp_path,
+        implementation_artifacts=impl,
+        planning_artifacts=tmp_path / "plan",
+    )
+    adapter = GenericDevAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy()),
+        profile=get_profile(profile_name),
+        paths=paths,
+    )
+    return adapter, impl
+
+
+class _ScriptedWatcher:
+    """SignalWatcher stand-in: yields a scripted HookEvent per wait_for call, then
+    None. on_call(n) fires before the nth return so a test can flush an on-disk
+    artifact between events (mirrors a session writing its spec mid-run)."""
+
+    def __init__(self, events, on_call=None):
+        self._events = list(events)
+        self._on_call = on_call
+        self.calls = 0
+
+    def wait_for(self, task_id, kinds, timeout_s, since_ns=0):
+        self.calls += 1
+        if self._on_call:
+            self._on_call(self.calls)
+        return self._events.pop(0) if self._events else None
+
+
+def _stop_event(task_id, session_id, transcript_path):
+    return HookEvent(
+        ts=1,
+        event="Stop",
+        task_id=task_id,
+        session_id=session_id,
+        transcript_path=transcript_path,
+        path=Path("x"),
+    )
+
+
+def _dev_handle(launched_ns=0) -> SessionHandle:
+    return SessionHandle(task_id="3-1-dev-1", native_id="@1", launched_ns=launched_ns)
+
+
+def _dev_spec(tmp_path, story_key="3-1") -> SessionSpec:
+    return SessionSpec(
+        task_id="3-1-dev-1",
+        role="dev",
+        prompt="/bmad-dev-auto 3-1",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": story_key},
+    )
+
+
+def test_generic_dev_synthesizes_done_spec(tmp_path):
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: done\nbaseline_revision: abc123\n---\n\n"
+        "## Auto Run Result\n\nStatus: done\nImplemented the thing.\n"
+    )
+    rj = adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=True)
+    assert rj["workflow"] == "auto-dev"
+    assert rj["status"] == "done"
+    assert rj["baseline_commit"] == "abc123"  # mapped from baseline_revision
+    assert rj["story_key"] == "3-1"
+    assert rj["escalations"] == []
+    assert "dw_ids" not in rj  # a normal story exports no BMAD_LOOP_DW_IDS
+
+
+def test_generic_dev_bundle_stamps_dw_ids_from_env(tmp_path):
+    # The orchestrator exports the bundle's owned dw ids; the generic skill never
+    # authors them. The adapter stamps them onto the synthesized result, tolerant
+    # of whitespace in the env value (e.g. a hand-set or hook-rewritten "DW-1, DW-2").
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "spec-dw-bundle.md").write_text(
+        "---\nstatus: done\nbaseline_revision: abc123\n---\n\n"
+        "## Auto Run Result\n\nStatus: done\nResolved the bundle.\n"
+    )
+    spec = SessionSpec(
+        task_id="3-1-dev-1",
+        role="dev",
+        prompt="/bmad-dev-auto bundle",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": "dw-bundle", "BMAD_LOOP_DW_IDS": "DW-1, DW-2"},
+    )
+    rj = adapter._result_json(_dev_handle(), spec, wait=True)
+    assert rj["dw_ids"] == ["DW-1", "DW-2"]
+
+
+def test_generic_dev_dw_ids_none_env_does_not_crash(tmp_path):
+    # A misbehaving plugin/hook could set BMAD_LOOP_DW_IDS to None instead of
+    # deleting it; synthesis must not crash (it would false-stall a completed
+    # session), and emits no dw ids.
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: done\nbaseline_revision: abc123\n---\n\n"
+        "## Auto Run Result\n\nStatus: done\nImplemented the thing.\n"
+    )
+    spec = SessionSpec(
+        task_id="3-1-dev-1",
+        role="dev",
+        prompt="/bmad-dev-auto 3-1",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": "3-1", "BMAD_LOOP_DW_IDS": None},
+    )
+    rj = adapter._result_json(_dev_handle(), spec, wait=True)
+    assert rj["status"] == "done"
+    assert "dw_ids" not in rj
+
+
+def test_generic_dev_finds_spec_in_worktree(tmp_path):
+    # Under worktree isolation the skill runs with cwd set to the worktree and
+    # leaves its terminal spec in the worktree's rebased implementation-artifacts
+    # dir, not the main checkout's. The adapter must search the cwd-rebased dir or
+    # it false-stalls a story that actually completed (and rolls it back).
+    impl = tmp_path / "_bmad-output" / "impl"
+    impl.mkdir(parents=True)  # configured main-repo dir, left empty
+    paths = ProjectPaths(
+        project=tmp_path,
+        implementation_artifacts=impl,
+        planning_artifacts=tmp_path / "_bmad-output" / "plan",
+    )
+    adapter = GenericDevAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy()),
+        profile=get_profile("claude"),
+        paths=paths,
+    )
+
+    wt = tmp_path / "wt"
+    wt_impl = wt / "_bmad-output" / "impl"
+    wt_impl.mkdir(parents=True)
+    (wt_impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: done\nbaseline_revision: abc123\n---\n\n"
+        "## Auto Run Result\n\nStatus: done\nImplemented the thing.\n"
+    )
+
+    rj = adapter._result_json(_dev_handle(), _dev_spec(wt), wait=False)
+    assert rj is not None and rj["status"] == "done"
+
+    # Genuinely cwd-driven: pointed at the main checkout (empty dir), nothing is found.
+    assert adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=False) is None
+
+
+def test_generic_dev_blocked_spec_is_critical(tmp_path):
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: blocked\n---\n\n## Auto Run Result\n\nStatus: blocked\nUnclear intent.\n"
+    )
+    rj = adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=True)
+    assert rj["status"] == "blocked"
+    assert rj["escalations"][0]["severity"] == "CRITICAL"
+
+
+def test_generic_dev_finds_no_spec_fallback(tmp_path):
+    """The no-spec fallback has frontmatter status but no `## Auto Run Result`
+    heading, so it is located by filename rather than content."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "bmad-dev-auto-result-unclear-1234.md").write_text(
+        "---\nstatus: blocked\n---\n\n# BMad Dev Auto Result\n\n"
+        "Status: blocked\nBlocking condition: unclear intent\n"
+    )
+    rj = adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=True)
+    assert rj["status"] == "blocked"
+    assert rj["escalations"][0]["type"] == "blocked"
+
+
+def test_generic_dev_fallback_done_marker_frontmatter_only(tmp_path):
+    """The workflow completion contract instructs exactly this shape: a
+    ``bmad-dev-auto-result-*.md`` with ``status: done`` frontmatter and no
+    ``## Auto Run Result`` heading. It must be located by filename prefix and
+    synthesize a done result."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "bmad-dev-auto-result-1-1-tea.automate-1.md").write_text(
+        "---\nstatus: done\n---\n\nCompletion signal; artifacts live elsewhere.\n"
+    )
+    rj = adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=True)
+    assert rj["status"] == "done"
+
+
+def test_scan_readback_non_utf8_spec_returns_none(tmp_path):
+    """The scan-path twin of the stories read-back guard: a binary/truncated spec
+    (or a torn glimpse of one still being written) degrades to a result-less
+    read-back on the Stop path too, so the session nudges/stalls instead of
+    crashing the run. find_result_artifact's `except OSError` never caught this."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "spec-3-1-foo.md").write_bytes(_BAD_UTF8)
+    assert adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=False) is None
+
+
+def test_scan_readback_non_utf8_fallback_marker_returns_none(tmp_path):
+    """The fallback marker is name-matched, so it reaches synthesize_result unread."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "bmad-dev-auto-result-3-1-dev-1.md").write_bytes(_BAD_UTF8)
+    assert adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=False) is None
+
+
+def test_generic_dev_ignores_pre_launch_artifact(tmp_path, monkeypatch):
+    """A spec left by a prior cycle (mtime below the launch floor) is not this
+    session's output and must not be read as a stale completion."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)  # don't sit out the await grace
+    spec = impl / "spec-old.md"
+    spec.write_text("---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n")
+    floor = spec.stat().st_mtime_ns + 1_000_000_000  # 1s after the file's mtime
+    assert adapter._result_json(_dev_handle(floor), _dev_spec(tmp_path), wait=True) is None
+
+
+def test_generic_dev_result_json_polls_until_artifact_flushed(tmp_path, monkeypatch):
+    """wait=True must briefly await a spec that isn't flushed the instant the Stop
+    event fires, rather than reading once and mis-reporting a live run as stalled."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    spec_file = impl / "spec-3-1-foo.md"
+    calls = {"n": 0}
+
+    def delayed_find(artifacts, *, since_ns):
+        calls["n"] += 1
+        if calls["n"] < 3:
+            return None  # not yet flushed to disk
+        spec_file.write_text("---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n")
+        return spec_file
+
+    monkeypatch.setattr(generic.devcontract, "find_result_artifact", delayed_find)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)  # spin without real sleeps
+    rj = adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=True)
+    assert rj is not None and rj["status"] == "done"
+    assert calls["n"] >= 3  # it polled rather than giving up on the first miss
+
+
+# ------------------------------- GenericDevAdapter stories-mode read-back
+#
+# Under folder+id dispatch (BMAD_LOOP_SPEC_FOLDER set), the adapter resolves the
+# story spec deterministically at <spec-folder>/stories/<id>-*.md instead of the
+# mtime-floor scan.
+
+
+def _stories_spec(tmp_path, story_key="1", spec_folder="epic") -> SessionSpec:
+    return SessionSpec(
+        task_id="1-dev-1",
+        role="dev",
+        prompt="/bmad-dev-auto Spec folder: epic. Story id: 1.",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": story_key, "BMAD_LOOP_SPEC_FOLDER": spec_folder},
+    )
+
+
+def _write_story_spec(tmp_path, story_key, slug, body, spec_folder="epic") -> Path:
+    d = tmp_path / spec_folder / "stories"
+    d.mkdir(parents=True, exist_ok=True)
+    p = d / f"{story_key}-{slug}.md"
+    p.write_text(body, encoding="utf-8")
+    return p
+
+
+def test_stories_readback_resolves_by_id_not_mtime_scan(tmp_path, monkeypatch):
+    adapter, impl = make_dev_adapter(tmp_path)
+    # a stray, NEWER artifact in the impl dir would win the mtime scan — the
+    # stories path must ignore it entirely (never call find_result_artifact).
+    (impl / "spec-stray.md").write_text(
+        "---\nstatus: done\nbaseline_revision: straybase\n---\n\n## Auto Run Result\n\nStatus: done\n"
+    )
+    _write_story_spec(
+        tmp_path,
+        "1",
+        "foo",
+        "---\nstatus: done\nbaseline_revision: story1base\n---\n\n"
+        "## Auto Run Result\n\nStatus: done\nImplemented.\n",
+    )
+
+    def boom(*a, **k):
+        raise AssertionError("stories mode must not call the mtime scan")
+
+    monkeypatch.setattr(generic.devcontract, "find_result_artifact", boom)
+    rj = adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=True)
+    assert rj["status"] == "done"
+    assert rj["story_key"] == "1"
+    assert rj["baseline_commit"] == "story1base"  # the story spec, not the stray
+
+
+def test_stories_readback_sentinel_is_blocked_escalation(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    _write_story_spec(
+        tmp_path,
+        "1",
+        "unresolved",
+        "---\nstatus: blocked\n---\n\n## Auto Run Result\n\n"
+        "Status: blocked\nBlocking condition: story already blocked\n",
+    )
+    rj = adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=True)
+    assert rj is not None and rj["status"] == "blocked"
+    crits = [e for e in rj["escalations"] if str(e.get("severity", "")).upper() == "CRITICAL"]
+    assert crits, "a blocked sentinel must synthesize a CRITICAL escalation"
+
+
+def test_stories_readback_stale_spec_below_launch_floor_returns_none(tmp_path):
+    """A1: a terminal spec whose mtime predates the session launch is a stale prior
+    artifact (the dev's `done` a follow-up review session re-opens), not this
+    session's output — it must NOT read as completed. Mirrors the mtime-scan path's
+    `since_ns` floor. Without the floor this returns `completed:done` for a review
+    that produced nothing."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    spec = _write_story_spec(
+        tmp_path, "1", "foo", "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+    )
+    # launch AFTER the spec was written → the spec is stale for this session
+    launched = spec.stat().st_mtime_ns + 1
+    handle = _dev_handle(launched_ns=launched)
+    assert adapter._result_json(handle, _stories_spec(tmp_path), wait=False) is None
+    # a re-write at/after the floor is this session's output → read normally
+    spec.write_text(
+        "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\nreviewed.\n",
+        encoding="utf-8",
+    )
+    import os
+
+    os.utime(spec, ns=(launched + 1_000, launched + 1_000))
+    rj = adapter._result_json(handle, _stories_spec(tmp_path), wait=False)
+    assert rj is not None and rj["status"] == "done"
+
+
+def test_stories_readback_ambiguous_returns_none_without_waiting(tmp_path):
+    """A2: >1 file matching `<id>-*.md` is an anomaly no wait can collapse. The
+    read-back returns None promptly (rather than burning the full grace) — the
+    engine's next _pick_next re-classifies AMBIGUOUS into an actionable wedge."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    _write_story_spec(tmp_path, "1", "foo", "---\nstatus: done\n---\n\ndone\n")
+    _write_story_spec(tmp_path, "1", "bar", "---\nstatus: done\n---\n\ndone\n")  # 2nd match
+    start = time.monotonic()
+    # wait=True would normally poll up to RESULT_GRACE_S; AMBIGUOUS must short-circuit
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=True) is None
+    assert time.monotonic() - start < generic.RESULT_GRACE_S / 2
+
+
+def test_stories_readback_pending_returns_none(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    # no story spec on disk yet -> not terminal
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=False) is None
+
+
+def test_stories_readback_non_terminal_returns_none(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    # a died-mid-flight ready-for-dev (no plan-halt) is not a terminal result
+    _write_story_spec(tmp_path, "1", "foo", "---\nstatus: ready-for-dev\n---\n\nplanned only\n")
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=False) is None
+
+
+def test_stories_readback_non_utf8_spec_returns_none(tmp_path):
+    """synthesize_result re-reads the resolved spec as UTF-8; a binary/undecodable
+    spec (or a torn glimpse of one still being written) must degrade to a
+    result-less poll, never crash the read-back. resolve_story_spec classifies it
+    PRESENT with status "" — so without the guard the poll dies on the very state
+    the engine is designed to wedge-and-pause on at the next pick."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    d = tmp_path / "epic" / "stories"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "1-slug.md").write_bytes(_BAD_UTF8)
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=False) is None
+
+
+def test_stories_readback_plan_halt_is_successful_terminal(tmp_path):
+    # BMAD_LOOP_PLAN_HALT flips the SAME ready-for-dev spec into a successful,
+    # plan-marked terminal (the leg-1 plan is done, awaiting implementation).
+    adapter, _ = make_dev_adapter(tmp_path)
+    _write_story_spec(
+        tmp_path,
+        "1",
+        "foo",
+        "---\nstatus: ready-for-dev\nbaseline_revision: planbase\n---\n\nplan\n",
+    )
+    spec = _stories_spec(tmp_path)
+    spec.env["BMAD_LOOP_PLAN_HALT"] = "1"
+    rj = adapter._result_json(_dev_handle(), spec, wait=True)
+    assert rj is not None
+    assert rj["status"] == "ready-for-dev"
+    assert rj["plan_halt"] is True
+    assert rj["escalations"] == []
+    assert rj["baseline_commit"] == "planbase"
+
+
+def test_generic_dev_result_json_no_wait_reads_once(tmp_path, monkeypatch):
+    """wait=False keeps the read-once behavior: no polling, immediate None."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    calls = {"n": 0}
+
+    def find(artifacts, *, since_ns):
+        calls["n"] += 1
+        return None
+
+    monkeypatch.setattr(generic.devcontract, "find_result_artifact", find)
+    assert adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=False) is None
+    assert calls["n"] == 1
+
+
+# ------------------------------- result-less-Stop diagnostics (#149)
+#
+# When a Stop's artifact read-back gives up empty, the adapter appends a
+# {ts, verdict, detail} line to tasks/<task_id>/resultless-stops.jsonl so the
+# WHY of a nudge/stall (issue #149's undiagnosable trigger) is readable
+# straight from the run dir.
+
+
+def _breadcrumbs(adapter, task_id="3-1-dev-1"):
+    path = adapter.tasks_dir / task_id / "resultless-stops.jsonl"
+    if not path.is_file():
+        return []
+    return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines()]
+
+
+def test_resultless_stop_breadcrumb_scan_no_artifact(tmp_path, monkeypatch):
+    adapter, impl = make_dev_adapter(tmp_path)
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    assert adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=True) is None
+    (crumb,) = _breadcrumbs(adapter)
+    assert crumb["verdict"] == "no-artifact"
+    assert str(impl) in crumb["detail"]  # names the searched dirs
+
+
+def test_resultless_stop_breadcrumb_stories_pending(tmp_path, monkeypatch):
+    adapter, _ = make_dev_adapter(tmp_path)
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=True) is None
+    (crumb,) = _breadcrumbs(adapter)
+    assert crumb["verdict"] == "pending"
+
+
+def test_resultless_stop_breadcrumb_stories_ambiguous(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    _write_story_spec(tmp_path, "1", "foo", "---\nstatus: done\n---\n\ndone\n")
+    _write_story_spec(tmp_path, "1", "bar", "---\nstatus: done\n---\n\ndone\n")
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=True) is None
+    (crumb,) = _breadcrumbs(adapter)
+    assert crumb["verdict"] == "ambiguous"
+    assert "2 specs" in crumb["detail"]
+
+
+def test_resultless_stop_breadcrumb_stories_stale_mtime(tmp_path, monkeypatch):
+    adapter, _ = make_dev_adapter(tmp_path)
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    spec = _write_story_spec(
+        tmp_path, "1", "foo", "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+    )
+    handle = _dev_handle(launched_ns=spec.stat().st_mtime_ns + 1)
+    assert adapter._result_json(handle, _stories_spec(tmp_path), wait=True) is None
+    (crumb,) = _breadcrumbs(adapter)
+    assert crumb["verdict"] == "stale-mtime"
+    assert "predates session launch" in crumb["detail"]
+
+
+def test_resultless_stop_breadcrumb_stories_not_terminal(tmp_path, monkeypatch):
+    adapter, _ = make_dev_adapter(tmp_path)
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    _write_story_spec(tmp_path, "1", "foo", "---\nstatus: ready-for-dev\n---\n\nplanned only\n")
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=True) is None
+    (crumb,) = _breadcrumbs(adapter)
+    assert crumb["verdict"] == "not-terminal"
+    assert "'ready-for-dev'" in crumb["detail"]
+
+
+def test_resultless_stop_breadcrumb_base_no_result_json(tmp_path):
+    adapter = GenericTmuxAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy()),
+        profile=get_profile("claude"),
+    )
+    assert adapter._await_result("3-1-dev-1", grace_s=0.0) is None
+    (crumb,) = _breadcrumbs(adapter)
+    assert crumb["verdict"] == "no-result-json"
+    assert "result.json" in crumb["detail"]
+
+
+def test_resultless_stop_breadcrumb_only_on_stop_readback(tmp_path):
+    """wait=False reads (the _final stall/crash re-checks) must not write
+    breadcrumbs — only the Stop-event read-back diagnoses a result-less Stop."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    assert adapter._result_json(_dev_handle(), _dev_spec(tmp_path), wait=False) is None
+    assert adapter._result_json(_dev_handle(), _stories_spec(tmp_path), wait=False) is None
+    assert _breadcrumbs(adapter) == []
+
+
+def test_resultless_stop_breadcrumb_write_failure_is_swallowed(tmp_path):
+    """The breadcrumb is best-effort observability: an unwritable tasks dir
+    must never break the completion loop."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    blocker = tmp_path / "blocker"
+    blocker.write_text("a file where the tasks dir should be")
+    adapter.tasks_dir = blocker / "tasks"  # any write under it raises OSError
+    adapter._note_resultless_stop("3-1-dev-1", "pending", "detail")  # must not raise
+
+
+def test_generic_dev_disables_nudges(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    assert adapter._stop_nudges == 0
+
+
+def test_wait_for_completion_skips_transcriptless_subagent_stop(tmp_path):
+    """Copilot (subagent_stop_without_transcript) fires agentStop for each subagent
+    turn with an empty transcriptPath and a tool-use session id. The dev stage runs
+    0 nudges, so without filtering that first subagent Stop would stall the run
+    outright (the v0.7.0 Copilot regression). It must be ignored, and the main
+    session's later turn-end must drive completion."""
+    adapter, impl = make_dev_adapter(tmp_path, profile_name="copilot")
+    assert adapter._stop_nudges == 0  # dev: a result-less *main* Stop is a real stall
+
+    def flush_terminal_spec(call_n):
+        # the spec lands only after the (ignored) subagent Stop — exactly as the main
+        # session writes it on its own turn-end, not on the subagent's premature one
+        if call_n == 2:
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [
+            _stop_event("3-1-dev-1", "toolu_bdrk_subagent", None),  # subagent: ignored
+            _stop_event("3-1-dev-1", "main-sess", "/run/events.jsonl"),  # main turn-end
+        ],
+        on_call=flush_terminal_spec,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "completed"
+    assert result.transcript_path == "/run/events.jsonl"  # main's path, not empty
+    assert result.session_id == "main-sess"  # the subagent's toolu_ id is never recorded
+
+
+def test_wait_for_completion_transcriptless_stop_is_terminal_without_flag(tmp_path):
+    """Gating: a profile without subagent_stop_without_transcript (claude) still
+    treats every Stop as the main turn-end, so a result-less one stalls the dev
+    stage (0 nudges) — the filter must not leak to other CLIs."""
+    adapter, _ = make_dev_adapter(tmp_path, profile_name="claude")
+    adapter._stall_grace_s = 0  # isolate the gating from the idle-grace path
+    assert adapter.profile.subagent_stop_without_transcript is False
+    adapter.watcher = _ScriptedWatcher([_stop_event("3-1-dev-1", "sess", None)])
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "stalled"
+
+
+def test_dev_stall_grace_defaults_from_policy(tmp_path):
+    # dev sessions tolerate a result-less Stop (a turn ended awaiting a background
+    # process) for the policy grace; the base/non-dev adapter never does (grace 0).
+    dev, _ = make_dev_adapter(tmp_path)
+    assert dev._stall_grace_s == float(LimitsPolicy().dev_stall_grace_s)
+    base = GenericTmuxAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy(dev_stall_grace_s=600)),
+        profile=get_profile("claude"),
+    )
+    assert base._stall_grace_s == 0.0
+
+
+def test_dev_result_less_stop_awaits_reinvocation_then_completes(tmp_path, monkeypatch):
+    """A dev session that ends its turn awaiting a background process emits a
+    result-less Stop, then a later Stop once the work lands. With grace > 0 the
+    first Stop must NOT stall; the second (carrying the terminal spec) completes."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)  # don't sit out the per-Stop await
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    assert adapter._stall_grace_s > 0
+
+    def flush_terminal_spec(call_n):
+        # spec only finalizes on the second turn-end, after the background run
+        if call_n == 2:
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [
+            _stop_event("3-1-dev-1", "sess", "/run/events.jsonl"),  # yielded to await bg run
+            _stop_event("3-1-dev-1", "sess", "/run/events.jsonl"),  # re-invoked, finished
+        ],
+        on_call=flush_terminal_spec,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "completed"
+
+
+def test_dev_idle_result_is_ignored_while_window_alive(tmp_path, monkeypatch):
+    """A terminal artifact observed on an idle tick while the window is alive is
+    advisory only — the agent may still be mid-turn (returning early would let
+    run()'s finally-kill terminate it). Completion waits for the next Stop."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: True
+
+    def flush_terminal_spec(call_n):
+        if call_n == 2:  # idle tick after a result-less Stop, before final turn-end
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [
+            _stop_event("3-1-dev-1", "sess", "/run/events.jsonl"),  # arms the grace window
+            None,  # idle tick: artifact on disk, window alive -> must keep waiting
+            _stop_event("3-1-dev-1", "sess", "/run/events.jsonl"),  # authoritative turn-end
+        ],
+        on_call=flush_terminal_spec,
+    )
+
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+
+    assert result.status == "completed"
+    assert adapter.watcher.calls == 3  # completed on the Stop, not the idle tick
+
+
+def test_dev_grace_result_does_not_complete_while_window_alive(tmp_path, monkeypatch):
+    """Grace expiry under a live window must not upgrade to completed on artifact
+    presence — the stall verdict stands until a Stop or window death vouches."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 0
+    adapter._window_alive = lambda handle: True
+
+    clock = {"t": 1000.0}
+
+    class _Clock:  # scoped shim so we don't mutate the real time module
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def flush_terminal_spec(call_n):
+        if call_n == 2:  # artifact lands, then the grace window expires in silence
+            clock["t"] += 11.0
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [_stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],
+        on_call=flush_terminal_spec,
+    )
+
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+
+    assert result.status == "stalled"
+    assert result.result_json is None
+
+
+def test_dev_window_death_with_artifact_completes(tmp_path, monkeypatch):
+    """Window death is authoritative: a terminal artifact on disk when the window
+    is gone upgrades the crash fallback to completed."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+    )
+
+    adapter.watcher = _ScriptedWatcher([None])  # no hook event, window already gone
+
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+
+
+def test_dev_stalls_when_grace_elapses_without_reinvocation(tmp_path, monkeypatch):
+    """A result-less Stop with no re-invocation before the grace window elapses is
+    a genuine stall — the grace must not hang until the session timeout."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 0  # isolate the grace-expiry stall from the wake-nudge path
+    adapter._window_alive = lambda handle: True  # window still up, just idle
+
+    clock = {"t": 1000.0}
+
+    class _Clock:  # scoped shim so we don't mutate the real time module
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def advance_past_grace(call_n):
+        if call_n == 2:  # after the result-less Stop armed the window
+            clock["t"] += 11.0
+
+    adapter.watcher = _ScriptedWatcher(
+        [_stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],  # then None forever
+        on_call=advance_past_grace,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "stalled"
+
+
+def test_dev_grace_expiry_rechecks_liveness_and_honors_just_dead_window(tmp_path, monkeypatch):
+    """A window that dies in the gap between the top-of-tick liveness probe and the
+    grace-expiry stall return must flow through the crash path — window death is
+    authoritative, so its just-flushed artifact is honored (completed), not
+    discarded by the stall's accept_result=False."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 0
+
+    # alive at the top-of-tick probe (call 1), dead at the pre-stall re-probe (call 2)
+    alive_calls = {"n": 0}
+
+    def flaky_alive(handle):
+        alive_calls["n"] += 1
+        return alive_calls["n"] == 1
+
+    adapter._window_alive = flaky_alive
+
+    clock = {"t": 1000.0}
+
+    class _Clock:  # scoped shim so we don't mutate the real time module
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def flush_terminal_spec(call_n):
+        if call_n == 2:  # artifact lands, then the grace window expires in silence
+            clock["t"] += 11.0
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [_stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],
+        on_call=flush_terminal_spec,
+    )
+
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+    assert alive_calls["n"] == 2  # top-of-tick probe + pre-stall re-probe
+
+
+def test_dev_grace_expiry_stall_recheck_transport_error_still_stalls(tmp_path, monkeypatch):
+    """A transport error on the pre-stall liveness re-probe is not proof of death
+    (as at the top of the tick): the verdict falls through to stalled rather than
+    crashing on the hiccup."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 0
+
+    alive_calls = {"n": 0}
+
+    def flaky_alive(handle):
+        alive_calls["n"] += 1
+        if alive_calls["n"] == 1:
+            return True  # top-of-tick probe
+        raise MultiplexerError("tmux hang")  # pre-stall re-probe
+
+    adapter._window_alive = flaky_alive
+
+    clock = {"t": 1000.0}
+
+    class _Clock:  # scoped shim so we don't mutate the real time module
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def advance_past_grace(call_n):
+        if call_n == 2:
+            clock["t"] += 11.0
+
+    adapter.watcher = _ScriptedWatcher(
+        [_stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],
+        on_call=advance_past_grace,
+    )
+
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+
+    assert result.status == "stalled"
+    assert result.result_json is None
+    assert alive_calls["n"] == 2  # probe raised on the re-check, fell through to stall
+
+
+def test_dev_log_activity_keeps_grace_window_alive(tmp_path, monkeypatch):
+    """A session still streaming to the tee'd pane log is working, not stalled:
+    pane growth must re-arm the grace window even with no fresh Stop, so only
+    genuine silence for the full grace trips a stall (the Mode-2 regression — a
+    long productive turn building a diff / launching review subagents)."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 0  # isolate the activity re-arm from the wake-nudge path
+    adapter._window_alive = lambda handle: True
+
+    log_path = adapter.logs_dir / "3-1-dev-1.log"
+    log_path.write_bytes(b"start\n")  # baseline captured when the window arms
+
+    clock = {"t": 1000.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def tick(call_n):
+        # call 1 yields the result-less Stop that arms the window. Each later idle
+        # tick advances the clock past the grace; calls 2-3 ALSO grow the pane log
+        # (active -> must not stall), call 4+ stays silent (-> stall).
+        if call_n >= 2:
+            clock["t"] += 11.0
+        if 2 <= call_n <= 3:
+            with log_path.open("ab") as f:
+                f.write(b"working\n")
+
+    adapter.watcher = _ScriptedWatcher(
+        [_stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],  # then None forever
+        on_call=tick,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    # Pre-fix this stalls at call 2; the activity re-arm carries it to the first
+    # silent tick (call 4) before the genuine stall.
+    assert result.status == "stalled"
+    assert adapter.watcher.calls == 4
+
+
+def test_dev_grace_expiry_nudges_awake_before_stalling(tmp_path, monkeypatch):
+    """bmad-loop can't re-invoke a turn ended to await a background process, so an
+    idle dev session is woken with up to dev_stall_nudges wake nudges on grace
+    expiry before it is declared stalled (the Mode-1 fix)."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 2
+    adapter._window_alive = lambda handle: True
+    sent: list[str] = []
+    adapter.send_text = lambda handle, text: sent.append(text)
+
+    clock = {"t": 1000.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def advance(call_n):
+        if call_n >= 2:  # every idle tick after the result-less Stop armed the window
+            clock["t"] += 11.0
+
+    adapter.watcher = _ScriptedWatcher(
+        [_stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],  # then None forever
+        on_call=advance,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "stalled"
+    # two wake nudges spent (silent through both grace windows), then the stall
+    assert sent == [generic.STALL_NUDGE_TEXT, generic.STALL_NUDGE_TEXT]
+
+
+def test_dev_stall_nudge_wakes_session_that_then_completes(tmp_path, monkeypatch):
+    """A wake nudge that the session answers (a fresh Stop carrying the terminal
+    spec) completes the session — the nudge served as the missing re-invocation."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 2
+    adapter._window_alive = lambda handle: True
+    sent: list[str] = []
+    adapter.send_text = lambda handle, text: sent.append(text)
+
+    clock = {"t": 1000.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def script(call_n):
+        if call_n == 2:  # idle tick: push past the grace so the nudge fires
+            clock["t"] += 11.0
+        if call_n == 3:  # the session answered the nudge and landed its spec
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [
+            _stop_event("3-1-dev-1", "sess", "/run/events.jsonl"),  # ended turn to await bg run
+            None,  # idle gap -> grace expires -> wake nudge
+            _stop_event("3-1-dev-1", "sess", "/run/events.jsonl"),  # woke, finished
+        ],
+        on_call=script,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "completed"
+    assert sent == [generic.STALL_NUDGE_TEXT]  # one nudge was enough to wake it
+
+
+def _capped_spec(tmp_path, cap: int) -> SessionSpec:
+    """A workflow-session spec: same shape as _dev_spec but with the monotonic
+    stall-nudge cap the engine sets for injected plugin workflows."""
+    return SessionSpec(
+        task_id="3-1-dev-1",
+        role="dev",
+        prompt="/tea-automate 3-1",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": "3-1"},
+        stall_nudges_cap=cap,
+    )
+
+
+def _stall_loop_adapter(tmp_path, monkeypatch):
+    """Adapter + clock + sent-nudge recorder for driving the refill loop: a
+    session that answers every wake nudge with a fresh result-less Stop."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._stall_grace_s = 10.0
+    adapter._stall_nudges = 2
+    adapter._window_alive = lambda handle: True
+    sent: list[str] = []
+    adapter.send_text = lambda handle, text: sent.append(text)
+
+    clock = {"t": 1000.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+    return adapter, impl, clock, sent
+
+
+def test_workflow_cap_bounds_refilled_stall_nudges(tmp_path, monkeypatch):
+    """The completion-signal livelock: a session that answers every wake nudge
+    with a fresh result-less Stop gets its per-silence budget refilled each time
+    and can ride the loop until session timeout. A capped spec (what the engine
+    sets for injected workflow sessions) bounds the TOTAL nudges ever sent:
+    exactly cap sends, then stalled."""
+    adapter, _, clock, sent = _stall_loop_adapter(tmp_path, monkeypatch)
+
+    def advance(call_n):
+        if call_n >= 2:
+            clock["t"] += 11.0
+
+    stop = _stop_event("3-1-dev-1", "sess", "/run/events.jsonl")
+    adapter.watcher = _ScriptedWatcher(
+        # each None is an idle tick past the grace -> a nudge; each fresh Stop is
+        # the session answering result-less -> the per-silence budget refills
+        [stop, None, stop, None, stop, None],
+        on_call=advance,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _capped_spec(tmp_path, cap=2))
+    assert result.status == "stalled"
+    assert sent == [generic.STALL_NUDGE_TEXT] * 2
+
+
+def test_uncapped_spec_keeps_refilling_nudges_past_cap(tmp_path, monkeypatch):
+    """cap=None (the raw SessionSpec default — the engine now caps every
+    session it drives, dev/review included) preserves the uncapped adapter
+    contract byte-identical: every fresh Stop restores the budget and nudging
+    continues past any cap, bounded only by spec.timeout_s."""
+    adapter, _, clock, sent = _stall_loop_adapter(tmp_path, monkeypatch)
+
+    def advance(call_n):
+        if call_n >= 2:
+            clock["t"] += 11.0
+
+    stop = _stop_event("3-1-dev-1", "sess", "/run/events.jsonl")
+    adapter.watcher = _ScriptedWatcher(
+        [stop, None, stop, None, stop, None],  # then None forever
+        on_call=advance,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "stalled"
+    # one nudge per refilled silence cycle, then the final budget (2) drains in
+    # genuine silence: 4 total sends, strictly more than a cap of 2 would allow
+    assert sent == [generic.STALL_NUDGE_TEXT] * 4
+
+
+def test_capped_session_still_completes_when_marker_lands_late(tmp_path, monkeypatch):
+    """Exhausting the cap must not discard a session whose completion marker
+    lands afterwards: the marker plus its turn-end Stop still complete the
+    session (a bare marker under a live window is advisory — only the Stop,
+    the authoritative signal, seals it)."""
+    adapter, impl, clock, sent = _stall_loop_adapter(tmp_path, monkeypatch)
+
+    def script(call_n):
+        if call_n >= 2:
+            clock["t"] += 11.0
+        if call_n == 4:  # after the cap was spent: the marker finally lands
+            (impl / "bmad-dev-auto-result-3-1-tea.automate-1.md").write_text(
+                "---\nstatus: done\n---\n"
+            )
+
+    stop = _stop_event("3-1-dev-1", "sess", "/run/events.jsonl")
+    adapter.watcher = _ScriptedWatcher(
+        [stop, None, stop, stop],  # nudge -> answered result-less -> final turn-end
+        on_call=script,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _capped_spec(tmp_path, cap=1))
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+    assert sent == [generic.STALL_NUDGE_TEXT]  # the cap was already exhausted
+
+
+# ---------------------- timeout instrumentation + wall-clock co-bound (#157)
+#
+# The #157 timeout fired with zero record of when the adapter declared it, and
+# a host suspend (macOS sleep) freezing time.monotonic() could silently extend
+# the deadline by the nap's length. The fire moment now stamps the result and
+# a session-lifecycle.jsonl line, a wall-clock co-bound fires through a frozen
+# monotonic clock (but may never EXTEND the deadline), and each tick tops up a
+# throttled heartbeat.json whose staleness diagnoses a frozen orchestrator.
+
+
+def _timeout_clock_adapter(tmp_path, monkeypatch):
+    """Adapter + independently steerable monotonic/wall clocks for driving the
+    timeout-fire path. The window stays alive and no hook event ever arrives,
+    so only a clock crossing its deadline can end the wait."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: True
+
+    clock = {"mono": 1000.0, "wall": 5000.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["mono"])
+        time = staticmethod(lambda: clock["wall"])
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+    return adapter, clock
+
+
+def _short_spec(tmp_path, timeout_s=30.0) -> SessionSpec:
+    return SessionSpec(
+        task_id="3-1-dev-1",
+        role="dev",
+        prompt="/bmad-dev-auto 3-1",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": "3-1"},
+        timeout_s=timeout_s,
+    )
+
+
+def test_timeout_monotonic_expiry_is_instrumented(tmp_path, monkeypatch):
+    """A plain monotonic expiry records WHEN and BY WHICH CLOCK the deadline
+    was declared elapsed: fields on the result plus exactly one timeout-fired
+    line in session-lifecycle.jsonl."""
+    adapter, clock = _timeout_clock_adapter(tmp_path, monkeypatch)
+
+    def advance(call_n):
+        clock["mono"] += 11.0  # wall frozen: only the monotonic clock expires
+
+    adapter.watcher = _ScriptedWatcher([], on_call=advance)
+    result = adapter.wait_for_completion(_dev_handle(), _short_spec(tmp_path))
+    assert result.status == "timeout"
+    assert result.timeout_expired_clock == "monotonic"
+    assert result.timeout_fired_at == 5000.0  # the fake wall clock at fire time
+    fired = [ln for ln in _lifecycle_lines(adapter) if ln["event"] == "timeout-fired"]
+    assert len(fired) == 1
+    assert fired[0]["expired_clock"] == "monotonic"
+    assert fired[0]["timeout_s"] == 30.0
+    assert fired[0]["mono_remaining_s"] <= 0
+
+
+def test_timeout_fires_on_wall_clock_when_monotonic_frozen(tmp_path, monkeypatch):
+    """The #157 suspend signature: time.monotonic() stands still through a host
+    suspend, so the monotonic deadline alone would stretch the session by the
+    nap's length. The wall-clock co-bound fires anyway, and the wall-only
+    expiry (monotonic time still to spare) is stamped as the evidence."""
+    adapter, clock = _timeout_clock_adapter(tmp_path, monkeypatch)
+
+    def advance(call_n):
+        clock["wall"] += 11.0  # suspended host: wall counts on, monotonic frozen
+
+    adapter.watcher = _ScriptedWatcher([], on_call=advance)
+    result = adapter.wait_for_completion(_dev_handle(), _short_spec(tmp_path))
+    assert result.status == "timeout"
+    assert result.timeout_expired_clock == "wall"
+    (fired,) = [ln for ln in _lifecycle_lines(adapter) if ln["event"] == "timeout-fired"]
+    assert fired["expired_clock"] == "wall"
+    assert fired["mono_remaining_s"] == 30.0  # the frozen clock never advanced
+
+
+def test_timeout_wall_clock_step_back_cannot_extend_deadline(tmp_path, monkeypatch):
+    """The co-bound may only EXPIRE the deadline, never stretch it: a wall
+    clock stepped backward (an NTP correction) leaves the monotonic expiry on
+    its original schedule."""
+    adapter, clock = _timeout_clock_adapter(tmp_path, monkeypatch)
+
+    def advance(call_n):
+        clock["mono"] += 11.0
+        clock["wall"] -= 3600.0  # NTP step-back: must change nothing
+
+    adapter.watcher = _ScriptedWatcher([], on_call=advance)
+    result = adapter.wait_for_completion(_dev_handle(), _short_spec(tmp_path))
+    assert result.status == "timeout"
+    assert result.timeout_expired_clock == "monotonic"
+    assert adapter.watcher.calls == 3  # same tick count as an untouched wall clock
+
+
+def test_heartbeat_written_and_throttled(tmp_path, monkeypatch):
+    """Each tick tops up tasks/<id>/heartbeat.json with the loop's view of the
+    session — but at most once per HEARTBEAT_INTERVAL_S: two ticks inside one
+    interval produce one write."""
+    adapter, clock = _timeout_clock_adapter(tmp_path, monkeypatch)
+    (adapter.tasks_dir / "3-1-dev-1").mkdir()  # start_session creates it in production
+
+    writes: list[dict] = []
+    real_write = adapter._write_heartbeat
+
+    def spy(task_id, payload):
+        writes.append(payload)
+        real_write(task_id, payload)
+
+    adapter._write_heartbeat = spy
+
+    def advance(call_n):
+        if call_n == 1:
+            clock["mono"] += 1.0  # next tick lands inside the same interval
+        elif call_n == 2:
+            clock["mono"] += generic.HEARTBEAT_INTERVAL_S + 10.0  # crosses it
+        else:
+            clock["mono"] += 1000.0  # past spec.timeout_s: end the loop
+
+    adapter.watcher = _ScriptedWatcher([], on_call=advance)
+    result = adapter.wait_for_completion(_dev_handle(), _short_spec(tmp_path, timeout_s=100.0))
+    assert result.status == "timeout"
+    assert writes[0] == {
+        "ts": 5000.0,
+        "remaining_s": 100.0,
+        "stall_armed": False,
+        "stall_nudges_sent": 0,
+    }
+    assert [w["remaining_s"] for w in writes] == [100.0, 59.0]  # tick 2 was throttled
+    hb = json.loads((adapter.tasks_dir / "3-1-dev-1" / "heartbeat.json").read_text())
+    assert hb == writes[-1]  # the on-disk file is the last overwrite
+
+
+def test_lifecycle_and_heartbeat_write_failure_is_swallowed(tmp_path):
+    """Like the resultless-stop breadcrumb: pure observability, so an
+    unwritable tasks dir must never break the completion loop."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    blocker = tmp_path / "blocker"
+    blocker.write_text("a file where the tasks dir should be")
+    adapter.tasks_dir = blocker / "tasks"  # any write under it raises OSError
+    adapter._note_lifecycle("3-1-dev-1", "timeout-fired", expired_clock="wall")  # must not raise
+    adapter._write_heartbeat("3-1-dev-1", {"ts": 0.0})  # must not raise
+
+
+# ------------------------------ mid-session token-budget guard (#158)
+#
+# The wait loop samples cumulative weighted usage on the heartbeat cadence and
+# trips AT MOST ONCE per session on crossing spec.token_budget: warn =
+# ATTENTION + lifecycle breadcrumb only; enforce = wrap-up nudge + a monotonic
+# grace window, then an over_budget exit that never accepts an on-disk
+# artifact under a live window. Driven with a scripted watcher, a steerable
+# clock (ticks advance past HEARTBEAT_INTERVAL_S to cross the throttle), and a
+# real claude-jsonl transcript file.
+
+
+def _write_claude_transcript(path: Path, input_tokens: int) -> None:
+    entry = {
+        "type": "assistant",
+        "message": {
+            "usage": {
+                "input_tokens": input_tokens,
+                "output_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "cache_creation_input_tokens": 0,
+            }
+        },
+    }
+    path.write_text(json.dumps(entry) + "\n", encoding="utf-8")
+
+
+def _budget_adapter(tmp_path, monkeypatch, usage_parser="claude-jsonl"):
+    """Base adapter (result.json contract) + steerable clock + recorded nudges.
+    Desktop notifications are off so gates.notify only appends the ATTENTION
+    file under the run dir."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    profile = dataclasses.replace(get_profile("claude"), usage_parser=usage_parser)
+    adapter = GenericTmuxAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy(), notify=NotifyPolicy(desktop=False, file=True)),
+        profile=profile,
+    )
+    adapter._window_alive = lambda handle: True
+    sent: list[str] = []
+    adapter.send_text = lambda handle, text: sent.append(text)
+    (adapter.tasks_dir / "b-1").mkdir()
+
+    # wall starts frozen at 0 (the session's #157 co-bound never fires) but is
+    # steerable so the budget-grace wall co-bound can be driven independently.
+    clock = {"t": 1000.0, "wall": 0.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: clock["wall"])
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+    return adapter, clock, sent
+
+
+def _budget_handle() -> SessionHandle:
+    return SessionHandle(task_id="b-1", native_id="@1", launched_ns=0)
+
+
+def _budget_spec(tmp_path, mode="enforce", budget=1000, grace_s=50.0, timeout_s=100_000.0):
+    return SessionSpec(
+        task_id="b-1",
+        role="dev",
+        prompt="p",
+        cwd=tmp_path,
+        timeout_s=timeout_s,
+        token_budget=budget,
+        token_budget_mode=mode,
+        token_budget_grace_s=grace_s,
+        cache_read_weight=0.1,
+    )
+
+
+def _start_event(transcript_path):
+    return HookEvent(
+        ts=1,
+        event="SessionStart",
+        task_id="b-1",
+        session_id="sess",
+        transcript_path=str(transcript_path),
+        path=Path("x"),
+    )
+
+
+def _advance_31(clock):
+    """on_call hook: every tick after the SessionStart crosses the heartbeat
+    throttle, so each watcher call is one sampling opportunity."""
+
+    def advance(call_n):
+        if call_n >= 2:
+            clock["t"] += 31.0
+
+    return advance
+
+
+def test_budget_warn_trips_once_and_session_completes(tmp_path, monkeypatch):
+    """Warn mode: one ATTENTION line + one budget-tripped breadcrumb, no nudge,
+    no termination — the session runs to its natural end with budget_weighted
+    on the result. The latch stops all further sampling."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    samples: list[str] = []
+    real_tally = generic.tally_usage
+
+    def spying_tally(parser, path):
+        samples.append(str(path))
+        return real_tally(parser, path)
+
+    monkeypatch.setattr(generic, "tally_usage", spying_tally)
+
+    adapter.watcher = _ScriptedWatcher(
+        [_start_event(transcript), None, None, _stop_event("b-1", "sess", str(transcript))],
+        on_call=_advance_31(clock),
+    )
+    result = adapter.wait_for_completion(_budget_handle(), _budget_spec(tmp_path, mode="warn"))
+
+    assert result.status == "completed"
+    assert result.result_json == {"ok": True}
+    assert result.budget_weighted == 5000
+    assert sent == []  # warn mode: no nudge
+    assert samples == [str(transcript)]  # latched after the trip: no re-sampling
+    attention = (adapter.run_dir / "ATTENTION").read_text(encoding="utf-8")
+    assert len(attention.splitlines()) == 1
+    tripped = [ln for ln in _lifecycle_lines(adapter, "b-1") if ln["event"] == "budget-tripped"]
+    assert len(tripped) == 1
+    assert tripped[0]["weighted"] == 5000
+    assert tripped[0]["budget"] == 1000
+    assert tripped[0]["mode"] == "warn"
+
+
+def test_budget_enforce_nudges_then_terminates_over_budget(tmp_path, monkeypatch):
+    """Enforce mode: BUDGET_NUDGE_TEXT at trip, then grace expiry under a live
+    window ends over_budget WITHOUT accepting the on-disk artifact (#48/#53)."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+    # a result on disk must NOT upgrade the over_budget exit: live-window distrust
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=_advance_31(clock))
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=50.0)
+    )
+
+    assert result.status == "over_budget"
+    assert result.result_json is None
+    assert result.budget_weighted == 5000
+    assert sent == [generic.BUDGET_NUDGE_TEXT]
+    attention = (adapter.run_dir / "ATTENTION").read_text(encoding="utf-8")
+    assert len(attention.splitlines()) == 1
+    # the verdict leaves a breadcrumb, like timeout-fired (#157 forensics)
+    fired = [ln for ln in _lifecycle_lines(adapter, "b-1") if ln["event"] == "over-budget-fired"]
+    assert len(fired) == 1
+    assert fired[0]["weighted"] == 5000
+    assert fired[0]["budget"] == 1000
+    assert fired[0]["zero_grace"] is False
+
+
+def test_budget_enforce_completion_within_grace_completes(tmp_path, monkeypatch):
+    """A Stop with a result inside the grace window completes the session
+    normally — budget_weighted still rides the completed result."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    adapter.watcher = _ScriptedWatcher(
+        [_start_event(transcript), None, _stop_event("b-1", "sess", str(transcript))],
+        on_call=_advance_31(clock),
+    )
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=100.0)
+    )
+
+    assert result.status == "completed"
+    assert result.result_json == {"ok": True}
+    assert result.budget_weighted == 5000
+    assert sent == [generic.BUDGET_NUDGE_TEXT]
+
+
+def test_budget_enforce_zero_grace_is_immediate_no_nudge(tmp_path, monkeypatch):
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=_advance_31(clock))
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=0.0)
+    )
+
+    assert result.status == "over_budget"
+    assert result.budget_weighted == 5000
+    assert sent == []  # zero grace: terminate at trip, no wrap-up nudge
+    fired = [ln for ln in _lifecycle_lines(adapter, "b-1") if ln["event"] == "over-budget-fired"]
+    assert len(fired) == 1
+    assert fired[0]["zero_grace"] is True
+
+
+def test_budget_grace_expiry_reprobes_liveness_dead_window_is_crashed(tmp_path, monkeypatch):
+    """Window death at grace expiry is authoritative: the existing crashed path
+    (artifact honored) wins over the over_budget verdict."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+
+    alive_calls = {"n": 0}
+
+    def flaky_alive(handle):
+        alive_calls["n"] += 1
+        return alive_calls["n"] <= 3  # alive through the grace, dead at the expiry re-probe
+
+    adapter._window_alive = flaky_alive
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=_advance_31(clock))
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=50.0)
+    )
+
+    assert result.status == "crashed"
+    assert result.budget_weighted == 5000
+
+
+def test_budget_timeout_after_trip_carries_weighted(tmp_path, monkeypatch):
+    """budget_weighted rides every post-trip exit — here the session times out
+    inside a still-open grace window."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=_advance_31(clock))
+    result = adapter.wait_for_completion(
+        _budget_handle(),
+        _budget_spec(tmp_path, mode="enforce", grace_s=1_000_000.0, timeout_s=100.0),
+    )
+
+    assert result.status == "timeout"
+    assert result.budget_weighted == 5000
+    assert sent == [generic.BUDGET_NUDGE_TEXT]
+
+
+def test_budget_parser_none_is_inert(tmp_path, monkeypatch):
+    """No usage signal (usage_parser \"none\") leaves the guard inert whatever
+    the mode: the session never trips and completes normally."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch, usage_parser="none")
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=10_000_000)
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    adapter.watcher = _ScriptedWatcher(
+        [_start_event(transcript), None, None, _stop_event("b-1", "sess", str(transcript))],
+        on_call=_advance_31(clock),
+    )
+    result = adapter.wait_for_completion(_budget_handle(), _budget_spec(tmp_path, mode="enforce"))
+
+    assert result.status == "completed"
+    assert result.budget_weighted is None
+    assert sent == []
+    assert not (adapter.run_dir / "ATTENTION").exists()
+
+
+def test_budget_mode_off_never_samples(tmp_path, monkeypatch):
+    """Mode off: zero sampling — the transcript is never read despite huge
+    usage, and behavior is byte-identical to today."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=10_000_000)
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    samples: list[str] = []
+    monkeypatch.setattr(generic, "tally_usage", lambda parser, path: samples.append(str(path)))
+
+    adapter.watcher = _ScriptedWatcher(
+        [_start_event(transcript), None, None, _stop_event("b-1", "sess", str(transcript))],
+        on_call=_advance_31(clock),
+    )
+    result = adapter.wait_for_completion(_budget_handle(), _budget_spec(tmp_path, mode="off"))
+
+    assert result.status == "completed"
+    assert result.budget_weighted is None
+    assert samples == []  # the guard never read the transcript
+    assert sent == []
+    assert not (adapter.run_dir / "ATTENTION").exists()
+
+
+def test_budget_sampling_oserror_is_inert(tmp_path, monkeypatch):
+    """A failing usage read must never break the wait loop: the sample reads as
+    None and the guard skips the tick."""
+    adapter, _, _ = _budget_adapter(tmp_path, monkeypatch)
+
+    def boom(parser, path):
+        raise OSError("unreadable transcript")
+
+    monkeypatch.setattr(generic, "tally_usage", boom)
+    assert adapter._sample_weighted_usage("/t.jsonl", _budget_spec(tmp_path)) is None
+
+
+def test_budget_sampling_survives_torn_transcript(tmp_path, monkeypatch):
+    """The transcript is a LIVE file being appended mid-turn: a flush boundary
+    can split a multibyte UTF-8 character, and the torn read raises
+    UnicodeDecodeError (a ValueError, NOT an OSError). The sample tick must go
+    inert — never crash the wait loop — and the session completes normally."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    entry = json.dumps({"message": {"usage": {"input_tokens": 5000}}})
+    # valid entry, then a truncated multibyte sequence at the flush boundary
+    transcript.write_bytes(entry.encode("utf-8") + b"\n\xe2\x82")
+    assert adapter._sample_weighted_usage(str(transcript), _budget_spec(tmp_path)) is None
+
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+    adapter.watcher = _ScriptedWatcher(
+        [_start_event(transcript), None, None, _stop_event("b-1", "sess", str(transcript))],
+        on_call=_advance_31(clock),
+    )
+    result = adapter.wait_for_completion(_budget_handle(), _budget_spec(tmp_path, mode="enforce"))
+
+    assert result.status == "completed"
+    assert result.budget_weighted is None  # every sample tick was inert
+    assert sent == []
+    assert not (adapter.run_dir / "ATTENTION").exists()
+
+
+def test_budget_nudge_send_failure_still_arms_grace(tmp_path, monkeypatch):
+    """A dead/hung window can reject the wrap-up nudge (tmux send-keys
+    raises); the trip must survive it and the grace still arm — the verdict
+    then follows the normal paths (here: grace expiry under a live window)."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+
+    def boom(handle, text):
+        raise MultiplexerError("window gone")
+
+    adapter.send_text = boom
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=_advance_31(clock))
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=50.0)
+    )
+
+    assert result.status == "over_budget"
+    assert result.budget_weighted == 5000
+
+
+def test_budget_notify_failure_does_not_break_trip(tmp_path, monkeypatch):
+    """observe-degrade: an ATTENTION append failure (disk full, perms) degrades
+    to a missing notification; the trip itself and the session proceed."""
+    from bmad_loop import gates as gates_mod
+
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    def boom(*args, **kwargs):
+        raise OSError(28, "No space left on device")
+
+    monkeypatch.setattr(gates_mod, "notify", boom)
+    adapter.watcher = _ScriptedWatcher(
+        [_start_event(transcript), None, _stop_event("b-1", "sess", str(transcript))],
+        on_call=_advance_31(clock),
+    )
+    result = adapter.wait_for_completion(_budget_handle(), _budget_spec(tmp_path, mode="warn"))
+
+    assert result.status == "completed"
+    assert result.budget_weighted == 5000  # the trip proceeded past the failed notify
+    tripped = [ln for ln in _lifecycle_lines(adapter, "b-1") if ln["event"] == "budget-tripped"]
+    assert len(tripped) == 1
+
+
+def test_budget_grace_fires_on_wall_clock_when_monotonic_frozen(tmp_path, monkeypatch):
+    """The #157 suspend signature on the budget grace: a host suspend freezes
+    time.monotonic(), silently stretching the 'bounded' wrap-up window. The
+    wall-clock co-bound expires it anyway."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+
+    def advance(call_n):
+        if call_n in (2, 3):
+            clock["t"] += 31.0  # reach the sampling heartbeat: the trip arms the grace
+        elif call_n >= 4:
+            clock["wall"] += 31.0  # suspended host: wall counts on, monotonic frozen
+
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=advance)
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=50.0)
+    )
+
+    assert result.status == "over_budget"
+    assert result.budget_weighted == 5000
+    assert sent == [generic.BUDGET_NUDGE_TEXT]
+
+
+def test_budget_zero_grace_dead_window_takes_crash_path(tmp_path, monkeypatch):
+    """A trip coinciding with window death must not discard a landed artifact
+    just because grace is 0: the zero-grace exit re-probes liveness and routes
+    a dead window through the crash path, which honors the artifact."""
+    adapter, clock, sent = _budget_adapter(tmp_path, monkeypatch)
+    transcript = tmp_path / "t.jsonl"
+    _write_claude_transcript(transcript, input_tokens=5000)
+    (adapter.tasks_dir / "b-1" / "result.json").write_text('{"ok": true}')
+
+    alive_calls = {"n": 0}
+
+    def flaky_alive(handle):
+        alive_calls["n"] += 1
+        return alive_calls["n"] == 1  # alive at the first idle-tick probe, dead at the trip
+
+    adapter._window_alive = flaky_alive
+    adapter.watcher = _ScriptedWatcher([_start_event(transcript)], on_call=_advance_31(clock))
+    result = adapter.wait_for_completion(
+        _budget_handle(), _budget_spec(tmp_path, mode="enforce", grace_s=0.0)
+    )
+
+    assert result.status == "completed"  # crash path honored the artifact
+    assert result.result_json == {"ok": True}
+    assert result.budget_weighted == 5000
+    assert sent == []
+
+
+# ----------------------------------------------- post-kill reconcile (#61)
+#
+# A session that finished its work but lost its final Stop ends "stalled"
+# (nudge-unresponsive under a live window), or "timeout" when no hook event
+# ever arrived (total hook loss never arms the stall grace). Both verdicts
+# discard the on-disk result — correctly, at verdict time, because the window
+# was alive to distrust. run()'s finally-kill settles that question:
+# _post_kill_reconcile re-probes and, on a provably dead window, re-runs the
+# read-back and rescues a self-consistent successful terminal. These drive the
+# hook in isolation, plus through run() for the kill-before-scan ordering.
+
+_DONE_SPEC = (
+    "---\nstatus: done\nbaseline_revision: abc123\n---\n\n"
+    "## Auto Run Result\n\nStatus: done\nImplemented.\n"
+)
+
+
+def _unvouched(status="stalled", **extra) -> SessionResult:
+    return SessionResult(status=status, session_id="sess", transcript_path="/t.jsonl", **extra)
+
+
+def test_post_kill_reconcile_rescues_consistent_done_artifact(tmp_path):
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    result = adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), _unvouched())
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+    assert result.result_json["post_kill_reconciled"] is True
+    # the stall verdict's identity is preserved on the rescued result
+    assert result.session_id == "sess"
+    assert result.transcript_path == "/t.jsonl"
+
+
+def test_post_kill_reconcile_rescues_timeout(tmp_path):
+    """Total hook loss (misconfigured hooks, events-dir write failure) never arms
+    the stall grace — the session exits `timeout` with no artifact check at all.
+    The same post-kill rescue must cover it — upgrading the outcome, not the
+    timing evidence: the fired-deadline stamps survive the rescue (#157)."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    original = _unvouched("timeout", timeout_fired_at=1234.5, timeout_expired_clock="wall")
+    result = adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original)
+    assert result.status == "completed"
+    assert result.result_json["post_kill_reconciled"] is True
+    assert result.timeout_fired_at == 1234.5
+    assert result.timeout_expired_clock == "wall"
+
+
+def test_post_kill_reconcile_rescues_over_budget(tmp_path):
+    """over_budget joins the rescue set (#158): a terminal artifact the wrap-up
+    nudge flushed at kill-time is honored once the window is provably dead —
+    the tripped budget's sample survives the upgrade."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    original = _unvouched("over_budget", budget_weighted=5_000_000)
+    result = adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original)
+    assert result.status == "completed"
+    assert result.result_json["post_kill_reconciled"] is True
+    assert result.budget_weighted == 5_000_000
+
+
+def test_post_kill_reconcile_leaves_other_statuses_alone(tmp_path):
+    """completed and crashed already had their artifact read at verdict time;
+    the hook must not touch them (nor re-scan for a completed result)."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    for status in ("completed", "crashed"):
+        original = _unvouched(status)
+        assert (
+            adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+        )
+
+
+def test_post_kill_reconcile_keeps_stall_when_window_alive_after_kill(tmp_path):
+    """kill_window is best-effort; a window that survived it is still live, so the
+    live-window invariant (#48/#53) still applies — no rescue."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: True
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    original = _unvouched()
+    result = adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original)
+    assert result is original
+    assert result.status == "stalled"
+    assert result.result_json is None
+
+
+def test_post_kill_reconcile_probe_error_keeps_stall(tmp_path):
+    """A transport failure on the post-kill probe means liveness is unknowable —
+    and unknown is not dead (tri-state): never upgrade on a guess."""
+    adapter, impl = make_dev_adapter(tmp_path)
+
+    def boom(handle):
+        raise MultiplexerError("tmux hang")
+
+    adapter._window_alive = boom
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    original = _unvouched()
+    assert adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+
+
+def test_post_kill_reconcile_inconsistent_status_keeps_stall(tmp_path):
+    """Frontmatter and prose actively disagreeing is exactly the low-trust state
+    the stricter-than-crash gate exists for: keep the stall verdict."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: in-progress\n"
+    )
+    original = _unvouched()
+    assert adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+
+
+def test_post_kill_reconcile_blocked_artifact_keeps_stall(tmp_path):
+    """A blocked terminal carries no finished work to preserve, and blocked-plus-
+    nudge-unresponsive is weak evidence — not rescued."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(
+        "---\nstatus: blocked\n---\n\n## Auto Run Result\n\nStatus: blocked\nStuck.\n"
+    )
+    original = _unvouched()
+    assert adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+
+
+def test_post_kill_reconcile_no_artifact_keeps_stall(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    original = _unvouched()
+    assert adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+
+
+def test_post_kill_reconcile_ignores_pre_launch_artifact(tmp_path):
+    """The launch floor still applies: a terminal spec predating this session is a
+    stale prior artifact, not evidence this session finished."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    spec_file = impl / "spec-3-1-foo.md"
+    spec_file.write_text(_DONE_SPEC)
+    handle = _dev_handle(launched_ns=spec_file.stat().st_mtime_ns + 1)
+    original = _unvouched()
+    assert adapter._post_kill_reconcile(handle, _dev_spec(tmp_path), original) is original
+
+
+# ---- corrupt / unreadable artifacts: the rescue must never make things worse.
+#
+# The hook is the one path guaranteed to read a file immediately after run()'s
+# finally-kill — precisely when a spec the CLI was mid-write is truncated, quite
+# possibly through a multi-byte UTF-8 sequence. An escaping exception is NOT
+# contained per-task: it unwinds past adapter.run() to the engine's broad
+# `except Exception`, which marks the whole RUN crashed and abandons every
+# remaining story. So a read fault keeps the original verdict, like every other
+# keep-verdict branch.
+
+
+def test_post_kill_reconcile_synth_read_error_keeps_stall(tmp_path, monkeypatch):
+    """The load-bearing guard, pinned independently of devcontract's internals:
+    whatever the read-back raises, the hook returns the verdict it was given.
+    OSError and UnicodeDecodeError share no base class below Exception."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    for exc in (OSError("I/O error"), UnicodeDecodeError("utf-8", b"\xff", 0, 1, "invalid")):
+
+        def raising(handle, spec, *, wait, _exc=exc):
+            raise _exc
+
+        monkeypatch.setattr(adapter, "_synth_result", raising)
+        original = _unvouched()
+        assert (
+            adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+        )
+
+
+def test_post_kill_reconcile_non_utf8_scan_artifact_keeps_stall(tmp_path):
+    """A truncated/binary `spec-*.md` on the mtime-scan path: find_result_artifact
+    reads it to check for a terminal section, and its `except OSError` never
+    catches a decode error."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_bytes(_BAD_UTF8)
+    original = _unvouched()
+    assert adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+
+
+def test_post_kill_reconcile_non_utf8_fallback_marker_keeps_stall(tmp_path):
+    """The no-spec fallback marker is matched by NAME, so the finder hands it back
+    without ever reading it — the decode fault lands in synthesize_result instead.
+    This is the artifact an injected-workflow session writes, and a `timeout`
+    verdict reaches this hook having never read anything at all."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "bmad-dev-auto-result-3-1-dev-1.md").write_bytes(_BAD_UTF8)
+    original = _unvouched("timeout")
+    assert adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), original) is original
+
+
+def test_post_kill_reconcile_non_utf8_stories_spec_keeps_stall(tmp_path):
+    """Stories mode resolves the spec by id, not by scan; the same fault must
+    degrade to a kept verdict there too."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    d = tmp_path / "epic" / "stories"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / "1-slug.md").write_bytes(_BAD_UTF8)
+    original = _unvouched()
+    assert (
+        adapter._post_kill_reconcile(_dev_handle(), _stories_spec(tmp_path), original) is original
+    )
+
+
+def test_stories_readback_oserror_spec_returns_none(tmp_path, monkeypatch):
+    """The read-back *poll* (not the post-kill hook) is where the issue's headline
+    crash lived: this path guards only UnicodeDecodeError, so an OSError escaped to
+    engine.run()'s `except Exception` and marked the whole run crashed. It now reads
+    like a spec that has not terminated yet — poll returns None, grace expires, the
+    stall/timeout verdict routes through the designed ladder.
+
+    `devcontract` binds `read_frontmatter` by ``from .verify import``, so patch the
+    name on `devcontract`; patching `verify.read_frontmatter` would not rebind it.
+    Faulting `Path.read_text` instead would also trip `stories.resolve_story_spec`,
+    whose own guard would mask which read actually failed."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    _write_story_spec(tmp_path, "1", "slug", _DONE_SPEC)
+
+    def boom(_path):
+        raise PermissionError(13, "Permission denied")
+
+    monkeypatch.setattr(generic.devcontract, "read_frontmatter", boom)
+    assert adapter._stories_synth_result(_dev_handle(), _stories_spec(tmp_path), wait=False) is None
+
+
+def test_post_kill_reconcile_blank_frontmatter_prose_done_rescues(tmp_path):
+    """status_consistent is "no active disagreement": a blank frontmatter with prose
+    `done` is exactly what a delivered Stop would have synthesized (the engine's
+    reconcile repairs the lagging frontmatter downstream) — rescued."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    (impl / "spec-3-1-foo.md").write_text("## Auto Run Result\n\nStatus: done\nDone.\n")
+    result = adapter._post_kill_reconcile(_dev_handle(), _dev_spec(tmp_path), _unvouched())
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+
+
+def test_post_kill_reconcile_rescues_stories_spec(tmp_path):
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    _write_story_spec(
+        tmp_path,
+        "1",
+        "foo",
+        "---\nstatus: done\nbaseline_revision: story1base\n---\n\n"
+        "## Auto Run Result\n\nStatus: done\nImplemented.\n",
+    )
+    result = adapter._post_kill_reconcile(_dev_handle(), _stories_spec(tmp_path), _unvouched())
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+    assert result.result_json["baseline_commit"] == "story1base"
+
+
+def test_post_kill_reconcile_rescues_stories_plan_halt_leg(tmp_path):
+    """The plan-halt leg's `ready-for-dev` is a successful terminal (marked
+    plan_halt, no escalation) — a lost Stop on that leg is rescued too. This
+    deliberately widens #61's literal done-only wording."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False
+    _write_story_spec(tmp_path, "1", "foo", "---\nstatus: ready-for-dev\n---\n\nplan\n")
+    spec = _stories_spec(tmp_path)
+    spec.env["BMAD_LOOP_PLAN_HALT"] = "1"
+    result = adapter._post_kill_reconcile(_dev_handle(), spec, _unvouched())
+    assert result.status == "completed"
+    assert result.result_json["plan_halt"] is True
+    assert result.result_json["post_kill_reconciled"] is True
+
+
+def test_run_kills_before_the_post_kill_probe(tmp_path):
+    """run() must tear the window down before the hook probes/scans — the rescue's
+    trust rests on the kill having settled liveness."""
+    adapter, impl = make_dev_adapter(tmp_path)
+    (impl / "spec-3-1-foo.md").write_text(_DONE_SPEC)
+    order = []
+    adapter.start_session = lambda spec: _dev_handle()
+    adapter.wait_for_completion = lambda handle, spec: _unvouched()
+    adapter.kill = lambda handle: order.append("kill")
+    adapter._window_alive = lambda handle: (order.append("probe"), False)[1]
+    result = adapter.run(_dev_spec(tmp_path))
+    assert order == ["kill", "probe"]
+    assert result.status == "completed"
+
+
+def test_run_exception_kills_without_reconcile(tmp_path):
+    """A raising wait_for_completion (e.g. RunStopped) must still kill the window
+    and propagate — the hook only runs on the normal return path."""
+    adapter, _ = make_dev_adapter(tmp_path)
+    calls = []
+    adapter.start_session = lambda spec: _dev_handle()
+
+    def raising_wait(handle, spec):
+        raise RuntimeError("stop requested")
+
+    adapter.wait_for_completion = raising_wait
+    adapter.kill = lambda handle: calls.append("kill")
+    adapter._post_kill_reconcile = lambda handle, spec, result: calls.append("hook")
+    with pytest.raises(RuntimeError, match="stop requested"):
+        adapter.run(_dev_spec(tmp_path))
+    assert calls == ["kill"]
+
+
+def test_wait_for_completion_tolerates_transient_liveness_probe_failure(tmp_path, monkeypatch):
+    """A transient transport hang (the liveness probe raising MultiplexerError, e.g.
+    a 30s tmux hang) must never be read as a dead window -> crash. The tick is
+    skipped; once the probe recovers and the session's turn-end lands, the run
+    completes normally (the 0.7.7 stall-hardening rule: don't roll back a
+    possibly-working session)."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, impl = make_dev_adapter(tmp_path)
+
+    probe_calls = {"n": 0}
+
+    def flaky_alive(handle):
+        probe_calls["n"] += 1
+        if probe_calls["n"] == 1:
+            raise MultiplexerError("transient tmux hang")  # transport hiccup, not death
+        return True  # recovered
+
+    adapter._window_alive = flaky_alive
+
+    def flush_terminal_spec(call_n):
+        if call_n == 3:  # the session's real turn-end lands its spec
+            (impl / "spec-3-1-foo.md").write_text(
+                "---\nstatus: done\n---\n\n## Auto Run Result\n\nStatus: done\n"
+            )
+
+    adapter.watcher = _ScriptedWatcher(
+        [None, None, _stop_event("3-1-dev-1", "sess", "/run/events.jsonl")],
+        on_call=flush_terminal_spec,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "completed"  # never "crashed"
+    assert probe_calls["n"] == 2  # probe failed once, then recovered
+
+
+def test_wait_for_completion_persistent_probe_failure_times_out_not_crashes(tmp_path, monkeypatch):
+    """A persistent transport failure (the probe always raising MultiplexerError)
+    must degrade to an honest 'timeout' when it outlasts spec.timeout_s — never a
+    spurious 'crashed' (death was never actually observed)."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+
+    def always_hangs(handle):
+        raise MultiplexerError("tmux server wedged")
+
+    adapter._window_alive = always_hangs
+
+    clock = {"t": 1000.0}
+
+    class _Clock:
+        monotonic = staticmethod(lambda: clock["t"])
+        time = staticmethod(lambda: 0.0)  # frozen wall clock: the co-bound never fires
+        sleep = staticmethod(lambda *_: None)
+        time_ns = staticmethod(lambda: 0)
+
+    monkeypatch.setattr(generic, "time", _Clock)
+
+    def advance(call_n):
+        clock["t"] += 11.0  # each idle tick crawls toward spec.timeout_s
+
+    adapter.watcher = _ScriptedWatcher([], on_call=advance)  # None forever
+    spec = SessionSpec(
+        task_id="3-1-dev-1",
+        role="dev",
+        prompt="/bmad-dev-auto 3-1",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_STORY_KEY": "3-1"},
+        timeout_s=30.0,
+    )
+    result = adapter.wait_for_completion(_dev_handle(), spec)
+    assert result.status == "timeout"  # bounded by spec.timeout_s, not crashed
+
+
+def test_wait_for_completion_genuine_window_death_still_crashes(tmp_path, monkeypatch):
+    """The transient-tolerance must not disable real crash detection: a probe that
+    cleanly returns False (dead window -> list_window_ids returned [], no exception)
+    is still a crash."""
+    monkeypatch.setattr(generic, "RESULT_GRACE_S", 0.0)
+    monkeypatch.setattr(generic, "RESULT_POLL_S", 0.0)
+    adapter, _ = make_dev_adapter(tmp_path)
+    adapter._window_alive = lambda handle: False  # genuinely dead
+
+    adapter.watcher = _ScriptedWatcher([])  # None on the first idle tick
+    result = adapter.wait_for_completion(_dev_handle(), _dev_spec(tmp_path))
+    assert result.status == "crashed"
+
+
+def _usage_adapter(tmp_path, profile_name, **kw) -> GenericTmuxAdapter:
+    return GenericTmuxAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy()),
+        profile=get_profile(profile_name),
+        **kw,
+    )
+
+
+def test_effective_timing_knobs_precedence(tmp_path):
+    # copilot ships grace 8 / nudges 5; with no override the profile value wins
+    cop = _usage_adapter(tmp_path, "copilot")
+    assert cop._usage_grace_s == 8.0
+    assert cop._stop_nudges == 5
+    # claude ships neither -> grace 0, nudges from the global limits default (1)
+    cla = _usage_adapter(tmp_path, "claude")
+    assert cla._usage_grace_s == 0.0
+    assert cla._stop_nudges == 1
+    # an explicit [adapter]/[adapter.<stage>] override beats the profile default
+    over = _usage_adapter(tmp_path, "copilot", usage_grace_s=2.0, stop_without_result_nudges=9)
+    assert over._usage_grace_s == 2.0
+    assert over._stop_nudges == 9
+
+
+def test_effective_nudges_fall_back_to_global_limits(tmp_path):
+    # claude carries no profile nudge value, so the global limits value flows through
+    cla = GenericTmuxAdapter(
+        run_dir=tmp_path / "run",
+        policy=Policy(limits=LimitsPolicy(stop_without_result_nudges=4)),
+        profile=get_profile("claude"),
+    )
+    assert cla._stop_nudges == 4
+    # the copilot profile floor still wins over a lower global default
+    cop = GenericTmuxAdapter(
+        run_dir=tmp_path / "run2",
+        policy=Policy(limits=LimitsPolicy(stop_without_result_nudges=2)),
+        profile=get_profile("copilot"),
+    )
+    assert cop._stop_nudges == 5
+
+
+def test_read_usage_polls_for_late_metrics(tmp_path, monkeypatch):
+    # copilot ships usage_grace_s = 8.0, so read_usage retries until metrics land
+    adapter = _usage_adapter(tmp_path, "copilot")
+    usage = TokenUsage(input_tokens=10)
+    calls: list[str] = []
+
+    def fake_tally(parser, path):
+        calls.append(parser)
+        return None if len(calls) < 3 else usage
+
+    monkeypatch.setattr(generic, "tally_usage", fake_tally)
+    monkeypatch.setattr(generic.time, "sleep", lambda *_: None)
+    result = SessionResult(status="completed", transcript_path=str(tmp_path / "events.jsonl"))
+    assert adapter.read_usage(result) is usage
+    assert len(calls) == 3  # polled past the early None reads
+
+
+def test_read_usage_single_read_when_no_grace(tmp_path, monkeypatch):
+    # claude has usage_grace_s = 0.0 -> read exactly once, never sleeps
+    adapter = _usage_adapter(tmp_path, "claude")
+    calls: list[str] = []
+
+    def fake_tally(parser, path):
+        calls.append(parser)
+        return None
+
+    def no_sleep(*_):
+        raise AssertionError("read_usage must not sleep when the grace is 0")
+
+    monkeypatch.setattr(generic, "tally_usage", fake_tally)
+    monkeypatch.setattr(generic.time, "sleep", no_sleep)
+    result = SessionResult(status="completed", transcript_path=str(tmp_path / "x.jsonl"))
+    assert adapter.read_usage(result) is None
+    assert len(calls) == 1
+
+
+def test_read_usage_none_without_transcript(tmp_path):
+    adapter = _usage_adapter(tmp_path, "copilot")
+    assert adapter.read_usage(SessionResult(status="completed")) is None
+
+
+def _write_fake_cli(tmp_path):
+    fake = tmp_path / "fake-cli"
+    fake.write_text(FAKE_CLI)
+    fake.chmod(0o755)
+    return fake
+
+
+@pytest.mark.skipif(not HAVE_TMUX, reason="tmux not available")
+@pytest.mark.parametrize("profile_name", ["claude", "codex", "gemini"])
+def test_tmux_end_to_end_with_fake_cli(tmp_path, profile_name):
+    """Spawn a real tmux window running a fake CLI that behaves like a
+    hook-instrumented session: emits SessionStart + result.json + Stop."""
+    fake = _write_fake_cli(tmp_path)
+    # extra_args=() drops the bypass flags so the rendered prompt is the last argv
+    # entry for every profile (claude/codex positional, gemini behind -i).
+    adapter = make_adapter(tmp_path, profile_name=profile_name, binary=str(fake), extra_args=())
+    spec_env = {
+        "BMAD_LOOP_MODE": "1",
+        "BMAD_LOOP_RUN_DIR": str(adapter.run_dir),
+        "BMAD_LOOP_TASK_ID": "t-int-1",
+    }
+    spec = SessionSpec(
+        task_id="t-int-1",
+        role="dev",
+        prompt="/bmad-dev-auto 1-1-a",
+        cwd=tmp_path,
+        env=spec_env,
+        timeout_s=30.0,
+    )
+    try:
+        result = adapter.run(spec)
+    finally:
+        subprocess.run(["tmux", "kill-session", "-t", adapter.session_name], capture_output=True)
+
+    assert result.status == "completed"
+    assert result.result_json["workflow"] == "auto-dev"
+    # the fake echoes back the rendered prompt it received
+    assert result.result_json["prompt"] == adapter.profile.render_prompt(spec.prompt)
+    assert result.session_id == "fake-1"
+    # canonical prompt recorded for debugging
+    assert (adapter.tasks_dir / "t-int-1" / "prompt.txt").read_text().strip() == spec.prompt
+
+
+@pytest.mark.skipif(not HAVE_TMUX, reason="tmux not available")
+def test_tmux_reused_task_id_ignores_stale_artifacts(tmp_path):
+    """A re-armed run reuses the task_id. A prior cycle's Stop event + result.json
+    must NOT replay: start_session clears the stale result, and the launch-time
+    floor makes wait_for skip the old Stop so only the fresh session counts."""
+    fake = _write_fake_cli(tmp_path)
+    adapter = make_adapter(tmp_path, binary=str(fake), extra_args=())
+    task_id = "t-reused-1"
+    # seed last cycle's leftovers, with an obviously old ts and a stale marker
+    task_dir = adapter.tasks_dir / task_id
+    task_dir.mkdir(parents=True, exist_ok=True)
+    (task_dir / "result.json").write_text('{"workflow": "STALE"}', encoding="utf-8")
+    events_dir = adapter.watcher.events_dir
+    events_dir.mkdir(parents=True, exist_ok=True)
+    (events_dir / f"1-{task_id}-Stop.json").write_text(
+        '{"ts": 1, "event": "Stop", "task_id": "' + task_id + '", "session_id": "old"}',
+        encoding="utf-8",
+    )
+    spec = SessionSpec(
+        task_id=task_id,
+        role="dev",
+        prompt="/bmad-dev-auto 1-1-a",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_RUN_DIR": str(adapter.run_dir), "BMAD_LOOP_TASK_ID": task_id},
+        timeout_s=30.0,
+    )
+    try:
+        result = adapter.run(spec)
+    finally:
+        subprocess.run(["tmux", "kill-session", "-t", adapter.session_name], capture_output=True)
+
+    assert result.status == "completed"
+    assert result.result_json["workflow"] == "auto-dev"  # fresh, not "STALE"
+    assert result.session_id == "fake-1"  # fresh session, not "old"
+
+
+@pytest.mark.skipif(not HAVE_TMUX, reason="tmux not available")
+def test_tmux_crash_detected(tmp_path):
+    """A session that dies without writing result.json -> crashed. Also the
+    SessionEnd-less path (codex profile) relies on this window-death check."""
+    fake = tmp_path / "fake-cli"
+    fake.write_text("#!/bin/bash\nexit 1\n")
+    fake.chmod(0o755)
+
+    adapter = make_adapter(
+        tmp_path, profile_name="codex", binary=str(fake), stop_without_result_nudges=0
+    )
+    spec = SessionSpec(
+        task_id="t-crash",
+        role="dev",
+        prompt="x",
+        cwd=tmp_path,
+        env={"BMAD_LOOP_RUN_DIR": str(adapter.run_dir), "BMAD_LOOP_TASK_ID": "t-crash"},
+        timeout_s=20.0,
+    )
+    try:
+        result = adapter.run(spec)
+    finally:
+        subprocess.run(["tmux", "kill-session", "-t", adapter.session_name], capture_output=True)
+    assert result.status == "crashed"
+    assert result.result_json is None
+
+
+@pytest.mark.skipif(not HAVE_TMUX, reason="tmux not available")
+def test_tmux_timeout_with_flushed_spec_rescued_post_kill(tmp_path):
+    """End-to-end #61 (total hook loss): the session writes its terminal spec but
+    never emits any hook event, so the wait loop idles to `timeout` — a path that
+    never arms the stall grace and checks no artifact. run()'s real kill then
+    settles liveness, and the post-kill reconcile rescues the finished work
+    through a real tmux probe + scan."""
+    impl = tmp_path / "impl"
+    impl.mkdir()
+    fake = tmp_path / "fake-cli"
+    fake.write_text(
+        "#!/bin/bash\n"
+        "# finished work, but hooks are 'misconfigured': no event files at all\n"
+        f"printf -- '---\\nstatus: done\\nbaseline_revision: abc123\\n---\\n\\n"
+        f"## Auto Run Result\\n\\nStatus: done\\nImplemented.\\n' > {impl}/spec-3-1-foo.md\n"
+        "sleep 60  # stay alive so the wait loop times out under a live window\n"
+    )
+    fake.chmod(0o755)
+    adapter = GenericDevAdapter(
+        run_dir=tmp_path / f"run-{uuid.uuid4().hex[:8]}",
+        policy=Policy(limits=LimitsPolicy()),
+        profile=get_profile("claude"),
+        binary=str(fake),
+        extra_args=(),
+        paths=ProjectPaths(
+            project=tmp_path,
+            implementation_artifacts=impl,
+            planning_artifacts=tmp_path / "plan",
+        ),
+    )
+    spec = SessionSpec(
+        task_id="t-rescue",
+        role="dev",
+        prompt="/bmad-dev-auto 3-1",
+        cwd=tmp_path,
+        env={
+            "BMAD_LOOP_RUN_DIR": str(adapter.run_dir),
+            "BMAD_LOOP_TASK_ID": "t-rescue",
+            "BMAD_LOOP_STORY_KEY": "3-1",
+        },
+        timeout_s=6.0,
+    )
+    try:
+        result = adapter.run(spec)
+    finally:
+        subprocess.run(["tmux", "kill-session", "-t", adapter.session_name], capture_output=True)
+
+    assert result.status == "completed"
+    assert result.result_json["status"] == "done"
+    assert result.result_json["post_kill_reconciled"] is True

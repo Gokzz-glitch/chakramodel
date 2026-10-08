@@ -1,0 +1,13 @@
+id: 18751249-3cbf-4773-8e2a-edf1d53987f4
+cwd: C:\Users\imgk3\dataset-integrity-workbench
+client_name: github/autopilot
+name: Implement a focused dataset-scoped validation slice in the dataset-integrity-workbench repository. Current inventory_roots recursively includes .git, .venv, caches, build artifacts, and generated files, producing misleading empty-file/invalid-image counts. Add deterministic, opt-in exclusion support (at minimum directory components .git, .venv, __pycache__, node_modules, dist, build, .pytest_cache, and common cache/checkpoint directories) exposed by the inventory/validate CLI, while preserving c...
+user_named: false
+summary_count: 0
+fork_count: 0
+created_at: 2026-09-20T18:58:06.560Z
+updated_at: 2026-09-20T18:58:07.618Z
+remote_steerable: false
+mc_task_id: 6b08be96-4767-4164-9250-e679e07035ca
+mc_session_id: 727068c7-0823-46ce-bb55-2cf210e64210
+mc_last_event_id: 9cc72ca8-a1d4-46f5-ad1e-ad4a8621ecf4

@@ -1,0 +1,23 @@
+# Sim-to-Real Domain Randomization Configuration
+
+visual_randomization:
+  enabled: true
+  color_jitter:
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
+    hue: 0.1
+  gaussian_noise_std: 0.02
+  camera_pose_jitter:
+    eye_pos_std: [0.02, 0.02, 0.02]
+    target_pos_std: [0.01, 0.01, 0.01]
+  lighting:
+    light_direction_jitter: 0.3
+    ambient_light_range: [0.4, 0.9]
+
+dynamics_randomization:
+  enabled: true
+  link_mass_scale_range: [0.85, 1.15]
+  joint_friction_range: [0.01, 0.08]
+  joint_damping_range: [0.05, 0.20]
+  latency_steps: 1 # Simulating 20ms communication delay

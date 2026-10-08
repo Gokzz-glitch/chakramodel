@@ -1,0 +1,6 @@
+path: M:\chakramodel\dataset_yolo_fixed
+train: images/train
+val: images/train
+
+names:
+  0: polyp

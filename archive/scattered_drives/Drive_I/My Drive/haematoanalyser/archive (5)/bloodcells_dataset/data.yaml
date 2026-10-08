@@ -1,0 +1,8 @@
+names:
+- Platelets
+- RBC
+- WBC
+nc: 3
+test: /content/drive/MyDrive/archive (5)/bloodcells_dataset/test
+train: /content/drive/MyDrive/archive (5)/bloodcells_dataset/train
+val: /content/drive/MyDrive/archive (5)/bloodcells_dataset/valid

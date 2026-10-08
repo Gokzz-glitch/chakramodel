@@ -1,0 +1,6 @@
+path: M:/chakramodel/data/colon_cancer_dataset
+train: train.txt
+val: val.txt
+
+names:
+  0: polyp

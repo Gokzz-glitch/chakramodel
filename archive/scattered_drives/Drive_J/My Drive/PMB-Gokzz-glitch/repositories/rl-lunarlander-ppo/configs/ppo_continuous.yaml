@@ -1,0 +1,39 @@
+# LunarLanderContinuous-v2 PPO Hyperparameters (Continuous Action Space)
+
+environment:
+  env_id: "LunarLander-v2"
+  continuous: true
+  num_envs: 8
+  seed: 42
+  normalize_obs: true
+  normalize_reward: false
+
+ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  batch_size: 128
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  clip_range_vf: null
+  ent_coef: 0.005
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  target_kl: 0.02
+
+network:
+  net_arch:
+    pi: [256, 256]
+    vf: [256, 256]
+  activation_fn: "tanh"
+  ortho_init: true
+
+training:
+  total_timesteps: 800000
+  eval_freq: 15000
+  n_eval_episodes: 25
+  save_freq: 50000
+  checkpoint_dir: "./models/checkpoints_continuous"
+  best_model_dir: "./models/best_model_continuous"
+  log_dir: "./logs/ppo_continuous"

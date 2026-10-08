@@ -1,0 +1,112 @@
+name: CI
+
+on:
+  push:
+    branches: [main, release/*]
+  pull_request:
+
+# Cancel superseded runs for the same ref.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: test (py${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12', '3.13', '3.14']
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.3.2
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install tmux (for generic_tmux integration tests)
+        run: |
+          # `apt-get update` can exit non-zero when an unrelated third-party
+          # repo baked into the runner image (e.g. dl.google.com/chrome) serves
+          # a stale index (Hash Sum mismatch). That must not fail our build —
+          # the Ubuntu archive lists still refresh, so tmux installs cleanly.
+          # `tmux -V` then asserts tmux is actually present, so a genuine
+          # install failure still fails the job loudly.
+          sudo apt-get update -o Acquire::Retries=3 || true
+          sudo apt-get install -y tmux
+          tmux -V
+
+      - name: Install the project
+        run: uv sync --locked --all-extras
+
+      - name: Run tests
+        run: uv run pytest -q -n auto --durations=15
+
+  test-windows:
+    # Real-Windows runner for the deterministic suite (live psmux e2e stays a manual gate).
+    name: test (windows, py${{ matrix.python-version }})
+    runs-on: windows-latest
+    timeout-minutes: 15
+    # The suite reads/writes UTF-8 files; Windows' cp1252 default would break plain
+    # text I/O. UTF-8 mode (PEP 686's Python 3.15 default) makes the runner match the
+    # files under test; the conftest guard enforces the same for local win32 runs.
+    env:
+      PYTHONUTF8: '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        # PRs run the version boundaries only (Windows failures here have been
+        # platform-shaped, not version-shaped); push-to-main runs the full spread.
+        python-version: ${{ github.event_name == 'pull_request' && fromJSON('["3.11", "3.14"]') || fromJSON('["3.11", "3.12", "3.13", "3.14"]') }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.3.2
+        with:
+          enable-cache: true
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the project
+        run: uv sync --locked --all-extras
+
+      - name: Run tests
+        run: uv run pytest -q -n auto --durations=15
+
+  version-sync:
+    name: version-sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.3.2
+
+      - name: Check every version field agrees
+        run: uv run --no-project python scripts/sync_version.py --check
+
+  lint:
+    name: lint (trunk)
+    runs-on: ubuntu-latest
+    # Headroom for a cold trunk tool-download cache; normally ~30s.
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # Trunk needs full history for diff-aware checks.
+          fetch-depth: 0
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1

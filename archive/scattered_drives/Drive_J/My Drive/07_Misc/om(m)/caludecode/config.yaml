@@ -1,0 +1,35 @@
+model_list:
+  # LAYER 1: Gemini Pro - Account 1
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: "AIzaSyB51aLeQmQrYsTsipl29eegfAywHedjOls"
+      rpm: 2
+
+  # LAYER 1: Gemini Pro - Account 2
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: gemini/gemini-1.5-pro
+      api_key: "FRIENDS_GEMINI_KEY"
+      rpm: 2
+
+  # LAYER 2: Groq Llama 3
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: groq/llama-3.3-70b-versatile
+      # Note: This key contains multiple API keys separated by commas, matching your input structure.
+      api_key: "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,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,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,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,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"
+      rpm: 5
+
+  # LAYER 3: GitHub Copilot GPT-4o
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: github/gpt-4o 
+      api_key: "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,"
+
+  # LAYER 4: OpenRouter Gemini
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: openrouter/google/gemini-2.0-flash-001
+      # Note: This key contains multiple API keys separated by commas, matching your input structure.
+      api_key: "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,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,sk-or-v1-1436a18d75e53bd09157626c1e14d49c23fffbae391d878615b"

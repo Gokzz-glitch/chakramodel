@@ -1,0 +1,20 @@
+model:
+  backbone: yolov11m
+  conf_threshold: 0.25
+
+tracking:
+  algorithm: botsort
+  conf_high: 0.60
+  conf_low: 0.15
+  gmc_method: ecc
+
+persistence:
+  min_hits: 3
+  max_age: 8
+  alpha_ema: 0.7
+
+conformal:
+  enabled: true
+
+render:
+  show_labels: true

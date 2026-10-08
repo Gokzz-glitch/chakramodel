@@ -1,0 +1,39 @@
+# LunarLander-v2 PPO Hyperparameters (Discrete Action Space)
+
+environment:
+  env_id: "LunarLander-v2"
+  continuous: false
+  num_envs: 8
+  seed: 42
+  normalize_obs: true
+  normalize_reward: false
+
+ppo:
+  learning_rate: 0.0003
+  n_steps: 1024
+  batch_size: 64
+  n_epochs: 4
+  gamma: 0.999
+  gae_lambda: 0.98
+  clip_range: 0.2
+  clip_range_vf: null
+  ent_coef: 0.01
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  target_kl: 0.015
+
+network:
+  net_arch:
+    pi: [128, 128]
+    vf: [128, 128]
+  activation_fn: "tanh"
+  ortho_init: true
+
+training:
+  total_timesteps: 500000
+  eval_freq: 10000
+  n_eval_episodes: 20
+  save_freq: 50000
+  checkpoint_dir: "./models/checkpoints_discrete"
+  best_model_dir: "./models/best_model_discrete"
+  log_dir: "./logs/ppo_discrete"

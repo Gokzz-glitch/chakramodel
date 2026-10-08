@@ -1,0 +1,13 @@
+id: ecc67e5f-abc5-47a2-a7d6-bf35a2c67fd7
+cwd: C:\Users\imgk3\dataset-integrity-workbench
+client_name: github/autopilot
+name: 'Build the first working milestone of a generic Dataset Integrity and Curation Workbench in this standalone folder. Start by inspecting the empty workspace. Implement a clean, maintainable Python package and CLI using only the standard library unless a dependency is clearly necessary. Scope for this milestone: (1) project structure and packaging; (2) dataset/source registration; (3) immutable-style file manifest with SHA-256, relative paths, size, timestamps, MIME/type detection, and modality cla...'
+user_named: false
+summary_count: 0
+fork_count: 0
+created_at: 2026-09-20T18:26:12.899Z
+updated_at: 2026-09-20T18:26:14.452Z
+remote_steerable: false
+mc_task_id: 2ddde74d-5956-4d37-8a2a-22640df0d0c1
+mc_session_id: 66c2ca40-1ea3-474f-a02f-f9c889e7504a
+mc_last_event_id: 8aa74910-9f95-4fe5-86c6-0e289f34814a

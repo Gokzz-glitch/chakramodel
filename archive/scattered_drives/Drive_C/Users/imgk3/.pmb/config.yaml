@@ -1,0 +1,3 @@
+daemon:
+  idle_exit_min: 0.0
+  tool_profile: minimal

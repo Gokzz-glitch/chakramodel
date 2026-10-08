@@ -1,0 +1,85 @@
+name: Weekly AI/ML Research Internship Monitor
+
+on:
+  schedule:
+    # Runs every Monday at 04:00 UTC (09:30 AM IST)
+    - cron: '0 4 * * 1'
+  workflow_dispatch: # Allows manual trigger at any time from the GitHub Actions tab
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  scrape-and-monitor:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f research_internship_monitor/requirements.txt ]; then
+            pip install -r research_internship_monitor/requirements.txt
+          elif [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
+      - name: Run Research Internship Monitor
+        run: |
+          if [ -d research_internship_monitor ]; then
+            python research_internship_monitor/monitor.py
+          else
+            python monitor.py
+          fi
+
+      - name: Publish to GitHub Step Summary
+        run: |
+          REPORT_FILE=""
+          if [ -f research_internship_monitor/reports/latest_weekly_report.md ]; then
+            REPORT_FILE="research_internship_monitor/reports/latest_weekly_report.md"
+          elif [ -f reports/latest_weekly_report.md ]; then
+            REPORT_FILE="reports/latest_weekly_report.md"
+          fi
+
+          if [ -n "$REPORT_FILE" ]; then
+            cat "$REPORT_FILE" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Commit and Push Updated Tracker & Reports
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes detected this week."
+          else
+            git commit -m "Auto-update AI/ML research internship opportunities [skip ci]"
+            git push
+          fi
+
+      - name: Create Weekly GitHub Issue Notification
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPORT_FILE=""
+          if [ -f research_internship_monitor/reports/latest_weekly_report.md ]; then
+            REPORT_FILE="research_internship_monitor/reports/latest_weekly_report.md"
+          elif [ -f reports/latest_weekly_report.md ]; then
+            REPORT_FILE="reports/latest_weekly_report.md"
+          fi
+
+          if [ -n "$REPORT_FILE" ]; then
+            TODAY=$(date +'%Y-%m-%d')
+            gh issue create \
+              --title "🛰️ Weekly AI/ML Research Intern & RA Digest - $TODAY" \
+              --body-file "$REPORT_FILE" || echo "Issue creation skipped or not supported"
+          fi

@@ -1,0 +1,10 @@
+path: M:\GOKZZ_4\NIT HACKATHIN\datasets\yolo_multiclass
+train: images/train
+val: images/train  
+
+names:
+  0: polyp
+  1: fecal
+  2: impacted-stool
+  3: bubbles-occlusion
+  4: dyed-lifted-polyps

@@ -1,0 +1,67 @@
+name: Autonomous Dev Agent
+
+on:
+  schedule:
+    # Runs every day at 9:00 AM UTC (free GitHub Actions minutes)
+    - cron: "0 9 * * *"
+  workflow_dispatch:
+    # Also allows manual trigger from GitHub UI anytime
+    inputs:
+      task_override:
+        description: "Optional: specific task to run today"
+        required: false
+
+jobs:
+  agent-sprint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # needed to commit code back
+      pull-requests: write # needed to open PRs
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so agents can understand changes
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install openai
+
+      - name: Configure git identity for agent commits
+        run: |
+          git config user.name "AgentBot"
+          git config user.email "agent@bot.local"
+
+      - name: Run autonomous agent sprint
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # auto-provided, free!
+        run: python main.py
+
+      - name: Push agent commits to repo
+        run: |
+          git push origin HEAD:main || echo "Nothing new to push"
+
+      - name: Open PR if milestone reached
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            // Read progress file to check if milestone was hit
+            let progress = '';
+            try { progress = fs.readFileSync('PROGRESS.md', 'utf8'); } catch {}
+            
+            if (progress.includes('MILESTONE:')) {
+              await github.rest.pulls.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: 'Agent milestone reached - review changes',
+                body: '## Automated PR by Agent System\n\nA milestone was reached. Please review the changes.\n\n' + progress.slice(0, 1000),
+                head: context.ref,
+                base: 'main',
+              });
+            }

@@ -1,0 +1,57 @@
+# Vision-Guided 7-DOF Robotic Arm Reach Configuration
+
+robot:
+  urdf_name: "franka_panda/panda.urdf"
+  dof: 7
+  control_mode: "joint_velocity" # "joint_velocity" or "end_effector_delta"
+  max_joint_velocity: 1.5
+  action_scale: 0.1
+  workspace_bounds:
+    x: [-0.35, 0.35]
+    y: [-0.35, 0.35]
+    z: [0.05, 0.55]
+
+camera:
+  width: 128
+  height: 128
+  fov: 60.0
+  near_val: 0.1
+  far_val: 2.0
+  camera_eye: [0.6, 0.0, 0.5]
+  camera_target: [0.0, 0.0, 0.1]
+  camera_up: [0.0, 0.0, 1.0]
+  use_depth: false
+
+vision_backbone:
+  model_name: "resnet18"
+  pretrained: true
+  freeze_backbone: true
+  latent_dim: 128
+
+reward:
+  distance_scale: 2.5
+  success_bonus: 50.0
+  success_threshold: 0.03 # 3cm tolerance
+  velocity_penalty_weight: 0.005
+  action_smoothness_weight: 0.01
+
+ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.005
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+
+training:
+  total_timesteps: 1000000
+  num_envs: 8
+  eval_freq: 20000
+  n_eval_episodes: 25
+  save_freq: 50000
+  checkpoint_dir: "./models/checkpoints"
+  log_dir: "./logs/vision_arm_ppo"

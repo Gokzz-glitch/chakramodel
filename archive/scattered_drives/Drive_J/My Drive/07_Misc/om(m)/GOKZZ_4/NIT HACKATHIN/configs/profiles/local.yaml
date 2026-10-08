@@ -1,0 +1,20 @@
+profile: local
+device: auto
+train:
+  model: yolov8n.pt
+  imgsz: 512
+  batch: 8
+  epochs: 50
+  workers: 2
+  amp: true
+  cache: false
+infer:
+  conf: 0.30
+  iou: 0.50
+hybrid:
+  enable: true
+  uncertain_th: 0.45
+  max_rois_per_frame: 1
+  rcnn_input_size: 320
+eval:
+  iou: 0.50

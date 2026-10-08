@@ -1,0 +1,15 @@
+id: 51d40be9-7d55-4a64-a957-13a90780aa4b
+cwd: M:\workspace\00-Projects\dataset-integrity-workbench
+git_root: M:\
+branch: master
+client_name: github/autopilot
+name: Implement the approved Dataset Integrity Analyzer plan in this repository. Inspect existing code first and preserve compatible patterns. Build or extend a portable Python CLI with SQLite-backed resumable filesystem inventory; bounded concurrent SHA-256 hashing with safe hash reuse; duplicate grouping, change/error logging, JSON/CSV/text exports; dataset discovery and validators for common class-folder, YOLO/COCO, image-label, and image-mask layouts; optional integrations for CleanVision/FiftyOne...
+user_named: false
+summary_count: 0
+fork_count: 0
+created_at: 2026-10-07T07:00:41.368Z
+updated_at: 2026-10-07T07:00:44.852Z
+remote_steerable: false
+mc_task_id: c38ae900-d9a4-4a37-a318-69cbdaf7fdd5
+mc_session_id: 3e168b3d-b6c7-47dc-9bbe-f956faeb3f76
+mc_last_event_id: 670333ab-f830-4f16-bf70-c5fbd9c02efb

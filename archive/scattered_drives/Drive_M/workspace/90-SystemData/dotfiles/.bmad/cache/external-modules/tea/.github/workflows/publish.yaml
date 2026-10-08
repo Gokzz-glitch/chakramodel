@@ -1,0 +1,189 @@
+name: Publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "package.json"
+      - "package-lock.json"
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: "Publish channel"
+        required: true
+        default: "latest"
+        type: choice
+        options:
+          - latest
+          - next
+      bump:
+        description: "Version bump type (latest channel only)"
+        required: false
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: publish-${{ github.event_name }}-${{ github.ref_name }}-${{ inputs.channel || 'push' }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  publish:
+    if: github.repository == 'bmad-code-org/bmad-method-test-architecture-enterprise' && (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate GitHub App token
+        id: app-token
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ secrets.RELEASE_APP_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token || secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Ensure trusted publishing toolchain
+        run: |
+          # npm trusted publishing requires modern npm on the runner.
+          npm install --global npm@11.6.2
+
+      - name: Configure git user
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test && npm run test:cli
+
+      - name: Derive next prerelease version
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.channel == 'next')
+        run: |
+          NEXT_VER=$(npm view bmad-method-test-architecture-enterprise@next version 2>/dev/null || echo "")
+          LATEST_VER=$(npm view bmad-method-test-architecture-enterprise@latest version 2>/dev/null || echo "")
+
+          BASE=$(node -e "
+            const semver = require('semver');
+            const next = process.argv[1] || null;
+            const latest = process.argv[2] || null;
+            if (!next && !latest) process.exit(0);
+            if (!next) { console.log(latest); process.exit(0); }
+            if (!latest) { console.log(next); process.exit(0); }
+            const nextBase = next.replace(/-next\.\d+$/, '');
+            console.log(semver.gte(latest, nextBase) ? latest : next);
+          " "$NEXT_VER" "$LATEST_VER")
+
+          if [ -n "$BASE" ]; then
+            npm version "$BASE" --no-git-tag-version --allow-same-version
+          fi
+          npm version prerelease --preid=next --no-git-tag-version
+
+      - name: Bump stable version
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        run: npm version "${{ inputs.bump }}" --no-git-tag-version
+
+      - name: Sync marketplace version
+        run: |
+          node <<'NODE'
+          const fs = require('node:fs');
+
+          const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+          const marketplacePath = '.claude-plugin/marketplace.json';
+          const marketplace = JSON.parse(fs.readFileSync(marketplacePath, 'utf8'));
+          const plugin = (marketplace.plugins || []).find((entry) => entry && entry.name === packageJson.name);
+
+          if (!plugin) {
+            throw new Error(`Marketplace entry not found for ${packageJson.name}`);
+          }
+
+          plugin.version = packageJson.version;
+          fs.writeFileSync(marketplacePath, `${JSON.stringify(marketplace, null, 2)}\n`);
+          NODE
+
+      - name: Validate release metadata
+        run: npm run test:release-metadata
+
+      - name: Publish prerelease to npm
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.channel == 'next')
+        run: npm publish --tag next --provenance
+
+      - name: Commit version bump
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        run: |
+          VERSION=$(node -p 'require("./package.json").version')
+          git add package.json package-lock.json .claude-plugin/marketplace.json
+          git commit -m "release: bump to v${VERSION} [skip ci]"
+          git tag -a "v${VERSION}" -m "Release v${VERSION}"
+
+      - name: Push version commit and tag
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        run: git push origin main --follow-tags
+
+      - name: Publish stable release to npm
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        run: npm publish --tag latest --provenance
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch' && inputs.channel == 'latest'
+        run: |
+          TAG="v$(node -p 'require("./package.json").version')"
+          VERSION="${TAG#v}"
+          has_release_notes() {
+            awk '
+              /^[[:space:]]*$/ { next }
+              /^[[:space:]]*-{3,}[[:space:]]*$/ { next }
+              { found = 1 }
+              END { exit found ? 0 : 1 }
+            ' <<< "$1"
+          }
+          BODY=$(awk -v ver="$VERSION" '
+            /^## / {
+              if (found) exit
+              if ($0 ~ ("^##[[:space:]]*\\[?[[:space:]]*v?" ver "[[:space:]]*\\]?([[:space:]]*-[[:space:]].*)?$")) found=1
+              next
+            }
+            found { print }
+          ' CHANGELOG.md)
+          if ! has_release_notes "$BODY"; then
+            BODY=$(awk '
+              /^##[[:space:]]*\[Unreleased\]/ { found=1; next }
+              /^## / {
+                if (found) exit
+                next
+              }
+              found { print }
+            ' CHANGELOG.md)
+            if has_release_notes "$BODY"; then
+              echo "::notice::No CHANGELOG.md entry for $TAG — using [Unreleased] notes"
+            fi
+          fi
+          if ! has_release_notes "$BODY"; then
+            echo "::warning::No CHANGELOG.md entry for $TAG — falling back to auto-generated notes"
+            gh release create "$TAG" --generate-notes
+          else
+            gh release create "$TAG" --notes "$BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

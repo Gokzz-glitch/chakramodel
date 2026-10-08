@@ -1,0 +1,5 @@
+names:
+  0: polyp
+path: /kaggle/working/chakramodel_yolo_combo_dataset
+train: images/train
+val: images/val

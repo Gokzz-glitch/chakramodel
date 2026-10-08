@@ -1,0 +1,42 @@
+# Hyperparameters & Configuration
+
+model:
+  name: "efficientnet_b4"        # Options: resnet50, efficientnet_b4
+  pretrained: true
+  num_classes: 2                  # polyp vs non-polyp (adjust based on your dataset)
+  freeze_backbone: true           # Freeze pretrained layers initially
+
+data:
+  train_dir: "data/processed/train"
+  val_dir: "data/processed/val"
+  test_dir: "data/processed/test"
+  image_size: 384
+  batch_size: 16
+  num_workers: 4
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+
+training:
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  scheduler: "cosine"             # Options: cosine, step, plateau
+  early_stopping_patience: 7
+  optimizer: "adam"                # Options: adam, sgd, adamw
+
+augmentation:
+  horizontal_flip: true
+  vertical_flip: true
+  rotation_limit: 30
+  brightness_limit: 0.2
+  contrast_limit: 0.2
+  normalize: true
+
+paths:
+  checkpoint_dir: "results/checkpoints"
+  log_dir: "results/metrics"
+  visualization_dir: "results/visualizations"
+
+seed: 42
+device: "cuda"                    # Options: cuda, cpu, mps

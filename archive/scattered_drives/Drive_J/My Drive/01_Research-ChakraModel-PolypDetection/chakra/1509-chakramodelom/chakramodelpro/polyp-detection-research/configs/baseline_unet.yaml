@@ -1,0 +1,120 @@
+# Baseline U-Net Experiment Configuration
+# ─────────────────────────────────────────────────────────────────────────────
+# Run ID: RUN-001 (first training run)
+# Purpose: Establish ResNet-50 + U-Net baseline before any proposed method
+# Reference: Architecture decisions documented in docs/architecture_notes.md
+# ─────────────────────────────────────────────────────────────────────────────
+
+experiment:
+  name: "baseline_resnet50_unet"
+  run_id: "RUN-001"
+  description: "ResNet-50 + U-Net style decoder baseline. No attention, no transformer. Sets minimum bar."
+  phase: 2
+
+# ─── Data ────────────────────────────────────────────────────────────────────
+data:
+  root: "data/raw"
+  train_list: "data/processed/train.txt"
+  val_list: "data/processed/kvasir_test.txt"
+  test_lists:
+    kvasir: "data/processed/test_splits/kvasir_test.txt"
+    clinicdb: "data/processed/test_splits/clinicdb_test.txt"
+    colondb: "data/processed/test_splits/colondb.txt"
+    etis: "data/processed/test_splits/etis.txt"
+    cvc300: "data/processed/test_splits/cvc300.txt"
+
+# ─── Preprocessing ───────────────────────────────────────────────────────────
+preprocessing:
+  img_size: [352, 352]
+  normalize:
+    mean: [0.485, 0.456, 0.406]  # ImageNet mean
+    std: [0.229, 0.224, 0.225]   # ImageNet std
+
+# ─── Augmentation ────────────────────────────────────────────────────────────
+augmentation:
+  # Reasoning: Standard augmentations used by PraNet/SANet/Polyp-PVT for fair comparison
+  random_horizontal_flip:
+    p: 0.5
+  random_vertical_flip:
+    p: 0.5
+  random_rotation:
+    limit: 90
+    p: 0.5
+  random_scale:
+    scale_limit: 0.25    # ±25% scale
+    p: 0.5
+  # Color Exchange (SANet) — add in Phase 3 experiments only
+  color_exchange: false
+
+# ─── Model ───────────────────────────────────────────────────────────────────
+model:
+  architecture: "unet"
+  backbone: "resnet50"
+  pretrained: true
+  pretrained_source: "imagenet"
+  decoder_channels: [256, 128, 64, 32, 16]
+  output_channels: 1  # Binary segmentation
+
+# ─── Loss ────────────────────────────────────────────────────────────────────
+loss:
+  # Reasoning: BCE + Dice is community standard (PraNet, SANet, HarDNet-MSEG all use it)
+  type: "bce_dice"
+  bce_weight: 1.0
+  dice_weight: 1.0
+  dice_smooth: 1.0  # ε in Dice loss formula
+
+# ─── Training ────────────────────────────────────────────────────────────────
+training:
+  seed: 42
+  epochs: 100
+  batch_size: 16
+  num_workers: 4
+  pin_memory: true
+  
+  optimizer:
+    type: "adam"
+    lr: 1.0e-4
+    weight_decay: 5.0e-4
+  
+  scheduler:
+    type: "poly_lr"
+    power: 0.9
+    min_lr: 1.0e-6
+  
+  early_stopping:
+    enabled: true
+    patience: 20
+    monitor: "val_dice"
+    mode: "max"
+  
+  gradient_clip:
+    enabled: true
+    max_norm: 0.5
+
+# ─── Checkpointing ────────────────────────────────────────────────────────────
+checkpointing:
+  dir: "checkpoints"
+  save_best: true
+  save_interval: 10  # Save every 10 epochs
+  filename_template: "RUN-001_epoch_{epoch:03d}_dice_{val_dice:.4f}.pt"
+
+# ─── Logging ─────────────────────────────────────────────────────────────────
+logging:
+  wandb:
+    enabled: false  # Set to true when wandb is configured
+    project: "polyp-detection-research"
+    entity: null    # Set to your wandb username
+    tags: ["baseline", "resnet50", "unet", "phase2"]
+  tensorboard:
+    enabled: true
+    log_dir: "results/plots/tensorboard/RUN-001"
+  log_interval: 10  # Log every N batches
+
+# ─── Evaluation ──────────────────────────────────────────────────────────────
+evaluation:
+  threshold: 0.5
+  compute_fps: true
+  fps_warmup_runs: 10
+  fps_timing_runs: 100
+  save_predictions: false  # Set to true for qualitative analysis
+  results_dir: "results/metrics"

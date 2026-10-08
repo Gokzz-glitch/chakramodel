@@ -1,0 +1,26 @@
+# DataGenesis Shield Configuration
+
+pipeline:
+  run_gan: true
+  run_watermark_synthetic: true
+  run_cnn: true
+  run_watermark_cnn_outputs: true
+
+gan:
+  epochs: 2
+  batch_size: 16
+  latent_dim: 100
+  image_size: 64
+  learning_rate: 0.0002
+  synthetic_multiplier: 0.1
+
+watermark:
+  payload: "DATA_GENESIS_TEAM_123" # Converts to 64-bit binary
+  alpha: 10.0 # Embedding strength for DCT coefficients
+
+cnn:
+  epochs: 2
+  batch_size: 8
+  image_size: 128
+  learning_rate: 0.001
+  num_classes: 6

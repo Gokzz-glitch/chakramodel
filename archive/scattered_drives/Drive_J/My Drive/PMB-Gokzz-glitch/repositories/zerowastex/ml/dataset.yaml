@@ -1,0 +1,34 @@
+# ============================================================
+# Zer0wasteX — YOLO Dataset Configuration
+# 6-class Indian waste classification
+# ============================================================
+path: ./dataset/merged        # dataset root
+train: images/train
+val:   images/val
+test:  images/test
+
+nc: 6
+names:
+  0: organic
+  1: plastic
+  2: paper
+  3: metal
+  4: glass
+  5: hazardous
+
+# Augmentation — tuned for Indian outdoor / bin conditions
+# (These are applied to training images by ultralytics automatically)
+augment: true
+hsv_h: 0.02        # low hue shift (preserve bin colours)
+hsv_s: 0.9         # high saturation variation (harsh sunlight / shade)
+hsv_v: 0.6         # high brightness variation (dim alleys → bright sun)
+degrees: 30.0      # rotation (tilted phone shots)
+translate: 0.2
+scale: 0.6         # multi-scale (close-up vs. far bin shots)
+shear: 5.0
+perspective: 0.0005
+flipud: 0.1
+fliplr: 0.5
+mosaic: 1.0        # mosaic augmentation (mix multiple waste items)
+mixup: 0.3         # mixup for better generalisation
+copy_paste: 0.2    # copy-paste augmentation
